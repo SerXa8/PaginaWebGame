@@ -5,122 +5,299 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SoloQ Challenge Multijuego</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    body { background-color: #0b0e14; color: #f3f4f6; font-family: sans-serif; }
-    .glow-lol { box-shadow: 0 0 15px rgba(234, 179, 8, 0.3); }
-    .glow-val { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
-    .glow-cs { box-shadow: 0 0 15px rgba(249, 115, 22, 0.3); }
+    body { background-color: #0b0d12; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
+    .bg-card { background-color: #121620; }
+    .bg-card-hover:hover { background-color: #1a202c; }
+    .border-custom { border-color: #1e2638; }
+    
+    /* Neón dinámico según el juego */
+    .glow-lol { box-shadow: 0 0 20px rgba(234, 179, 8, 0.15); }
+    .glow-val { box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); }
+    .glow-cs { box-shadow: 0 0 20px rgba(249, 115, 22, 0.15); }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-6">
+<body class="min-h-screen pb-12">
 
-  <header class="text-center my-8">
-    <h1 class="text-4xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-red-500 to-yellow-500 uppercase">
-      SoloQ Challenge
-    </h1>
-    <p class="text-gray-400 text-sm mt-2">Tabla de clasificación multijuego en tiempo real</p>
+  <header class="border-b border-custom bg-[#080a0e] sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-yellow-500/20 border border-yellow-500/50 flex items-center justify-center font-black text-yellow-400">
+            SQ
+          </div>
+          <span class="font-extrabold text-xl tracking-wider text-white uppercase">SoloQ<span class="text-yellow-500">Challenge</span></span>
+        </div>
+
+        <nav class="flex gap-1 bg-slate-900/80 p-1 rounded-lg border border-custom">
+          <button onclick="switchGame('lol')" id="tab-lol" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-yellow-500/10 text-yellow-400 border border-yellow-500/30">
+            <i data-lucide="swords" class="w-4 h-4"></i> League of Legends
+          </button>
+          <button onclick="switchGame('val')" id="tab-val" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+            <i data-lucide="crosshair" class="w-4 h-4"></i> Valorant
+          </button>
+          <button onclick="switchGame('cs')" id="tab-cs" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+            <i data-lucide="target" class="w-4 h-4"></i> CS2
+          </button>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-3 text-xs text-slate-400">
+        <span class="flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 font-bold">
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> 35,211 ESPECTADORES
+        </span>
+      </div>
+    </div>
   </header>
 
-  <div class="flex gap-4 mb-8 bg-slate-900 p-2 rounded-xl border border-slate-800">
-    <button onclick="switchGame('lol')" id="btn-lol" class="px-6 py-2 rounded-lg font-bold transition text-yellow-400 bg-slate-800 border border-yellow-500/40 glow-lol">
-      League of Legends
-    </button>
-    <button onclick="switchGame('val')" id="btn-val" class="px-6 py-2 rounded-lg font-bold transition text-gray-400 hover:text-red-400">
-      Valorant
-    </button>
-    <button onclick="switchGame('cs')" id="btn-cs" class="px-6 py-2 rounded-lg font-bold transition text-gray-400 hover:text-orange-400">
-      CS2
-    </button>
+  <div class="max-w-7xl mx-auto px-4 mt-6 space-y-8">
+
+    <section class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden">
+        <div class="flex justify-between items-center mb-3">
+          <div class="flex items-center gap-2">
+            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded">KICK / TWITCH</span>
+            <h3 class="text-sm font-bold text-slate-200">Partidas en Stream - <span id="streamer-current-name" class="text-yellow-400">PapiGavi</span></h3>
+          </div>
+          <span class="text-xs text-slate-400">Mira quién está en directo ahora</span>
+        </div>
+        
+        <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom flex flex-col items-center justify-center relative group cursor-pointer overflow-hidden">
+          <div class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition duration-500" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1000&auto=format&fit=crop');"></div>
+          <div class="relative z-10 flex flex-col items-center">
+            <div class="w-16 h-16 rounded-full bg-yellow-500/90 text-slate-950 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition">
+              <i data-lucide="play" class="w-8 h-8 fill-current ml-1"></i>
+            </div>
+            <span class="mt-3 text-sm font-bold text-white bg-slate-900/80 px-3 py-1 rounded-full border border-slate-700">Haz clic para conectar con el stream</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-card border border-custom rounded-2xl p-4 flex flex-col">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center justify-between">
+          <span>En Directo</span>
+          <span class="text-green-400">8 Online</span>
+        </h4>
+        <div class="space-y-2 overflow-y-auto max-h-[320px] pr-1" id="streamers-list">
+          </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="flex justify-between items-end mb-4">
+        <div>
+          <h2 class="text-3xl font-black uppercase tracking-tight text-white flex items-center gap-2">
+            Ranking <span id="ranking-game-title" class="text-yellow-400 text-lg font-bold">LOL</span>
+          </h2>
+          <p class="text-xs text-slate-400">Última actualización: hace 2 minutos</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container">
+        </div>
+    </section>
+
+    <section class="flex flex-wrap items-center justify-between gap-4 bg-card border border-custom p-3 rounded-xl">
+      <div class="flex items-center gap-2">
+        <button class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-lg transition border border-slate-700">TODOS</button>
+        <button class="px-3 py-1.5 bg-transparent hover:bg-slate-800 text-slate-400 text-xs font-bold rounded-lg transition">HIGH ELO</button>
+        <button class="px-3 py-1.5 bg-transparent hover:bg-slate-800 text-slate-400 text-xs font-bold rounded-lg transition">LOW ELO</button>
+      </div>
+
+      <div class="relative flex-1 max-w-xs">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-500"></i>
+        <input type="text" placeholder="Buscar jugador..." class="w-full bg-slate-950 border border-custom rounded-lg pl-9 pr-4 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500">
+      </div>
+    </section>
+
+    <section class="bg-card border border-custom rounded-2xl overflow-hidden shadow-xl">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-custom bg-slate-950/50 text-slate-400 font-bold uppercase tracking-wider">
+              <th class="py-3.5 px-4 text-center">#</th>
+              <th class="py-3.5 px-4">Streamer / Jugador</th>
+              <th class="py-3.5 px-4">ELO / Rango</th>
+              <th class="py-3.5 px-4 text-center">V / D</th>
+              <th class="py-3.5 px-4 text-center">Racha / Tarde</th>
+              <th class="py-3.5 px-4 text-center">Media LP (+/-)</th>
+              <th class="py-3.5 px-4 text-center">Estado</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body" class="divide-y divide-custom">
+            </tbody>
+        </table>
+      </div>
+    </section>
+
   </div>
 
-  <main class="w-full max-w-4xl bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-2xl">
-    
-    <div class="flex justify-between items-center mb-6">
-      <h2 id="game-title" class="text-2xl font-bold text-yellow-400">Clasificación League of Legends</h2>
-      <span class="text-xs text-gray-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">Actualizado recientemente</span>
-    </div>
-
-    <div class="overflow-x-auto">
-      <table class="w-full text-left border-collapse">
-        <thead>
-          <tr class="border-b border-slate-800 text-gray-400 text-sm uppercase">
-            <th class="py-3 px-4">#</th>
-            <th class="py-3 px-4">Jugador</th>
-            <th class="py-3 px-4">Rango / ELO</th>
-            <th class="py-3 px-4">Victorias / Derrotas</th>
-            <th class="py-3 px-4">Winrate</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboard-body">
-          </tbody>
-      </table>
-    </div>
-  </main>
-
   <script>
-    // Datos de prueba para cada juego
-    const data = {
+    // Estructura de datos multijuego ampliada
+    const gamesData = {
       lol: {
-        title: "Clasificación League of Legends",
-        color: "text-yellow-400",
+        name: "League of Legends",
+        colorClass: "text-yellow-400",
+        glowClass: "glow-lol",
+        podium: [
+          { rank: 1, name: "EkkoTheNeeko", tag: "MadridIsAwesome#EUW", lp: "2,150", wr: "57%", win: 151, loss: 114, spark: "M0,20 L15,18 L30,12 L45,15 L60,8 L75,5" },
+          { rank: 2, name: "JavierLoL", tag: "chokeboys#EUW", lp: "2,087", wr: "58%", win: 147, loss: 105, spark: "M0,22 L15,20 L30,16 L45,10 L60,12 L75,3" },
+          { rank: 3, name: "solfxd", tag: "depredador#EUW", lp: "1,984", wr: "56%", win: 139, loss: 110, spark: "M0,25 L15,22 L30,18 L45,19 L60,10 L75,8" }
+        ],
         players: [
-          { rank: 1, name: " streamer_1", tier: "Challenger 1,120 LP", winrate: "64%", ratio: "120V - 68D" },
-          { rank: 2, name: " streamer_2", tier: "Grandmaster 850 LP", winrate: "58%", ratio: "95V - 68D" }
+          { rank: 1, name: "EkkoTheNeeko", tag: "MadridIsAwesome#EUW", elo: "2,150 LP", wr: "57%", ratio: "151V - 114D", spark: "M0,20 L15,18 L30,12 L45,15 L60,8 L75,5", avgLp: "+22 / -18", status: "EN PARTIDA", statusBg: "bg-green-500/20 text-green-400 border-green-500/30" },
+          { rank: 2, name: "JavierLoL", tag: "chokeboys#EUW", elo: "2,087 LP", wr: "58%", ratio: "147V - 105D", spark: "M0,22 L15,20 L30,16 L45,10 L60,12 L75,3", avgLp: "+21 / -19", status: "EN PARTIDA", statusBg: "bg-green-500/20 text-green-400 border-green-500/30" },
+          { rank: 3, name: "solfxd", tag: "depredador#EUW", elo: "1,984 LP", wr: "56%", ratio: "139V - 110D", spark: "M0,25 L15,22 L30,18 L45,19 L60,10 L75,8", avgLp: "+20 / -18", status: "OFFLINE", statusBg: "bg-slate-800 text-slate-400 border-slate-700" },
+          { rank: 4, name: "Tilor", tag: "UNSTOPPABLE#EUW", elo: "1,958 LP", wr: "54%", ratio: "120V - 102D", spark: "M0,15 L15,18 L30,14 L45,10 L60,15 L75,12", avgLp: "+19 / -19", status: "OFFLINE", statusBg: "bg-slate-800 text-slate-400 border-slate-700" },
+          { rank: 5, name: "ElYoyaSS", tag: "MADYoya#EUW", elo: "1,890 LP", wr: "62%", ratio: "98V - 60D", spark: "M0,28 L15,20 L30,15 L45,8 L60,5 L75,2", avgLp: "+25 / -15", status: "EN PARTIDA", statusBg: "bg-green-500/20 text-green-400 border-green-500/30" }
         ]
       },
       val: {
-        title: "Clasificación Valorant",
-        color: "text-red-500",
+        name: "Valorant",
+        colorClass: "text-red-500",
+        glowClass: "glow-val",
+        podium: [
+          { rank: 1, name: "Mixwell", tag: "Radiant #12", lp: "890 RR", wr: "64%", win: 110, loss: 62, spark: "M0,25 L15,18 L30,10 L45,8 L60,4 L75,2" },
+          { rank: 2, name: "HitboxKing", tag: "Radiant #35", lp: "750 RR", wr: "61%", win: 95, loss: 60, spark: "M0,22 L15,20 L30,15 L45,12 L60,8 L75,5" },
+          { rank: 3, name: "ValorantPro", tag: "Inmortal 3", lp: "520 RR", wr: "55%", win: 88, loss: 72, spark: "M0,18 L15,15 L30,20 L45,14 L60,10 L75,8" }
+        ],
         players: [
-          { rank: 1, name: " val_pro", tier: "Radiant #42", winrate: "61%", ratio: "80V - 51D" },
-          { rank: 2, name: " aim_god", tier: "Inmortal 3", winrate: "55%", ratio: "72V - 59D" }
+          { rank: 1, name: "Mixwell", tag: "Radiant #12", elo: "890 RR", wr: "64%", ratio: "110V - 62D", spark: "M0,25 L15,18 L30,10 L45,8 L60,4 L75,2", avgLp: "+24 / -16", status: "EN PARTIDA", statusBg: "bg-green-500/20 text-green-400 border-green-500/30" },
+          { rank: 2, name: "HitboxKing", tag: "Radiant #35", elo: "750 RR", wr: "61%", ratio: "95V - 60D", spark: "M0,22 L15,20 L30,15 L45,12 L60,8 L75,5", avgLp: "+22 / -17", status: "OFFLINE", statusBg: "bg-slate-800 text-slate-400 border-slate-700" }
         ]
       },
       cs: {
-        title: "Clasificación CS2 (FACEIT)",
-        color: "text-orange-500",
+        name: "CS2",
+        colorClass: "text-orange-500",
+        glowClass: "glow-cs",
+        podium: [
+          { rank: 1, name: "Anek,TheGod", tag: "FACEIT Lv10", lp: "3,120 ELO", wr: "68%", win: 140, loss: 66, spark: "M0,28 L15,20 L30,12 L45,8 L60,4 L75,1" },
+          { rank: 2, name: "Smooya", tag: "FACEIT Lv10", lp: "2,980 ELO", wr: "60%", win: 120, loss: 80, spark: "M0,20 L15,18 L30,16 L45,10 L60,6 L75,4" },
+          { rank: 3, name: "Mopoz", tag: "FACEIT Lv10", lp: "2,840 ELO", wr: "57%", win: 105, loss: 79, spark: "M0,22 L15,19 L30,15 L45,18 L60,12 L75,8" }
+        ],
         players: [
-          { rank: 1, name: " headshot_king", tier: "Nivel 10 (2,850 Elo)", winrate: "67%", ratio: "110V - 54D" },
-          { rank: 2, name: " clutch_master", tier: "Nivel 10 (2,410 Elo)", winrate: "52%", ratio: "88V - 81D" }
+          { rank: 1, name: "Anek,TheGod", tag: "FACEIT Lv10", elo: "3,120 ELO", wr: "68%", ratio: "140V - 66D", spark: "M0,28 L15,20 L30,12 L45,8 L60,4 L75,1", avgLp: "+25 / -15", status: "EN PARTIDA", statusBg: "bg-green-500/20 text-green-400 border-green-500/30" }
         ]
       }
     };
 
-    function switchGame(gameKey) {
-      const selected = data[gameKey];
-      
-      // Actualizar título y color
-      const titleEl = document.getElementById("game-title");
-      titleEl.textContent = selected.title;
-      titleEl.className = `text-2xl font-bold ${selected.color}`;
+    const streamersList = [
+      { name: "PapiGavi", viewers: "2.5K", live: true },
+      { name: "JavierLoL", viewers: "1.2K", live: true },
+      { name: "ElYoyaSS", viewers: "980", live: true },
+      { name: "Mixwell", viewers: "3.1K", live: true }
+    ];
 
-      // Actualizar estilos de botones
-      ['lol', 'val', 'cs'].forEach(key => {
-        const btn = document.getElementById(`btn-${key}`);
-        btn.className = "px-6 py-2 rounded-lg font-bold transition text-gray-400 hover:text-white";
+    let currentGame = 'lol';
+
+    function switchGame(gameKey) {
+      currentGame = gameKey;
+      const game = gamesData[gameKey];
+
+      // Actualizar Tabs
+      ['lol', 'val', 'cs'].forEach(k => {
+        const btn = document.getElementById(`tab-${k}`);
+        btn.className = "px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white bg-transparent";
       });
 
-      const activeBtn = document.getElementById(`btn-${gameKey}`);
-      const glowClass = gameKey === 'lol' ? 'glow-lol border-yellow-500/40 text-yellow-400' : 
-                        gameKey === 'val' ? 'glow-val border-red-500/40 text-red-500' : 
-                        'glow-cs border-orange-500/40 text-orange-500';
-      activeBtn.className = `px-6 py-2 rounded-lg font-bold transition bg-slate-800 border ${glowClass}`;
+      const activeBtn = document.getElementById(`tab-${gameKey}`);
+      const colorStyle = gameKey === 'lol' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' :
+                         gameKey === 'val' ? 'bg-red-500/10 text-red-400 border-red-500/30' :
+                         'bg-orange-500/10 text-orange-400 border-orange-500/30';
+      activeBtn.className = `px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 border ${colorStyle}`;
 
-      // Renderizar tabla
+      document.getElementById("ranking-game-title").textContent = game.name;
+
+      renderPodium(game.podium);
+      renderTable(game.players);
+    }
+
+    function renderPodium(podiumData) {
+      const container = document.getElementById("podium-container");
+      container.innerHTML = podiumData.map(p => `
+        <div class="bg-card border border-custom p-5 rounded-2xl relative overflow-hidden flex flex-col justify-between hover:border-slate-700 transition">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-white text-sm">
+                ${p.name.substring(0, 2).toUpperCase()}
+              </div>
+              <div>
+                <h3 class="font-bold text-sm text-white">${p.name}</h3>
+                <p class="text-[10px] text-slate-500">${p.tag}</p>
+              </div>
+            </div>
+            <span class="text-xs font-black px-2 py-1 bg-slate-900 border border-slate-800 rounded text-yellow-400">#${p.rank}</span>
+          </div>
+
+          <div class="my-3">
+            <div class="text-3xl font-black text-white tracking-tight">${p.lp}</div>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-xs font-bold text-green-400">${p.wr} Winrate</span>
+              <span class="text-xs text-slate-500">(${p.win}V / ${p.loss}D)</span>
+            </div>
+          </div>
+
+          <div class="w-full h-8 pt-1">
+            <svg class="w-full h-full overflow-visible" viewBox="0 0 75 30">
+              <path d="${p.spark}" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderTable(players) {
       const tbody = document.getElementById("leaderboard-body");
-      tbody.innerHTML = selected.players.map(p => `
-        <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition">
-          <td class="py-4 px-4 font-bold text-slate-400">#${p.rank}</td>
-          <td class="py-4 px-4 font-semibold text-white">${p.name}</td>
-          <td class="py-4 px-4 text-slate-300">${p.tier}</td>
-          <td class="py-4 px-4 text-slate-400">${p.ratio}</td>
-          <td class="py-4 px-4 font-bold ${parseInt(p.winrate) >= 60 ? 'text-green-400' : 'text-blue-400'}">${p.winrate}</td>
+      tbody.innerHTML = players.map(p => `
+        <tr class="bg-card-hover transition">
+          <td class="py-3.5 px-4 text-center font-bold text-slate-400">#${p.rank}</td>
+          <td class="py-3.5 px-4 font-bold text-white">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold">
+                ${p.name.substring(0, 2).toUpperCase()}
+              </div>
+              <div>
+                <div>${p.name}</div>
+                <div class="text-[10px] font-normal text-slate-500">${p.tag}</div>
+              </div>
+            </div>
+          </td>
+          <td class="py-3.5 px-4 font-extrabold text-slate-200">${p.elo}</td>
+          <td class="py-3.5 px-4 text-center">
+            <div class="font-bold text-slate-300">${p.ratio}</div>
+            <div class="text-[10px] font-semibold text-green-400">${p.wr} WR</div>
+          </td>
+          <td class="py-3.5 px-4 text-center w-28">
+            <svg class="w-20 h-6 mx-auto" viewBox="0 0 75 30">
+              <path d="${p.spark}" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </td>
+          <td class="py-3.5 px-4 text-center font-bold text-slate-400">${p.avgLp}</td>
+          <td class="py-3.5 px-4 text-center">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold border ${p.statusBg}">${p.status}</span>
+          </td>
         </tr>
       `).join('');
     }
 
-    // Cargar LoL por defecto al inicio
+    function renderStreamers() {
+      const list = document.getElementById("streamers-list");
+      list.innerHTML = streamersList.map(s => `
+        <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900/50 hover:bg-slate-800/80 transition cursor-pointer border border-transparent hover:border-slate-700">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+            <span class="text-xs font-bold text-slate-200">${s.name}</span>
+          </div>
+          <span class="text-[10px] font-bold text-slate-500">${s.viewers}</span>
+        </div>
+      `).join('');
+    }
+
+    // Inicialización
     switchGame('lol');
+    renderStreamers();
+    lucide.createIcons();
   </script>
 </body>
 </html>

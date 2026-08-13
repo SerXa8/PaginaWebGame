@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoloQ Challenge Multijuego</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #0b0e14; color: #f3f4f6; font-family: sans-serif; }
+    .glow-lol { box-shadow: 0 0 15px rgba(234, 179, 8, 0.3); }
+    .glow-val { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
+    .glow-cs { box-shadow: 0 0 15px rgba(249, 115, 22, 0.3); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-6">
+
+  <header class="text-center my-8">
+    <h1 class="text-4xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-red-500 to-yellow-500 uppercase">
+      SoloQ Challenge
+    </h1>
+    <p class="text-gray-400 text-sm mt-2">Tabla de clasificación multijuego en tiempo real</p>
+  </header>
+
+  <div class="flex gap-4 mb-8 bg-slate-900 p-2 rounded-xl border border-slate-800">
+    <button onclick="switchGame('lol')" id="btn-lol" class="px-6 py-2 rounded-lg font-bold transition text-yellow-400 bg-slate-800 border border-yellow-500/40 glow-lol">
+      League of Legends
+    </button>
+    <button onclick="switchGame('val')" id="btn-val" class="px-6 py-2 rounded-lg font-bold transition text-gray-400 hover:text-red-400">
+      Valorant
+    </button>
+    <button onclick="switchGame('cs')" id="btn-cs" class="px-6 py-2 rounded-lg font-bold transition text-gray-400 hover:text-orange-400">
+      CS2
+    </button>
+  </div>
+
+  <main class="w-full max-w-4xl bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-2xl">
+    
+    <div class="flex justify-between items-center mb-6">
+      <h2 id="game-title" class="text-2xl font-bold text-yellow-400">Clasificación League of Legends</h2>
+      <span class="text-xs text-gray-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">Actualizado recientemente</span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b border-slate-800 text-gray-400 text-sm uppercase">
+            <th class="py-3 px-4">#</th>
+            <th class="py-3 px-4">Jugador</th>
+            <th class="py-3 px-4">Rango / ELO</th>
+            <th class="py-3 px-4">Victorias / Derrotas</th>
+            <th class="py-3 px-4">Winrate</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    // Datos de prueba para cada juego
+    const data = {
+      lol: {
+        title: "Clasificación League of Legends",
+        color: "text-yellow-400",
+        players: [
+          { rank: 1, name: " streamer_1", tier: "Challenger 1,120 LP", winrate: "64%", ratio: "120V - 68D" },
+          { rank: 2, name: " streamer_2", tier: "Grandmaster 850 LP", winrate: "58%", ratio: "95V - 68D" }
+        ]
+      },
+      val: {
+        title: "Clasificación Valorant",
+        color: "text-red-500",
+        players: [
+          { rank: 1, name: " val_pro", tier: "Radiant #42", winrate: "61%", ratio: "80V - 51D" },
+          { rank: 2, name: " aim_god", tier: "Inmortal 3", winrate: "55%", ratio: "72V - 59D" }
+        ]
+      },
+      cs: {
+        title: "Clasificación CS2 (FACEIT)",
+        color: "text-orange-500",
+        players: [
+          { rank: 1, name: " headshot_king", tier: "Nivel 10 (2,850 Elo)", winrate: "67%", ratio: "110V - 54D" },
+          { rank: 2, name: " clutch_master", tier: "Nivel 10 (2,410 Elo)", winrate: "52%", ratio: "88V - 81D" }
+        ]
+      }
+    };
+
+    function switchGame(gameKey) {
+      const selected = data[gameKey];
+      
+      // Actualizar título y color
+      const titleEl = document.getElementById("game-title");
+      titleEl.textContent = selected.title;
+      titleEl.className = `text-2xl font-bold ${selected.color}`;
+
+      // Actualizar estilos de botones
+      ['lol', 'val', 'cs'].forEach(key => {
+        const btn = document.getElementById(`btn-${key}`);
+        btn.className = "px-6 py-2 rounded-lg font-bold transition text-gray-400 hover:text-white";
+      });
+
+      const activeBtn = document.getElementById(`btn-${gameKey}`);
+      const glowClass = gameKey === 'lol' ? 'glow-lol border-yellow-500/40 text-yellow-400' : 
+                        gameKey === 'val' ? 'glow-val border-red-500/40 text-red-500' : 
+                        'glow-cs border-orange-500/40 text-orange-500';
+      activeBtn.className = `px-6 py-2 rounded-lg font-bold transition bg-slate-800 border ${glowClass}`;
+
+      // Renderizar tabla
+      const tbody = document.getElementById("leaderboard-body");
+      tbody.innerHTML = selected.players.map(p => `
+        <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition">
+          <td class="py-4 px-4 font-bold text-slate-400">#${p.rank}</td>
+          <td class="py-4 px-4 font-semibold text-white">${p.name}</td>
+          <td class="py-4 px-4 text-slate-300">${p.tier}</td>
+          <td class="py-4 px-4 text-slate-400">${p.ratio}</td>
+          <td class="py-4 px-4 font-bold ${parseInt(p.winrate) >= 60 ? 'text-green-400' : 'text-blue-400'}">${p.winrate}</td>
+        </tr>
+      `).join('');
+    }
+
+    // Cargar LoL por defecto al inicio
+    switchGame('lol');
+  </script>
+</body>
+</html>

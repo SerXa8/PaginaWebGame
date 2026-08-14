@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoloQ Challenge - League of Legends</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { background-color: #0b0d12; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
+    .bg-card { background-color: #121620; }
+    .bg-card-hover:hover { background-color: #1a202c; }
+    .border-custom { border-color: #1e2638; }
+  </style>
+</head>
+<body class="min-h-screen pb-12">
+
+  <header class="border-b border-custom bg-[#080a0e] sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition">
+          <div class="w-8 h-8 rounded-lg bg-yellow-500/20 border border-yellow-500/50 flex items-center justify-center font-black text-yellow-400">SQ</div>
+          <span class="font-extrabold text-xl tracking-wider text-white uppercase">SoloQ<span class="text-yellow-500">Challenge</span></span>
+        </a>
+
+        <nav class="flex gap-1 bg-slate-900/80 p-1 rounded-lg border border-custom">
+          <a href="lol.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-yellow-500/10 text-yellow-400 border border-yellow-500/30">
+            <i data-lucide="swords" class="w-4 h-4"></i> League of Legends
+          </a>
+          <a href="valorant.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+            <i data-lucide="crosshair" class="w-4 h-4"></i> Valorant
+          </a>
+          <a href="cs2.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+            <i data-lucide="target" class="w-4 h-4"></i> CS2
+          </a>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-3 text-xs text-slate-400">
+        <span class="flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 font-bold">
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> EN DIRECTO
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 mt-6 space-y-8">
+
+    <section class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-4 flex flex-col justify-between">
+        <div class="flex justify-between items-center mb-3">
+          <div class="flex items-center gap-2">
+            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded">TWITCH</span>
+            <h3 class="text-sm font-bold text-slate-200">En directo: <span id="streamer-current-name" class="text-yellow-400">javierrlol</span></h3>
+          </div>
+          <span class="text-xs text-slate-400">Haz clic en la lista para cambiar de canal</span>
+        </div>
+        
+        <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden" id="stream-container"></div>
+      </div>
+
+      <div class="bg-card border border-custom rounded-2xl p-4 flex flex-col">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center justify-between">
+          <span>Streamers Oficiales</span>
+          <span class="text-purple-400">Twitch</span>
+        </h4>
+        <div class="space-y-2 overflow-y-auto max-h-[360px] pr-1" id="streamers-list"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="flex justify-between items-end mb-4">
+        <div>
+          <h2 class="text-3xl font-black uppercase tracking-tight text-white flex items-center gap-2">
+            Ranking <span class="text-yellow-400 text-xl font-bold">League of Legends</span>
+          </h2>
+          <p class="text-xs text-slate-400">Actualización en tiempo real</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container"></div>
+    </section>
+
+    <section class="bg-card border border-custom rounded-2xl overflow-hidden shadow-xl">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-custom bg-slate-950/50 text-slate-400 font-bold uppercase tracking-wider">
+              <th class="py-3.5 px-4 text-center">#</th>
+              <th class="py-3.5 px-4">Streamer / Jugador</th>
+              <th class="py-3.5 px-4">ELO / Rango</th>
+              <th class="py-3.5 px-4 text-center">V / D</th>
+              <th class="py-3.5 px-4 text-center">Tendencia ELO</th>
+              <th class="py-3.5 px-4 text-center">Media LP (+/-)</th>
+              <th class="py-3.5 px-4 text-center">Estado</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body" class="divide-y divide-custom"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="data/lol.js"></script>
+
+  <script>
+    const streamers = [
+      { username: "javierrlol", displayName: "JavierLoL" },
+      { username: "blackelespanolito", displayName: "BlackElespanolito" },
+      { username: "s3rxa8", displayName: "S3rxa8" }
+    ];
+
+    function setStream(username) {
+      const parentDomain = window.location.hostname || "localhost";
+      document.getElementById("stream-container").innerHTML = `
+        <iframe src="https://player.twitch.tv/?channel=${username}&parent=${parentDomain}" height="100%" width="100%" allowfullscreen="true"></iframe>
+      `;
+      document.getElementById("streamer-current-name").textContent = username;
+    }
+
+    function renderUI(data) {
+      // Sidebar Streamers
+      document.getElementById("streamers-list").innerHTML = streamers.map(s => `
+        <button onclick="setStream('${s.username}')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-800 transition border border-transparent hover:border-purple-500/30 text-left group">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-purple-900/50 border border-purple-500/40 flex items-center justify-center font-bold text-xs text-purple-300">
+              ${s.displayName.substring(0, 2).toUpperCase()}
+            </div>
+            <div>
+              <div class="text-xs font-bold text-slate-200 group-hover:text-purple-300 transition">${s.displayName}</div>
+              <div class="text-[10px] text-slate-500">twitch.tv/${s.username}</div>
+            </div>
+          </div>
+          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+        </button>
+      `).join('');
+
+      // Podium
+      document.getElementById("podium-container").innerHTML = data.podium.map(p => `
+        <div class="bg-card border border-custom p-5 rounded-2xl relative overflow-hidden flex flex-col justify-between hover:border-slate-700 transition">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-white text-sm">
+                ${p.name.substring(0, 2).toUpperCase()}
+              </div>
+              <div>
+                <h3 class="font-bold text-sm text-white">${p.name}</h3>
+                <p class="text-[10px] text-slate-500">${p.tag}</p>
+              </div>
+            </div>
+            <span class="text-xs font-black px-2 py-1 bg-slate-900 border border-slate-800 rounded text-yellow-400">#${p.rank}</span>
+          </div>
+
+          <div class="my-3">
+            <div class="text-3xl font-black text-white tracking-tight">${p.lp}</div>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-xs font-bold text-green-400">${p.wr} Winrate</span>
+              <span class="text-xs text-slate-500">(${p.win}V / ${p.loss}D)</span>
+            </div>
+          </div>
+
+          <div class="w-full h-8 pt-1">
+            <svg class="w-full h-full overflow-visible" viewBox="0 0 75 30">
+              <path d="${p.spark}" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+      `).join('');
+
+      // Tabla
+      document.getElementById("leaderboard-body").innerHTML = data.players.map(p => `
+        <tr class="bg-card-hover transition">
+          <td class="py-3.5 px-4 text-center font-bold text-slate-400">#${p.rank}</td>
+          <td class="py-3.5 px-4 font-bold text-white">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold">
+                ${p.name.substring(0, 2).toUpperCase()}
+              </div>
+              <div>
+                <div>${p.name}</div>
+                <div class="text-[10px] font-normal text-slate-500">${p.tag}</div>
+              </div>
+            </div>
+          </td>
+          <td class="py-3.5 px-4 font-extrabold text-slate-200">${p.elo}</td>
+          <td class="py-3.5 px-4 text-center font-bold text-slate-300">${p.ratio}</td>
+          <td class="py-3.5 px-4 text-center w-28">
+            <svg class="w-20 h-6 mx-auto" viewBox="0 0 75 30">
+              <path d="${p.spark}" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </td>
+          <td class="py-3.5 px-4 text-center font-bold text-slate-400">${p.avgLp}</td>
+          <td class="py-3.5 px-4 text-center">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold border ${p.statusBg}">${p.status}</span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    if (typeof gameData !== 'undefined') {
+      renderUI(gameData);
+    }
+    setStream(streamers[0].username);
+    lucide.createIcons();
+  </script>
+</body>
+</html>

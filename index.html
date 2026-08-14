@@ -1,310 +1,121 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-   
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9332148721540161"
-     crossorigin="anonymous"></script>
-  <meta name="google-adsense-account" content="ca-pub-9332148721540161">
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SoloQ Challenge Multijuego</title>
+  <title>SoloQ Challenge - Elige tu Juego</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    body { background-color: #0b0d12; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
-    .bg-card { background-color: #121620; }
-    .bg-card-hover:hover { background-color: #1a202c; }
+    body { 
+      background-color: #0b0d12; 
+      color: #e2e8f0; 
+      font-family: 'Inter', system-ui, sans-serif; 
+    }
     .border-custom { border-color: #1e2638; }
     
-    .glow-lol { box-shadow: 0 0 20px rgba(234, 179, 8, 0.15); }
-    .glow-val { box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); }
-    .glow-cs { box-shadow: 0 0 20px rgba(249, 115, 22, 0.15); }
+    /* Efectos de luz al pasar el ratón por cada juego */
+    .card-lol:hover {
+      box-shadow: 0 0 35px rgba(234, 179, 8, 0.35);
+      border-color: rgba(234, 179, 8, 0.6);
+    }
+    .card-val:hover {
+      box-shadow: 0 0 35px rgba(239, 68, 68, 0.35);
+      border-color: rgba(239, 68, 68, 0.6);
+    }
+    .card-cs:hover {
+      box-shadow: 0 0 35px rgba(249, 115, 22, 0.35);
+      border-color: rgba(249, 115, 22, 0.6);
+    }
   </style>
 </head>
-<body class="min-h-screen pb-12">
+<body class="min-h-screen flex flex-col justify-between">
 
-  <header class="border-b border-custom bg-[#080a0e] sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-6">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-yellow-500/20 border border-yellow-500/50 flex items-center justify-center font-black text-yellow-400">
-            SQ
-          </div>
-          <span class="font-extrabold text-xl tracking-wider text-white uppercase">SoloQ<span class="text-yellow-500">Challenge</span></span>
+  <header class="border-b border-custom bg-[#080a0e]/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-yellow-500/20 border border-yellow-500/50 flex items-center justify-center font-black text-yellow-400 text-lg">
+          SQ
         </div>
-
-        <nav class="flex gap-1 bg-slate-900/80 p-1 rounded-lg border border-custom">
-          <button onclick="switchGame('lol')" id="tab-lol" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-yellow-500/10 text-yellow-400 border border-yellow-500/30">
-            <i data-lucide="swords" class="w-4 h-4"></i> League of Legends
-          </button>
-          <button onclick="switchGame('val')" id="tab-val" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
-            <i data-lucide="crosshair" class="w-4 h-4"></i> Valorant
-          </button>
-          <button onclick="switchGame('cs')" id="tab-cs" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
-            <i data-lucide="target" class="w-4 h-4"></i> CS2
-          </button>
-        </nav>
+        <span class="font-extrabold text-2xl tracking-wider text-white uppercase">SoloQ<span class="text-yellow-500">Challenge</span></span>
       </div>
 
-      <div class="flex items-center gap-3 text-xs text-slate-400">
-        <span class="flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 font-bold">
-          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> EN DIRECTO
-        </span>
+      <div class="flex items-center gap-2 bg-red-500/10 text-red-400 px-4 py-1.5 rounded-full border border-red-500/20 text-xs font-bold">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> 3 DIRECTOS ACTIVOS
       </div>
     </div>
   </header>
 
-  <div class="max-w-7xl mx-auto px-4 mt-6 space-y-8">
+  <main class="max-w-7xl mx-auto px-6 py-12 flex-1 flex flex-col justify-center items-center">
+    
+    <div class="text-center max-w-2xl mb-12">
+      <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-4">
+        Selecciona un <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-orange-500">Juego</span>
+      </h1>
+      <p class="text-slate-400 text-sm md:text-base">
+        Sigue en tiempo real las clasificaciones, estadísticas y directos de tus creadores de contenido favoritos.
+      </p>
+    </div>
 
-    <section class="grid grid-cols-1 lg:grid-cols-4 gap-4">
-      <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-4 flex flex-col justify-between">
-        <div class="flex justify-between items-center mb-3">
-          <div class="flex items-center gap-2">
-            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded">TWITCH</span>
-            <h3 class="text-sm font-bold text-slate-200">En directo: <span id="streamer-current-name" class="text-yellow-400">javierrlol</span></h3>
-          </div>
-          <span class="text-xs text-slate-400">Selecciona un streamer de la lista para cambiar</span>
-        </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
+
+      <a href="lol.html" class="group relative h-96 rounded-3xl overflow-hidden border border-custom bg-slate-900 transition-all duration-500 transform hover:-translate-y-2 card-lol flex flex-col justify-end p-6">
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60" style="background-image: url('https://images.contentstack.io/v3/assets/blt731acb42bb07e10e/blt3f269a9b75204481/5e73ef13103e620f32f3e823/LOL_PROMO_ART.jpg');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0d12] via-[#0b0d12]/40 to-transparent"></div>
         
-        <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden" id="stream-container">
+        <div class="relative z-10">
+          <div class="inline-block px-3 py-1 bg-yellow-500/20 border border-yellow-500/50 rounded-lg text-yellow-400 font-bold text-xs uppercase tracking-wider mb-2">MOBA</div>
+          <h2 class="text-2xl font-black text-white group-hover:text-yellow-400 transition-colors uppercase">League of Legends</h2>
+          <p class="text-xs text-slate-300 mt-1 mb-4">Compite por el rango Challenger en las colas clasificatorias.</p>
+          
+          <div class="flex items-center gap-2 text-xs font-bold text-yellow-400 group-hover:translate-x-1 transition-transform">
+            <span>Ver Ranking</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </div>
-      </div>
+        </div>
+      </a>
 
-      <div class="bg-card border border-custom rounded-2xl p-4 flex flex-col">
-        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center justify-between">
-          <span>Streamers Oficiales</span>
-          <span class="text-purple-400">Twitch</span>
-        </h4>
-        <div class="space-y-2 overflow-y-auto max-h-[360px] pr-1" id="streamers-list">
+      <a href="valorant.html" class="group relative h-96 rounded-3xl overflow-hidden border border-custom bg-slate-900 transition-all duration-500 transform hover:-translate-y-2 card-val flex flex-col justify-end p-6">
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60" style="background-image: url('https://cmsassets.rgpub.io/sanity/images/dsbc53bh/3rdparty/e8df9eb00d0739e31d4d13e31e34edebf443a5ee-1920x1080.jpg');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0d12] via-[#0b0d12]/40 to-transparent"></div>
+        
+        <div class="relative z-10">
+          <div class="inline-block px-3 py-1 bg-red-500/20 border border-red-500/50 rounded-lg text-red-400 font-bold text-xs uppercase tracking-wider mb-2">Tactical Shooter</div>
+          <h2 class="text-2xl font-black text-white group-hover:text-red-400 transition-colors uppercase">Valorant</h2>
+          <p class="text-xs text-slate-300 mt-1 mb-4">Lucha táctica 5v5 por alcanzar el rango Radiante.</p>
+          
+          <div class="flex items-center gap-2 text-xs font-bold text-red-400 group-hover:translate-x-1 transition-transform">
+            <span>Ver Ranking</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="flex justify-between items-end mb-4">
-        <div>
-          <h2 class="text-3xl font-black uppercase tracking-tight text-white flex items-center gap-2">
-            Ranking <span id="ranking-game-title" class="text-yellow-400 text-lg font-bold">LOL</span>
-          </h2>
-          <p class="text-xs text-slate-400">Última actualización: hace un momento</p>
         </div>
-      </div>
+      </a>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container">
+      <a href="cs2.html" class="group relative h-96 rounded-3xl overflow-hidden border border-custom bg-slate-900 transition-all duration-500 transform hover:-translate-y-2 card-cs flex flex-col justify-end p-6">
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60" style="background-image: url('https://cdn.akamai.steamstatic.com/steam/apps/730/header.jpg');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0d12] via-[#0b0d12]/40 to-transparent"></div>
+        
+        <div class="relative z-10">
+          <div class="inline-block px-3 py-1 bg-orange-500/20 border border-orange-500/50 rounded-lg text-orange-400 font-bold text-xs uppercase tracking-wider mb-2">FPS FACEIT</div>
+          <h2 class="text-2xl font-black text-white group-hover:text-orange-400 transition-colors uppercase">Counter-Strike 2</h2>
+          <p class="text-xs text-slate-300 mt-1 mb-4">Demuestra quién manda en las ligas de Nivel 10 FACEIT.</p>
+          
+          <div class="flex items-center gap-2 text-xs font-bold text-orange-400 group-hover:translate-x-1 transition-transform">
+            <span>Ver Ranking</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </div>
         </div>
-    </section>
+      </a>
 
-    <section class="flex flex-wrap items-center justify-between gap-4 bg-card border border-custom p-3 rounded-xl">
-      <div class="flex items-center gap-2">
-        <button class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-lg transition border border-slate-700">TODOS</button>
-        <button class="px-3 py-1.5 bg-transparent hover:bg-slate-800 text-slate-400 text-xs font-bold rounded-lg transition">HIGH ELO</button>
-        <button class="px-3 py-1.5 bg-transparent hover:bg-slate-800 text-slate-400 text-xs font-bold rounded-lg transition">LOW ELO</button>
-      </div>
+    </div>
 
-      <div class="relative flex-1 max-w-xs">
-        <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-500"></i>
-        <input type="text" placeholder="Buscar jugador..." class="w-full bg-slate-950 border border-custom rounded-lg pl-9 pr-4 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500">
-      </div>
-    </section>
+  </main>
 
-    <section class="bg-card border border-custom rounded-2xl overflow-hidden shadow-xl">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="border-b border-custom bg-slate-950/50 text-slate-400 font-bold uppercase tracking-wider">
-              <th class="py-3.5 px-4 text-center">#</th>
-              <th class="py-3.5 px-4">Streamer / Jugador</th>
-              <th class="py-3.5 px-4">ELO / Rango</th>
-              <th class="py-3.5 px-4 text-center">V / D</th>
-              <th class="py-3.5 px-4 text-center">Tendencia ELO</th>
-              <th class="py-3.5 px-4 text-center">Media LP (+/-)</th>
-              <th class="py-3.5 px-4 text-center">Estado</th>
-            </tr>
-          </thead>
-          <tbody id="leaderboard-body" class="divide-y divide-custom">
-            </tbody>
-        </table>
-      </div>
-    </section>
-
-  </div>
+  <footer class="border-t border-custom py-6 text-center text-xs text-slate-500">
+    <p>SoloQ Challenge Multijuego &copy; 2026 — Proyecto de entretenimiento</p>
+  </footer>
 
   <script>
-    // Configuración de Streamers de Twitch solicitados
-    const streamers = [
-      { username: "javierrlol", displayName: "JavierLoL", live: true },
-      { username: "blackelespanolito", displayName: "BlackElespanolito", live: true },
-      { username: "s3rxa8", displayName: "S3rxa8", live: true }
-    ];
-
-    // Cambiar la emisión mostrada en pantalla
-    function setStream(username) {
-      const container = document.getElementById("stream-container");
-      // parent=localhost permite probarlo en local, si subes la web a un dominio cambia 'localhost' por tu dominio (ej: parent=miweb.com)
-      const parentDomain = window.location.hostname || "localhost";
-      
-      container.innerHTML = `
-        <iframe 
-          src="https://player.twitch.tv/?channel=${username}&parent=${parentDomain}" 
-          height="100%" 
-          width="100%" 
-          allowfullscreen="true">
-        </iframe>
-      `;
-      document.getElementById("streamer-current-name").textContent = username;
-    }
-
-    // Renderizar la lista lateral de streamers
-    function renderStreamersList() {
-      const list = document.getElementById("streamers-list");
-      list.innerHTML = streamers.map(s => `
-        <button onclick="setStream('${s.username}')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-800 transition border border-transparent hover:border-purple-500/30 text-left group">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-purple-900/50 border border-purple-500/40 flex items-center justify-center font-bold text-xs text-purple-300">
-              ${s.displayName.substring(0, 2).toUpperCase()}
-            </div>
-            <div>
-              <div class="text-xs font-bold text-slate-200 group-hover:text-purple-300 transition">${s.displayName}</div>
-              <div class="text-[10px] text-slate-500">twitch.tv/${s.username}</div>
-            </div>
-          </div>
-          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-        </button>
-      `).join('');
-    }
-
-    // Datos del Ranking Multijuego
-    const gamesData = {
-      lol: {
-        name: "League of Legends",
-        podium: [
-          { rank: 1, name: "JavierLoL", tag: "javierr#EUW", lp: "2,087", wr: "58%", win: 147, loss: 105, spark: "M0,22 L15,20 L30,16 L45,10 L60,12 L75,3" },
-          { rank: 2, name: "BlackElespanolito", tag: "black#EUW", lp: "1,950", wr: "55%", win: 130, loss: 100, spark: "M0,25 L15,22 L30,18 L45,19 L60,10 L75,8" },
-          { rank: 3, name: "S3rxa8", tag: "serxa#EUW", lp: "1,820", wr: "53%", win: 110, loss: 95, spark: "M0,20 L15,18 L30,12 L45,15 L60,8 L75,5" }
-        ],
-        players: [
-          { rank: 1, name: "JavierLoL", tag: "javierr#EUW", elo: "2,087 LP", wr: "58%", ratio: "147V - 105D", spark: "M0,22 L15,20 L30,16 L45,10 L60,12 L75,3", avgLp: "+21 / -19", status: "EN PARTIDA", statusBg: "bg-green-500/20 text-green-400 border-green-500/30" },
-          { rank: 2, name: "BlackElespanolito", tag: "black#EUW", elo: "1,950 LP", wr: "55%", ratio: "130V - 100D", spark: "M0,25 L15,22 L30,18 L45,19 L60,10 L75,8", avgLp: "+20 / -18", status: "EN PARTIDA", statusBg: "bg-green-500/20 text-green-400 border-green-500/30" },
-          { rank: 3, name: "S3rxa8", tag: "serxa#EUW", elo: "1,820 LP", wr: "53%", ratio: "110V - 95D", spark: "M0,20 L15,18 L30,12 L45,15 L60,8 L75,5", avgLp: "+19 / -18", status: "OFFLINE", statusBg: "bg-slate-800 text-slate-400 border-slate-700" }
-        ]
-      },
-      val: {
-        name: "Valorant",
-        podium: [
-          { rank: 1, name: "JavierLoL", tag: "Radiant #15", lp: "820 RR", wr: "61%", win: 90, loss: 55, spark: "M0,25 L15,18 L30,10 L45,8 L60,4 L75,2" },
-          { rank: 2, name: "S3rxa8", tag: "Inmortal 3", lp: "510 RR", wr: "54%", win: 80, loss: 68, spark: "M0,18 L15,15 L30,20 L45,14 L60,10 L75,8" },
-          { rank: 3, name: "BlackElespanolito", tag: "Inmortal 2", lp: "340 RR", wr: "52%", win: 70, loss: 65, spark: "M0,22 L15,20 L30,15 L45,12 L60,8 L75,5" }
-        ],
-        players: [
-          { rank: 1, name: "JavierLoL", tag: "Radiant #15", elo: "820 RR", wr: "61%", ratio: "90V - 55D", spark: "M0,25 L15,18 L30,10 L45,8 L60,4 L75,2", avgLp: "+24 / -16", status: "EN PARTIDA", statusBg: "bg-green-500/20 text-green-400 border-green-500/30" }
-        ]
-      },
-      cs: {
-        name: "CS2",
-        podium: [
-          { rank: 1, name: "S3rxa8", tag: "FACEIT Lv10", lp: "2,950 ELO", wr: "64%", win: 115, loss: 65, spark: "M0,28 L15,20 L30,12 L45,8 L60,4 L75,1" },
-          { rank: 2, name: "JavierLoL", tag: "FACEIT Lv10", lp: "2,600 ELO", wr: "56%", win: 95, loss: 75, spark: "M0,20 L15,18 L30,16 L45,10 L60,6 L75,4" },
-          { rank: 3, name: "BlackElespanolito", tag: "FACEIT Lv9", lp: "1,900 ELO", wr: "51%", win: 80, loss: 78, spark: "M0,22 L15,19 L30,15 L45,18 L60,12 L75,8" }
-        ],
-        players: [
-          { rank: 1, name: "S3rxa8", tag: "FACEIT Lv10", elo: "2,950 ELO", wr: "64%", ratio: "115V - 65D", spark: "M0,28 L15,20 L30,12 L45,8 L60,4 L75,1", avgLp: "+25 / -15", status: "EN PARTIDA", statusBg: "bg-green-500/20 text-green-400 border-green-500/30" }
-        ]
-      }
-    };
-
-    function switchGame(gameKey) {
-      const game = gamesData[gameKey];
-
-      ['lol', 'val', 'cs'].forEach(k => {
-        const btn = document.getElementById(`tab-${k}`);
-        btn.className = "px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white bg-transparent";
-      });
-
-      const activeBtn = document.getElementById(`tab-${gameKey}`);
-      const colorStyle = gameKey === 'lol' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' :
-                         gameKey === 'val' ? 'bg-red-500/10 text-red-400 border-red-500/30' :
-                         'bg-orange-500/10 text-orange-400 border-orange-500/30';
-      activeBtn.className = `px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 border ${colorStyle}`;
-
-      document.getElementById("ranking-game-title").textContent = game.name;
-
-      renderPodium(game.podium);
-      renderTable(game.players);
-    }
-
-    function renderPodium(podiumData) {
-      const container = document.getElementById("podium-container");
-      container.innerHTML = podiumData.map(p => `
-        <div class="bg-card border border-custom p-5 rounded-2xl relative overflow-hidden flex flex-col justify-between hover:border-slate-700 transition">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-white text-sm">
-                ${p.name.substring(0, 2).toUpperCase()}
-              </div>
-              <div>
-                <h3 class="font-bold text-sm text-white">${p.name}</h3>
-                <p class="text-[10px] text-slate-500">${p.tag}</p>
-              </div>
-            </div>
-            <span class="text-xs font-black px-2 py-1 bg-slate-900 border border-slate-800 rounded text-yellow-400">#${p.rank}</span>
-          </div>
-
-          <div class="my-3">
-            <div class="text-3xl font-black text-white tracking-tight">${p.lp}</div>
-            <div class="flex items-center gap-2 mt-1">
-              <span class="text-xs font-bold text-green-400">${p.wr} Winrate</span>
-              <span class="text-xs text-slate-500">(${p.win}V / ${p.loss}D)</span>
-            </div>
-          </div>
-
-          <div class="w-full h-8 pt-1">
-            <svg class="w-full h-full overflow-visible" viewBox="0 0 75 30">
-              <path d="${p.spark}" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function renderTable(players) {
-      const tbody = document.getElementById("leaderboard-body");
-      tbody.innerHTML = players.map(p => `
-        <tr class="bg-card-hover transition">
-          <td class="py-3.5 px-4 text-center font-bold text-slate-400">#${p.rank}</td>
-          <td class="py-3.5 px-4 font-bold text-white">
-            <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold">
-                ${p.name.substring(0, 2).toUpperCase()}
-              </div>
-              <div>
-                <div>${p.name}</div>
-                <div class="text-[10px] font-normal text-slate-500">${p.tag}</div>
-              </div>
-            </div>
-          </td>
-          <td class="py-3.5 px-4 font-extrabold text-slate-200">${p.elo}</td>
-          <td class="py-3.5 px-4 text-center">
-            <div class="font-bold text-slate-300">${p.ratio}</div>
-            <div class="text-[10px] font-semibold text-green-400">${p.wr} WR</div>
-          </td>
-          <td class="py-3.5 px-4 text-center w-28">
-            <svg class="w-20 h-6 mx-auto" viewBox="0 0 75 30">
-              <path d="${p.spark}" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </td>
-          <td class="py-3.5 px-4 text-center font-bold text-slate-400">${p.avgLp}</td>
-          <td class="py-3.5 px-4 text-center">
-            <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold border ${p.statusBg}">${p.status}</span>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    // Inicialización al cargar la página
-    renderStreamersList();
-    setStream(streamers[0].username); // Carga a javierrlol por defecto
-    switchGame('lol');
     lucide.createIcons();
   </script>
 </body>

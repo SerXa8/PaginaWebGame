@@ -46,10 +46,10 @@
 
   <div class="max-w-7xl mx-auto px-4 mt-6 space-y-8">
 
-    <!-- Sección del directo -->
+    <!-- Sección principal del directo -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
       
-      <!-- Panel Izquierdo: Espectadores Totales -->
+      <!-- Panel Izquierdo: Espectadores Totales e Info -->
       <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-6 flex flex-col justify-between">
         <div>
           <span class="inline-flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 text-xs font-bold uppercase mb-4">
@@ -62,12 +62,12 @@
         <div class="mt-8 pt-6 border-t border-custom">
           <h3 class="font-bold text-white text-base">SoloQChallenge</h3>
           <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-            Streamers de LoL compitiendo por subir elo en directo.
+            Streamers de LoL compitiendo por subir elo en directo, con Blue Shells de por medio.
           </p>
         </div>
       </div>
 
-      <!-- Panel Centro: Reproductor Principal -->
+      <!-- Panel Centro: Reproductor sin chat -->
       <div class="lg:col-span-6 bg-card border border-custom rounded-2xl p-4 flex flex-col justify-between">
         <div class="flex justify-between items-center mb-3">
           <div class="flex items-center gap-2">
@@ -133,9 +133,15 @@
     function setStream(username) {
       const parentDomain = window.location.hostname || "localhost";
       document.getElementById("twitch-embed").innerHTML = `
-        <iframe src="https://player.twitch.tv/?channel=${username}&parent=${parentDomain}" height="100%" width="100%" allowfullscreen="true"></iframe>
+        <iframe 
+          src="https://player.twitch.tv/?channel=${username}&parent=${parentDomain}&autoplay=true" 
+          height="100%" 
+          width="100%" 
+          allowfullscreen="true">
+        </iframe>
       `;
-      document.getElementById("streamer-current-name").textContent = username;
+      const nameElem = document.getElementById("streamer-current-name");
+      if (nameElem) nameElem.textContent = username;
     }
 
     function renderUI(data) {

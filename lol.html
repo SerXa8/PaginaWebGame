@@ -51,12 +51,13 @@
         <div class="flex justify-between items-center mb-3">
           <div class="flex items-center gap-2">
             <span class="bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded">TWITCH</span>
-            <h3 class="text-sm font-bold text-slate-200">En directo: <span id="streamer-current-name" class="text-yellow-400">javierrlol</span></h3>
+            <h3 class="text-sm font-bold text-slate-200">En directo: <span id="streamer-current-name" class="text-yellow-400">Comprobando...</span></h3>
           </div>
           <span class="text-xs text-slate-400">Haz clic en la lista para cambiar de canal</span>
         </div>
         
-        <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden" id="stream-container"></div>
+        <!-- Corregido a twitch-embed -->
+        <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden" id="twitch-embed"></div>
       </div>
 
       <div class="bg-card border border-custom rounded-2xl p-4 flex flex-col">
@@ -102,8 +103,6 @@
 
   </div>
 
-  <script src="data/lol.js"></script>
-
   <script>
     const streamers = [
       { username: "javierrlol", displayName: "JavierLoL" },
@@ -113,14 +112,13 @@
 
     function setStream(username) {
       const parentDomain = window.location.hostname || "localhost";
-      document.getElementById("stream-container").innerHTML = `
+      document.getElementById("twitch-embed").innerHTML = `
         <iframe src="https://player.twitch.tv/?channel=${username}&parent=${parentDomain}" height="100%" width="100%" allowfullscreen="true"></iframe>
       `;
       document.getElementById("streamer-current-name").textContent = username;
     }
 
     function renderUI(data) {
-      // Sidebar Streamers
       document.getElementById("streamers-list").innerHTML = streamers.map(s => `
         <button onclick="setStream('${s.username}')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-800 transition border border-transparent hover:border-purple-500/30 text-left group">
           <div class="flex items-center gap-3">
@@ -136,7 +134,6 @@
         </button>
       `).join('');
 
-      // Podium
       document.getElementById("podium-container").innerHTML = data.podium.map(p => `
         <div class="bg-card border border-custom p-5 rounded-2xl relative overflow-hidden flex flex-col justify-between hover:border-slate-700 transition">
           <div class="flex items-center justify-between mb-2">
@@ -168,7 +165,6 @@
         </div>
       `).join('');
 
-      // Tabla
       document.getElementById("leaderboard-body").innerHTML = data.players.map(p => `
         <tr class="bg-card-hover transition">
           <td class="py-3.5 px-4 text-center font-bold text-slate-400">#${p.rank}</td>
@@ -198,19 +194,13 @@
       `).join('');
     }
 
-    if (typeof gameData !== 'undefined') {
-      renderUI(gameData);
-    }
-    setStream(streamers[0].username);
+    if (typeof gameData !== 'undefined') { renderUI(gameData); }
     lucide.createIcons();
   </script>
 
-  <!-- 1. Script oficial de Twitch (necesario para renderizar el reproductor) -->
+  <!-- Inclusión limpia de librerías al final -->
   <script src="https://embed.twitch.tv/embed/v1.js"></script>
-
-  <!-- 2. Tu archivo de lógica específica para LoL -->
   <script src="data/lol.js"></script>
-  
-  
+
 </body>
 </html>

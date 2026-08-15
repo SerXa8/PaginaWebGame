@@ -1,0 +1,26 @@
+const GAME_IDS = {
+  lol: "21779",
+  valorant: "516575",
+  cs2: "32399"
+};
+
+async function updateLiveStreams(currentGameKey) {
+  const response = await fetch('live.json');
+  const data = await response.json();
+  const liveStreams = data.data || [];
+
+  // Filtrar solo los streamers que están jugando al juego de esta página
+  const activeStreamers = liveStreams.filter(stream => stream.game_id === GAME_IDS[currentGameKey]);
+
+  if (activeStreamers.length > 0) {
+    // Cargar el reproductor con el primero que esté jugando a este juego
+    setStream(activeStreamers[0].user_login);
+  } else {
+    // Mostrar mensaje de "Nadie está en directo jugando a este juego"
+    document.getElementById("stream-container").innerHTML = `
+      <div class="flex items-center justify-center h-full text-slate-500">
+        Ningún streamer está transmitiendo este juego ahora mismo.
+      </div>
+    `;
+  }
+}

@@ -1,0 +1,34 @@
+name: Actualizar estado de Twitch
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' # Se ejecuta cada 5 minutos
+  workflow_dispatch: # Permite probarlo manualmente
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Consultar API de Twitch
+        env:
+          TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+          TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+        run: |
+          # 1. Obtener Token de Twitch
+          TOKEN=$(curl -s -X POST "https://id.twitch.tv/oauth2/token" \
+            -d "client_id=$TWITCH_CLIENT_ID&client_secret=$TWITCH_CLIENT_SECRET&grant_type=client_credentials" | jq -r .access_token)
+          
+          # 2. Consultar streamers (ejemplo: javierrlol, s3rxa8)
+          curl -s -H "Client-ID: $TWITCH_CLIENT_ID" \
+               -H "Authorization: Bearer $TOKEN" \
+               "https://api.twitch.tv/helix/streams?user_login=javierrlol&user_login=s3rxa8" > live.json
+
+      - name: Guardar cambios
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions@github.com'
+          git add live.json
+          git commit -m "Auto-update live streamers" || exit 0
+          git push

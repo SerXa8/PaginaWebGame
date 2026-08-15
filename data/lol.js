@@ -16,7 +16,7 @@
       // Filtrar únicamente streamers en directo jugando a LoL
       const streamsJuego = streams.filter(s => s.game_id === GAME_ID_LOL);
 
-      // 1. Calcular y renderizar espectadores totales
+      // 1. Contador total de espectadores
       const totalEspectadores = streamsJuego.reduce((sum, s) => sum + s.viewer_count, 0);
       if (totalViewersElem) {
         totalViewersElem.textContent = totalEspectadores.toLocaleString('es-ES');
@@ -55,7 +55,7 @@
         }
       }
 
-      // 3. Incrustar el reproductor principal (primer canal activo o mensaje)
+      // 3. Incrustar reproductor SIN CHAT (layout: "video")
       if (streamsJuego.length > 0) {
         const streamActivo = streamsJuego[0];
         contenedor.innerHTML = "";
@@ -65,6 +65,7 @@
           width: "100%",
           height: "100%",
           channel: streamActivo.user_login,
+          layout: "video", // <-- Desactiva el chat completamente
           parent: [parentDomain]
         });
 

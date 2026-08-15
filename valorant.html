@@ -51,12 +51,13 @@
         <div class="flex justify-between items-center mb-3">
           <div class="flex items-center gap-2">
             <span class="bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded">TWITCH</span>
-            <h3 class="text-sm font-bold text-slate-200">En directo: <span id="streamer-current-name" class="text-red-400">javierrlol</span></h3>
+            <h3 class="text-sm font-bold text-slate-200">En directo: <span id="streamer-current-name" class="text-red-400">Comprobando...</span></h3>
           </div>
           <span class="text-xs text-slate-400">Haz clic en la lista para cambiar de canal</span>
         </div>
         
-        <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden" id="stream-container"></div>
+        <!-- Corregido el ID a twitch-embed -->
+        <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden" id="twitch-embed"></div>
       </div>
 
       <div class="bg-card border border-custom rounded-2xl p-4 flex flex-col">
@@ -102,8 +103,6 @@
 
   </div>
 
-  <script src="data/valorant.js"></script>
-
   <script>
     const streamers = [
       { username: "javierrlol", displayName: "JavierLoL" },
@@ -113,7 +112,7 @@
 
     function setStream(username) {
       const parentDomain = window.location.hostname || "localhost";
-      document.getElementById("stream-container").innerHTML = `
+      document.getElementById("twitch-embed").innerHTML = `
         <iframe src="https://player.twitch.tv/?channel=${username}&parent=${parentDomain}" height="100%" width="100%" allowfullscreen="true"></iframe>
       `;
       document.getElementById("streamer-current-name").textContent = username;
@@ -196,13 +195,12 @@
     }
 
     if (typeof gameData !== 'undefined') { renderUI(gameData); }
-    setStream(streamers[0].username);
     lucide.createIcons();
   </script>
 
+  <!-- Inclusión única y correcta de librerías al final -->
   <script src="https://embed.twitch.tv/embed/v1.js"></script>
   <script src="data/valorant.js"></script>
 
-  
 </body>
 </html>

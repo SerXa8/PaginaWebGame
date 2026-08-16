@@ -49,7 +49,7 @@
     <!-- Sección principal del directo -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
       
-      <!-- Panel Izquierdo: Espectadores Totales -->
+      <!-- Panel Izquierdo: Espectadores Totales e Info -->
       <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-6 flex flex-col justify-between">
         <div>
           <span class="inline-flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 text-xs font-bold uppercase mb-4">
@@ -62,7 +62,7 @@
         <div class="mt-8 pt-6 border-t border-custom">
           <h3 class="font-bold text-white text-base">SoloQChallenge</h3>
           <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-            Streamers compitiendo en Valorant en directo por alcanzar el rango Radiante.
+            Streamers de Valorant compitiendo por alcanzar Radiante en directo.
           </p>
         </div>
       </div>
@@ -107,29 +107,85 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container"></div>
     </section>
 
+    <!-- Barra de Filtros Superior para Valorant -->
+    <div class="overflow-x-auto">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-4 bg-card border border-custom p-3 rounded-2xl text-xs min-w-[700px]">
+        
+        <!-- Filtros principales de la izquierda -->
+        <div class="flex items-center gap-2">
+          <button class="px-3 py-1.5 font-bold rounded-lg bg-white text-black">TODOS</button>
+          <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">HIGH ELO</button>
+          <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">LOW ELO</button>
+          
+          <!-- Buscador -->
+          <div class="relative ml-2">
+            <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-500"></i>
+            <input type="text" placeholder="Buscar jugador" class="bg-slate-950 border border-custom rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500">
+          </div>
+
+          <!-- Badges de estado -->
+          <button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> LIVE
+          </button>
+          <button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> EN PARTIDA
+          </button>
+        </div>
+
+        <!-- Filtros de la derecha (Roles de Valorant) -->
+        <div class="flex items-center gap-2">
+          <button class="px-3 py-1.5 font-bold rounded-lg bg-red-500 text-white">TODOS</button>
+          <div class="flex gap-1 bg-slate-950 p-1 rounded-lg border border-custom text-slate-400">
+            <button class="p-1 hover:text-white" title="Duelista"><i data-lucide="flame" class="w-4 h-4"></i></button>
+            <button class="p-1 hover:text-white" title="Iniciador"><i data-lucide="eye" class="w-4 h-4"></i></button>
+            <button class="p-1 hover:text-white" title="Controlador"><i data-lucide="cloud" class="w-4 h-4"></i></button>
+            <button class="p-1 hover:text-white" title="Centinela"><i data-lucide="shield" class="w-4 h-4"></i></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Sección Tabla -->
-    <section class="bg-card border border-custom rounded-2xl overflow-hidden shadow-xl">
+    <section class="bg-[#0b0d12] border border-custom rounded-2xl overflow-hidden shadow-2xl">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse text-xs">
           <thead>
-            <tr class="border-b border-custom bg-slate-950/50 text-slate-400 font-bold uppercase tracking-wider">
-              <th class="py-3.5 px-4 text-center">#</th>
-              <th class="py-3.5 px-4">Streamer / Jugador</th>
-              <th class="py-3.5 px-4">ELO / Rango</th>
-              <th class="py-3.5 px-4 text-center">V / D</th>
-              <th class="py-3.5 px-4 text-center">Tendencia ELO</th>
-              <th class="py-3.5 px-4 text-center">Media RR (+/-)</th>
-              <th class="py-3.5 px-4 text-center">Estado</th>
+            <tr class="border-b border-custom bg-slate-950/80 text-slate-400 font-bold uppercase text-[11px] tracking-wider">
+              <th class="py-3 px-3 text-center">#</th>
+              <th class="py-3 px-4">Streamer</th>
+              <th class="py-3 px-3 text-center">Rol</th>
+              <th class="py-3 px-4">Rango / RR</th>
+              <th class="py-3 px-4 text-center">V / D</th>
+              <th class="py-3 px-4 text-center">Racha</th>
+              <th class="py-3 px-4 text-center">±RR</th>
+              <th class="py-3 px-3 text-center">K/D</th>
+              <th class="py-3 px-4 text-center">Stats</th>
             </tr>
           </thead>
-          <tbody id="leaderboard-body" class="divide-y divide-custom"></tbody>
+          <tbody id="leaderboard-body" class="divide-y divide-custom/40"></tbody>
         </table>
       </div>
     </section>
 
   </div>
 
+  <script src="https://embed.twitch.tv/embed/v1.js"></script>
+  <script src="data/valorant.js"></script>
+
   <script>
+    // Mapeo de roles de Valorant a iconos de Lucide
+    const roleIcons = {
+      duelista: 'flame',
+      duelist: 'flame',
+      iniciador: 'eye',
+      initiator: 'eye',
+      controlador: 'cloud',
+      controller: 'cloud',
+      centinela: 'shield',
+      sentinel: 'shield'
+    };
+
     function setStream(username) {
       const parentDomain = window.location.hostname || "localhost";
       document.getElementById("twitch-embed").innerHTML = `
@@ -145,76 +201,120 @@
     }
 
     function renderUI(data) {
-      if (document.getElementById("podium-container") && data.podium) {
-        document.getElementById("podium-container").innerHTML = data.podium.map(p => `
-          <div class="bg-card border border-custom p-5 rounded-2xl relative overflow-hidden flex flex-col justify-between hover:border-slate-700 transition">
-            <div class="flex items-center justify-between mb-2">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-white text-sm">
-                  ${p.name.substring(0, 2).toUpperCase()}
-                </div>
-                <div>
-                  <h3 class="font-bold text-sm text-white">${p.name}</h3>
-                  <p class="text-[10px] text-slate-500">${p.tag}</p>
-                </div>
-              </div>
-              <span class="text-xs font-black px-2 py-1 bg-slate-900 border border-slate-800 rounded text-red-400">#${p.rank}</span>
-            </div>
+      if (document.getElementById("leaderboard-body") && data.players) {
+        document.getElementById("leaderboard-body").innerHTML = data.players.map(p => {
+          const isPositive = p.gain >= 0;
+          const strokeColor = isPositive ? "#22c55e" : "#ef4444";
+          
+          // Asignar el icono correspondiente según p.role
+          const roleKey = (p.role || '').toLowerCase();
+          const iconName = roleIcons[roleKey] || 'crosshair';
 
-            <div class="my-3">
-              <div class="text-3xl font-black text-white tracking-tight">${p.lp}</div>
-              <div class="flex items-center gap-2 mt-1">
-                <span class="text-xs font-bold text-green-400">${p.wr} Winrate</span>
-                <span class="text-xs text-slate-500">(${p.win}V / ${p.loss}D)</span>
-              </div>
-            </div>
+          return `
+            <tr class="bg-[#121620]/60 hover:bg-[#1a202c] transition group border-l-4 ${p.rank <= 3 ? 'border-l-red-500' : 'border-l-transparent'}">
+              
+              <!-- Posición -->
+              <td class="py-3 px-3 text-center font-black">
+                <div class="flex items-center justify-center gap-1">
+                  ${p.rank === 1 ? '<span class="text-yellow-400">👑</span>' : ''}
+                  ${p.rank === 2 ? '<span class="text-slate-300">🥈</span>' : ''}
+                  ${p.rank === 3 ? '<span class="text-amber-600">🥉</span>' : ''}
+                  <span class="text-slate-200">${p.rank}</span>
+                </div>
+              </td>
 
-            <div class="w-full h-8 pt-1">
-              <svg class="w-full h-full overflow-visible" viewBox="0 0 75 30">
-                <path d="${p.spark}" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </div>
-          </div>
-        `).join('');
+              <!-- Streamer Info -->
+              <td class="py-3 px-4 font-bold text-white">
+                <div class="flex items-center gap-3">
+                  <div class="relative">
+                    <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center font-bold text-xs text-slate-300">
+                      ${p.name.substring(0, 2).toUpperCase()}
+                    </div>
+                    <span class="absolute -bottom-1 -right-1 text-[9px]">🇪🇸</span>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-slate-200 hover:text-red-400 transition cursor-pointer">${p.name}</span>
+                      <span class="bg-purple-900/60 text-purple-300 text-[9px] px-1 rounded border border-purple-500/30">Twitch</span>
+                      <span class="bg-lime-500/20 text-lime-400 text-[9px] font-black px-1.5 py-0.2 rounded border border-lime-500/40">LIVE</span>
+                    </div>
+                    <div class="text-[10px] font-normal text-slate-500">${p.tag}</div>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Rol Específico (Valorant) -->
+              <td class="py-3 px-3 text-center">
+                <span class="inline-block p-1 bg-slate-900 rounded border border-custom text-slate-400" title="${p.role || 'Rol'}">
+                  <i data-lucide="${iconName}" class="w-3.5 h-3.5"></i>
+                </span>
+              </td>
+
+              <!-- Rango / RR -->
+              <td class="py-3 px-4 font-black text-slate-100">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-red-500 text-sm">🎯</span>
+                  <span>${p.elo} RR</span>
+                </div>
+              </td>
+
+              <!-- V / D -->
+              <td class="py-3 px-4 text-center">
+                <div class="text-[11px] font-bold text-slate-200 mb-1">
+                  <span class="text-green-400">${p.wr}</span> 
+                  <span class="text-slate-400 text-[10px]">(${p.win}V - ${p.loss}D)</span>
+                </div>
+                <div class="w-24 h-1.5 bg-red-500/40 rounded-full mx-auto overflow-hidden flex">
+                  <div class="bg-green-500 h-full" style="width: ${p.wr}"></div>
+                </div>
+              </td>
+
+              <!-- Racha -->
+              <td class="py-3 px-4 text-center">
+                <svg class="w-16 h-5 mx-auto overflow-visible" viewBox="0 0 75 30">
+                  <path d="${p.spark}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </td>
+
+              <!-- Media ±RR -->
+              <td class="py-3 px-4 text-center font-bold">
+                <span class="text-green-400">▲ ${p.gain || 22}</span>
+                <span class="text-red-400 ml-1">▼ ${p.lossLp || 18}</span>
+              </td>
+
+              <!-- K/D Ratio -->
+              <td class="py-3 px-3 text-center font-bold text-slate-300">
+                <div class="inline-flex items-center gap-1 bg-slate-900/80 px-2 py-0.5 rounded-md border border-custom">
+                  <span class="text-[10px] text-red-400 font-extrabold">${p.kd || '1.15'}</span>
+                </div>
+              </td>
+
+              <!-- Stats (Tracker.gg) -->
+              <td class="py-3 px-4 text-center">
+                <a href="#" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-red-500 hover:bg-red-400 text-white font-extrabold rounded-md text-[10px] uppercase transition shadow">
+                  TRACKER
+                </a>
+              </td>
+
+            </tr>
+          `;
+        }).join('');
       }
 
-      if (document.getElementById("leaderboard-body") && data.players) {
-        document.getElementById("leaderboard-body").innerHTML = data.players.map(p => `
-          <tr class="bg-card-hover transition">
-            <td class="py-3.5 px-4 text-center font-bold text-slate-400">#${p.rank}</td>
-            <td class="py-3.5 px-4 font-bold text-white">
-              <div class="flex items-center gap-2">
-                <div class="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold">
-                  ${p.name.substring(0, 2).toUpperCase()}
-                </div>
-                <div>
-                  <div>${p.name}</div>
-                  <div class="text-[10px] font-normal text-slate-500">${p.tag}</div>
-                </div>
-              </div>
-            </td>
-            <td class="py-3.5 px-4 font-extrabold text-slate-200">${p.elo}</td>
-            <td class="py-3.5 px-4 text-center font-bold text-slate-300">${p.ratio}</td>
-            <td class="py-3.5 px-4 text-center w-28">
-              <svg class="w-20 h-6 mx-auto" viewBox="0 0 75 30">
-                <path d="${p.spark}" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </td>
-            <td class="py-3.5 px-4 text-center font-bold text-slate-400">${p.avgLp}</td>
-            <td class="py-3.5 px-4 text-center">
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold border ${p.statusBg}">${p.status}</span>
-            </td>
-          </tr>
-        `).join('');
+      if (window.lucide) {
+        lucide.createIcons();
       }
     }
 
-    if (typeof gameData !== 'undefined') { renderUI(gameData); }
-    lucide.createIcons();
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof gameData !== 'undefined') { 
+        renderUI(gameData); 
+      }
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    });
   </script>
-
-  <script src="https://embed.twitch.tv/embed/v1.js"></script>
-  <script src="data/valorant.js"></script>
 
 </body>
 </html>

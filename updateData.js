@@ -14,7 +14,14 @@ const STREAMERS = [
    riotName: "SerXa08", 
    tag: "1197", 
    role: "top", 
-   twitch: "s3rxa8" }
+   twitch: "s3rxa8" },
+
+  { name: "mamielizabeth", 
+   riotName: "mamielizabeth", 
+   tag: "fdm", 
+   role: "mid", 
+   twitch: "" }
+  
 ];
 
 async function getPlayerData(player) {

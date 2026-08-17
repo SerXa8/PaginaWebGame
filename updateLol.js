@@ -4,8 +4,8 @@ const API_KEY = process.env.RIOT_API_KEY;
 
 const STREAMERS = [
   { name: "JavierLoL", 
-   riotName: "JavierLoL", 
-   tag: "eMonkeyz", 
+   riotName: "eMonkeyz Run", 
+   tag: "514", 
    role: "mid", 
    twitch: "javierrlol" },
   
@@ -19,7 +19,16 @@ const STREAMERS = [
    riotName: "mamielizabeth", 
    tag: "fdm", 
    role: "mid", 
-   twitch: "" }
+   twitch: "" },
+
+  { name: "Maiiser", 
+   riotName: "Jabon de Hamster", 
+   tag: "WIWI", 
+   role: "top", 
+   twitch: "maiiser" }
+
+
+  
 ];
 
 async function getPlayerData(player) {

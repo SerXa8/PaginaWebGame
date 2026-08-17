@@ -173,13 +173,7 @@
   </div>
 
   <script src="https://embed.twitch.tv/embed/v1.js"></script>
-  
-  <!-- Carga dinámica de lolData.js para evitar el almacenamiento en caché -->
-  <script>
-    const script = document.createElement('script');
-    script.src = 'data/lolData.js?v=' + new Date().getTime();
-    document.head.appendChild(script);
-  </script>
+  <script src="data/lolData.js"></script>
 
   <script>
     const roleIcons = {
@@ -379,17 +373,19 @@
       }
     }
 
-    // Ejecución directa inmediata si los datos ya están en memoria
-    if (typeof gameData !== 'undefined') {
-      renderUI(gameData);
+    function initApp() {
+      if (typeof gameData !== 'undefined' && gameData.players) {
+        renderUI(gameData);
+      } else {
+        setTimeout(initApp, 100);
+      }
     }
 
-    // Ejecución de respaldo al terminar la carga del DOM
-    document.addEventListener("DOMContentLoaded", () => {
-      if (typeof gameData !== 'undefined') { 
-        renderUI(gameData); 
-      }
-    });
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
   </script>
 
 </body>

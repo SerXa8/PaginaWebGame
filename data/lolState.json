@@ -5,7 +5,7 @@
     "rankTier": "I",
     "gain": 0,
     "lossLp": 0,
-    "timestamp": 1786999613135
+    "timestamp": 1786999969780
   },
   "Maiiser": {
     "elo": 29,
@@ -13,7 +13,7 @@
     "rankTier": "II",
     "gain": 0,
     "lossLp": 0,
-    "timestamp": 1786999613135
+    "timestamp": 1786999969780
   },
   "SerXa8": {
     "elo": 11,
@@ -21,7 +21,7 @@
     "rankTier": "III",
     "gain": 0,
     "lossLp": 0,
-    "timestamp": 1786999613135
+    "timestamp": 1786999969780
   },
   "mamielizabeth": {
     "elo": 0,
@@ -29,6 +29,6 @@
     "rankTier": "IV",
     "gain": 0,
     "lossLp": 0,
-    "timestamp": 1786999613135
+    "timestamp": 1786999969780
   }
 }

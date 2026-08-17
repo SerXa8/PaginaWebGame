@@ -12,7 +12,7 @@ const gameData = {
       "wr": "59%",
       "gain": 0,
       "lossLp": 0,
-      "spark": "M 0 25 L 15 18 L 30 22 L 45 10 L 60 14 L 75 2",
+      "spark": "M 0 15 L 15.0 9 L 30.0 15 L 45.0 9 L 60.0 3 L 75.0 9",
       "twitch": "javierrlol",
       "rank": 1
     },
@@ -28,7 +28,7 @@ const gameData = {
       "wr": "56%",
       "gain": 0,
       "lossLp": 0,
-      "spark": "M 0 25 L 15 18 L 30 22 L 45 10 L 60 14 L 75 2",
+      "spark": "M 0 15 L 15.0 21 L 30.0 15 L 45.0 9 L 60.0 15 L 75.0 21",
       "twitch": "maiiser",
       "rank": 2
     },
@@ -44,7 +44,7 @@ const gameData = {
       "wr": "47%",
       "gain": 0,
       "lossLp": 0,
-      "spark": "M 0 25 L 15 18 L 30 22 L 45 10 L 60 14 L 75 2",
+      "spark": "M 0 15 L 15.0 9 L 30.0 3 L 45.0 2 L 60.0 8 L 75.0 14",
       "twitch": "s3rxa8",
       "rank": 3
     },
@@ -60,7 +60,7 @@ const gameData = {
       "wr": "46%",
       "gain": 0,
       "lossLp": 0,
-      "spark": "M 0 25 L 15 18 L 30 22 L 45 10 L 60 14 L 75 2",
+      "spark": "M 0 15 L 15.0 9 L 30.0 3 L 45.0 9 L 60.0 15 L 75.0 21",
       "twitch": "",
       "rank": 4
     }

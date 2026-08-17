@@ -91,8 +91,8 @@ async function main() {
   fs.mkdirSync('./data', { recursive: true });
 
   const fileContent = `const gameData = ${JSON.stringify({ players: playersData }, null, 2)};`;
-  fs.writeFileSync('./data/lol.js', fileContent);
-  console.log("¡data/lol.js actualizado correctamente!");
+  fs.writeFileSync('./data/lolData.js', fileContent);
+  console.log("¡data/lolData.js actualizado correctamente!");
 }
 
 main();

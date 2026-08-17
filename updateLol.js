@@ -12,12 +12,10 @@ const STREAMERS = [
 
 const STATE_FILE = path.join('./data', 'lolState.json');
 
-// Cargar estado anterior (si existe)
 function loadPreviousState() {
   try {
     if (fs.existsSync(STATE_FILE)) {
-      const raw = fs.readFileSync(STATE_FILE, 'utf8');
-      return JSON.parse(raw);
+      return JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
     }
   } catch (err) {
     console.error('⚠️ Error al leer lolState.json:', err.message);
@@ -25,7 +23,6 @@ function loadPreviousState() {
   return {};
 }
 
-// Guardar el estado actual
 function saveCurrentState(playersData) {
   try {
     const state = {};
@@ -45,6 +42,53 @@ function saveCurrentState(playersData) {
   }
 }
 
+// Función para generar la ruta del SVG según victorias (W) y derrotas (L)
+function generateSparkline(history) {
+  if (!history || history.length === 0) {
+    return "M 0 15 L 25 15 L 50 15 L 75 15";
+  }
+
+  let y = 15;
+  let pathStr = `M 0 ${y}`;
+  const stepX = 75 / Math.max(history.length, 1);
+
+  history.forEach((isWin, index) => {
+    const x = (index + 1) * stepX;
+    y = isWin ? Math.max(2, y - 6) : Math.min(28, y + 6);
+    pathStr += ` L ${x.toFixed(1)} ${y}`;
+  });
+
+  return pathStr;
+}
+
+async function getRecentMatches(puuid) {
+  try {
+    // Obtener los IDs de las últimas 5 partidas clasificatorias (type=ranked)
+    const matchesUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=0&count=5&api_key=${API_KEY}`;
+    const res = await fetch(matchesUrl);
+    if (!res.ok) return [];
+    const matchIds = await res.json();
+
+    const history = [];
+    for (const matchId of matchIds) {
+      const detailUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`;
+      const detailRes = await fetch(detailUrl);
+      if (detailRes.ok) {
+        const detail = await detailRes.json();
+        const participant = detail.info?.participants?.find(p => p.puuid === puuid);
+        if (participant) {
+          history.push(participant.win);
+        }
+      }
+      await new Promise(r => setTimeout(r, 150)); // Respetar límites
+    }
+    return history.reverse(); // De más antigua a más reciente
+  } catch (e) {
+    console.error("Error al obtener partidas recientes:", e.message);
+    return [];
+  }
+}
+
 async function getPlayerData(player, previousState) {
   try {
     // 1. Obtener PUUID con Riot ID + Tag
@@ -53,7 +97,7 @@ async function getPlayerData(player, previousState) {
     if (!accountRes.ok) throw new Error(`Error cuenta (${accountRes.status}): ${accountRes.statusText}`);
     const accountData = await accountRes.json();
 
-    // 2. Obtener ligas usando /by-puuid/
+    // 2. Obtener ligas
     const leagueUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/by-puuid/${accountData.puuid}?api_key=${API_KEY}`;
     const leagueRes = await fetch(leagueUrl);
     if (!leagueRes.ok) throw new Error(`Error liga (${leagueRes.status}): ${leagueRes.statusText}`);
@@ -71,21 +115,21 @@ async function getPlayerData(player, previousState) {
     let gain = 0;
     let lossLp = 0;
 
-    // Calcular la ganancia/pérdida real de LP respecto al estado anterior
     if (prev && typeof prev.elo === 'number') {
       const diff = currentElo - prev.elo;
       if (diff > 0) {
         gain = diff;
-        lossLp = 0;
       } else if (diff < 0) {
-        gain = 0;
         lossLp = Math.abs(diff);
       } else {
-        // Si no varió en esta consulta, mantenemos los últimos registrados
         gain = prev.gain || 0;
         lossLp = prev.lossLp || 0;
       }
     }
+
+    // 3. Obtener racha real de partidas
+    const recentHistory = await getRecentMatches(accountData.puuid);
+    const sparkPath = generateSparkline(recentHistory);
 
     return {
       name: player.name,
@@ -99,7 +143,7 @@ async function getPlayerData(player, previousState) {
       wr: winrate,
       gain: gain,
       lossLp: lossLp,
-      spark: "M 0 25 L 15 18 L 30 22 L 45 10 L 60 14 L 75 2",
+      spark: sparkPath,
       twitch: player.twitch
     };
   } catch (error) {
@@ -109,9 +153,7 @@ async function getPlayerData(player, previousState) {
 }
 
 async function main() {
-  console.log("Actualizando datos desde Riot API en GitHub Actions...");
-  
-  // Asegurar directorio
+  console.log("Actualizando datos desde Riot API...");
   fs.mkdirSync('./data', { recursive: true });
 
   const previousState = loadPreviousState();
@@ -120,22 +162,17 @@ async function main() {
   for (const player of STREAMERS) {
     const data = await getPlayerData(player, previousState);
     if (data) playersData.push(data);
-    
-    // Pausa de seguridad para respetar el límite de llamadas a la API de Riot
     await new Promise(r => setTimeout(r, 1200));
   }
 
-  // Ordenar de mayor a menor LP/elo
   playersData.sort((a, b) => b.elo - a.elo);
   playersData.forEach((p, index) => p.rank = index + 1);
 
-  // Guardar estado para la siguiente ejecución
   saveCurrentState(playersData);
 
-  // Guardar resultado final para el frontend
   const fileContent = `const gameData = ${JSON.stringify({ players: playersData }, null, 2)};`;
   fs.writeFileSync('./data/lolData.js', fileContent);
-  console.log("¡data/lolData.js y data/lolState.json actualizados correctamente!");
+  console.log("¡data/lolData.js y data/lolState.json actualizados con racha real!");
 }
 
 main();

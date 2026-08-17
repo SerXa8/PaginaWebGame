@@ -26,9 +26,6 @@ const STREAMERS = [
    tag: "WIWI", 
    role: "top", 
    twitch: "maiiser" }
-
-
-  
 ];
 
 async function getPlayerData(player) {

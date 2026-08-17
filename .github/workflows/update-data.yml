@@ -35,7 +35,7 @@ jobs:
     - name: Ejecutar script de actualización
       env:
         RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}
-      run: node updateData.js
+      run: node updateLol.js
 
     - name: Guardar cambios en el repositorio
       run: |

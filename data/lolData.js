@@ -56,11 +56,11 @@ const gameData = {
       "tierName": "BRONZE",
       "rankTier": "IV",
       "win": 63,
-      "loss": 74,
+      "loss": 75,
       "wr": "46%",
       "gain": 0,
       "lossLp": 0,
-      "spark": "M 0 15 L 15.0 9 L 30.0 3 L 45.0 9 L 60.0 15 L 75.0 21",
+      "spark": "M 0 15 L 15.0 9 L 30.0 15 L 45.0 21 L 60.0 27 L 75.0 28",
       "twitch": "",
       "rank": 4
     }

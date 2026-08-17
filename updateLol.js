@@ -1,6 +1,5 @@
 const fs = require('fs');
 
-// GitHub Actions insertará la clave automáticamente aquí
 const API_KEY = process.env.RIOT_API_KEY;
 
 const STREAMERS = [
@@ -15,25 +14,26 @@ const STREAMERS = [
    tag: "1197", 
    role: "top", 
    twitch: "s3rxa8" },
-
+  
   { name: "mamielizabeth", 
    riotName: "mamielizabeth", 
    tag: "fdm", 
    role: "mid", 
    twitch: "" }
-  
 ];
 
 async function getPlayerData(player) {
   try {
+    // 1. Obtener PUUID con Riot ID + Tag
     const accountUrl = `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(player.riotName)}/${encodeURIComponent(player.tag)}?api_key=${API_KEY}`;
     const accountRes = await fetch(accountUrl);
-    if (!accountRes.ok) throw new Error(`Error cuenta: ${accountRes.statusText}`);
+    if (!accountRes.ok) throw new Error(`Error cuenta (${accountRes.status}): ${accountRes.statusText}`);
     const accountData = await accountRes.json();
 
-    const leagueUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${accountData.puuid}?api_key=${API_KEY}`;
+    // 2. Obtener ligas usando /by-puuid/
+    const leagueUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/by-puuid/${accountData.puuid}?api_key=${API_KEY}`;
     const leagueRes = await fetch(leagueUrl);
-    if (!leagueRes.ok) throw new Error(`Error liga: ${leagueRes.statusText}`);
+    if (!leagueRes.ok) throw new Error(`Error liga (${leagueRes.status}): ${leagueRes.statusText}`);
     const leagueData = await leagueRes.json();
 
     const soloQ = leagueData.find(q => q.queueType === 'RANKED_SOLO_5x5') || {};
@@ -44,9 +44,11 @@ async function getPlayerData(player) {
 
     return {
       name: player.name,
-      tag: `${player.riotName}#${player.tag}`,
+      tag: `#${player.tag}`,
       role: player.role,
       elo: soloQ.leaguePoints || 0,
+      tierName: soloQ.tier || "UNRANKED",
+      rankTier: soloQ.rank || "",
       win: wins,
       loss: losses,
       wr: winrate,
@@ -68,10 +70,16 @@ async function main() {
   for (const player of STREAMERS) {
     const data = await getPlayerData(player);
     if (data) playersData.push(data);
+    // Pausa de seguridad para respetar el límite de llamadas a la API de Riot
+    await new Promise(r => setTimeout(r, 1200));
   }
 
+  // Ordenar de mayor a menor LP/elo
   playersData.sort((a, b) => b.elo - a.elo);
   playersData.forEach((p, index) => p.rank = index + 1);
+
+  // Crear directorio si no existe
+  fs.mkdirSync('./data', { recursive: true });
 
   const fileContent = `const gameData = ${JSON.stringify({ players: playersData }, null, 2)};`;
   fs.writeFileSync('./data/lol.js', fileContent);

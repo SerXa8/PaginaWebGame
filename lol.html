@@ -172,7 +172,7 @@
 
   </div>
 
-  <script src="https://embed.twitch.tv/embed/v1.js"></script>
+<script src="https://embed.twitch.tv/embed/v1.js"></script>
   <script src="data/lolData.js"></script>
 
   <script>
@@ -373,12 +373,15 @@
       }
     }
 
+    // Ejecución directa inmediata si los datos ya están en memoria
+    if (typeof gameData !== 'undefined') {
+      renderUI(gameData);
+    }
+
+    // Ejecución de respaldo al terminar la carga del DOM
     document.addEventListener("DOMContentLoaded", () => {
       if (typeof gameData !== 'undefined') { 
         renderUI(gameData); 
-      }
-      if (window.lucide) {
-        lucide.createIcons();
       }
     });
   </script>

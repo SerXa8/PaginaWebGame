@@ -11,6 +11,7 @@
     .bg-card { background-color: #121620; }
     .bg-card-hover:hover { background-color: #1a202c; }
     .border-custom { border-color: #1e2638; }
+    .role-btn.active { background-color: #f59e0b; color: #000; font-weight: 800; }
   </style>
 </head>
 <body class="min-h-screen pb-12">
@@ -49,7 +50,7 @@
     <!-- Sección principal del directo -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
       
-      <!-- Panel Izquierdo: Espectadores Totales e Info -->
+      <!-- Panel Izquierdo -->
       <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-6 flex flex-col justify-between">
         <div>
           <span class="inline-flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 text-xs font-bold uppercase mb-4">
@@ -62,12 +63,12 @@
         <div class="mt-8 pt-6 border-t border-custom">
           <h3 class="font-bold text-white text-base">SoloQChallenge</h3>
           <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-            Streamers de LoL compitiendo por subir elo en directo, con Blue Shells de por medio.
+            Streamers de LoL compitiendo por subir elo en directo.
           </p>
         </div>
       </div>
 
-      <!-- Panel Centro: Reproductor sin chat -->
+      <!-- Panel Centro: Reproductor -->
       <div class="lg:col-span-6 bg-card border border-custom rounded-2xl p-4 flex flex-col justify-between">
         <div class="flex justify-between items-center mb-3">
           <div class="flex items-center gap-2">
@@ -80,7 +81,7 @@
         <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden" id="twitch-embed"></div>
       </div>
 
-      <!-- Panel Derecho: Lista Lateral de Streamers Activos -->
+      <!-- Panel Derecho: Lista Lateral -->
       <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-4 flex flex-col">
         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center justify-between">
           <span>En directo</span>
@@ -107,40 +108,35 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container"></div>
     </section>
 
-    <!-- Barra de Filtros Superior -->
+    <!-- Barra de Filtros y Buscador -->
     <div class="overflow-x-auto">
       <div class="flex flex-wrap items-center justify-between gap-4 mb-4 bg-card border border-custom p-3 rounded-2xl text-xs min-w-[700px]">
         
-        <!-- Filtros principales de la izquierda -->
-        <div class="flex items-center gap-2">
-          <button class="px-3 py-1.5 font-bold rounded-lg bg-white text-black">TODOS</button>
-          <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">HIGH ELO</button>
-          <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">LOW ELO</button>
-          
-          <!-- Buscador -->
-          <div class="relative ml-2">
+        <!-- Buscador e Info -->
+        <div class="flex items-center gap-3">
+          <div class="relative">
             <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-500"></i>
-            <input type="text" placeholder="Buscar jugador" class="bg-slate-950 border border-custom rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500">
+            <input 
+              type="text" 
+              id="search-input" 
+              oninput="applyFilters()" 
+              placeholder="Buscar jugador o tag..." 
+              class="bg-slate-950 border border-custom rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 w-64"
+            >
           </div>
-
-          <!-- Badges de estado -->
-          <button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
-            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> LIVE
-          </button>
-          <button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
-            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> EN PARTIDA
-          </button>
+          <span id="player-count" class="text-slate-400 text-xs font-semibold"></span>
         </div>
 
-        <!-- Filtros de la derecha (Posición/Rol) -->
+        <!-- Filtros por Rol -->
         <div class="flex items-center gap-2">
-          <button class="px-3 py-1.5 font-bold rounded-lg bg-yellow-400 text-black">TODOS</button>
+          <span class="text-slate-400 text-xs font-bold uppercase mr-1">Rol:</span>
           <div class="flex gap-1 bg-slate-950 p-1 rounded-lg border border-custom text-slate-400">
-            <button class="p-1 hover:text-white" title="Top"><i data-lucide="shield" class="w-4 h-4"></i></button>
-            <button class="p-1 hover:text-white" title="Jungle"><i data-lucide="trees" class="w-4 h-4"></i></button>
-            <button class="p-1 hover:text-white" title="Mid"><i data-lucide="zap" class="w-4 h-4"></i></button>
-            <button class="p-1 hover:text-white" title="ADC"><i data-lucide="target" class="w-4 h-4"></i></button>
-            <button class="p-1 hover:text-white" title="Support"><i data-lucide="heart" class="w-4 h-4"></i></button>
+            <button onclick="setRoleFilter('all')" id="role-btn-all" class="role-btn active px-2.5 py-1 rounded text-xs transition">TODOS</button>
+            <button onclick="setRoleFilter('top')" id="role-btn-top" class="role-btn p-1.5 rounded hover:text-white transition" title="Top"><i data-lucide="shield" class="w-4 h-4"></i></button>
+            <button onclick="setRoleFilter('jungle')" id="role-btn-jungle" class="role-btn p-1.5 rounded hover:text-white transition" title="Jungle"><i data-lucide="trees" class="w-4 h-4"></i></button>
+            <button onclick="setRoleFilter('mid')" id="role-btn-mid" class="role-btn p-1.5 rounded hover:text-white transition" title="Mid"><i data-lucide="zap" class="w-4 h-4"></i></button>
+            <button onclick="setRoleFilter('adc')" id="role-btn-adc" class="role-btn p-1.5 rounded hover:text-white transition" title="ADC"><i data-lucide="target" class="w-4 h-4"></i></button>
+            <button onclick="setRoleFilter('support')" id="role-btn-support" class="role-btn p-1.5 rounded hover:text-white transition" title="Support"><i data-lucide="heart" class="w-4 h-4"></i></button>
           </div>
         </div>
 
@@ -176,6 +172,8 @@
   <script src="data/lolData.js"></script>
 
   <script>
+    let currentRoleFilter = 'all';
+
     const roleIcons = {
       top: 'shield',
       jungle: 'trees',
@@ -258,6 +256,168 @@
       `).join('');
     }
 
+    function renderTableRows(players) {
+      const tableBody = document.getElementById("leaderboard-body");
+      if (!tableBody) return;
+
+      if (players.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="10" class="py-8 text-center text-slate-500 font-bold">
+              No se encontraron jugadores con los filtros seleccionados.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = players.map(p => {
+        const isPositive = (p.gain || 0) >= 0;
+        const strokeColor = isPositive ? "#22c55e" : "#ef4444";
+        
+        const roleKey = (p.role || '').toLowerCase();
+        const iconName = roleIcons[roleKey] || 'swords';
+
+        return `
+          <tr class="bg-[#121620]/60 hover:bg-[#1a202c] transition group border-l-4 ${p.rank <= 3 ? 'border-l-yellow-400' : 'border-l-transparent'}">
+            
+            <td class="py-3 px-3 text-center font-black">
+              <div class="flex items-center justify-center gap-1">
+                ${p.rank === 1 ? '<span class="text-yellow-400">👑</span>' : ''}
+                ${p.rank === 2 ? '<span class="text-slate-300">🥈</span>' : ''}
+                ${p.rank === 3 ? '<span class="text-amber-600">🥉</span>' : ''}
+                <span class="text-slate-200">${p.rank}</span>
+              </div>
+            </td>
+
+            <td class="py-3 px-4 font-bold text-white">
+              <div class="flex items-center gap-3">
+                <div class="relative">
+                  <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center font-bold text-xs text-slate-300">
+                    ${p.name.substring(0, 2).toUpperCase()}
+                  </div>
+                  <span class="absolute -bottom-1 -right-1 text-[9px]">🇪🇸</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-slate-200 hover:text-yellow-400 transition cursor-pointer">${p.name}</span>
+                    ${p.twitch ? `<span class="bg-purple-900/60 text-purple-300 text-[9px] px-1 rounded border border-purple-500/30">Twitch</span>` : ''}
+                  </div>
+                  <div class="text-[10px] font-normal text-slate-500">${p.tag}</div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3 px-3 text-center">
+              <span class="inline-block p-1 bg-slate-900 rounded border border-custom text-slate-400" title="${p.role || 'Rol'}">
+                <i data-lucide="${iconName}" class="w-3.5 h-3.5"></i>
+              </span>
+            </td>
+
+            <td class="py-3 px-4 font-black text-slate-100">
+              <div class="flex items-center gap-1.5">
+                <span class="text-yellow-500 text-sm">🏆</span>
+                <span>${p.elo} LP</span>
+                <span class="text-[10px] text-slate-500 font-normal">(${p.tierName} ${p.rankTier})</span>
+              </div>
+            </td>
+
+            <td class="py-3 px-4 text-center">
+              <div class="text-[11px] font-bold text-slate-200 mb-1">
+                <span class="text-green-400">${p.wr}</span> 
+                <span class="text-slate-400 text-[10px]">(${p.win}V - ${p.loss}D)</span>
+              </div>
+              <div class="w-24 h-1.5 bg-red-500/40 rounded-full mx-auto overflow-hidden flex">
+                <div class="bg-green-500 h-full" style="width: ${p.wr}"></div>
+              </div>
+            </td>
+
+            <td class="py-3 px-4 text-center">
+              <svg class="w-16 h-5 mx-auto overflow-visible" viewBox="0 0 75 30">
+                <path d="${p.spark}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </td>
+
+            <td class="py-3 px-4 text-center font-bold">
+              <span class="text-green-400">▲ ${p.gain || 25}</span>
+              <span class="text-red-400 ml-1">▼ ${p.lossLp || 20}</span>
+            </td>
+
+            <td class="py-3 px-3 text-center font-bold text-slate-300">
+              <div class="inline-flex items-center gap-1 bg-slate-900/80 px-2 py-0.5 rounded-md border border-custom">
+                <span class="text-xs">🛡️</span>
+                <span class="text-[10px] text-yellow-400">24</span>
+              </div>
+            </td>
+
+            <td class="py-3 px-3 text-center font-bold text-slate-400">
+              <span class="text-[10px]">🐚 0h</span>
+            </td>
+
+            <td class="py-3 px-4 text-center">
+              <a href="https://www.op.gg/summoners/euw/${encodeURIComponent(p.name)}-${encodeURIComponent(p.tag.replace('#', ''))}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
+                OP.GG
+              </a>
+            </td>
+
+          </tr>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function applyFilters() {
+      if (typeof gameData === 'undefined' || !gameData.players) return;
+
+      const searchTerm = (document.getElementById("search-input")?.value || "").toLowerCase().trim();
+
+      const filtered = gameData.players.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.tag.toLowerCase().includes(searchTerm);
+        
+        let matchesRole = true;
+        if (currentRoleFilter !== 'all') {
+          const pRole = (p.role || '').toLowerCase();
+          if (currentRoleFilter === 'support') {
+            matchesRole = (pRole === 'support' || pRole === 'supp');
+          } else if (currentRoleFilter === 'adc') {
+            matchesRole = (pRole === 'adc' || pRole === 'bot');
+          } else {
+            matchesRole = (pRole === currentRoleFilter);
+          }
+        }
+
+        return matchesSearch && matchesRole;
+      });
+
+      renderTableRows(filtered);
+
+      const countElem = document.getElementById("player-count");
+      if (countElem) {
+        countElem.textContent = `${filtered.length} de ${gameData.players.length} jugadores`;
+      }
+    }
+
+    function setRoleFilter(role) {
+      currentRoleFilter = role;
+
+      const roleKeys = ['all', 'top', 'jungle', 'mid', 'adc', 'support'];
+      roleKeys.forEach(r => {
+        const btn = document.getElementById(`role-btn-${r}`);
+        if (btn) {
+          if (r === role) {
+            btn.classList.add('active', 'bg-yellow-400', 'text-black', 'font-extrabold');
+            btn.classList.remove('text-slate-400');
+          } else {
+            btn.classList.remove('active', 'bg-yellow-400', 'text-black', 'font-extrabold');
+            btn.classList.add('text-slate-400');
+          }
+        }
+      });
+
+      applyFilters();
+    }
+
     function renderUI(data) {
       if (!data || !data.players) return;
 
@@ -272,105 +432,7 @@
         if (nameElem) nameElem.textContent = "Sin directo activo";
       }
 
-      const tableBody = document.getElementById("leaderboard-body");
-      if (tableBody) {
-        tableBody.innerHTML = data.players.map(p => {
-          const isPositive = (p.gain || 0) >= 0;
-          const strokeColor = isPositive ? "#22c55e" : "#ef4444";
-          
-          const roleKey = (p.role || '').toLowerCase();
-          const iconName = roleIcons[roleKey] || 'swords';
-
-          return `
-            <tr class="bg-[#121620]/60 hover:bg-[#1a202c] transition group border-l-4 ${p.rank <= 3 ? 'border-l-yellow-400' : 'border-l-transparent'}">
-              
-              <td class="py-3 px-3 text-center font-black">
-                <div class="flex items-center justify-center gap-1">
-                  ${p.rank === 1 ? '<span class="text-yellow-400">👑</span>' : ''}
-                  ${p.rank === 2 ? '<span class="text-slate-300">🥈</span>' : ''}
-                  ${p.rank === 3 ? '<span class="text-amber-600">🥉</span>' : ''}
-                  <span class="text-slate-200">${p.rank}</span>
-                </div>
-              </td>
-
-              <td class="py-3 px-4 font-bold text-white">
-                <div class="flex items-center gap-3">
-                  <div class="relative">
-                    <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center font-bold text-xs text-slate-300">
-                      ${p.name.substring(0, 2).toUpperCase()}
-                    </div>
-                    <span class="absolute -bottom-1 -right-1 text-[9px]">🇪🇸</span>
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-slate-200 hover:text-yellow-400 transition cursor-pointer">${p.name}</span>
-                      ${p.twitch ? `<span class="bg-purple-900/60 text-purple-300 text-[9px] px-1 rounded border border-purple-500/30">Twitch</span>` : ''}
-                    </div>
-                    <div class="text-[10px] font-normal text-slate-500">${p.tag}</div>
-                  </div>
-                </div>
-              </td>
-
-              <td class="py-3 px-3 text-center">
-                <span class="inline-block p-1 bg-slate-900 rounded border border-custom text-slate-400" title="${p.role || 'Rol'}">
-                  <i data-lucide="${iconName}" class="w-3.5 h-3.5"></i>
-                </span>
-              </td>
-
-              <td class="py-3 px-4 font-black text-slate-100">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-yellow-500 text-sm">🏆</span>
-                  <span>${p.elo} LP</span>
-                  <span class="text-[10px] text-slate-500 font-normal">(${p.tierName} ${p.rankTier})</span>
-                </div>
-              </td>
-
-              <td class="py-3 px-4 text-center">
-                <div class="text-[11px] font-bold text-slate-200 mb-1">
-                  <span class="text-green-400">${p.wr}</span> 
-                  <span class="text-slate-400 text-[10px]">(${p.win}V - ${p.loss}D)</span>
-                </div>
-                <div class="w-24 h-1.5 bg-red-500/40 rounded-full mx-auto overflow-hidden flex">
-                  <div class="bg-green-500 h-full" style="width: ${p.wr}"></div>
-                </div>
-              </td>
-
-              <td class="py-3 px-4 text-center">
-                <svg class="w-16 h-5 mx-auto overflow-visible" viewBox="0 0 75 30">
-                  <path d="${p.spark}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </td>
-
-              <td class="py-3 px-4 text-center font-bold">
-                <span class="text-green-400">▲ ${p.gain || 25}</span>
-                <span class="text-red-400 ml-1">▼ ${p.lossLp || 20}</span>
-              </td>
-
-              <td class="py-3 px-3 text-center font-bold text-slate-300">
-                <div class="inline-flex items-center gap-1 bg-slate-900/80 px-2 py-0.5 rounded-md border border-custom">
-                  <span class="text-xs">🛡️</span>
-                  <span class="text-[10px] text-yellow-400">24</span>
-                </div>
-              </td>
-
-              <td class="py-3 px-3 text-center font-bold text-slate-400">
-                <span class="text-[10px]">🐚 0h</span>
-              </td>
-
-              <td class="py-3 px-4 text-center">
-                <a href="https://www.op.gg/summoners/euw/${encodeURIComponent(p.name)}-${encodeURIComponent(p.tag.replace('#', ''))}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
-                  OP.GG
-                </a>
-              </td>
-
-            </tr>
-          `;
-        }).join('');
-      }
-
-      if (window.lucide) {
-        lucide.createIcons();
-      }
+      applyFilters();
     }
 
     function initApp() {

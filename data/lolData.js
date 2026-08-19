@@ -18,6 +18,8 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 9 L 37.5 12 L 45.0 15 L 52.5 12 L 60.0 9 L 67.5 6 L 75.0 3",
       "twitch": "javierrlol",
+      "inGame": false,
+      "champion": null,
       "rank": 1
     },
     {
@@ -38,6 +40,8 @@ const gameData = {
       "lossEvents": 1,
       "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 9 L 37.5 6 L 45.0 3 L 52.5 2 L 60.0 2 L 67.5 2 L 75.0 5",
       "twitch": "maiiser",
+      "inGame": false,
+      "champion": null,
       "rank": 2
     },
     {
@@ -58,6 +62,8 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 9 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 6 L 75.0 9",
       "twitch": "s3rxa8",
+      "inGame": false,
+      "champion": null,
       "rank": 3
     },
     {
@@ -78,6 +84,8 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 24 L 30.0 27 L 37.5 28 L 45.0 25 L 52.5 22 L 60.0 25 L 67.5 28 L 75.0 28",
       "twitch": "",
+      "inGame": false,
+      "champion": null,
       "rank": 4
     }
   ]

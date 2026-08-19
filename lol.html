@@ -168,8 +168,10 @@
 
   </div>
 
+  <!-- Carga de Scripts -->
   <script src="https://embed.twitch.tv/embed/v1.js"></script>
   <script src="data/lolData.js"></script>
+  <script src="data/twitch.js"></script>
 
   <script>
     let currentRoleFilter = 'all';
@@ -183,26 +185,6 @@
       support: 'heart',
       supp: 'heart'
     };
-
-    function setStream(username) {
-      if (!username) return;
-      const parentDomain = window.location.hostname || "localhost";
-      const embedContainer = document.getElementById("twitch-embed");
-      
-      if (embedContainer) {
-        embedContainer.innerHTML = `
-          <iframe 
-            src="https://player.twitch.tv/?channel=${username}&parent=${parentDomain}&autoplay=true" 
-            height="100%" 
-            width="100%" 
-            allowfullscreen="true">
-          </iframe>
-        `;
-      }
-      
-      const nameElem = document.getElementById("streamer-current-name");
-      if (nameElem) nameElem.textContent = username;
-    }
 
     function renderPodium(players) {
       const podiumContainer = document.getElementById("podium-container");
@@ -234,28 +216,6 @@
       }).join('');
     }
 
-    function renderSidebar(players) {
-      const listContainer = document.getElementById("streamers-list");
-      if (!listContainer || !players) return;
-
-      const activeStreamers = players.filter(p => p.twitch && p.twitch.trim() !== '');
-
-      if (activeStreamers.length === 0) {
-        listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Sin canales configurados</p>`;
-        return;
-      }
-
-      listContainer.innerHTML = activeStreamers.map(p => `
-        <button onclick="setStream('${p.twitch}')" class="w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/50 hover:bg-slate-800 transition border border-custom text-left">
-          <div class="flex items-center gap-2">
-            <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-            <span class="text-xs font-bold text-white">${p.name}</span>
-          </div>
-          <span class="text-[10px] text-purple-400 font-semibold uppercase">Ver canal</span>
-        </button>
-      `).join('');
-    }
-
     function renderTableRows(players) {
       const tableBody = document.getElementById("leaderboard-body");
       if (!tableBody) return;
@@ -277,7 +237,6 @@
         const roleKey = (p.role || '').toLowerCase();
         const iconName = roleIcons[roleKey] || 'swords';
 
-        // Indicador único "EN DIRECTO" o "DESCONECTADO"
         const isLive = p.twitch && p.twitch.trim() !== '';
         const statusBadge = isLive
           ? `<span class="inline-flex items-center gap-1 bg-red-500/10 text-red-400 text-[9px] px-1.5 py-0.5 rounded border border-red-500/30 font-bold uppercase">
@@ -424,26 +383,15 @@
       applyFilters();
     }
 
-    function renderUI(data) {
-      if (!data || !data.players) return;
-
-      renderPodium(data.players);
-      renderSidebar(data.players);
-
-      const topStreamer = data.players.find(p => p.twitch && p.twitch.trim() !== '');
-      if (topStreamer) {
-        setStream(topStreamer.twitch);
-      } else {
-        const nameElem = document.getElementById("streamer-current-name");
-        if (nameElem) nameElem.textContent = "Sin directo activo";
-      }
-
-      applyFilters();
-    }
-
     function initApp() {
       if (typeof gameData !== 'undefined' && gameData.players) {
-        renderUI(gameData);
+        renderPodium(gameData.players);
+        applyFilters();
+
+        // Ejecutar la integración con Twitch desde data/twitch.js
+        if (typeof updateLiveStreams === 'function') {
+          updateLiveStreams('lol');
+        }
       } else {
         setTimeout(initApp, 100);
       }

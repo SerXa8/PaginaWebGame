@@ -42,10 +42,10 @@ function saveCurrentState(playersData) {
   }
 }
 
-// Función para generar la ruta del SVG según victorias (W) y derrotas (L)
+// Genera gráfico para 10 partidas
 function generateSparkline(history) {
   if (!history || history.length === 0) {
-    return "M 0 15 L 25 15 L 50 15 L 75 15";
+    return "M 0 15 L 75 15";
   }
 
   let y = 15;
@@ -54,17 +54,17 @@ function generateSparkline(history) {
 
   history.forEach((isWin, index) => {
     const x = (index + 1) * stepX;
-    y = isWin ? Math.max(2, y - 6) : Math.min(28, y + 6);
+    y = isWin ? Math.max(2, y - 3) : Math.min(28, y + 3);
     pathStr += ` L ${x.toFixed(1)} ${y}`;
   });
 
   return pathStr;
 }
 
+// Obtiene las últimas 10 partidas de forma segura
 async function getRecentMatches(puuid) {
   try {
-    // Obtener los IDs de las últimas 5 partidas clasificatorias (type=ranked)
-    const matchesUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=0&count=5&api_key=${API_KEY}`;
+    const matchesUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=0&count=10&api_key=${API_KEY}`;
     const res = await fetch(matchesUrl);
     if (!res.ok) return [];
     const matchIds = await res.json();
@@ -80,9 +80,10 @@ async function getRecentMatches(puuid) {
           history.push(participant.win);
         }
       }
-      await new Promise(r => setTimeout(r, 150)); // Respetar límites
+      // Pausa de 300ms entre llamadas de detalle para evitar rebasar el Rate Limit
+      await new Promise(r => setTimeout(r, 300));
     }
-    return history.reverse(); // De más antigua a más reciente
+    return history.reverse();
   } catch (e) {
     console.error("Error al obtener partidas recientes:", e.message);
     return [];
@@ -97,7 +98,7 @@ async function getPlayerData(player, previousState) {
     if (!accountRes.ok) throw new Error(`Error cuenta (${accountRes.status}): ${accountRes.statusText}`);
     const accountData = await accountRes.json();
 
-    // 2. Obtener ligas
+    // 2. Obtener liga
     const leagueUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/by-puuid/${accountData.puuid}?api_key=${API_KEY}`;
     const leagueRes = await fetch(leagueUrl);
     if (!leagueRes.ok) throw new Error(`Error liga (${leagueRes.status}): ${leagueRes.statusText}`);
@@ -127,7 +128,7 @@ async function getPlayerData(player, previousState) {
       }
     }
 
-    // 3. Obtener racha real de partidas
+    // 3. Obtener racha real
     const recentHistory = await getRecentMatches(accountData.puuid);
     const sparkPath = generateSparkline(recentHistory);
 
@@ -165,6 +166,12 @@ async function main() {
     await new Promise(r => setTimeout(r, 1200));
   }
 
+  // Protección: Si la API falló para todos los jugadores, no sobrescribir el archivo de datos con un array vacío
+  if (playersData.length === 0) {
+    console.error("❌ No se pudieron obtener datos de ningún jugador. Comprueba que la API KEY sea válida.");
+    process.exit(1);
+  }
+
   playersData.sort((a, b) => b.elo - a.elo);
   playersData.forEach((p, index) => p.rank = index + 1);
 
@@ -172,7 +179,7 @@ async function main() {
 
   const fileContent = `const gameData = ${JSON.stringify({ players: playersData }, null, 2)};`;
   fs.writeFileSync('./data/lolData.js', fileContent);
-  console.log("¡data/lolData.js y data/lolState.json actualizados con racha real!");
+  console.log("¡data/lolData.js y data/lolState.json actualizados correctamente!");
 }
 
 main();

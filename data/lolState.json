@@ -1,31 +1,31 @@
 {
   "JavierLoL": {
-    "elo": 2537,
-    "win": 203,
+    "elo": 2564,
+    "win": 204,
     "loss": 144,
     "tierName": "CHALLENGER",
     "rankTier": "I",
     "gain": 27,
     "lossLp": 19,
-    "totalGainLp": 27,
-    "winEvents": 1,
+    "totalGainLp": 54,
+    "winEvents": 2,
     "totalLossLp": 0,
     "lossEvents": 0,
-    "timestamp": 1787150385181
+    "timestamp": 1787153825832
   },
   "Maiiser": {
-    "elo": 18,
-    "win": 120,
+    "elo": 57,
+    "win": 122,
     "loss": 95,
     "tierName": "DIAMOND",
     "rankTier": "I",
     "gain": 20,
     "lossLp": 19,
-    "totalGainLp": 0,
-    "winEvents": 0,
+    "totalGainLp": 39,
+    "winEvents": 2,
     "totalLossLp": 0,
     "lossEvents": 0,
-    "timestamp": 1787150385181
+    "timestamp": 1787153825832
   },
   "SerXa8": {
     "elo": 11,
@@ -39,7 +39,7 @@
     "winEvents": 0,
     "totalLossLp": 0,
     "lossEvents": 0,
-    "timestamp": 1787150385181
+    "timestamp": 1787153825832
   },
   "mamielizabeth": {
     "elo": 0,
@@ -53,6 +53,6 @@
     "winEvents": 0,
     "totalLossLp": 0,
     "lossEvents": 0,
-    "timestamp": 1787150385181
+    "timestamp": 1787153825832
   }
 }

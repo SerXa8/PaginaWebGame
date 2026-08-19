@@ -47,10 +47,8 @@
 
   <div class="max-w-7xl mx-auto px-4 mt-6 space-y-8">
 
-    <!-- Sección principal del directo -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
       
-      <!-- Panel Izquierdo -->
       <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-6 flex flex-col justify-between">
         <div>
           <span class="inline-flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 text-xs font-bold uppercase mb-4">
@@ -68,33 +66,32 @@
         </div>
       </div>
 
-      <!-- Panel Centro: Reproductor -->
       <div class="lg:col-span-6 bg-card border border-custom rounded-2xl p-4 flex flex-col justify-between">
         <div class="flex justify-between items-center mb-3">
           <div class="flex items-center gap-2">
             <span class="bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded">TWITCH</span>
-            <h3 class="text-sm font-bold text-slate-200">En directo: <span id="streamer-current-name" class="text-yellow-400">Comprobando...</span></h3>
+            <h3 class="text-sm font-bold text-slate-200">En directo: <span id="streamer-current-name" class="text-yellow-400">Sin directo activo</span></h3>
           </div>
           <span class="text-xs text-slate-400">Haz clic en la lista para cambiar</span>
         </div>
         
-        <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden" id="twitch-embed"></div>
+        <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden" id="twitch-embed">
+          <div class="w-full h-full flex items-center justify-center text-xs text-slate-500">Sin transmisión seleccionada</div>
+        </div>
       </div>
 
-      <!-- Panel Derecho: Lista Lateral -->
       <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-4 flex flex-col">
         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center justify-between">
           <span>En directo</span>
           <span class="text-purple-400">Twitch</span>
         </h4>
         <div class="space-y-2 overflow-y-auto max-h-[380px] pr-1" id="streamers-list">
-          <p class="text-xs text-slate-500 text-center py-4">Cargando emisiones...</p>
+          <p class="text-xs text-slate-500 text-center py-4">Buscando emisiones...</p>
         </div>
       </div>
 
     </section>
 
-    <!-- Sección Podio -->
     <section>
       <div class="flex justify-between items-end mb-4">
         <div>
@@ -108,11 +105,9 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container"></div>
     </section>
 
-    <!-- Barra de Filtros y Buscador -->
     <div class="overflow-x-auto">
       <div class="flex flex-wrap items-center justify-between gap-4 mb-4 bg-card border border-custom p-3 rounded-2xl text-xs min-w-[700px]">
         
-        <!-- Buscador e Info -->
         <div class="flex items-center gap-3">
           <div class="relative">
             <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-500"></i>
@@ -127,7 +122,6 @@
           <span id="player-count" class="text-slate-400 text-xs font-semibold"></span>
         </div>
 
-        <!-- Filtros por Rol -->
         <div class="flex items-center gap-2">
           <span class="text-slate-400 text-xs font-bold uppercase mr-1">Rol:</span>
           <div class="flex gap-1 bg-slate-950 p-1 rounded-lg border border-custom text-slate-400">
@@ -143,7 +137,6 @@
       </div>
     </div>
 
-    <!-- Sección Tabla -->
     <section class="bg-[#0b0d12] border border-custom rounded-2xl overflow-hidden shadow-2xl">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse text-xs">
@@ -239,10 +232,11 @@
       const listContainer = document.getElementById("streamers-list");
       if (!listContainer || !players) return;
 
-      const activeStreamers = players.filter(p => p.twitch && p.twitch.trim() !== '');
+      // FILTRO CORREGIDO: Comprueba explícitamente el estado `isLive`
+      const activeStreamers = players.filter(p => p.isLive === true && p.twitch && p.twitch.trim() !== '');
 
       if (activeStreamers.length === 0) {
-        listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Sin canales configurados</p>`;
+        listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Ningún streamer en directo ahora</p>`;
         return;
       }
 
@@ -252,7 +246,7 @@
             <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
             <span class="text-xs font-bold text-white">${p.name}</span>
           </div>
-          <span class="text-[10px] text-purple-400 font-semibold uppercase">Ver canal</span>
+          <span class="text-[10px] text-purple-400 font-semibold uppercase">${p.viewers ? p.viewers + ' 👁' : 'Ver canal'}</span>
         </button>
       `).join('');
     }
@@ -278,7 +272,8 @@
         const roleKey = (p.role || '').toLowerCase();
         const iconName = roleIcons[roleKey] || 'swords';
 
-        const isLive = p.twitch && p.twitch.trim() !== '';
+        // COMPROBACIÓN CORREGIDA: evalúa únicamente si `isLive` es true
+        const isLive = p.isLive === true;
         const statusBadge = isLive
           ? `<span class="inline-flex items-center gap-1 bg-red-500/10 text-red-400 text-[9px] px-1.5 py-0.5 rounded border border-red-500/30 font-bold uppercase">
               <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> EN DIRECTO
@@ -430,9 +425,15 @@
       renderPodium(data.players);
       renderSidebar(data.players);
 
-      const topStreamer = data.players.find(p => p.twitch && p.twitch.trim() !== '');
-      if (topStreamer) {
-        setStream(topStreamer.twitch);
+      // Calcular espectadores totales
+      const totalViewers = data.players.reduce((acc, p) => acc + (p.isLive ? (p.viewers || 0) : 0), 0);
+      const totalElem = document.getElementById("total-viewers");
+      if (totalElem) totalElem.textContent = totalViewers.toLocaleString();
+
+      // Autoseleccionar el primer directo activo si no hay reproductor activo
+      const livePlayer = data.players.find(p => p.isLive === true && p.twitch);
+      if (livePlayer) {
+        setStream(livePlayer.twitch);
       } else {
         const nameElem = document.getElementById("streamer-current-name");
         if (nameElem) nameElem.textContent = "Sin directo activo";

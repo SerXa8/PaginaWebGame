@@ -12,6 +12,14 @@ const STREAMERS = [
 
 const STATE_FILE = path.join('./data', 'lolState.json');
 
+// Mapeo básico de ID de campeón a Nombre (Riot Spectator devuelve IDs numéricos)
+// Puedes ampliar este objeto según los campeones principales de tus streamers
+const CHAMPION_IDS = {
+  1: "Annie", 2: "Olaf", 3: "Galio", 4: "Twisted Fate", 5: "Xin Zhao", 6: "Urgot",
+  7: "LeBlanc", 8: "Vladimir", 9: "Fiddlesticks", 10: "Kayle", 11: "Master Yi", 12: "Alistar",
+  24: "Jax", 39: "Irelia", 55: "Katarina", 64: "Lee Sin", 103: "Ahri", 157: "Yasuo", 238: "Zed"
+};
+
 function loadPreviousState() {
   try {
     if (fs.existsSync(STATE_FILE)) {
@@ -66,6 +74,33 @@ function generateSparkline(history) {
   return pathStr;
 }
 
+// Consultar la Spectator API v5 de Riot
+async function getActiveGame(puuid) {
+  try {
+    const spectatorUrl = `https://euw1.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/${puuid}?api_key=${API_KEY}`;
+    const res = await fetch(spectatorUrl);
+    
+    if (res.status === 404) {
+      // 404 significa simplemente que NO está en partida
+      return { inGame: false, champion: null };
+    }
+
+    if (!res.ok) return { inGame: false, champion: null };
+
+    const gameData = await res.json();
+    const participant = gameData.participants?.find(p => p.puuid === puuid);
+    
+    if (participant) {
+      const champName = CHAMPION_IDS[participant.championId] || "En Partida";
+      return { inGame: true, champion: champName };
+    }
+
+    return { inGame: false, champion: null };
+  } catch (e) {
+    return { inGame: false, champion: null };
+  }
+}
+
 async function getRecentMatches(puuid) {
   try {
     const matchesUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=0&count=10&api_key=${API_KEY}`;
@@ -88,7 +123,6 @@ async function getRecentMatches(puuid) {
     }
     return history.reverse();
   } catch (e) {
-    console.error("Error al obtener partidas recientes:", e.message);
     return [];
   }
 }
@@ -101,7 +135,10 @@ async function getPlayerData(player, previousState) {
     if (!accountRes.ok) throw new Error(`Error cuenta (${accountRes.status}): ${accountRes.statusText}`);
     const accountData = await accountRes.json();
 
-    // 2. Liga y clasificatorias
+    // 2. Estado en directo (Spectator API)
+    const activeGame = await getActiveGame(accountData.puuid);
+
+    // 3. Liga y clasificatorias
     const leagueUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/by-puuid/${accountData.puuid}?api_key=${API_KEY}`;
     const leagueRes = await fetch(leagueUrl);
     if (!leagueRes.ok) throw new Error(`Error liga (${leagueRes.status}): ${leagueRes.statusText}`);
@@ -116,36 +153,31 @@ async function getPlayerData(player, previousState) {
     const currentElo = soloQ.leaguePoints || 0;
     const prev = previousState[player.name] || {};
 
-    // Cargar historial de acumulados o inicializar
     let totalGainLp = prev.totalGainLp || 0;
     let winEvents = prev.winEvents || 0;
     let totalLossLp = prev.totalLossLp || 0;
     let lossEvents = prev.lossEvents || 0;
 
-    // Calcular variaciones respecto a la última ejecución
     if (typeof prev.elo === 'number') {
       const winsDiff = wins - (prev.win || wins);
       const lossesDiff = losses - (prev.loss || losses);
       const eloDiff = currentElo - prev.elo;
 
-      // Si ha ganado partidas y ha sumado LP
       if (winsDiff > 0 && eloDiff > 0) {
         totalGainLp += eloDiff;
         winEvents += winsDiff;
       }
 
-      // Si ha perdido partidas y ha bajado LP
       if (lossesDiff > 0 && eloDiff < 0) {
         totalLossLp += Math.abs(eloDiff);
         lossEvents += lossesDiff;
       }
     }
 
-    // Calcular medias adaptativas (o usar defaults si no hay partidas registradas aún)
     const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || 20);
     const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || 19);
 
-    // 3. Racha de las últimas 10 partidas
+    // 4. Racha de partidas
     const recentHistory = await getRecentMatches(accountData.puuid);
     const sparkPath = generateSparkline(recentHistory);
 
@@ -159,14 +191,16 @@ async function getPlayerData(player, previousState) {
       win: wins,
       loss: losses,
       wr: winrate,
-      gain: avgGain,               // Media adaptativa de ganancia de LP
-      lossLp: avgLoss,             // Media adaptativa de pérdida de LP
+      gain: avgGain,
+      lossLp: avgLoss,
       totalGainLp: totalGainLp,
       winEvents: winEvents,
       totalLossLp: totalLossLp,
       lossEvents: lossEvents,
       spark: sparkPath,
-      twitch: player.twitch
+      twitch: player.twitch,
+      inGame: activeGame.inGame,       // true / false
+      champion: activeGame.champion    // Nombre del campeón o null
     };
   } catch (error) {
     console.error(`Error al procesar a ${player.name}:`, error.message);
@@ -175,7 +209,7 @@ async function getPlayerData(player, previousState) {
 }
 
 async function main() {
-  console.log("Actualizando datos desde Riot API con cálculo de media de LP...");
+  console.log("Actualizando datos desde Riot API con detector En Partida...");
   fs.mkdirSync('./data', { recursive: true });
 
   const previousState = loadPreviousState();
@@ -199,7 +233,7 @@ async function main() {
 
   const fileContent = `const gameData = ${JSON.stringify({ players: playersData }, null, 2)};`;
   fs.writeFileSync('./data/lolData.js', fileContent);
-  console.log("¡data/lolData.js y data/lolState.json actualizados con medias adaptativas!");
+  console.log("¡data/lolData.js actualizado con estado en partida!");
 }
 
 main();

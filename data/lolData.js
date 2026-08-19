@@ -62,8 +62,8 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 9 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 6 L 75.0 9",
       "twitch": "s3rxa8",
-      "inGame": false,
-      "champion": null,
+      "inGame": true,
+      "champion": "En Partida",
       "rank": 3
     },
     {
@@ -84,8 +84,8 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 24 L 30.0 27 L 37.5 28 L 45.0 25 L 52.5 22 L 60.0 25 L 67.5 28 L 75.0 28",
       "twitch": "",
-      "inGame": false,
-      "champion": null,
+      "inGame": true,
+      "champion": "En Partida",
       "rank": 4
     }
   ]

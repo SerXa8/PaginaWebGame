@@ -12,7 +12,7 @@ const gameData = {
       "wr": "58%",
       "gain": 0,
       "lossLp": 0,
-      "spark": "M 0 15 L 15.0 9 L 30.0 15 L 45.0 9 L 60.0 3 L 75.0 2",
+      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 15 L 37.5 12 L 45.0 15 L 52.5 12 L 60.0 9 L 67.5 6 L 75.0 9",
       "twitch": "javierrlol",
       "rank": 1
     },
@@ -28,7 +28,7 @@ const gameData = {
       "wr": "55%",
       "gain": 0,
       "lossLp": 0,
-      "spark": "M 0 15 L 15.0 21 L 30.0 27 L 45.0 21 L 60.0 15 L 75.0 21",
+      "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 18 L 30.0 21 L 37.5 18 L 45.0 21 L 52.5 24 L 60.0 21 L 67.5 18 L 75.0 21",
       "twitch": "maiiser",
       "rank": 2
     },
@@ -44,7 +44,7 @@ const gameData = {
       "wr": "47%",
       "gain": 0,
       "lossLp": 0,
-      "spark": "M 0 15 L 15.0 9 L 30.0 3 L 45.0 2 L 60.0 8 L 75.0 14",
+      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 9 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 6 L 75.0 9",
       "twitch": "s3rxa8",
       "rank": 3
     },
@@ -60,7 +60,7 @@ const gameData = {
       "wr": "45%",
       "gain": 0,
       "lossLp": 0,
-      "spark": "M 0 15 L 15.0 9 L 30.0 3 L 45.0 9 L 60.0 15 L 75.0 21",
+      "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 24 L 30.0 27 L 37.5 28 L 45.0 25 L 52.5 22 L 60.0 25 L 67.5 28 L 75.0 28",
       "twitch": "",
       "rank": 4
     }

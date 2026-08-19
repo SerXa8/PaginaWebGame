@@ -1,1 +1,34 @@
-{}
+{
+  "JavierLoL": {
+    "elo": 2516,
+    "tierName": "CHALLENGER",
+    "rankTier": "I",
+    "gain": 0,
+    "lossLp": 0,
+    "timestamp": 1787140145485
+  },
+  "Maiiser": {
+    "elo": 38,
+    "tierName": "DIAMOND",
+    "rankTier": "II",
+    "gain": 0,
+    "lossLp": 0,
+    "timestamp": 1787140145485
+  },
+  "SerXa8": {
+    "elo": 11,
+    "tierName": "BRONZE",
+    "rankTier": "III",
+    "gain": 0,
+    "lossLp": 0,
+    "timestamp": 1787140145485
+  },
+  "mamielizabeth": {
+    "elo": 0,
+    "tierName": "BRONZE",
+    "rankTier": "IV",
+    "gain": 0,
+    "lossLp": 0,
+    "timestamp": 1787140145485
+  }
+}

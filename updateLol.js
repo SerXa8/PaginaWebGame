@@ -29,10 +29,16 @@ function saveCurrentState(playersData) {
     playersData.forEach(p => {
       state[p.name] = {
         elo: p.elo,
+        win: p.win,
+        loss: p.loss,
         tierName: p.tierName,
         rankTier: p.rankTier,
         gain: p.gain,
         lossLp: p.lossLp,
+        totalGainLp: p.totalGainLp || 0,
+        winEvents: p.winEvents || 0,
+        totalLossLp: p.totalLossLp || 0,
+        lossEvents: p.lossEvents || 0,
         timestamp: Date.now()
       };
     });
@@ -42,7 +48,6 @@ function saveCurrentState(playersData) {
   }
 }
 
-// Genera gráfico para 10 partidas
 function generateSparkline(history) {
   if (!history || history.length === 0) {
     return "M 0 15 L 75 15";
@@ -61,7 +66,6 @@ function generateSparkline(history) {
   return pathStr;
 }
 
-// Obtiene las últimas 10 partidas de forma segura
 async function getRecentMatches(puuid) {
   try {
     const matchesUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=0&count=10&api_key=${API_KEY}`;
@@ -80,7 +84,6 @@ async function getRecentMatches(puuid) {
           history.push(participant.win);
         }
       }
-      // Pausa de 300ms entre llamadas de detalle para evitar rebasar el Rate Limit
       await new Promise(r => setTimeout(r, 300));
     }
     return history.reverse();
@@ -92,13 +95,13 @@ async function getRecentMatches(puuid) {
 
 async function getPlayerData(player, previousState) {
   try {
-    // 1. Obtener PUUID con Riot ID + Tag
+    // 1. Datos de cuenta
     const accountUrl = `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(player.riotName)}/${encodeURIComponent(player.tag)}?api_key=${API_KEY}`;
     const accountRes = await fetch(accountUrl);
     if (!accountRes.ok) throw new Error(`Error cuenta (${accountRes.status}): ${accountRes.statusText}`);
     const accountData = await accountRes.json();
 
-    // 2. Obtener liga
+    // 2. Liga y clasificatorias
     const leagueUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/by-puuid/${accountData.puuid}?api_key=${API_KEY}`;
     const leagueRes = await fetch(leagueUrl);
     if (!leagueRes.ok) throw new Error(`Error liga (${leagueRes.status}): ${leagueRes.statusText}`);
@@ -111,24 +114,38 @@ async function getPlayerData(player, previousState) {
     const winrate = totalGames > 0 ? ((wins / totalGames) * 100).toFixed(0) + '%' : '0%';
 
     const currentElo = soloQ.leaguePoints || 0;
-    const prev = previousState[player.name];
+    const prev = previousState[player.name] || {};
 
-    let gain = 0;
-    let lossLp = 0;
+    // Cargar historial de acumulados o inicializar
+    let totalGainLp = prev.totalGainLp || 0;
+    let winEvents = prev.winEvents || 0;
+    let totalLossLp = prev.totalLossLp || 0;
+    let lossEvents = prev.lossEvents || 0;
 
-    if (prev && typeof prev.elo === 'number') {
-      const diff = currentElo - prev.elo;
-      if (diff > 0) {
-        gain = diff;
-      } else if (diff < 0) {
-        lossLp = Math.abs(diff);
-      } else {
-        gain = prev.gain || 0;
-        lossLp = prev.lossLp || 0;
+    // Calcular variaciones respecto a la última ejecución
+    if (typeof prev.elo === 'number') {
+      const winsDiff = wins - (prev.win || wins);
+      const lossesDiff = losses - (prev.loss || losses);
+      const eloDiff = currentElo - prev.elo;
+
+      // Si ha ganado partidas y ha sumado LP
+      if (winsDiff > 0 && eloDiff > 0) {
+        totalGainLp += eloDiff;
+        winEvents += winsDiff;
+      }
+
+      // Si ha perdido partidas y ha bajado LP
+      if (lossesDiff > 0 && eloDiff < 0) {
+        totalLossLp += Math.abs(eloDiff);
+        lossEvents += lossesDiff;
       }
     }
 
-    // 3. Obtener racha real
+    // Calcular medias adaptativas (o usar defaults si no hay partidas registradas aún)
+    const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || 20);
+    const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || 19);
+
+    // 3. Racha de las últimas 10 partidas
     const recentHistory = await getRecentMatches(accountData.puuid);
     const sparkPath = generateSparkline(recentHistory);
 
@@ -142,8 +159,12 @@ async function getPlayerData(player, previousState) {
       win: wins,
       loss: losses,
       wr: winrate,
-      gain: gain,
-      lossLp: lossLp,
+      gain: avgGain,               // Media adaptativa de ganancia de LP
+      lossLp: avgLoss,             // Media adaptativa de pérdida de LP
+      totalGainLp: totalGainLp,
+      winEvents: winEvents,
+      totalLossLp: totalLossLp,
+      lossEvents: lossEvents,
       spark: sparkPath,
       twitch: player.twitch
     };
@@ -154,7 +175,7 @@ async function getPlayerData(player, previousState) {
 }
 
 async function main() {
-  console.log("Actualizando datos desde Riot API...");
+  console.log("Actualizando datos desde Riot API con cálculo de media de LP...");
   fs.mkdirSync('./data', { recursive: true });
 
   const previousState = loadPreviousState();
@@ -166,9 +187,8 @@ async function main() {
     await new Promise(r => setTimeout(r, 1200));
   }
 
-  // Protección: Si la API falló para todos los jugadores, no sobrescribir el archivo de datos con un array vacío
   if (playersData.length === 0) {
-    console.error("❌ No se pudieron obtener datos de ningún jugador. Comprueba que la API KEY sea válida.");
+    console.error("❌ No se pudieron obtener datos. Revisa la API KEY.");
     process.exit(1);
   }
 
@@ -179,7 +199,7 @@ async function main() {
 
   const fileContent = `const gameData = ${JSON.stringify({ players: playersData }, null, 2)};`;
   fs.writeFileSync('./data/lolData.js', fileContent);
-  console.log("¡data/lolData.js y data/lolState.json actualizados correctamente!");
+  console.log("¡data/lolData.js y data/lolState.json actualizados con medias adaptativas!");
 }
 
 main();

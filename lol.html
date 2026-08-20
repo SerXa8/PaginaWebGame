@@ -178,6 +178,51 @@
       supp: 'heart'
     };
 
+    // VALORES PARA CÁLCULO DE ELO REAL (LP ABSOLUTO)
+    const TIER_VALUES = {
+      'IRON': 0,
+      'BRONZE': 400,
+      'SILVER': 800,
+      'GOLD': 1200,
+      'PLATINUM': 1600,
+      'EMERALD': 2000,
+      'DIAMOND': 2400,
+      'MASTER': 2800,
+      'GRANDMASTER': 2800,
+      'CHALLENGER': 2800
+    };
+
+    const DIVISION_VALUES = {
+      'IV': 0,
+      'III': 100,
+      'II': 200,
+      'I': 300
+    };
+
+    function getAbsoluteLP(player) {
+      const tier = (player.tierName || 'IRON').toUpperCase();
+      const division = (player.rankTier || 'IV').toUpperCase();
+      
+      const tierBase = TIER_VALUES[tier] || 0;
+      const divisionBase = (tier === 'MASTER' || tier === 'GRANDMASTER' || tier === 'CHALLENGER') 
+        ? 0 
+        : (DIVISION_VALUES[division] || 0);
+
+      return tierBase + divisionBase + (Number(player.elo) || 0);
+    }
+
+    function sortAndRankPlayers(players) {
+      // Ordenar descendentemente por LP Absoluto
+      players.sort((a, b) => getAbsoluteLP(b) - getAbsoluteLP(a));
+
+      // Asignar el número de puesto (#1, #2...)
+      players.forEach((player, index) => {
+        player.rank = index + 1;
+      });
+
+      return players;
+    }
+
     function setStream(username) {
       if (!username) return;
       const parentDomain = window.location.hostname || "localhost";
@@ -213,15 +258,15 @@
               <div class="text-2xl">${medal}</div>
               <div>
                 <div class="font-extrabold text-white text-base flex items-center gap-1.5">
-                  ${p.name || 'Sin Nombre'}
-                  <span class="text-slate-500 text-xs font-normal">${p.tag || ''}</span>
+                  ${p.name}
+                  <span class="text-slate-500 text-xs font-normal">${p.tag}</span>
                 </div>
-                <div class="text-xs text-yellow-400 font-bold mt-0.5">${p.tierName || ''} ${p.rankTier || ''} - ${p.elo || 0} LP</div>
+                <div class="text-xs text-yellow-400 font-bold mt-0.5">${p.tierName} ${p.rankTier} - ${p.elo} LP</div>
               </div>
             </div>
             <div class="text-right">
-              <div class="text-xs font-black text-green-400">${p.wr || '0%'} WR</div>
-              <div class="text-[10px] text-slate-400">${p.win || 0}V / ${p.loss || 0}D</div>
+              <div class="text-xs font-black text-green-400">${p.wr} WR</div>
+              <div class="text-[10px] text-slate-400">${p.win}V / ${p.loss}D</div>
             </div>
           </div>
         `;
@@ -254,7 +299,7 @@
       const tableBody = document.getElementById("leaderboard-body");
       if (!tableBody) return;
 
-      if (!players || players.length === 0) {
+      if (players.length === 0) {
         tableBody.innerHTML = `
           <tr>
             <td colspan="10" class="py-8 text-center text-slate-500 font-bold">
@@ -265,9 +310,8 @@
         return;
       }
 
-      tableBody.innerHTML = players.map((p, index) => {
+      tableBody.innerHTML = players.map(p => {
         const strokeColor = "#22c55e";
-        const playerRank = p.rank || (index + 1);
         const roleKey = (p.role || '').toLowerCase();
         const iconName = roleIcons[roleKey] || 'swords';
 
@@ -278,17 +322,15 @@
              </span>`
           : `<span class="text-[9px] text-slate-500 font-medium uppercase">DESCONECTADO</span>`;
 
-        const cleanTag = p.tag ? p.tag.replace('#', '') : '';
-
         return `
-          <tr class="bg-[#121620]/60 hover:bg-[#1a202c] transition group border-l-4 ${playerRank <= 3 ? 'border-l-yellow-400' : 'border-l-transparent'}">
+          <tr class="bg-[#121620]/60 hover:bg-[#1a202c] transition group border-l-4 ${p.rank <= 3 ? 'border-l-yellow-400' : 'border-l-transparent'}">
             
             <td class="py-3 px-3 text-center font-black">
               <div class="flex items-center justify-center gap-1">
-                ${playerRank === 1 ? '<span class="text-yellow-400">👑</span>' : ''}
-                ${playerRank === 2 ? '<span class="text-slate-300">🥈</span>' : ''}
-                ${playerRank === 3 ? '<span class="text-amber-600">🥉</span>' : ''}
-                <span class="text-slate-200">${playerRank}</span>
+                ${p.rank === 1 ? '<span class="text-yellow-400">👑</span>' : ''}
+                ${p.rank === 2 ? '<span class="text-slate-300">🥈</span>' : ''}
+                ${p.rank === 3 ? '<span class="text-amber-600">🥉</span>' : ''}
+                <span class="text-slate-200">${p.rank}</span>
               </div>
             </td>
 
@@ -296,13 +338,13 @@
               <div class="flex items-center gap-3">
                 <div class="relative">
                   <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center font-bold text-xs text-slate-300">
-                    ${(p.name || '??').substring(0, 2).toUpperCase()}
+                    ${p.name.substring(0, 2).toUpperCase()}
                   </div>
                   <span class="absolute -bottom-1 -right-1 text-[9px]">🇪🇸</span>
                 </div>
                 <div>
                   <div class="flex items-center gap-1.5">
-                    <span class="text-slate-200 hover:text-yellow-400 transition cursor-pointer">${p.name || 'Sin Nombre'}</span>
+                    <span class="text-slate-200 hover:text-yellow-400 transition cursor-pointer">${p.name}</span>
                   </div>
                   <div class="mt-0.5">${statusBadge}</div>
                 </div>
@@ -318,24 +360,24 @@
             <td class="py-3 px-4 font-black text-slate-100">
               <div class="flex items-center gap-1.5">
                 <span class="text-yellow-500 text-sm">🏆</span>
-                <span>${p.elo || 0} LP</span>
-                <span class="text-[10px] text-slate-500 font-normal">(${p.tierName || ''} ${p.rankTier || ''})</span>
+                <span>${p.elo} LP</span>
+                <span class="text-[10px] text-slate-500 font-normal">(${p.tierName} ${p.rankTier})</span>
               </div>
             </td>
 
             <td class="py-3 px-4 text-center">
               <div class="text-[11px] font-bold text-slate-200 mb-1">
-                <span class="text-green-400">${p.wr || '0%'}</span> 
-                <span class="text-slate-400 text-[10px]">(${p.win || 0}V - ${p.loss || 0}D)</span>
+                <span class="text-green-400">${p.wr}</span> 
+                <span class="text-slate-400 text-[10px]">(${p.win}V - ${p.loss}D)</span>
               </div>
               <div class="w-24 h-1.5 bg-red-500/40 rounded-full mx-auto overflow-hidden flex">
-                <div class="bg-green-500 h-full" style="width: ${p.wr || '0%'}"></div>
+                <div class="bg-green-500 h-full" style="width: ${p.wr}"></div>
               </div>
             </td>
 
             <td class="py-3 px-4 text-center">
               <svg class="w-16 h-5 mx-auto overflow-visible" viewBox="0 0 75 30">
-                <path d="${p.spark || 'M 0 15 L 75 15'}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
+                <path d="${p.spark}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
               </svg>
             </td>
 
@@ -347,16 +389,16 @@
             <td class="py-3 px-3 text-center font-bold text-slate-300">
               <div class="inline-flex items-center gap-1 bg-slate-900/80 px-2 py-0.5 rounded-md border border-custom">
                 <span class="text-xs">🛡️</span>
-                <span class="text-[10px] text-yellow-400">${p.aegis || 24}</span>
+                <span class="text-[10px] text-yellow-400">24</span>
               </div>
             </td>
 
             <td class="py-3 px-3 text-center font-bold text-slate-400">
-              <span class="text-[10px]">🐚 ${p.shells || '0h'}</span>
+              <span class="text-[10px]">🐚 0h</span>
             </td>
 
             <td class="py-3 px-4 text-center">
-              <a href="https://www.op.gg/summoners/euw/${encodeURIComponent(p.name || '')}-${encodeURIComponent(cleanTag)}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
+              <a href="https://www.op.gg/summoners/euw/${encodeURIComponent(p.name)}-${encodeURIComponent(p.tag.replace('#', ''))}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
                 OP.GG
               </a>
             </td>
@@ -371,23 +413,18 @@
     function applyFilters() {
       if (typeof gameData === 'undefined' || !gameData.players) return;
 
+      const sortedPlayers = sortAndRankPlayers([...gameData.players]);
       const searchTerm = (document.getElementById("search-input")?.value || "").toLowerCase().trim();
 
-      const filtered = gameData.players.filter(p => {
-        const nameMatch = p.name ? p.name.toLowerCase().includes(searchTerm) : false;
-        const tagMatch = p.tag ? p.tag.toLowerCase().includes(searchTerm) : false;
-        const matchesSearch = nameMatch || tagMatch;
+      const filtered = sortedPlayers.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.tag.toLowerCase().includes(searchTerm);
         
         let matchesRole = true;
         if (currentRoleFilter !== 'all') {
           const pRole = (p.role || '').toLowerCase();
-          if (currentRoleFilter === 'support') {
-            matchesRole = (pRole === 'support' || pRole === 'supp');
-          } else if (currentRoleFilter === 'adc') {
-            matchesRole = (pRole === 'adc' || pRole === 'bot');
-          } else {
-            matchesRole = (pRole === currentRoleFilter);
-          }
+          if (currentRoleFilter === 'support') matchesRole = (pRole === 'support' || pRole === 'supp');
+          else if (currentRoleFilter === 'adc') matchesRole = (pRole === 'adc' || pRole === 'bot');
+          else matchesRole = (pRole === currentRoleFilter);
         }
 
         return matchesSearch && matchesRole;
@@ -424,14 +461,16 @@
     function renderUI(data) {
       if (!data || !data.players) return;
 
-      renderPodium(data.players);
-      renderSidebar(data.players);
+      const sorted = sortAndRankPlayers([...data.players]);
 
-      const totalViewers = data.players.reduce((acc, p) => acc + (p.isLive ? (p.viewers || 0) : 0), 0);
+      renderPodium(sorted);
+      renderSidebar(sorted);
+
+      const totalViewers = sorted.reduce((acc, p) => acc + (p.isLive ? (p.viewers || 0) : 0), 0);
       const totalElem = document.getElementById("total-viewers");
       if (totalElem) totalElem.textContent = totalViewers.toLocaleString();
 
-      const livePlayer = data.players.find(p => p.isLive === true && p.twitch);
+      const livePlayer = sorted.find(p => p.isLive === true && p.twitch);
       if (livePlayer) {
         setStream(livePlayer.twitch);
       } else {

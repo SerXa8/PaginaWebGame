@@ -38,7 +38,7 @@ const gameData = {
       "winEvents": 7,
       "totalLossLp": 38,
       "lossEvents": 2,
-      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 15 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
+      "spark": "M 0 15 L 7.5 12 L 15.0 15 L 22.5 18 L 30.0 15 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
       "twitch": "",
       "inGame": true,
       "champion": "En Partida",
@@ -82,10 +82,10 @@ const gameData = {
       "winEvents": 5,
       "totalLossLp": 0,
       "lossEvents": 0,
-      "spark": "M 0 15 L 7.5 12 L 15.0 15 L 22.5 18 L 30.0 15 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
+      "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 18 L 30.0 15 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
       "twitch": "s3rxa8",
-      "inGame": true,
-      "champion": "En Partida",
+      "inGame": false,
+      "champion": null,
       "rank": 4
     }
   ]

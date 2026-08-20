@@ -45,28 +45,6 @@ const gameData = {
       "rank": 2
     },
     {
-      "name": "mamielizabeth",
-      "tag": "#fdm",
-      "role": "mid",
-      "elo": 38,
-      "tierName": "BRONZE",
-      "rankTier": "IV",
-      "win": 67,
-      "loss": 80,
-      "wr": "46%",
-      "gain": 19,
-      "lossLp": 19,
-      "totalGainLp": 38,
-      "winEvents": 2,
-      "totalLossLp": 0,
-      "lossEvents": 0,
-      "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 24 L 30.0 21 L 37.5 18 L 45.0 21 L 52.5 24 L 60.0 27 L 67.5 24 L 75.0 21",
-      "twitch": "",
-      "inGame": true,
-      "champion": "En Partida",
-      "rank": 3
-    },
-    {
       "name": "SerXa8",
       "tag": "#1197",
       "role": "top",
@@ -86,6 +64,28 @@ const gameData = {
       "twitch": "s3rxa8",
       "inGame": false,
       "champion": null,
+      "rank": 3
+    },
+    {
+      "name": "mamielizabeth",
+      "tag": "#fdm",
+      "role": "mid",
+      "elo": 18,
+      "tierName": "BRONZE",
+      "rankTier": "IV",
+      "win": 67,
+      "loss": 81,
+      "wr": "45%",
+      "gain": 19,
+      "lossLp": 20,
+      "totalGainLp": 38,
+      "winEvents": 2,
+      "totalLossLp": 20,
+      "lossEvents": 1,
+      "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 18 L 30.0 15 L 37.5 18 L 45.0 21 L 52.5 24 L 60.0 21 L 67.5 18 L 75.0 21",
+      "twitch": "",
+      "inGame": true,
+      "champion": "En Partida",
       "rank": 4
     }
   ]

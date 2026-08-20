@@ -213,15 +213,15 @@
               <div class="text-2xl">${medal}</div>
               <div>
                 <div class="font-extrabold text-white text-base flex items-center gap-1.5">
-                  ${p.name}
-                  <span class="text-slate-500 text-xs font-normal">${p.tag}</span>
+                  ${p.name || 'Sin Nombre'}
+                  <span class="text-slate-500 text-xs font-normal">${p.tag || ''}</span>
                 </div>
-                <div class="text-xs text-yellow-400 font-bold mt-0.5">${p.tierName} ${p.rankTier} - ${p.elo} LP</div>
+                <div class="text-xs text-yellow-400 font-bold mt-0.5">${p.tierName || ''} ${p.rankTier || ''} - ${p.elo || 0} LP</div>
               </div>
             </div>
             <div class="text-right">
-              <div class="text-xs font-black text-green-400">${p.wr} WR</div>
-              <div class="text-[10px] text-slate-400">${p.win}V / ${p.loss}D</div>
+              <div class="text-xs font-black text-green-400">${p.wr || '0%'} WR</div>
+              <div class="text-[10px] text-slate-400">${p.win || 0}V / ${p.loss || 0}D</div>
             </div>
           </div>
         `;
@@ -232,7 +232,6 @@
       const listContainer = document.getElementById("streamers-list");
       if (!listContainer || !players) return;
 
-      // FILTRO CORREGIDO: Comprueba explícitamente el estado `isLive`
       const activeStreamers = players.filter(p => p.isLive === true && p.twitch && p.twitch.trim() !== '');
 
       if (activeStreamers.length === 0) {
@@ -255,7 +254,7 @@
       const tableBody = document.getElementById("leaderboard-body");
       if (!tableBody) return;
 
-      if (players.length === 0) {
+      if (!players || players.length === 0) {
         tableBody.innerHTML = `
           <tr>
             <td colspan="10" class="py-8 text-center text-slate-500 font-bold">
@@ -266,13 +265,12 @@
         return;
       }
 
-      tableBody.innerHTML = players.map(p => {
+      tableBody.innerHTML = players.map((p, index) => {
         const strokeColor = "#22c55e";
-        
+        const playerRank = p.rank || (index + 1);
         const roleKey = (p.role || '').toLowerCase();
         const iconName = roleIcons[roleKey] || 'swords';
 
-        // COMPROBACIÓN CORREGIDA: evalúa únicamente si `isLive` es true
         const isLive = p.isLive === true;
         const statusBadge = isLive
           ? `<span class="inline-flex items-center gap-1 bg-red-500/10 text-red-400 text-[9px] px-1.5 py-0.5 rounded border border-red-500/30 font-bold uppercase">
@@ -280,15 +278,17 @@
              </span>`
           : `<span class="text-[9px] text-slate-500 font-medium uppercase">DESCONECTADO</span>`;
 
+        const cleanTag = p.tag ? p.tag.replace('#', '') : '';
+
         return `
-          <tr class="bg-[#121620]/60 hover:bg-[#1a202c] transition group border-l-4 ${p.rank <= 3 ? 'border-l-yellow-400' : 'border-l-transparent'}">
+          <tr class="bg-[#121620]/60 hover:bg-[#1a202c] transition group border-l-4 ${playerRank <= 3 ? 'border-l-yellow-400' : 'border-l-transparent'}">
             
             <td class="py-3 px-3 text-center font-black">
               <div class="flex items-center justify-center gap-1">
-                ${p.rank === 1 ? '<span class="text-yellow-400">👑</span>' : ''}
-                ${p.rank === 2 ? '<span class="text-slate-300">🥈</span>' : ''}
-                ${p.rank === 3 ? '<span class="text-amber-600">🥉</span>' : ''}
-                <span class="text-slate-200">${p.rank}</span>
+                ${playerRank === 1 ? '<span class="text-yellow-400">👑</span>' : ''}
+                ${playerRank === 2 ? '<span class="text-slate-300">🥈</span>' : ''}
+                ${playerRank === 3 ? '<span class="text-amber-600">🥉</span>' : ''}
+                <span class="text-slate-200">${playerRank}</span>
               </div>
             </td>
 
@@ -296,13 +296,13 @@
               <div class="flex items-center gap-3">
                 <div class="relative">
                   <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center font-bold text-xs text-slate-300">
-                    ${p.name.substring(0, 2).toUpperCase()}
+                    ${(p.name || '??').substring(0, 2).toUpperCase()}
                   </div>
                   <span class="absolute -bottom-1 -right-1 text-[9px]">🇪🇸</span>
                 </div>
                 <div>
                   <div class="flex items-center gap-1.5">
-                    <span class="text-slate-200 hover:text-yellow-400 transition cursor-pointer">${p.name}</span>
+                    <span class="text-slate-200 hover:text-yellow-400 transition cursor-pointer">${p.name || 'Sin Nombre'}</span>
                   </div>
                   <div class="mt-0.5">${statusBadge}</div>
                 </div>
@@ -318,24 +318,24 @@
             <td class="py-3 px-4 font-black text-slate-100">
               <div class="flex items-center gap-1.5">
                 <span class="text-yellow-500 text-sm">🏆</span>
-                <span>${p.elo} LP</span>
-                <span class="text-[10px] text-slate-500 font-normal">(${p.tierName} ${p.rankTier})</span>
+                <span>${p.elo || 0} LP</span>
+                <span class="text-[10px] text-slate-500 font-normal">(${p.tierName || ''} ${p.rankTier || ''})</span>
               </div>
             </td>
 
             <td class="py-3 px-4 text-center">
               <div class="text-[11px] font-bold text-slate-200 mb-1">
-                <span class="text-green-400">${p.wr}</span> 
-                <span class="text-slate-400 text-[10px]">(${p.win}V - ${p.loss}D)</span>
+                <span class="text-green-400">${p.wr || '0%'}</span> 
+                <span class="text-slate-400 text-[10px]">(${p.win || 0}V - ${p.loss || 0}D)</span>
               </div>
               <div class="w-24 h-1.5 bg-red-500/40 rounded-full mx-auto overflow-hidden flex">
-                <div class="bg-green-500 h-full" style="width: ${p.wr}"></div>
+                <div class="bg-green-500 h-full" style="width: ${p.wr || '0%'}"></div>
               </div>
             </td>
 
             <td class="py-3 px-4 text-center">
               <svg class="w-16 h-5 mx-auto overflow-visible" viewBox="0 0 75 30">
-                <path d="${p.spark}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
+                <path d="${p.spark || 'M 0 15 L 75 15'}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
               </svg>
             </td>
 
@@ -347,16 +347,16 @@
             <td class="py-3 px-3 text-center font-bold text-slate-300">
               <div class="inline-flex items-center gap-1 bg-slate-900/80 px-2 py-0.5 rounded-md border border-custom">
                 <span class="text-xs">🛡️</span>
-                <span class="text-[10px] text-yellow-400">24</span>
+                <span class="text-[10px] text-yellow-400">${p.aegis || 24}</span>
               </div>
             </td>
 
             <td class="py-3 px-3 text-center font-bold text-slate-400">
-              <span class="text-[10px]">🐚 0h</span>
+              <span class="text-[10px]">🐚 ${p.shells || '0h'}</span>
             </td>
 
             <td class="py-3 px-4 text-center">
-              <a href="https://www.op.gg/summoners/euw/${encodeURIComponent(p.name)}-${encodeURIComponent(p.tag.replace('#', ''))}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
+              <a href="https://www.op.gg/summoners/euw/${encodeURIComponent(p.name || '')}-${encodeURIComponent(cleanTag)}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
                 OP.GG
               </a>
             </td>
@@ -374,7 +374,9 @@
       const searchTerm = (document.getElementById("search-input")?.value || "").toLowerCase().trim();
 
       const filtered = gameData.players.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.tag.toLowerCase().includes(searchTerm);
+        const nameMatch = p.name ? p.name.toLowerCase().includes(searchTerm) : false;
+        const tagMatch = p.tag ? p.tag.toLowerCase().includes(searchTerm) : false;
+        const matchesSearch = nameMatch || tagMatch;
         
         let matchesRole = true;
         if (currentRoleFilter !== 'all') {
@@ -425,12 +427,10 @@
       renderPodium(data.players);
       renderSidebar(data.players);
 
-      // Calcular espectadores totales
       const totalViewers = data.players.reduce((acc, p) => acc + (p.isLive ? (p.viewers || 0) : 0), 0);
       const totalElem = document.getElementById("total-viewers");
       if (totalElem) totalElem.textContent = totalViewers.toLocaleString();
 
-      // Autoseleccionar el primer directo activo si no hay reproductor activo
       const livePlayer = data.players.find(p => p.isLive === true && p.twitch);
       if (livePlayer) {
         setStream(livePlayer.twitch);

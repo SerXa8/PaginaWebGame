@@ -40,8 +40,8 @@ const gameData = {
       "lossEvents": 2,
       "spark": "M 0 15 L 7.5 12 L 15.0 15 L 22.5 18 L 30.0 15 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
       "twitch": "",
-      "inGame": false,
-      "champion": null,
+      "inGame": true,
+      "champion": "En Partida",
       "rank": 2
     },
     {

@@ -17,7 +17,7 @@ const gameData = {
       "winEvents": 0,
       "totalLossLp": 0,
       "lossEvents": 0,
-      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 9 L 37.5 12 L 45.0 15 L 52.5 12 L 60.0 9 L 67.5 6 L 75.0 3",
+      "spark": "M 0 15 L 75 15",
       "twitch": "javierrlol",
       "inGame": false,
       "champion": null,
@@ -38,98 +38,7 @@ const gameData = {
           "championPoints": 24533
         }
       ],
-      "recentMatches": [
-        {
-          "win": false,
-          "championName": "Zoe",
-          "kills": 3,
-          "deaths": 5,
-          "assists": 9,
-          "cs": 196,
-          "gameDurationMinutes": 30
-        },
-        {
-          "win": true,
-          "championName": "Zoe",
-          "kills": 8,
-          "deaths": 4,
-          "assists": 14,
-          "cs": 220,
-          "gameDurationMinutes": 35
-        },
-        {
-          "win": true,
-          "championName": "Zoe",
-          "kills": 5,
-          "deaths": 1,
-          "assists": 9,
-          "cs": 185,
-          "gameDurationMinutes": 24
-        },
-        {
-          "win": true,
-          "championName": "Zoe",
-          "kills": 2,
-          "deaths": 5,
-          "assists": 17,
-          "cs": 29,
-          "gameDurationMinutes": 23
-        },
-        {
-          "win": false,
-          "championName": "Zoe",
-          "kills": 0,
-          "deaths": 0,
-          "assists": 0,
-          "cs": 5,
-          "gameDurationMinutes": 2
-        },
-        {
-          "win": false,
-          "championName": "Zoe",
-          "kills": 9,
-          "deaths": 3,
-          "assists": 3,
-          "cs": 151,
-          "gameDurationMinutes": 22
-        },
-        {
-          "win": true,
-          "championName": "Lissandra",
-          "kills": 7,
-          "deaths": 5,
-          "assists": 22,
-          "cs": 189,
-          "gameDurationMinutes": 26
-        },
-        {
-          "win": true,
-          "championName": "Zoe",
-          "kills": 12,
-          "deaths": 5,
-          "assists": 10,
-          "cs": 151,
-          "gameDurationMinutes": 25
-        },
-        {
-          "win": true,
-          "championName": "Zoe",
-          "kills": 8,
-          "deaths": 3,
-          "assists": 14,
-          "cs": 209,
-          "gameDurationMinutes": 34
-        },
-        {
-          "win": true,
-          "championName": "Galio",
-          "kills": 5,
-          "deaths": 0,
-          "assists": 10,
-          "cs": 130,
-          "gameDurationMinutes": 18
-        }
-      ],
+      "recentMatches": [],
       "rank": 1
     },
     {

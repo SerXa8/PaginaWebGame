@@ -19,21 +19,118 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 9 L 37.5 12 L 45.0 15 L 52.5 12 L 60.0 9 L 67.5 6 L 75.0 3",
       "twitch": "javierrlol",
-      "isLive": false,
-      "viewers": 0,
       "inGame": false,
       "champion": null,
-      "rank": 1,
       "topMasteries": [
-        { "championName": "Ahri", "championLevel": 10, "championPoints": 350000 },
-        { "championName": "Syndra", "championLevel": 9, "championPoints": 280000 },
-        { "championName": "Orianna", "championLevel": 8, "championPoints": 210000 }
+        {
+          "championName": "Champ 142",
+          "championLevel": 18,
+          "championPoints": 173667
+        },
+        {
+          "championName": "Twisted Fate",
+          "championLevel": 5,
+          "championPoints": 29872
+        },
+        {
+          "championName": "LeBlanc",
+          "championLevel": 5,
+          "championPoints": 24533
+        }
       ],
       "recentMatches": [
-        { "win": true, "championName": "Ahri", "kills": 10, "deaths": 2, "assists": 8, "cs": 240, "gameDurationMinutes": 26 },
-        { "win": true, "championName": "Syndra", "kills": 7, "deaths": 3, "assists": 5, "cs": 210, "gameDurationMinutes": 22 },
-        { "win": false, "championName": "Orianna", "kills": 3, "deaths": 5, "assists": 9, "cs": 280, "gameDurationMinutes": 34 }
-      ]
+        {
+          "win": false,
+          "championName": "Zoe",
+          "kills": 3,
+          "deaths": 5,
+          "assists": 9,
+          "cs": 196,
+          "gameDurationMinutes": 30
+        },
+        {
+          "win": true,
+          "championName": "Zoe",
+          "kills": 8,
+          "deaths": 4,
+          "assists": 14,
+          "cs": 220,
+          "gameDurationMinutes": 35
+        },
+        {
+          "win": true,
+          "championName": "Zoe",
+          "kills": 5,
+          "deaths": 1,
+          "assists": 9,
+          "cs": 185,
+          "gameDurationMinutes": 24
+        },
+        {
+          "win": true,
+          "championName": "Zoe",
+          "kills": 2,
+          "deaths": 5,
+          "assists": 17,
+          "cs": 29,
+          "gameDurationMinutes": 23
+        },
+        {
+          "win": false,
+          "championName": "Zoe",
+          "kills": 0,
+          "deaths": 0,
+          "assists": 0,
+          "cs": 5,
+          "gameDurationMinutes": 2
+        },
+        {
+          "win": false,
+          "championName": "Zoe",
+          "kills": 9,
+          "deaths": 3,
+          "assists": 3,
+          "cs": 151,
+          "gameDurationMinutes": 22
+        },
+        {
+          "win": true,
+          "championName": "Lissandra",
+          "kills": 7,
+          "deaths": 5,
+          "assists": 22,
+          "cs": 189,
+          "gameDurationMinutes": 26
+        },
+        {
+          "win": true,
+          "championName": "Zoe",
+          "kills": 12,
+          "deaths": 5,
+          "assists": 10,
+          "cs": 151,
+          "gameDurationMinutes": 25
+        },
+        {
+          "win": true,
+          "championName": "Zoe",
+          "kills": 8,
+          "deaths": 3,
+          "assists": 14,
+          "cs": 209,
+          "gameDurationMinutes": 34
+        },
+        {
+          "win": true,
+          "championName": "Galio",
+          "kills": 5,
+          "deaths": 0,
+          "assists": 10,
+          "cs": 130,
+          "gameDurationMinutes": 18
+        }
+      ],
+      "rank": 1
     },
     {
       "name": "Maiiser",
@@ -54,20 +151,118 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 9 L 37.5 6 L 45.0 3 L 52.5 2 L 60.0 2 L 67.5 2 L 75.0 5",
       "twitch": "maiiser",
-      "isLive": false,
-      "viewers": 0,
       "inGame": false,
       "champion": null,
-      "rank": 2,
       "topMasteries": [
-        { "championName": "Aatrox", "championLevel": 10, "championPoints": 420000 },
-        { "championName": "Renekton", "championLevel": 8, "championPoints": 190000 },
-        { "championName": "Jax", "championLevel": 7, "championPoints": 150000 }
+        {
+          "championName": "Champ 266",
+          "championLevel": 24,
+          "championPoints": 240277
+        },
+        {
+          "championName": "Champ 799",
+          "championLevel": 3,
+          "championPoints": 7481
+        },
+        {
+          "championName": "Champ 897",
+          "championLevel": 2,
+          "championPoints": 2649
+        }
       ],
       "recentMatches": [
-        { "win": true, "championName": "Aatrox", "kills": 9, "deaths": 1, "assists": 4, "cs": 205, "gameDurationMinutes": 24 },
-        { "win": false, "championName": "Renekton", "kills": 2, "deaths": 6, "assists": 2, "cs": 180, "gameDurationMinutes": 29 }
-      ]
+        {
+          "win": true,
+          "championName": "Aatrox",
+          "kills": 14,
+          "deaths": 2,
+          "assists": 5,
+          "cs": 178,
+          "gameDurationMinutes": 27
+        },
+        {
+          "win": true,
+          "championName": "Aatrox",
+          "kills": 12,
+          "deaths": 2,
+          "assists": 6,
+          "cs": 257,
+          "gameDurationMinutes": 29
+        },
+        {
+          "win": false,
+          "championName": "Aatrox",
+          "kills": 4,
+          "deaths": 9,
+          "assists": 1,
+          "cs": 196,
+          "gameDurationMinutes": 31
+        },
+        {
+          "win": true,
+          "championName": "Aatrox",
+          "kills": 9,
+          "deaths": 4,
+          "assists": 7,
+          "cs": 149,
+          "gameDurationMinutes": 24
+        },
+        {
+          "win": true,
+          "championName": "Aatrox",
+          "kills": 12,
+          "deaths": 7,
+          "assists": 4,
+          "cs": 215,
+          "gameDurationMinutes": 30
+        },
+        {
+          "win": true,
+          "championName": "Ambessa",
+          "kills": 3,
+          "deaths": 3,
+          "assists": 7,
+          "cs": 213,
+          "gameDurationMinutes": 28
+        },
+        {
+          "win": true,
+          "championName": "Aatrox",
+          "kills": 5,
+          "deaths": 1,
+          "assists": 7,
+          "cs": 216,
+          "gameDurationMinutes": 29
+        },
+        {
+          "win": true,
+          "championName": "Aatrox",
+          "kills": 6,
+          "deaths": 2,
+          "assists": 4,
+          "cs": 152,
+          "gameDurationMinutes": 26
+        },
+        {
+          "win": true,
+          "championName": "Aatrox",
+          "kills": 6,
+          "deaths": 5,
+          "assists": 9,
+          "cs": 216,
+          "gameDurationMinutes": 33
+        },
+        {
+          "win": false,
+          "championName": "Aatrox",
+          "kills": 2,
+          "deaths": 7,
+          "assists": 5,
+          "cs": 159,
+          "gameDurationMinutes": 28
+        }
+      ],
+      "rank": 2
     },
     {
       "name": "SerXa8",
@@ -88,20 +283,118 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 18 L 30.0 15 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
       "twitch": "s3rxa8",
-      "isLive": false,
-      "viewers": 0,
       "inGame": false,
       "champion": null,
-      "rank": 3,
       "topMasteries": [
-        { "championName": "Garen", "championLevel": 7, "championPoints": 85000 },
-        { "championName": "Darius", "championLevel": 6, "championPoints": 62000 },
-        { "championName": "Mordekaiser", "championLevel": 5, "championPoints": 41000 }
+        {
+          "championName": "Champ 56",
+          "championLevel": 11,
+          "championPoints": 91177
+        },
+        {
+          "championName": "Champ 51",
+          "championLevel": 8,
+          "championPoints": 61561
+        },
+        {
+          "championName": "Champ 901",
+          "championLevel": 8,
+          "championPoints": 59320
+        }
       ],
       "recentMatches": [
-        { "win": false, "championName": "Garen", "kills": 4, "deaths": 7, "assists": 3, "cs": 150, "gameDurationMinutes": 30 },
-        { "win": true, "championName": "Darius", "kills": 12, "deaths": 4, "assists": 5, "cs": 190, "gameDurationMinutes": 27 }
-      ]
+        {
+          "win": false,
+          "championName": "Leona",
+          "kills": 3,
+          "deaths": 9,
+          "assists": 10,
+          "cs": 41,
+          "gameDurationMinutes": 32
+        },
+        {
+          "win": false,
+          "championName": "Singed",
+          "kills": 6,
+          "deaths": 13,
+          "assists": 10,
+          "cs": 194,
+          "gameDurationMinutes": 35
+        },
+        {
+          "win": true,
+          "championName": "Morgana",
+          "kills": 8,
+          "deaths": 13,
+          "assists": 24,
+          "cs": 91,
+          "gameDurationMinutes": 42
+        },
+        {
+          "win": true,
+          "championName": "Morgana",
+          "kills": 2,
+          "deaths": 1,
+          "assists": 7,
+          "cs": 29,
+          "gameDurationMinutes": 15
+        },
+        {
+          "win": true,
+          "championName": "Morgana",
+          "kills": 1,
+          "deaths": 7,
+          "assists": 11,
+          "cs": 46,
+          "gameDurationMinutes": 27
+        },
+        {
+          "win": true,
+          "championName": "Lux",
+          "kills": 3,
+          "deaths": 1,
+          "assists": 8,
+          "cs": 49,
+          "gameDurationMinutes": 19
+        },
+        {
+          "win": true,
+          "championName": "Lux",
+          "kills": 6,
+          "deaths": 7,
+          "assists": 22,
+          "cs": 186,
+          "gameDurationMinutes": 40
+        },
+        {
+          "win": true,
+          "championName": "Caitlyn",
+          "kills": 14,
+          "deaths": 8,
+          "assists": 8,
+          "cs": 177,
+          "gameDurationMinutes": 28
+        },
+        {
+          "win": true,
+          "championName": "Caitlyn",
+          "kills": 2,
+          "deaths": 10,
+          "assists": 7,
+          "cs": 147,
+          "gameDurationMinutes": 30
+        },
+        {
+          "win": true,
+          "championName": "Nocturne",
+          "kills": 19,
+          "deaths": 15,
+          "assists": 17,
+          "cs": 258,
+          "gameDurationMinutes": 49
+        }
+      ],
+      "rank": 3
     },
     {
       "name": "mamielizabeth",
@@ -122,19 +415,118 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 15 L 37.5 12 L 45.0 15 L 52.5 12 L 60.0 9 L 67.5 6 L 75.0 3",
       "twitch": "",
-      "isLive": false,
-      "viewers": 0,
       "inGame": false,
       "champion": null,
-      "rank": 4,
       "topMasteries": [
-        { "championName": "Lux", "championLevel": 7, "championPoints": 110000 },
-        { "championName": "Veigar", "championLevel": 6, "championPoints": 73000 },
-        { "championName": "Neeko", "championLevel": 5, "championPoints": 35000 }
+        {
+          "championName": "Champ 711",
+          "championLevel": 11,
+          "championPoints": 93404
+        },
+        {
+          "championName": "Champ 887",
+          "championLevel": 7,
+          "championPoints": 51673
+        },
+        {
+          "championName": "Champ 99",
+          "championLevel": 7,
+          "championPoints": 44675
+        }
       ],
       "recentMatches": [
-        { "win": true, "championName": "Lux", "kills": 6, "deaths": 2, "assists": 14, "cs": 130, "gameDurationMinutes": 25 }
-      ]
+        {
+          "win": false,
+          "championName": "Chogath",
+          "kills": 18,
+          "deaths": 5,
+          "assists": 5,
+          "cs": 232,
+          "gameDurationMinutes": 41
+        },
+        {
+          "win": true,
+          "championName": "Vex",
+          "kills": 9,
+          "deaths": 1,
+          "assists": 0,
+          "cs": 145,
+          "gameDurationMinutes": 23
+        },
+        {
+          "win": true,
+          "championName": "Vex",
+          "kills": 20,
+          "deaths": 2,
+          "assists": 13,
+          "cs": 230,
+          "gameDurationMinutes": 34
+        },
+        {
+          "win": false,
+          "championName": "Vex",
+          "kills": 7,
+          "deaths": 6,
+          "assists": 3,
+          "cs": 191,
+          "gameDurationMinutes": 26
+        },
+        {
+          "win": true,
+          "championName": "MissFortune",
+          "kills": 1,
+          "deaths": 2,
+          "assists": 2,
+          "cs": 128,
+          "gameDurationMinutes": 19
+        },
+        {
+          "win": false,
+          "championName": "MissFortune",
+          "kills": 4,
+          "deaths": 10,
+          "assists": 11,
+          "cs": 233,
+          "gameDurationMinutes": 31
+        },
+        {
+          "win": true,
+          "championName": "Vex",
+          "kills": 6,
+          "deaths": 1,
+          "assists": 3,
+          "cs": 102,
+          "gameDurationMinutes": 15
+        },
+        {
+          "win": true,
+          "championName": "Vex",
+          "kills": 17,
+          "deaths": 5,
+          "assists": 4,
+          "cs": 184,
+          "gameDurationMinutes": 26
+        },
+        {
+          "win": true,
+          "championName": "Vex",
+          "kills": 12,
+          "deaths": 9,
+          "assists": 15,
+          "cs": 234,
+          "gameDurationMinutes": 43
+        },
+        {
+          "win": true,
+          "championName": "Vex",
+          "kills": 18,
+          "deaths": 6,
+          "assists": 8,
+          "cs": 201,
+          "gameDurationMinutes": 30
+        }
+      ],
+      "rank": 4
     }
   ]
 };

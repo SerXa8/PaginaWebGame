@@ -23,7 +23,7 @@ const gameData = {
       "champion": null,
       "topMasteries": [
         {
-          "championName": "Champ 142",
+          "championName": "Zoe",
           "championLevel": 18,
           "championPoints": 173667
         },
@@ -155,17 +155,17 @@ const gameData = {
       "champion": null,
       "topMasteries": [
         {
-          "championName": "Champ 266",
+          "championName": "Aatrox",
           "championLevel": 24,
           "championPoints": 240277
         },
         {
-          "championName": "Champ 799",
+          "championName": "Ambessa",
           "championLevel": 3,
           "championPoints": 7481
         },
         {
-          "championName": "Champ 897",
+          "championName": "K'Sante",
           "championLevel": 2,
           "championPoints": 2649
         }
@@ -287,17 +287,17 @@ const gameData = {
       "champion": null,
       "topMasteries": [
         {
-          "championName": "Champ 56",
+          "championName": "Nocturne",
           "championLevel": 11,
           "championPoints": 91177
         },
         {
-          "championName": "Champ 51",
+          "championName": "Caitlyn",
           "championLevel": 8,
           "championPoints": 61561
         },
         {
-          "championName": "Champ 901",
+          "championName": "Smolder",
           "championLevel": 8,
           "championPoints": 59320
         }
@@ -419,17 +419,17 @@ const gameData = {
       "champion": null,
       "topMasteries": [
         {
-          "championName": "Champ 711",
+          "championName": "Vex",
           "championLevel": 11,
           "championPoints": 93404
         },
         {
-          "championName": "Champ 887",
+          "championName": "Gwen",
           "championLevel": 7,
           "championPoints": 51673
         },
         {
-          "championName": "Champ 99",
+          "championName": "Lux",
           "championLevel": 7,
           "championPoints": 44675
         }

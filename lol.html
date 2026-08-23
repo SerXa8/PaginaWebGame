@@ -98,7 +98,7 @@
           <h2 class="text-3xl font-black uppercase tracking-tight text-white flex items-center gap-2">
             Ranking <span class="text-yellow-400 text-xl font-bold">League of Legends</span>
           </h2>
-          <p class="text-xs text-slate-400">Actualización en tiempo real</p>
+          <p class="text-xs text-slate-400">Actualización en tiempo real • Haz clic en un jugador para ver estadísticas detalladas</p>
         </div>
       </div>
 
@@ -161,6 +161,35 @@
 
   </div>
 
+  <!-- MODAL INTERACTIVO DE FICHA EXTENDIDA -->
+  <div id="playerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div class="bg-[#121620] border border-custom rounded-2xl max-w-2xl w-full p-6 text-white relative max-h-[90vh] overflow-y-auto shadow-2xl">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold transition">&times;</button>
+
+      <div class="flex items-center gap-4 mb-6 border-b border-custom pb-4">
+        <div class="bg-yellow-500/20 border border-yellow-500/50 text-yellow-400 p-3 rounded-xl font-black text-2xl" id="modalRank">#1</div>
+        <div>
+          <h2 class="text-2xl font-black text-white" id="modalPlayerName">Nombre <span class="text-slate-500 text-sm font-normal" id="modalPlayerTag">#TAG</span></h2>
+          <p class="text-xs font-semibold text-yellow-400 mt-1" id="modalTier">GOLD I - 50 LP</p>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+          <span>🔥</span> Top Campeones (Maestría)
+        </h3>
+        <div class="grid grid-cols-3 gap-3" id="modalMasteries"></div>
+      </div>
+
+      <div>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+          <span>📜</span> Últimas Partidas Ranked
+        </h3>
+        <div class="space-y-2" id="modalMatches"></div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://embed.twitch.tv/embed/v1.js"></script>
   <script src="data/lolData.js"></script>
   <script src="data/twitch.js"></script>
@@ -178,48 +207,25 @@
       supp: 'heart'
     };
 
-    // VALORES PARA CÁLCULO DE ELO REAL (LP ABSOLUTO)
     const TIER_VALUES = {
-      'IRON': 0,
-      'BRONZE': 400,
-      'SILVER': 800,
-      'GOLD': 1200,
-      'PLATINUM': 1600,
-      'EMERALD': 2000,
-      'DIAMOND': 2400,
-      'MASTER': 2800,
-      'GRANDMASTER': 2800,
-      'CHALLENGER': 2800
+      'IRON': 0, 'BRONZE': 400, 'SILVER': 800, 'GOLD': 1200,
+      'PLATINUM': 1600, 'EMERALD': 2000, 'DIAMOND': 2400,
+      'MASTER': 2800, 'GRANDMASTER': 2800, 'CHALLENGER': 2800
     };
 
-    const DIVISION_VALUES = {
-      'IV': 0,
-      'III': 100,
-      'II': 200,
-      'I': 300
-    };
+    const DIVISION_VALUES = { 'IV': 0, 'III': 100, 'II': 200, 'I': 300 };
 
     function getAbsoluteLP(player) {
       const tier = (player.tierName || 'IRON').toUpperCase();
       const division = (player.rankTier || 'IV').toUpperCase();
-      
       const tierBase = TIER_VALUES[tier] || 0;
-      const divisionBase = (tier === 'MASTER' || tier === 'GRANDMASTER' || tier === 'CHALLENGER') 
-        ? 0 
-        : (DIVISION_VALUES[division] || 0);
-
+      const divisionBase = (tier === 'MASTER' || tier === 'GRANDMASTER' || tier === 'CHALLENGER') ? 0 : (DIVISION_VALUES[division] || 0);
       return tierBase + divisionBase + (Number(player.elo) || 0);
     }
 
     function sortAndRankPlayers(players) {
-      // Ordenar descendentemente por LP Absoluto
       players.sort((a, b) => getAbsoluteLP(b) - getAbsoluteLP(a));
-
-      // Asignar el número de puesto (#1, #2...)
-      players.forEach((player, index) => {
-        player.rank = index + 1;
-      });
-
+      players.forEach((player, index) => { player.rank = index + 1; });
       return players;
     }
 
@@ -253,7 +259,7 @@
         const borderColor = index === 0 ? 'border-yellow-500/50' : index === 1 ? 'border-slate-400/50' : 'border-amber-600/50';
         
         return `
-          <div class="bg-card border ${borderColor} p-4 rounded-2xl flex items-center justify-between shadow-lg">
+          <div onclick="openPlayerModal('${p.name}')" class="bg-card border ${borderColor} p-4 rounded-2xl flex items-center justify-between shadow-lg cursor-pointer hover:bg-[#1a202c] transition">
             <div class="flex items-center gap-3">
               <div class="text-2xl">${medal}</div>
               <div>
@@ -323,7 +329,7 @@
           : `<span class="text-[9px] text-slate-500 font-medium uppercase">DESCONECTADO</span>`;
 
         return `
-          <tr class="bg-[#121620]/60 hover:bg-[#1a202c] transition group border-l-4 ${p.rank <= 3 ? 'border-l-yellow-400' : 'border-l-transparent'}">
+          <tr onclick="openPlayerModal('${p.name}')" class="bg-[#121620]/60 hover:bg-[#1a202c] transition cursor-pointer group border-l-4 ${p.rank <= 3 ? 'border-l-yellow-400' : 'border-l-transparent'}">
             
             <td class="py-3 px-3 text-center font-black">
               <div class="flex items-center justify-center gap-1">
@@ -344,7 +350,7 @@
                 </div>
                 <div>
                   <div class="flex items-center gap-1.5">
-                    <span class="text-slate-200 hover:text-yellow-400 transition cursor-pointer">${p.name}</span>
+                    <span class="text-slate-200 group-hover:text-yellow-400 transition">${p.name}</span>
                   </div>
                   <div class="mt-0.5">${statusBadge}</div>
                 </div>
@@ -397,7 +403,7 @@
               <span class="text-[10px]">🐚 0h</span>
             </td>
 
-            <td class="py-3 px-4 text-center">
+            <td class="py-3 px-4 text-center" onclick="event.stopPropagation()">
               <a href="https://www.op.gg/summoners/euw/${encodeURIComponent(p.name)}-${encodeURIComponent(p.tag.replace('#', ''))}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
                 OP.GG
               </a>
@@ -409,6 +415,68 @@
 
       if (window.lucide) lucide.createIcons();
     }
+
+    // ABRIR Y CERRAR EL MODAL DETALLADO
+    function openPlayerModal(playerName) {
+      if (typeof gameData === 'undefined' || !gameData.players) return;
+      const p = gameData.players.find(player => player.name === playerName);
+      if (!p) return;
+
+      document.getElementById('modalRank').innerText = `#${p.rank}`;
+      document.getElementById('modalPlayerName').childNodes[0].nodeValue = p.name + ' ';
+      document.getElementById('modalPlayerTag').innerText = p.tag;
+      document.getElementById('modalTier').innerText = `${p.tierName} ${p.rankTier} - ${p.elo} LP (${p.wr} Winrate)`;
+
+      // Renderizar Top Campeones
+      const masteriesContainer = document.getElementById('modalMasteries');
+      if (p.topMasteries && p.topMasteries.length > 0) {
+        masteriesContainer.innerHTML = p.topMasteries.map(m => `
+          <div class="bg-slate-900/80 p-3 rounded-xl text-center border border-custom">
+            <p class="font-extrabold text-sm text-white">${m.championName}</p>
+            <p class="text-[10px] text-yellow-400 font-bold mt-0.5">Nivel ${m.championLevel}</p>
+            <p class="text-[10px] text-slate-400">${(m.championPoints / 1000).toFixed(0)}k pts</p>
+          </div>
+        `).join('');
+      } else {
+        masteriesContainer.innerHTML = '<p class="text-xs text-slate-500 col-span-3 text-center py-2">Sin datos de maestría disponibles.</p>';
+      }
+
+      // Renderizar Historial Reciente
+      const matchesContainer = document.getElementById('modalMatches');
+      if (p.recentMatches && p.recentMatches.length > 0) {
+        matchesContainer.innerHTML = p.recentMatches.slice().reverse().map(m => `
+          <div class="flex items-center justify-between p-3 rounded-xl border ${m.win ? 'bg-green-950/20 border-green-800/40' : 'bg-red-950/20 border-red-800/40'}">
+            <div class="flex items-center gap-3">
+              <span class="font-extrabold text-xs px-2 py-0.5 rounded ${m.win ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">${m.win ? 'VICTORIA' : 'DERROTA'}</span>
+              <span class="font-bold text-xs text-white">${m.championName}</span>
+            </div>
+            <div class="text-xs font-mono font-bold text-slate-300">
+              ${m.kills} / ${m.deaths} / ${m.assists}
+            </div>
+            <div class="text-[10px] text-slate-400 font-medium">
+              ${m.cs} CS (${m.gameDurationMinutes}m)
+            </div>
+          </div>
+        `).join('');
+      } else {
+        matchesContainer.innerHTML = '<p class="text-xs text-slate-500 text-center py-2">Sin partidas recientes registradas.</p>';
+      }
+
+      const modal = document.getElementById('playerModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('playerModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('playerModal');
+      if (event.target === modal) closeModal();
+    };
 
     function applyFilters() {
       if (typeof gameData === 'undefined' || !gameData.players) return;

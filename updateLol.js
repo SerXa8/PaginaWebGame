@@ -12,11 +12,26 @@ const STREAMERS = [
 
 const STATE_FILE = path.join('./data', 'lolState.json');
 
-const CHAMPION_IDS = {
-  1: "Annie", 2: "Olaf", 3: "Galio", 4: "Twisted Fate", 5: "Xin Zhao", 6: "Urgot",
-  7: "LeBlanc", 8: "Vladimir", 9: "Fiddlesticks", 10: "Kayle", 11: "Master Yi", 12: "Alistar",
-  24: "Jax", 39: "Irelia", 55: "Katarina", 64: "Lee Sin", 103: "Ahri", 157: "Yasuo", 238: "Zed"
-};
+// Diccionario dinámico de campeones desde DataDragon
+let CHAMPION_MAP = {};
+
+async function loadChampionMap() {
+  try {
+    const versionsRes = await fetch('https://ddragon.leagueoflegends.com/api/versions.json');
+    const versions = await versionsRes.json();
+    const latestVersion = versions[0] || '14.1.1';
+
+    const champRes = await fetch(`https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`);
+    const champData = await champRes.json();
+
+    Object.values(champData.data).forEach(c => {
+      CHAMPION_MAP[c.key] = c.name;
+    });
+    console.log(`✅ Cárgadas ${Object.keys(CHAMPION_MAP).length} definiciones de campeones (v${latestVersion}).`);
+  } catch (err) {
+    console.error('⚠️ No se pudo cargar DataDragon, usando fallback:', err.message);
+  }
+}
 
 function getAbsoluteLp(tier, rank, lp) {
   const tiers = {
@@ -98,7 +113,7 @@ async function getActiveGame(puuid) {
     const participant = gameData.participants?.find(p => p.puuid === puuid);
     
     if (participant) {
-      const champName = CHAMPION_IDS[participant.championId] || "En Partida";
+      const champName = CHAMPION_MAP[participant.championId] || "En Partida";
       return { inGame: true, champion: champName };
     }
     return { inGame: false, champion: null };
@@ -116,7 +131,7 @@ async function getTopMasteries(puuid) {
     const masteries = await res.json();
 
     return masteries.map(m => ({
-      championName: CHAMPION_IDS[m.championId] || `Champ ${m.championId}`,
+      championName: CHAMPION_MAP[m.championId] || `Champ ${m.championId}`,
       championLevel: m.championLevel,
       championPoints: m.championPoints
     }));
@@ -125,7 +140,7 @@ async function getTopMasteries(puuid) {
   }
 }
 
-// Obtener partidas detalladas (KDA, CS, Campeón, etc.)
+// Obtener partidas detalladas
 async function getDetailedMatches(puuid) {
   try {
     const matchesUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=0&count=10&api_key=${API_KEY}`;
@@ -208,7 +223,6 @@ async function getPlayerData(player, previousState) {
     const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || 20);
     const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || 19);
 
-    // Obtener Mastery y partidas detalladas
     const topMasteries = await getTopMasteries(accountData.puuid);
     const detailedMatches = await getDetailedMatches(accountData.puuid);
     const sparkPath = generateSparkline(detailedMatches);
@@ -244,13 +258,16 @@ async function getPlayerData(player, previousState) {
 }
 
 async function main() {
-  console.log("Actualizando datos desde Riot API...");
+  console.log("Iniciando actualización automática desde Riot API...");
   fs.mkdirSync('./data', { recursive: true });
+
+  await loadChampionMap();
 
   const previousState = loadPreviousState();
   const playersData = [];
 
   for (const player of STREAMERS) {
+    console.log(`Consultando datos de ${player.name} (${player.riotName}#${player.tag})...`);
     const data = await getPlayerData(player, previousState);
     if (data) playersData.push(data);
     await new Promise(r => setTimeout(r, 1200));
@@ -268,7 +285,7 @@ async function main() {
 
   const fileContent = `const gameData = ${JSON.stringify({ players: playersData }, null, 2)};`;
   fs.writeFileSync('./data/lolData.js', fileContent);
-  console.log("¡data/lolData.js actualizado con historial y maestrias!");
+  console.log("¡data/lolData.js actualizado con historial y maestrías reales!");
 }
 
 main();

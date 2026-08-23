@@ -18,7 +18,6 @@ const CHAMPION_IDS = {
   24: "Jax", 39: "Irelia", 55: "Katarina", 64: "Lee Sin", 103: "Ahri", 157: "Yasuo", 238: "Zed"
 };
 
-// Convierte Tier, División y LP a una escala numérica absoluta
 function getAbsoluteLp(tier, rank, lp) {
   const tiers = {
     'IRON': 0, 'BRONZE': 400, 'SILVER': 800, 'GOLD': 1200,
@@ -79,7 +78,8 @@ function generateSparkline(history) {
   let pathStr = `M 0 ${y}`;
   const stepX = 75 / Math.max(history.length, 1);
 
-  history.forEach((isWin, index) => {
+  history.forEach((match, index) => {
+    const isWin = match.win;
     const x = (index + 1) * stepX;
     y = isWin ? Math.max(2, y - 3) : Math.min(28, y + 3);
     pathStr += ` L ${x.toFixed(1)} ${y}`;
@@ -92,12 +92,7 @@ async function getActiveGame(puuid) {
   try {
     const spectatorUrl = `https://euw1.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/${puuid}?api_key=${API_KEY}`;
     const res = await fetch(spectatorUrl);
-    
-    if (res.status === 404) {
-      return { inGame: false, champion: null };
-    }
-
-    if (!res.ok) return { inGame: false, champion: null };
+    if (res.status === 404 || !res.ok) return { inGame: false, champion: null };
 
     const gameData = await res.json();
     const participant = gameData.participants?.find(p => p.puuid === puuid);
@@ -106,34 +101,60 @@ async function getActiveGame(puuid) {
       const champName = CHAMPION_IDS[participant.championId] || "En Partida";
       return { inGame: true, champion: champName };
     }
-
     return { inGame: false, champion: null };
   } catch (e) {
     return { inGame: false, champion: null };
   }
 }
 
-async function getRecentMatches(puuid) {
+// Obtener los 3 campeones más jugados (Mastery API)
+async function getTopMasteries(puuid) {
+  try {
+    const masteryUrl = `https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${puuid}/top?count=3&api_key=${API_KEY}`;
+    const res = await fetch(masteryUrl);
+    if (!res.ok) return [];
+    const masteries = await res.json();
+
+    return masteries.map(m => ({
+      championName: CHAMPION_IDS[m.championId] || `Champ ${m.championId}`,
+      championLevel: m.championLevel,
+      championPoints: m.championPoints
+    }));
+  } catch (e) {
+    return [];
+  }
+}
+
+// Obtener partidas detalladas (KDA, CS, Campeón, etc.)
+async function getDetailedMatches(puuid) {
   try {
     const matchesUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=0&count=10&api_key=${API_KEY}`;
     const res = await fetch(matchesUrl);
     if (!res.ok) return [];
     const matchIds = await res.json();
 
-    const history = [];
+    const matches = [];
     for (const matchId of matchIds) {
       const detailUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`;
       const detailRes = await fetch(detailUrl);
       if (detailRes.ok) {
         const detail = await detailRes.json();
-        const participant = detail.info?.participants?.find(p => p.puuid === puuid);
-        if (participant) {
-          history.push(participant.win);
+        const p = detail.info?.participants?.find(part => part.puuid === puuid);
+        if (p) {
+          matches.push({
+            win: p.win,
+            championName: p.championName,
+            kills: p.kills,
+            deaths: p.deaths,
+            assists: p.assists,
+            cs: (p.totalMinionsKilled || 0) + (p.neutralMinionsKilled || 0),
+            gameDurationMinutes: Math.round((detail.info.gameDuration || 0) / 60)
+          });
         }
       }
-      await new Promise(r => setTimeout(r, 300));
+      await new Promise(r => setTimeout(r, 250));
     }
-    return history.reverse();
+    return matches.reverse();
   } catch (e) {
     return [];
   }
@@ -187,8 +208,10 @@ async function getPlayerData(player, previousState) {
     const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || 20);
     const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || 19);
 
-    const recentHistory = await getRecentMatches(accountData.puuid);
-    const sparkPath = generateSparkline(recentHistory);
+    // Obtener Mastery y partidas detalladas
+    const topMasteries = await getTopMasteries(accountData.puuid);
+    const detailedMatches = await getDetailedMatches(accountData.puuid);
+    const sparkPath = generateSparkline(detailedMatches);
 
     return {
       name: player.name,
@@ -210,7 +233,9 @@ async function getPlayerData(player, previousState) {
       spark: sparkPath,
       twitch: player.twitch,
       inGame: activeGame.inGame,
-      champion: activeGame.champion
+      champion: activeGame.champion,
+      topMasteries: topMasteries,
+      recentMatches: detailedMatches
     };
   } catch (error) {
     console.error(`Error al procesar a ${player.name}:`, error.message);
@@ -232,7 +257,7 @@ async function main() {
   }
 
   if (playersData.length === 0) {
-    console.error("❌ No se pudieron obtener datos. Revisa la API KEY.");
+    console.error("❌ No se pudieron obtener datos.");
     process.exit(1);
   }
 
@@ -243,7 +268,7 @@ async function main() {
 
   const fileContent = `const gameData = ${JSON.stringify({ players: playersData }, null, 2)};`;
   fs.writeFileSync('./data/lolData.js', fileContent);
-  console.log("¡data/lolData.js actualizado correctamente!");
+  console.log("¡data/lolData.js actualizado con historial y maestrias!");
 }
 
 main();

@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-08-23T10:00:28.176Z",
+  "updatedAt": "2026-08-23T10:33:50.459Z",
   "players": [
     {
       "name": "SerXa8",

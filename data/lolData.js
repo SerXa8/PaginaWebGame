@@ -23,6 +23,28 @@ const gameData = {
       "rank": 1
     },
     {
+      "name": "mamielizabeth",
+      "tag": "#fdm",
+      "role": "mid",
+      "elo": 69,
+      "tierName": "BRONZE",
+      "rankTier": "III",
+      "win": 78,
+      "loss": 85,
+      "wr": "48%",
+      "gain": 17,
+      "lossLp": 45,
+      "totalGainLp": 205,
+      "winEvents": 12,
+      "totalLossLp": 136,
+      "lossEvents": 3,
+      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 15 L 37.5 12 L 45.0 15 L 52.5 12 L 60.0 9 L 67.5 6 L 75.0 3",
+      "twitch": "",
+      "inGame": false,
+      "champion": null,
+      "rank": 2
+    },
+    {
       "name": "Maiiser",
       "tag": "#WIWI",
       "role": "top",
@@ -42,7 +64,7 @@ const gameData = {
       "twitch": "maiiser",
       "inGame": false,
       "champion": null,
-      "rank": 2
+      "rank": 3
     },
     {
       "name": "SerXa8",
@@ -62,28 +84,6 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 18 L 30.0 15 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
       "twitch": "s3rxa8",
-      "inGame": false,
-      "champion": null,
-      "rank": 3
-    },
-    {
-      "name": "mamielizabeth",
-      "tag": "#fdm",
-      "role": "mid",
-      "elo": 22,
-      "tierName": "BRONZE",
-      "rankTier": "III",
-      "win": 74,
-      "loss": 83,
-      "wr": "47%",
-      "gain": 20,
-      "lossLp": 45,
-      "totalGainLp": 158,
-      "winEvents": 8,
-      "totalLossLp": 136,
-      "lossEvents": 3,
-      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 3 L 37.5 2 L 45.0 2 L 52.5 2 L 60.0 5 L 67.5 2 L 75.0 2",
-      "twitch": "",
       "inGame": false,
       "champion": null,
       "rank": 4

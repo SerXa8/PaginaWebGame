@@ -400,20 +400,20 @@ const gameData = {
       "name": "mamielizabeth",
       "tag": "#fdm",
       "role": "mid",
-      "elo": 69,
-      "absoluteElo": 569,
+      "elo": 91,
+      "absoluteElo": 591,
       "tierName": "BRONZE",
       "rankTier": "III",
-      "win": 78,
+      "win": 79,
       "loss": 85,
       "wr": "48%",
-      "gain": 20,
+      "gain": 22,
       "lossLp": 19,
-      "totalGainLp": 0,
-      "winEvents": 0,
+      "totalGainLp": 22,
+      "winEvents": 1,
       "totalLossLp": 0,
       "lossEvents": 0,
-      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 15 L 37.5 12 L 45.0 15 L 52.5 12 L 60.0 9 L 67.5 6 L 75.0 3",
+      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 9 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
       "twitch": "",
       "inGame": false,
       "champion": null,
@@ -421,7 +421,7 @@ const gameData = {
         {
           "championName": "Vex",
           "championLevel": 11,
-          "championPoints": 93404
+          "championPoints": 95096
         },
         {
           "championName": "Gwen",
@@ -435,15 +435,6 @@ const gameData = {
         }
       ],
       "recentMatches": [
-        {
-          "win": false,
-          "championName": "Chogath",
-          "kills": 18,
-          "deaths": 5,
-          "assists": 5,
-          "cs": 232,
-          "gameDurationMinutes": 41
-        },
         {
           "win": true,
           "championName": "Vex",
@@ -524,6 +515,15 @@ const gameData = {
           "assists": 8,
           "cs": 201,
           "gameDurationMinutes": 30
+        },
+        {
+          "win": true,
+          "championName": "Vex",
+          "kills": 11,
+          "deaths": 3,
+          "assists": 8,
+          "cs": 225,
+          "gameDurationMinutes": 32
         }
       ],
       "rank": 4

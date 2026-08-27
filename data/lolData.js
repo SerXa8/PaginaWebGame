@@ -38,6 +38,13 @@ const gameData = {
           "championPoints": 24533
         }
       ],
+      "performanceMetrics": {
+        "avgDpm": 833,
+        "avgCspm": "5.8",
+        "avgKp": "54.3%",
+        "avgKda": "5.39",
+        "totalAnalyzedGames": 10
+      },
       "recentMatches": [
         {
           "win": false,
@@ -45,7 +52,13 @@ const gameData = {
           "kills": 3,
           "deaths": 5,
           "assists": 9,
+          "kdaRatio": "2.40",
           "cs": 196,
+          "cspm": "6.5",
+          "dpm": 779,
+          "killParticipation": "46.2%",
+          "damageShare": "21.5%",
+          "goldShare": "17.6%",
           "gameDurationMinutes": 30
         },
         {
@@ -54,7 +67,13 @@ const gameData = {
           "kills": 8,
           "deaths": 4,
           "assists": 14,
+          "kdaRatio": "5.50",
           "cs": 220,
+          "cspm": "6.3",
+          "dpm": 857,
+          "killParticipation": "61.1%",
+          "damageShare": "20.5%",
+          "goldShare": "17.8%",
           "gameDurationMinutes": 35
         },
         {
@@ -63,7 +82,13 @@ const gameData = {
           "kills": 5,
           "deaths": 1,
           "assists": 9,
+          "kdaRatio": "14.00",
           "cs": 185,
+          "cspm": "7.6",
+          "dpm": 1005,
+          "killParticipation": "53.8%",
+          "damageShare": "24.9%",
+          "goldShare": "18.9%",
           "gameDurationMinutes": 24
         },
         {
@@ -72,7 +97,13 @@ const gameData = {
           "kills": 2,
           "deaths": 5,
           "assists": 17,
+          "kdaRatio": "3.80",
           "cs": 29,
+          "cspm": "1.2",
+          "dpm": 584,
+          "killParticipation": "70.4%",
+          "damageShare": "17.5%",
+          "goldShare": "13.8%",
           "gameDurationMinutes": 23
         },
         {
@@ -81,7 +112,13 @@ const gameData = {
           "kills": 0,
           "deaths": 0,
           "assists": 0,
+          "kdaRatio": "0.00",
           "cs": 5,
+          "cspm": "2.8",
+          "dpm": 152,
+          "killParticipation": "0.0%",
+          "damageShare": "42.0%",
+          "goldShare": "19.8%",
           "gameDurationMinutes": 2
         },
         {
@@ -90,7 +127,13 @@ const gameData = {
           "kills": 9,
           "deaths": 3,
           "assists": 3,
+          "kdaRatio": "4.00",
           "cs": 151,
+          "cspm": "6.7",
+          "dpm": 1102,
+          "killParticipation": "75.0%",
+          "damageShare": "37.6%",
+          "goldShare": "25.2%",
           "gameDurationMinutes": 22
         },
         {
@@ -99,7 +142,13 @@ const gameData = {
           "kills": 7,
           "deaths": 5,
           "assists": 22,
+          "kdaRatio": "5.80",
           "cs": 189,
+          "cspm": "7.2",
+          "dpm": 1001,
+          "killParticipation": "56.9%",
+          "damageShare": "19.1%",
+          "goldShare": "18.3%",
           "gameDurationMinutes": 26
         },
         {
@@ -108,7 +157,13 @@ const gameData = {
           "kills": 12,
           "deaths": 5,
           "assists": 10,
+          "kdaRatio": "4.40",
           "cs": 151,
+          "cspm": "6.1",
+          "dpm": 1180,
+          "killParticipation": "56.4%",
+          "damageShare": "21.7%",
+          "goldShare": "19.4%",
           "gameDurationMinutes": 25
         },
         {
@@ -117,7 +172,13 @@ const gameData = {
           "kills": 8,
           "deaths": 3,
           "assists": 14,
+          "kdaRatio": "7.33",
           "cs": 209,
+          "cspm": "6.2",
+          "dpm": 1197,
+          "killParticipation": "57.9%",
+          "damageShare": "25.9%",
+          "goldShare": "18.5%",
           "gameDurationMinutes": 34
         },
         {
@@ -126,7 +187,13 @@ const gameData = {
           "kills": 5,
           "deaths": 0,
           "assists": 10,
+          "kdaRatio": "15.00",
           "cs": 130,
+          "cspm": "7.4",
+          "dpm": 474,
+          "killParticipation": "65.2%",
+          "damageShare": "15.0%",
+          "goldShare": "20.2%",
           "gameDurationMinutes": 18
         }
       ],
@@ -170,6 +237,13 @@ const gameData = {
           "championPoints": 2649
         }
       ],
+      "performanceMetrics": {
+        "avgDpm": 854,
+        "avgCspm": "6.8",
+        "avgKp": "35.2%",
+        "avgKda": "3.05",
+        "totalAnalyzedGames": 10
+      },
       "recentMatches": [
         {
           "win": true,
@@ -177,7 +251,13 @@ const gameData = {
           "kills": 14,
           "deaths": 2,
           "assists": 5,
+          "kdaRatio": "9.50",
           "cs": 178,
+          "cspm": "6.5",
+          "dpm": 919,
+          "killParticipation": "46.3%",
+          "damageShare": "25.0%",
+          "goldShare": "20.8%",
           "gameDurationMinutes": 27
         },
         {
@@ -186,7 +266,13 @@ const gameData = {
           "kills": 12,
           "deaths": 2,
           "assists": 6,
+          "kdaRatio": "9.00",
           "cs": 257,
+          "cspm": "8.9",
+          "dpm": 1062,
+          "killParticipation": "62.1%",
+          "damageShare": "29.7%",
+          "goldShare": "26.1%",
           "gameDurationMinutes": 29
         },
         {
@@ -195,7 +281,13 @@ const gameData = {
           "kills": 4,
           "deaths": 9,
           "assists": 1,
+          "kdaRatio": "0.56",
           "cs": 196,
+          "cspm": "6.4",
+          "dpm": 863,
+          "killParticipation": "29.4%",
+          "damageShare": "27.1%",
+          "goldShare": "17.8%",
           "gameDurationMinutes": 31
         },
         {
@@ -204,7 +296,13 @@ const gameData = {
           "kills": 9,
           "deaths": 4,
           "assists": 7,
+          "kdaRatio": "4.00",
           "cs": 149,
+          "cspm": "6.3",
+          "dpm": 946,
+          "killParticipation": "42.1%",
+          "damageShare": "25.8%",
+          "goldShare": "18.3%",
           "gameDurationMinutes": 24
         },
         {
@@ -213,7 +311,13 @@ const gameData = {
           "kills": 12,
           "deaths": 7,
           "assists": 4,
+          "kdaRatio": "2.29",
           "cs": 215,
+          "cspm": "7.1",
+          "dpm": 1100,
+          "killParticipation": "30.2%",
+          "damageShare": "21.8%",
+          "goldShare": "20.7%",
           "gameDurationMinutes": 30
         },
         {
@@ -222,7 +326,13 @@ const gameData = {
           "kills": 3,
           "deaths": 3,
           "assists": 7,
+          "kdaRatio": "3.33",
           "cs": 213,
+          "cspm": "7.6",
+          "dpm": 855,
+          "killParticipation": "25.6%",
+          "damageShare": "18.8%",
+          "goldShare": "16.6%",
           "gameDurationMinutes": 28
         },
         {
@@ -231,7 +341,13 @@ const gameData = {
           "kills": 5,
           "deaths": 1,
           "assists": 7,
+          "kdaRatio": "12.00",
           "cs": 216,
+          "cspm": "7.4",
+          "dpm": 1017,
+          "killParticipation": "36.4%",
+          "damageShare": "25.6%",
+          "goldShare": "18.9%",
           "gameDurationMinutes": 29
         },
         {
@@ -240,7 +356,13 @@ const gameData = {
           "kills": 6,
           "deaths": 2,
           "assists": 4,
+          "kdaRatio": "5.00",
           "cs": 152,
+          "cspm": "5.8",
+          "dpm": 598,
+          "killParticipation": "25.6%",
+          "damageShare": "14.2%",
+          "goldShare": "17.2%",
           "gameDurationMinutes": 26
         },
         {
@@ -249,7 +371,13 @@ const gameData = {
           "kills": 6,
           "deaths": 5,
           "assists": 9,
+          "kdaRatio": "3.00",
           "cs": 216,
+          "cspm": "6.6",
+          "dpm": 658,
+          "killParticipation": "33.3%",
+          "damageShare": "16.8%",
+          "goldShare": "18.0%",
           "gameDurationMinutes": 33
         },
         {
@@ -258,7 +386,13 @@ const gameData = {
           "kills": 2,
           "deaths": 7,
           "assists": 5,
+          "kdaRatio": "1.00",
           "cs": 159,
+          "cspm": "5.7",
+          "dpm": 522,
+          "killParticipation": "20.6%",
+          "damageShare": "15.0%",
+          "goldShare": "14.7%",
           "gameDurationMinutes": 28
         }
       ],
@@ -302,6 +436,13 @@ const gameData = {
           "championPoints": 59320
         }
       ],
+      "performanceMetrics": {
+        "avgDpm": 759,
+        "avgCspm": "3.3",
+        "avgKp": "45.1%",
+        "avgKda": "2.42",
+        "totalAnalyzedGames": 10
+      },
       "recentMatches": [
         {
           "win": true,
@@ -309,7 +450,13 @@ const gameData = {
           "kills": 2,
           "deaths": 1,
           "assists": 7,
+          "kdaRatio": "9.00",
           "cs": 29,
+          "cspm": "1.9",
+          "dpm": 429,
+          "killParticipation": "29.0%",
+          "damageShare": "13.7%",
+          "goldShare": "15.8%",
           "gameDurationMinutes": 15
         },
         {
@@ -318,7 +465,13 @@ const gameData = {
           "kills": 1,
           "deaths": 7,
           "assists": 11,
+          "kdaRatio": "1.71",
           "cs": 46,
+          "cspm": "1.7",
+          "dpm": 740,
+          "killParticipation": "42.9%",
+          "damageShare": "23.3%",
+          "goldShare": "16.5%",
           "gameDurationMinutes": 27
         },
         {
@@ -327,7 +480,13 @@ const gameData = {
           "kills": 3,
           "deaths": 1,
           "assists": 8,
+          "kdaRatio": "11.00",
           "cs": 49,
+          "cspm": "2.5",
+          "dpm": 646,
+          "killParticipation": "40.7%",
+          "damageShare": "20.2%",
+          "goldShare": "19.1%",
           "gameDurationMinutes": 19
         },
         {
@@ -336,7 +495,13 @@ const gameData = {
           "kills": 6,
           "deaths": 7,
           "assists": 22,
+          "kdaRatio": "4.00",
           "cs": 186,
+          "cspm": "4.6",
+          "dpm": 1044,
+          "killParticipation": "57.1%",
+          "damageShare": "20.8%",
+          "goldShare": "18.1%",
           "gameDurationMinutes": 40
         },
         {
@@ -345,7 +510,13 @@ const gameData = {
           "kills": 14,
           "deaths": 8,
           "assists": 8,
+          "kdaRatio": "2.75",
           "cs": 177,
+          "cspm": "6.2",
+          "dpm": 1072,
+          "killParticipation": "46.8%",
+          "damageShare": "23.4%",
+          "goldShare": "22.1%",
           "gameDurationMinutes": 28
         },
         {
@@ -354,7 +525,13 @@ const gameData = {
           "kills": 2,
           "deaths": 10,
           "assists": 7,
+          "kdaRatio": "0.90",
           "cs": 147,
+          "cspm": "5.0",
+          "dpm": 729,
+          "killParticipation": "23.7%",
+          "damageShare": "14.6%",
+          "goldShare": "15.3%",
           "gameDurationMinutes": 30
         },
         {
@@ -363,7 +540,13 @@ const gameData = {
           "kills": 19,
           "deaths": 15,
           "assists": 17,
+          "kdaRatio": "2.40",
           "cs": 258,
+          "cspm": "5.3",
+          "dpm": 1001,
+          "killParticipation": "58.1%",
+          "damageShare": "24.2%",
+          "goldShare": "23.6%",
           "gameDurationMinutes": 49
         },
         {
@@ -372,7 +555,13 @@ const gameData = {
           "kills": 0,
           "deaths": 7,
           "assists": 8,
+          "kdaRatio": "1.14",
           "cs": 71,
+          "cspm": "2.8",
+          "dpm": 689,
+          "killParticipation": "57.1%",
+          "damageShare": "32.3%",
+          "goldShare": "18.3%",
           "gameDurationMinutes": 25
         },
         {
@@ -381,7 +570,13 @@ const gameData = {
           "kills": 0,
           "deaths": 7,
           "assists": 23,
+          "kdaRatio": "3.29",
           "cs": 57,
+          "cspm": "2.0",
+          "dpm": 626,
+          "killParticipation": "50.0%",
+          "damageShare": "14.4%",
+          "goldShare": "15.2%",
           "gameDurationMinutes": 29
         },
         {
@@ -390,7 +585,13 @@ const gameData = {
           "kills": 9,
           "deaths": 15,
           "assists": 22,
+          "kdaRatio": "2.07",
           "cs": 39,
+          "cspm": "0.8",
+          "dpm": 610,
+          "killParticipation": "45.6%",
+          "damageShare": "12.5%",
+          "goldShare": "16.6%",
           "gameDurationMinutes": 48
         }
       ],
@@ -434,6 +635,13 @@ const gameData = {
           "championPoints": 44675
         }
       ],
+      "performanceMetrics": {
+        "avgDpm": 1119,
+        "avgCspm": "6.2",
+        "avgKp": "54.2%",
+        "avgKda": "2.89",
+        "totalAnalyzedGames": 10
+      },
       "recentMatches": [
         {
           "win": true,
@@ -441,7 +649,13 @@ const gameData = {
           "kills": 6,
           "deaths": 1,
           "assists": 3,
+          "kdaRatio": "9.00",
           "cs": 102,
+          "cspm": "6.7",
+          "dpm": 872,
+          "killParticipation": "40.9%",
+          "damageShare": "31.7%",
+          "goldShare": "22.0%",
           "gameDurationMinutes": 15
         },
         {
@@ -450,7 +664,13 @@ const gameData = {
           "kills": 17,
           "deaths": 5,
           "assists": 4,
+          "kdaRatio": "4.20",
           "cs": 184,
+          "cspm": "7.2",
+          "dpm": 1672,
+          "killParticipation": "72.4%",
+          "damageShare": "47.2%",
+          "goldShare": "32.8%",
           "gameDurationMinutes": 26
         },
         {
@@ -459,7 +679,13 @@ const gameData = {
           "kills": 12,
           "deaths": 9,
           "assists": 15,
+          "kdaRatio": "3.00",
           "cs": 234,
+          "cspm": "5.5",
+          "dpm": 1110,
+          "killParticipation": "45.0%",
+          "damageShare": "20.6%",
+          "goldShare": "21.5%",
           "gameDurationMinutes": 43
         },
         {
@@ -468,7 +694,13 @@ const gameData = {
           "kills": 18,
           "deaths": 6,
           "assists": 8,
+          "kdaRatio": "4.33",
           "cs": 201,
+          "cspm": "6.8",
+          "dpm": 1700,
+          "killParticipation": "55.3%",
+          "damageShare": "40.2%",
+          "goldShare": "26.4%",
           "gameDurationMinutes": 30
         },
         {
@@ -477,7 +709,13 @@ const gameData = {
           "kills": 11,
           "deaths": 3,
           "assists": 8,
+          "kdaRatio": "6.33",
           "cs": 225,
+          "cspm": "7.1",
+          "dpm": 1062,
+          "killParticipation": "44.2%",
+          "damageShare": "28.3%",
+          "goldShare": "21.7%",
           "gameDurationMinutes": 32
         },
         {
@@ -486,7 +724,13 @@ const gameData = {
           "kills": 5,
           "deaths": 8,
           "assists": 5,
+          "kdaRatio": "1.25",
           "cs": 181,
+          "cspm": "5.6",
+          "dpm": 742,
+          "killParticipation": "62.5%",
+          "damageShare": "26.5%",
+          "goldShare": "22.4%",
           "gameDurationMinutes": 32
         },
         {
@@ -495,7 +739,13 @@ const gameData = {
           "kills": 13,
           "deaths": 13,
           "assists": 26,
+          "kdaRatio": "3.00",
           "cs": 240,
+          "cspm": "5.5",
+          "dpm": 1337,
+          "killParticipation": "72.2%",
+          "damageShare": "27.9%",
+          "goldShare": "23.3%",
           "gameDurationMinutes": 44
         },
         {
@@ -504,7 +754,13 @@ const gameData = {
           "kills": 6,
           "deaths": 8,
           "assists": 1,
+          "kdaRatio": "0.88",
           "cs": 148,
+          "cspm": "5.9",
+          "dpm": 431,
+          "killParticipation": "50.0%",
+          "damageShare": "20.2%",
+          "goldShare": "22.7%",
           "gameDurationMinutes": 25
         },
         {
@@ -513,7 +769,13 @@ const gameData = {
           "kills": 17,
           "deaths": 6,
           "assists": 8,
+          "kdaRatio": "4.17",
           "cs": 189,
+          "cspm": "6.6",
+          "dpm": 1127,
+          "killParticipation": "54.3%",
+          "damageShare": "25.9%",
+          "goldShare": "24.9%",
           "gameDurationMinutes": 29
         },
         {
@@ -522,11 +784,18 @@ const gameData = {
           "kills": 11,
           "deaths": 15,
           "assists": 20,
+          "kdaRatio": "2.07",
           "cs": 259,
+          "cspm": "5.3",
+          "dpm": 1132,
+          "killParticipation": "45.6%",
+          "damageShare": "23.2%",
+          "goldShare": "20.3%",
           "gameDurationMinutes": 48
         }
       ],
       "rank": 4
     }
-  ]
+  ],
+  "lastUpdated": "2026-08-27T18:06:01.174Z"
 };

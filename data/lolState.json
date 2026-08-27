@@ -12,7 +12,7 @@
     "winEvents": 0,
     "totalLossLp": 0,
     "lossEvents": 0,
-    "timestamp": 1787853399523
+    "timestamp": 1787853961173
   },
   "Maiiser": {
     "elo": 55,
@@ -27,7 +27,7 @@
     "winEvents": 0,
     "totalLossLp": 0,
     "lossEvents": 0,
-    "timestamp": 1787853399523
+    "timestamp": 1787853961173
   },
   "SerXa8": {
     "elo": 48,
@@ -42,7 +42,7 @@
     "winEvents": 1,
     "totalLossLp": 15,
     "lossEvents": 1,
-    "timestamp": 1787853399523
+    "timestamp": 1787853961173
   },
   "mamielizabeth": {
     "elo": 81,
@@ -57,6 +57,6 @@
     "winEvents": 3,
     "totalLossLp": 18,
     "lossEvents": 1,
-    "timestamp": 1787853399523
+    "timestamp": 1787853961173
   }
 }

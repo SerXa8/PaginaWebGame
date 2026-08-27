@@ -268,20 +268,20 @@ const gameData = {
       "name": "SerXa8",
       "tag": "#1197",
       "role": "top",
-      "elo": 54,
-      "absoluteElo": 654,
+      "elo": 63,
+      "absoluteElo": 663,
       "tierName": "BRONZE",
       "rankTier": "II",
-      "win": 143,
-      "loss": 156,
+      "win": 144,
+      "loss": 157,
       "wr": "48%",
-      "gain": 20,
+      "gain": 9,
       "lossLp": 19,
-      "totalGainLp": 0,
-      "winEvents": 0,
+      "totalGainLp": 9,
+      "winEvents": 1,
       "totalLossLp": 0,
       "lossEvents": 0,
-      "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 18 L 30.0 15 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
+      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 3 L 37.5 2 L 45.0 2 L 52.5 2 L 60.0 2 L 67.5 5 L 75.0 2",
       "twitch": "s3rxa8",
       "inGame": false,
       "champion": null,
@@ -303,24 +303,6 @@ const gameData = {
         }
       ],
       "recentMatches": [
-        {
-          "win": false,
-          "championName": "Leona",
-          "kills": 3,
-          "deaths": 9,
-          "assists": 10,
-          "cs": 41,
-          "gameDurationMinutes": 32
-        },
-        {
-          "win": false,
-          "championName": "Singed",
-          "kills": 6,
-          "deaths": 13,
-          "assists": 10,
-          "cs": 194,
-          "gameDurationMinutes": 35
-        },
         {
           "win": true,
           "championName": "Morgana",
@@ -392,6 +374,24 @@ const gameData = {
           "assists": 17,
           "cs": 258,
           "gameDurationMinutes": 49
+        },
+        {
+          "win": false,
+          "championName": "Lux",
+          "kills": 0,
+          "deaths": 7,
+          "assists": 8,
+          "cs": 71,
+          "gameDurationMinutes": 25
+        },
+        {
+          "win": true,
+          "championName": "Lux",
+          "kills": 0,
+          "deaths": 7,
+          "assists": 23,
+          "cs": 57,
+          "gameDurationMinutes": 29
         }
       ],
       "rank": 3
@@ -400,20 +400,20 @@ const gameData = {
       "name": "mamielizabeth",
       "tag": "#fdm",
       "role": "mid",
-      "elo": 91,
-      "absoluteElo": 591,
+      "elo": 99,
+      "absoluteElo": 599,
       "tierName": "BRONZE",
       "rankTier": "III",
-      "win": 79,
-      "loss": 85,
+      "win": 81,
+      "loss": 87,
       "wr": "48%",
-      "gain": 22,
+      "gain": 10,
       "lossLp": 19,
-      "totalGainLp": 22,
-      "winEvents": 1,
+      "totalGainLp": 30,
+      "winEvents": 3,
       "totalLossLp": 0,
       "lossEvents": 0,
-      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 9 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
+      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 9 L 37.5 6 L 45.0 3 L 52.5 6 L 60.0 3 L 67.5 6 L 75.0 3",
       "twitch": "",
       "inGame": false,
       "champion": null,
@@ -421,7 +421,7 @@ const gameData = {
         {
           "championName": "Vex",
           "championLevel": 11,
-          "championPoints": 95096
+          "championPoints": 97454
         },
         {
           "championName": "Gwen",
@@ -435,42 +435,6 @@ const gameData = {
         }
       ],
       "recentMatches": [
-        {
-          "win": true,
-          "championName": "Vex",
-          "kills": 9,
-          "deaths": 1,
-          "assists": 0,
-          "cs": 145,
-          "gameDurationMinutes": 23
-        },
-        {
-          "win": true,
-          "championName": "Vex",
-          "kills": 20,
-          "deaths": 2,
-          "assists": 13,
-          "cs": 230,
-          "gameDurationMinutes": 34
-        },
-        {
-          "win": false,
-          "championName": "Vex",
-          "kills": 7,
-          "deaths": 6,
-          "assists": 3,
-          "cs": 191,
-          "gameDurationMinutes": 26
-        },
-        {
-          "win": true,
-          "championName": "MissFortune",
-          "kills": 1,
-          "deaths": 2,
-          "assists": 2,
-          "cs": 128,
-          "gameDurationMinutes": 19
-        },
         {
           "win": false,
           "championName": "MissFortune",
@@ -524,6 +488,42 @@ const gameData = {
           "assists": 8,
           "cs": 225,
           "gameDurationMinutes": 32
+        },
+        {
+          "win": false,
+          "championName": "Vex",
+          "kills": 5,
+          "deaths": 8,
+          "assists": 5,
+          "cs": 181,
+          "gameDurationMinutes": 32
+        },
+        {
+          "win": true,
+          "championName": "Swain",
+          "kills": 13,
+          "deaths": 13,
+          "assists": 26,
+          "cs": 240,
+          "gameDurationMinutes": 44
+        },
+        {
+          "win": false,
+          "championName": "Tristana",
+          "kills": 6,
+          "deaths": 8,
+          "assists": 1,
+          "cs": 148,
+          "gameDurationMinutes": 25
+        },
+        {
+          "win": true,
+          "championName": "Vex",
+          "kills": 17,
+          "deaths": 6,
+          "assists": 8,
+          "cs": 189,
+          "gameDurationMinutes": 29
         }
       ],
       "rank": 4

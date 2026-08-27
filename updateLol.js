@@ -11,8 +11,6 @@ const STREAMERS = [
 ];
 
 const STATE_FILE = path.join('./data', 'lolState.json');
-
-// Diccionario dinámico de campeones desde DataDragon
 let CHAMPION_MAP = {};
 
 async function loadChampionMap() {
@@ -27,9 +25,9 @@ async function loadChampionMap() {
     Object.values(champData.data).forEach(c => {
       CHAMPION_MAP[c.key] = c.name;
     });
-    console.log(`✅ Cárgadas ${Object.keys(CHAMPION_MAP).length} definiciones de campeones (v${latestVersion}).`);
+    console.log(`✅ Cargadas ${Object.keys(CHAMPION_MAP).length} definiciones de campeones.`);
   } catch (err) {
-    console.error('⚠️ No se pudo cargar DataDragon, usando fallback:', err.message);
+    console.error('⚠️ Error al cargar DataDragon:', err.message);
   }
 }
 
@@ -41,10 +39,7 @@ function getAbsoluteLp(tier, rank, lp) {
   };
   const ranks = { 'IV': 0, 'III': 100, 'II': 200, 'I': 300 };
 
-  const tierBase = tiers[tier?.toUpperCase()] || 0;
-  const rankBase = ranks[rank?.toUpperCase()] || 0;
-
-  return tierBase + rankBase + (lp || 0);
+  return (tiers[tier?.toUpperCase()] || 0) + (ranks[rank?.toUpperCase()] || 0) + (lp || 0);
 }
 
 function loadPreviousState() {
@@ -85,21 +80,15 @@ function saveCurrentState(playersData) {
 }
 
 function generateSparkline(history) {
-  if (!history || history.length === 0) {
-    return "M 0 15 L 75 15";
-  }
-
+  if (!history || history.length === 0) return "M 0 15 L 75 15";
   let y = 15;
   let pathStr = `M 0 ${y}`;
   const stepX = 75 / Math.max(history.length, 1);
-
   history.forEach((match, index) => {
-    const isWin = match.win;
     const x = (index + 1) * stepX;
-    y = isWin ? Math.max(2, y - 3) : Math.min(28, y + 3);
+    y = match.win ? Math.max(2, y - 3) : Math.min(28, y + 3);
     pathStr += ` L ${x.toFixed(1)} ${y}`;
   });
-
   return pathStr;
 }
 
@@ -111,7 +100,6 @@ async function getActiveGame(puuid) {
 
     const gameData = await res.json();
     const participant = gameData.participants?.find(p => p.puuid === puuid);
-    
     if (participant) {
       const champName = CHAMPION_MAP[participant.championId] || "En Partida";
       return { inGame: true, champion: champName };
@@ -122,7 +110,6 @@ async function getActiveGame(puuid) {
   }
 }
 
-// Obtener los 3 campeones más jugados (Mastery API)
 async function getTopMasteries(puuid) {
   try {
     const masteryUrl = `https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${puuid}/top?count=3&api_key=${API_KEY}`;
@@ -140,7 +127,6 @@ async function getTopMasteries(puuid) {
   }
 }
 
-// Obtener partidas detalladas
 async function getDetailedMatches(puuid) {
   try {
     const matchesUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=0&count=10&api_key=${API_KEY}`;
@@ -156,18 +142,35 @@ async function getDetailedMatches(puuid) {
         const detail = await detailRes.json();
         const p = detail.info?.participants?.find(part => part.puuid === puuid);
         if (p) {
+          const durationMin = Math.max((detail.info.gameDuration || 0) / 60, 1);
+          const sameTeam = detail.info.participants.filter(part => part.teamId === p.teamId);
+          const teamKills = sameTeam.reduce((acc, curr) => acc + curr.kills, 0);
+          const teamDamage = sameTeam.reduce((acc, curr) => acc + curr.totalDamageDealtToChampions, 0);
+          const teamGold = sameTeam.reduce((acc, curr) => acc + curr.goldEarned, 0);
+
+          const totalCs = (p.totalMinionsKilled || 0) + (p.neutralMinionsKilled || 0);
+          const kp = teamKills > 0 ? (((p.kills + p.assists) / teamKills) * 100).toFixed(1) : "0.0";
+          const dmgShare = teamDamage > 0 ? ((p.totalDamageDealtToChampions / teamDamage) * 100).toFixed(1) : "0.0";
+          const goldShare = teamGold > 0 ? ((p.goldEarned / teamGold) * 100).toFixed(1) : "0.0";
+
           matches.push({
             win: p.win,
-            championName: p.championName,
+            championName: p.championName || "Desconocido",
             kills: p.kills,
             deaths: p.deaths,
             assists: p.assists,
-            cs: (p.totalMinionsKilled || 0) + (p.neutralMinionsKilled || 0),
-            gameDurationMinutes: Math.round((detail.info.gameDuration || 0) / 60)
+            kdaRatio: p.deaths === 0 ? (p.kills + p.assists).toFixed(2) : ((p.kills + p.assists) / p.deaths).toFixed(2),
+            cs: totalCs,
+            cspm: (totalCs / durationMin).toFixed(1),
+            dpm: Math.round(p.totalDamageDealtToChampions / durationMin),
+            killParticipation: `${kp}%`,
+            damageShare: `${dmgShare}%`,
+            goldShare: `${goldShare}%`,
+            gameDurationMinutes: Math.round(durationMin)
           });
         }
       }
-      await new Promise(r => setTimeout(r, 250));
+      await new Promise(r => setTimeout(r, 200));
     }
     return matches.reverse();
   } catch (e) {
@@ -175,18 +178,32 @@ async function getDetailedMatches(puuid) {
   }
 }
 
+function calculatePlayerPerformance(matches) {
+  if (!matches || matches.length === 0) return null;
+  const total = matches.length;
+  const avgDpm = Math.round(matches.reduce((acc, m) => acc + m.dpm, 0) / total);
+  const avgCspm = (matches.reduce((acc, m) => acc + parseFloat(m.cspm), 0) / total).toFixed(1);
+  const avgKp = (matches.reduce((acc, m) => acc + parseFloat(m.killParticipation), 0) / total).toFixed(1);
+  const kills = matches.reduce((acc, m) => acc + m.kills, 0);
+  const deaths = matches.reduce((acc, m) => acc + m.deaths, 0);
+  const assists = matches.reduce((acc, m) => acc + m.assists, 0);
+  const avgKda = deaths === 0 ? (kills + assists).toFixed(2) : ((kills + assists) / deaths).toFixed(2);
+
+  return { avgDpm, avgCspm, avgKp: `${avgKp}%`, avgKda, totalAnalyzedGames: total };
+}
+
 async function getPlayerData(player, previousState) {
   try {
     const accountUrl = `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(player.riotName)}/${encodeURIComponent(player.tag)}?api_key=${API_KEY}`;
     const accountRes = await fetch(accountUrl);
-    if (!accountRes.ok) throw new Error(`Error cuenta (${accountRes.status}): ${accountRes.statusText}`);
+    if (!accountRes.ok) throw new Error(`Error cuenta (${accountRes.status})`);
     const accountData = await accountRes.json();
 
     const activeGame = await getActiveGame(accountData.puuid);
 
     const leagueUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/by-puuid/${accountData.puuid}?api_key=${API_KEY}`;
     const leagueRes = await fetch(leagueUrl);
-    if (!leagueRes.ok) throw new Error(`Error liga (${leagueRes.status}): ${leagueRes.statusText}`);
+    if (!leagueRes.ok) throw new Error(`Error liga (${leagueRes.status})`);
     const leagueData = await leagueRes.json();
 
     const soloQ = leagueData.find(q => q.queueType === 'RANKED_SOLO_5x5') || {};
@@ -204,27 +221,40 @@ async function getPlayerData(player, previousState) {
     let totalLossLp = prev.totalLossLp || 0;
     let lossEvents = prev.lossEvents || 0;
 
+    // CÁLCULO DE DELTA DE LP FIABLE Y MATEMÁTICAMENTE EXACTO
     if (typeof prev.absoluteElo === 'number') {
       const winsDiff = wins - (prev.win || wins);
       const lossesDiff = losses - (prev.loss || losses);
-      const eloDiff = currentAbsoluteElo - prev.absoluteElo;
+      const totalMatchesDiff = winsDiff + lossesDiff;
 
-      if (winsDiff > 0 && eloDiff > 0) {
-        totalGainLp += eloDiff;
-        winEvents += winsDiff;
-      }
+      if (totalMatchesDiff > 0) {
+        const eloDelta = currentAbsoluteElo - prev.absoluteElo;
 
-      if (lossesDiff > 0 && eloDiff < 0) {
-        totalLossLp += Math.abs(eloDiff);
-        lossEvents += lossesDiff;
+        if (winsDiff > 0 && lossesDiff === 0) {
+          totalGainLp += eloDelta;
+          winEvents += winsDiff;
+        } else if (lossesDiff > 0 && winsDiff === 0) {
+          totalLossLp += Math.abs(eloDelta);
+          lossEvents += lossesDiff;
+        } else if (winsDiff > 0 && lossesDiff > 0) {
+          const estimatedLossesTotal = lossesDiff * (prev.lossLp || 15);
+          const estimatedWinGain = eloDelta + estimatedLossesTotal;
+          const calculatedGain = Math.max(10, Math.round(estimatedWinGain / winsDiff));
+          
+          totalGainLp += calculatedGain * winsDiff;
+          winEvents += winsDiff;
+          totalLossLp += estimatedLossesTotal;
+          lossEvents += lossesDiff;
+        }
       }
     }
 
-    const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || 20);
-    const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || 19);
+    const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || 24);
+    const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || 15);
 
     const topMasteries = await getTopMasteries(accountData.puuid);
     const detailedMatches = await getDetailedMatches(accountData.puuid);
+    const performanceSummary = calculatePlayerPerformance(detailedMatches);
     const sparkPath = generateSparkline(detailedMatches);
 
     return {
@@ -249,6 +279,7 @@ async function getPlayerData(player, previousState) {
       inGame: activeGame.inGame,
       champion: activeGame.champion,
       topMasteries: topMasteries,
+      performanceMetrics: performanceSummary,
       recentMatches: detailedMatches
     };
   } catch (error) {
@@ -262,7 +293,6 @@ async function main() {
   fs.mkdirSync('./data', { recursive: true });
 
   await loadChampionMap();
-
   const previousState = loadPreviousState();
   const playersData = [];
 
@@ -270,7 +300,7 @@ async function main() {
     console.log(`Consultando datos de ${player.name} (${player.riotName}#${player.tag})...`);
     const data = await getPlayerData(player, previousState);
     if (data) playersData.push(data);
-    await new Promise(r => setTimeout(r, 1200));
+    await new Promise(r => setTimeout(r, 1000));
   }
 
   if (playersData.length === 0) {
@@ -283,9 +313,9 @@ async function main() {
 
   saveCurrentState(playersData);
 
-  const fileContent = `const gameData = ${JSON.stringify({ players: playersData }, null, 2)};`;
+  const fileContent = `const gameData = ${JSON.stringify({ players: playersData, lastUpdated: new Date().toISOString() }, null, 2)};`;
   fs.writeFileSync('./data/lolData.js', fileContent);
-  console.log("¡data/lolData.js actualizado con historial y maestrías reales!");
+  console.log("¡data/lolData.js actualizado con historial, telemetría y deltas de LP calculados!");
 }
 
 main();

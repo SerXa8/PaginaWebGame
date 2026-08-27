@@ -249,8 +249,8 @@ async function getPlayerData(player, previousState) {
       }
     }
 
-    const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || 24);
-    const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || 15);
+    const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || 20);
+    const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || 20);
 
     const topMasteries = await getTopMasteries(accountData.puuid);
     const detailedMatches = await getDetailedMatches(accountData.puuid);

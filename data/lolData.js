@@ -415,10 +415,10 @@ const gameData = {
       "winEvents": 0,
       "totalLossLp": 0,
       "lossEvents": 0,
-      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 3 L 37.5 2 L 45.0 2 L 52.5 2 L 60.0 5 L 67.5 2 L 75.0 5",
+      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 3 L 37.5 2 L 45.0 2 L 52.5 5 L 60.0 2 L 67.5 5 L 75.0 2",
       "twitch": "s3rxa8",
-      "inGame": true,
-      "champion": "Caitlyn",
+      "inGame": false,
+      "champion": null,
       "topMasteries": [
         {
           "championName": "Nocturne",
@@ -428,7 +428,7 @@ const gameData = {
         {
           "championName": "Caitlyn",
           "championLevel": 8,
-          "championPoints": 61561
+          "championPoints": 62916
         },
         {
           "championName": "Smolder",
@@ -437,28 +437,13 @@ const gameData = {
         }
       ],
       "performanceMetrics": {
-        "avgDpm": 759,
-        "avgCspm": "3.3",
-        "avgKp": "45.1%",
-        "avgKda": "2.42",
+        "avgDpm": 804,
+        "avgCspm": "3.7",
+        "avgKp": "46.7%",
+        "avgKda": "2.37",
         "totalAnalyzedGames": 10
       },
       "recentMatches": [
-        {
-          "win": true,
-          "championName": "Morgana",
-          "kills": 2,
-          "deaths": 1,
-          "assists": 7,
-          "kdaRatio": "9.00",
-          "cs": 29,
-          "cspm": "1.9",
-          "dpm": 429,
-          "killParticipation": "29.0%",
-          "damageShare": "13.7%",
-          "goldShare": "15.8%",
-          "gameDurationMinutes": 15
-        },
         {
           "win": true,
           "championName": "Morgana",
@@ -593,6 +578,21 @@ const gameData = {
           "damageShare": "12.5%",
           "goldShare": "16.6%",
           "gameDurationMinutes": 48
+        },
+        {
+          "win": true,
+          "championName": "Caitlyn",
+          "kills": 11,
+          "deaths": 5,
+          "assists": 3,
+          "kdaRatio": "2.80",
+          "cs": 138,
+          "cspm": "5.9",
+          "dpm": 878,
+          "killParticipation": "45.2%",
+          "damageShare": "23.4%",
+          "goldShare": "23.8%",
+          "gameDurationMinutes": 24
         }
       ],
       "rank": 3
@@ -614,15 +614,15 @@ const gameData = {
       "winEvents": 0,
       "totalLossLp": 0,
       "lossEvents": 0,
-      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 3 L 37.5 2 L 45.0 5 L 52.5 2 L 60.0 5 L 67.5 2 L 75.0 5",
+      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 3 L 37.5 6 L 45.0 3 L 52.5 6 L 60.0 3 L 67.5 6 L 75.0 3",
       "twitch": "",
-      "inGame": true,
-      "champion": "Vex",
+      "inGame": false,
+      "champion": null,
       "topMasteries": [
         {
           "championName": "Vex",
           "championLevel": 12,
-          "championPoints": 98626
+          "championPoints": 100020
         },
         {
           "championName": "Gwen",
@@ -636,28 +636,13 @@ const gameData = {
         }
       ],
       "performanceMetrics": {
-        "avgDpm": 1119,
-        "avgCspm": "6.2",
-        "avgKp": "54.2%",
-        "avgKda": "2.89",
+        "avgDpm": 1158,
+        "avgCspm": "6.3",
+        "avgKp": "54.0%",
+        "avgKda": "2.86",
         "totalAnalyzedGames": 10
       },
       "recentMatches": [
-        {
-          "win": true,
-          "championName": "Vex",
-          "kills": 6,
-          "deaths": 1,
-          "assists": 3,
-          "kdaRatio": "9.00",
-          "cs": 102,
-          "cspm": "6.7",
-          "dpm": 872,
-          "killParticipation": "40.9%",
-          "damageShare": "31.7%",
-          "goldShare": "22.0%",
-          "gameDurationMinutes": 15
-        },
         {
           "win": true,
           "championName": "Vex",
@@ -792,10 +777,25 @@ const gameData = {
           "damageShare": "23.2%",
           "goldShare": "20.3%",
           "gameDurationMinutes": 48
+        },
+        {
+          "win": true,
+          "championName": "Vex",
+          "kills": 6,
+          "deaths": 3,
+          "assists": 6,
+          "kdaRatio": "4.00",
+          "cs": 175,
+          "cspm": "7.4",
+          "dpm": 1264,
+          "killParticipation": "38.7%",
+          "damageShare": "33.7%",
+          "goldShare": "23.1%",
+          "gameDurationMinutes": 24
         }
       ],
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-08-27T21:06:58.865Z"
+  "lastUpdated": "2026-08-27T22:06:57.762Z"
 };

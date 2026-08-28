@@ -42,6 +42,30 @@ function getAbsoluteLp(tier, rank, lp) {
   return (tiers[tier?.toUpperCase()] || 0) + (ranks[rank?.toUpperCase()] || 0) + (lp || 0);
 }
 
+// ESTIMADOR DE LP BASADO EN MMR / WINRATE
+function estimateLpByWinrate(wins, losses) {
+  const totalGames = wins + losses;
+  if (totalGames === 0) return { gain: 20, loss: 20 };
+
+  const wrRatio = wins / totalGames;
+  const baseGain = 20;
+  const baseLoss = 20;
+
+  if (wrRatio >= 0.50) {
+    const boost = Math.round((wrRatio - 0.50) * 35);
+    return {
+      gain: baseGain + boost,
+      loss: Math.max(13, baseLoss - Math.round(boost * 0.7))
+    };
+  } else {
+    const penalty = Math.round((0.50 - wrRatio) * 35);
+    return {
+      gain: Math.max(13, baseGain - Math.round(penalty * 0.7)),
+      loss: baseLoss + penalty
+    };
+  }
+}
+
 function loadPreviousState() {
   try {
     if (fs.existsSync(STATE_FILE)) {
@@ -249,8 +273,11 @@ async function getPlayerData(player, previousState) {
       }
     }
 
-    const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || 20);
-    const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || 20);
+    // ESTIMACIÓN DE RESPALDO (Si no hay partidas registradas en el estado guardado)
+    const fallbackLp = estimateLpByWinrate(wins, losses);
+
+    const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || fallbackLp.gain);
+    const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || fallbackLp.loss);
 
     const topMasteries = await getTopMasteries(accountData.puuid);
     const detailedMatches = await getDetailedMatches(accountData.puuid);

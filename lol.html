@@ -165,7 +165,7 @@
 
   </div>
 
-  <!-- MODAL INTERACTIVO AMPLIO (max-w-5xl) CON PUNTOS FUERTES Y DÉBILES -->
+  <!-- MODAL INTERACTIVO AMPLIO CON PUNTOS FUERTES Y DÉBILES -->
   <div id="playerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-[#121620] border border-custom rounded-2xl max-w-5xl w-full p-6 text-white relative max-h-[92vh] overflow-y-auto shadow-2xl">
       <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold transition">&times;</button>
@@ -206,19 +206,17 @@
         </div>
       </div>
 
-      <!-- PESTAÑA 2: VISTA PROFESIONAL CON PUNTOS FUERTES Y DÉBILES -->
+      <!-- PESTAÑA 2: VISTA PROFESIONAL -->
       <div id="modal-tab-pro" class="hidden space-y-6">
         
-        <!-- Bloque de Diagnóstico Dividido (Fuertes vs Débiles) -->
+        <!-- Bloque de Diagnóstico Dividido -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Puntos Fuertes -->
           <div class="bg-slate-950 border border-green-500/30 rounded-xl p-4">
             <h3 class="text-xs font-bold uppercase tracking-wider text-green-400 mb-3 flex items-center gap-2">
               <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> Puntos Fuertes
             </h3>
-            <div id="pro-strengths-list" class="space-y-2 text-xs">
-              <!-- Inyectado dinámicamente -->
-            </div>
+            <div id="pro-strengths-list" class="space-y-2 text-xs"></div>
           </div>
 
           <!-- Puntos Débiles / Errores -->
@@ -226,9 +224,7 @@
             <h3 class="text-xs font-bold uppercase tracking-wider text-red-400 mb-3 flex items-center gap-2">
               <i data-lucide="alert-triangle" class="w-4 h-4 text-red-400"></i> Puntos Débiles (A Mejorar)
             </h3>
-            <div id="pro-weaknesses-list" class="space-y-2 text-xs">
-              <!-- Inyectado dinámicamente -->
-            </div>
+            <div id="pro-weaknesses-list" class="space-y-2 text-xs"></div>
           </div>
         </div>
 
@@ -518,6 +514,12 @@
       document.getElementById(`btn-${tabId}`).classList.add('active');
     }
 
+    function closeModal() {
+      const modal = document.getElementById('playerModal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
     function openPlayerModal(playerName) {
       if (typeof gameData === 'undefined' || !gameData.players) return;
       const p = gameData.players.find(player => player.name === playerName);
@@ -564,16 +566,28 @@
       const perf = p.performanceMetrics || {};
       const matches = p.recentMatches || [];
 
-      // Cálculo de promedios
-      const avgCsd10 = perf.avgCsd10 !== undefined ? perf.avgCsd10 : (matches.length ? (matches.reduce((acc, m) => acc + (m.csd10 || 0), 0) / matches.length) : 0);
-      const avgGd10 = perf.avgGd10 !== undefined ? perf.avgGd10 : (matches.length ? (matches.reduce((acc, m) => acc + (m.gd10 || 0), 0) / matches.length) : 0);
-      const avgDpm = perf.avgDpm || 0;
-      const avgCspm = parseFloat(perf.avgCspm || (matches.length ? (matches.reduce((acc, m) => acc + parseFloat(m.cspm || (m.cs / m.gameDurationMinutes)), 0) / matches.length) : 0));
-      const avgVision = perf.avgVisionPerMin || 1.1;
-      const goldShare = parseFloat(perf.goldShare || "22%");
-      const dmgEfficiency = goldShare > 0 ? (avgDpm / goldShare).toFixed(1) : "35.7";
+      // Cálculo dinámico por jugador
+      const avgCsd10 = perf.avgCsd10 !== undefined 
+        ? perf.avgCsd10 
+        : (matches.length ? (matches.reduce((acc, m) => acc + (Number(m.csd10) || 0), 0) / matches.length) : 0);
 
-      // Inyección Bloque Métricas Clave
+      const avgGd10 = perf.avgGd10 !== undefined 
+        ? perf.avgGd10 
+        : (matches.length ? (matches.reduce((acc, m) => acc + (Number(m.gd10) || 0), 0) / matches.length) : 0);
+
+      const avgCspm = perf.avgCspm !== undefined 
+        ? parseFloat(perf.avgCspm) 
+        : (matches.length ? (matches.reduce((acc, m) => acc + parseFloat(m.cspm || (m.cs / (m.gameDurationMinutes || 1))), 0) / matches.length) : 0);
+
+      const avgVision = perf.avgVisionPerMin !== undefined 
+        ? parseFloat(perf.avgVisionPerMin) 
+        : (matches.length ? (matches.reduce((acc, m) => acc + parseFloat(m.visionPerMin || 1.0), 0) / matches.length) : 1.0);
+
+      const avgDpm = perf.avgDpm || 0;
+      const goldShare = parseFloat(perf.goldShare || "20%");
+      const dmgEfficiency = goldShare > 0 ? (avgDpm / goldShare).toFixed(1) : "30.0";
+
+      // Inyección Métricas Clave
       const csdElem = document.getElementById('pro-csd10');
       csdElem.innerText = (avgCsd10 >= 0 ? '+' : '') + avgCsd10.toFixed(1);
       csdElem.className = `text-xl font-black ${avgCsd10 >= 0 ? 'text-green-400' : 'text-red-400'}`;
@@ -583,60 +597,56 @@
       gdElem.className = `text-xl font-black ${avgGd10 >= 0 ? 'text-green-400' : 'text-red-400'}`;
 
       document.getElementById('pro-dmg-efficiency').innerText = dmgEfficiency;
-      document.getElementById('pro-vision-pm').innerText = `${avgVision} /m`;
+      document.getElementById('pro-vision-pm').innerText = `${avgVision.toFixed(1)} /m`;
 
-      // GENERADOR DE PUNTOS FUERTES Y DÉBILES
+      // Generación de Puntos Fuertes y Débiles Exclusivos
       const strengths = [];
       const weaknesses = [];
-      const isSupport = (p.role || '').toLowerCase() === 'support' || (p.role || '').toLowerCase() === 'supp';
+      const role = (p.role || '').toLowerCase();
+      const isSupport = role === 'support' || role === 'supp';
 
-      // Evaluación Fase de Líneas
-      if (avgCsd10 >= 0) {
-        strengths.push('Excelente fase de líneas (CSD@10 positivo o neutro frente al rival).');
+      if (avgCsd10 > 1.0) {
+        strengths.push(`Dominio de la fase de líneas (+${avgCsd10.toFixed(1)} CS a min 10).`);
+      } else if (avgCsd10 < -1.0) {
+        weaknesses.push(`Sufre en fase de líneas (${avgCsd10.toFixed(1)} CS a min 10).`);
       } else {
-        weaknesses.push('Pierde súbditos en fase de líneas (CSD@10 negativo). Revisar tradings y last hit.');
+        strengths.push('Fase de líneas estable sin ceder ventajas apreciables.');
       }
 
-      // Evaluación CS Mid/Late
-      if (avgCspm >= 7.0) {
-        strengths.push('Excelente recolección de recursos (CS/min constante en mid/late game).');
-      } else if (!isSupport) {
-        weaknesses.push('Bajo CS por minuto en mid/late game. Se desconecta de las oleadas al agruparse.');
+      if (!isSupport) {
+        if (avgCspm >= 7.5) {
+          strengths.push(`Excelente recolección de recursos (${avgCspm.toFixed(1)} CS/min).`);
+        } else if (avgCspm < 6.5) {
+          weaknesses.push(`Bajo farmeo constante (${avgCspm.toFixed(1)} CS/min). Pierde oleadas en mid game.`);
+        }
       }
 
-      // Evaluación Eficiencia / Daño
-      if (parseFloat(dmgEfficiency) >= 30 || avgDpm >= 500) {
-        strengths.push('Gran conversión de oro a daño. Aporta alto impacto en peleas grupales.');
+      const visionTarget = isSupport ? 2.0 : 1.2;
+      if (avgVision >= visionTarget) {
+        strengths.push(`Gran visión y mapa despejado (${avgVision.toFixed(1)}/min).`);
       } else {
-        weaknesses.push('Baja conversión de oro a daño. Poco impacto en peleas respecto al oro asignado.');
+        weaknesses.push(`Puntuación de visión baja (${avgVision.toFixed(1)}/min). Falta de guardianes.`);
       }
 
-      // Evaluación Visión
-      if (avgVision >= (isSupport ? 2.0 : 1.2)) {
-        strengths.push('Buen control del mapa mediante guardias de visión e información constante.');
-      } else {
-        weaknesses.push('Puntuación de visión mejorable. Falta de guardianes de control en zonas clave.');
-      }
+      document.getElementById('pro-strengths-list').innerHTML = strengths.length > 0
+        ? strengths.map(s => `
+            <div class="p-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300 flex items-start gap-2">
+              <span class="text-green-400 font-bold">✓</span>
+              <span>${s}</span>
+            </div>
+          `).join('')
+        : '<p class="text-slate-500 text-xs">Sin puntos destacados.</p>';
 
-      // Rendimiento por defecto si falta variedad
-      if (strengths.length === 0) strengths.push('Mantiene solidez básica y adaptación en situaciones complejas.');
-      if (weaknesses.length === 0) weaknesses.push('Rendimiento muy estable sin fallos críticos detectados.');
+      document.getElementById('pro-weaknesses-list').innerHTML = weaknesses.length > 0
+        ? weaknesses.map(w => `
+            <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 flex items-start gap-2">
+              <span class="text-red-400 font-bold">⚠️</span>
+              <span>${w}</span>
+            </div>
+          `).join('')
+        : '<p class="text-slate-500 text-xs">Sin fallos críticos detectados.</p>';
 
-      document.getElementById('pro-strengths-list').innerHTML = strengths.map(s => `
-        <div class="p-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300 flex items-start gap-2">
-          <span class="text-green-400 font-bold">✓</span>
-          <span>${s}</span>
-        </div>
-      `).join('');
-
-      document.getElementById('pro-weaknesses-list').innerHTML = weaknesses.map(w => `
-        <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 flex items-start gap-2">
-          <span class="text-red-400 font-bold">⚠️</span>
-          <span>${w}</span>
-        </div>
-      `).join('');
-
-      // Tabla Telemetría Partida a Partida
+      // Telemetría
       const proTableBody = document.getElementById('pro-matches-body');
       if (matches.length > 0) {
         proTableBody.innerHTML = matches.slice().reverse().map(m => `
@@ -647,7 +657,7 @@
             </td>
             <td class="p-3 text-center font-mono font-bold text-slate-300">${m.kills}/${m.deaths}/${m.assists}</td>
             <td class="p-3 text-center text-slate-300 font-semibold">${m.cspm || (m.cs / (m.gameDurationMinutes || 30)).toFixed(1)}</td>
-            <td class="p-3 text-center font-bold ${ (m.csd10 || 0) >= 0 ? 'text-green-400' : 'text-red-400'}">${(m.csd10 || 0) >= 0 ? '+' : ''}${m.csd10 || 0}</td>
+            <td class="p-3 text-center font-bold ${(Number(m.csd10) || 0) >= 0 ? 'text-green-400' : 'text-red-400'}">${(Number(m.csd10) || 0) >= 0 ? '+' : ''}${m.csd10 || 0}</td>
             <td class="p-3 text-center text-slate-300">${m.killParticipation || '0%'}</td>
             <td class="p-3 text-center text-slate-300">${m.damageShare || '0%'}</td>
             <td class="p-3 text-center text-slate-300">${m.visionPerMin || '1.0'}</td>
@@ -662,106 +672,41 @@
       modal.classList.add('flex');
     }
 
-    function closeModal() {
-      const modal = document.getElementById('playerModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    window.onclick = function(event) {
-      const modal = document.getElementById('playerModal');
-      if (event.target === modal) closeModal();
-    };
-
     function applyFilters() {
       if (typeof gameData === 'undefined' || !gameData.players) return;
+      const query = document.getElementById('search-input').value.toLowerCase().trim();
 
-      const sortedPlayers = sortAndRankPlayers([...gameData.players]);
-      const searchTerm = (document.getElementById("search-input")?.value || "").toLowerCase().trim();
-
-      const filtered = sortedPlayers.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.tag.toLowerCase().includes(searchTerm);
-        
-        let matchesRole = true;
-        if (currentRoleFilter !== 'all') {
-          const pRole = (p.role || '').toLowerCase();
-          if (currentRoleFilter === 'support') matchesRole = (pRole === 'support' || pRole === 'supp');
-          else if (currentRoleFilter === 'adc') matchesRole = (pRole === 'adc' || pRole === 'bot');
-          else matchesRole = (pRole === currentRoleFilter);
-        }
-
-        return matchesSearch && matchesRole;
+      const filtered = gameData.players.filter(p => {
+        const matchesName = p.name.toLowerCase().includes(query) || p.tag.toLowerCase().includes(query);
+        const matchesRole = currentRoleFilter === 'all' || (p.role || '').toLowerCase() === currentRoleFilter;
+        return matchesName && matchesRole;
       });
 
+      document.getElementById('player-count').textContent = `${filtered.length} jugadores`;
+      renderPodium(gameData.players);
       renderTableRows(filtered);
-
-      const countElem = document.getElementById("player-count");
-      if (countElem) {
-        countElem.textContent = `${filtered.length} de ${gameData.players.length} jugadores`;
-      }
     }
 
     function setRoleFilter(role) {
       currentRoleFilter = role;
-
-      const roleKeys = ['all', 'top', 'jungle', 'mid', 'adc', 'support'];
-      roleKeys.forEach(r => {
-        const btn = document.getElementById(`role-btn-${r}`);
-        if (btn) {
-          if (r === role) {
-            btn.classList.add('active', 'bg-yellow-400', 'text-black', 'font-extrabold');
-            btn.classList.remove('text-slate-400');
-          } else {
-            btn.classList.remove('active', 'bg-yellow-400', 'text-black', 'font-extrabold');
-            btn.classList.add('text-slate-400');
-          }
-        }
-      });
-
+      document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`role-btn-${role}`);
+      if (activeBtn) activeBtn.classList.add('active');
       applyFilters();
     }
 
-    function renderUI(data) {
-      if (!data || !data.players) return;
-
-      const sorted = sortAndRankPlayers([...data.players]);
-
-      renderPodium(sorted);
-      renderSidebar(sorted);
-
-      const totalViewers = sorted.reduce((acc, p) => acc + (p.isLive ? (p.viewers || 0) : 0), 0);
-      const totalElem = document.getElementById("total-viewers");
-      if (totalElem) totalElem.textContent = totalViewers.toLocaleString();
-
-      const livePlayer = sorted.find(p => p.isLive === true && p.twitch);
-      if (livePlayer) {
-        setStream(livePlayer.twitch);
-      } else {
-        const nameElem = document.getElementById("streamer-current-name");
-        if (nameElem) nameElem.textContent = "Sin directo activo";
-      }
-
-      applyFilters();
-    }
-
-    function initApp() {
+    document.addEventListener('DOMContentLoaded', () => {
       if (typeof gameData !== 'undefined' && gameData.players) {
-        renderUI(gameData);
+        sortAndRankPlayers(gameData.players);
+        renderPodium(gameData.players);
+        renderSidebar(gameData.players);
+        renderTableRows(gameData.players);
+        document.getElementById('player-count').textContent = `${gameData.players.length} jugadores`;
 
-        if (typeof updateLiveStreams === 'function') {
-          updateLiveStreams('lol');
-        }
-      } else {
-        setTimeout(initApp, 100);
+        const firstLive = gameData.players.find(p => p.isLive && p.twitch);
+        if (firstLive) setStream(firstLive.twitch);
       }
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initApp);
-    } else {
-      initApp();
-    }
+    });
   </script>
-
 </body>
 </html>

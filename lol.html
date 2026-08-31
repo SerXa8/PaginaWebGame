@@ -165,9 +165,9 @@
 
   </div>
 
-  <!-- MODAL INTERACTIVO CON NAVEGACIÓN Y FICHA PRO PARA DIAGNÓSTICO -->
+  <!-- MODAL INTERACTIVO AMPLIO (max-w-5xl) CON PUNTOS FUERTES Y DÉBILES -->
   <div id="playerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-[#121620] border border-custom rounded-2xl max-w-4xl w-full p-6 text-white relative max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div class="bg-[#121620] border border-custom rounded-2xl max-w-5xl w-full p-6 text-white relative max-h-[92vh] overflow-y-auto shadow-2xl">
       <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold transition">&times;</button>
 
       <!-- Cabecera del Jugador -->
@@ -181,11 +181,11 @@
 
       <!-- Selector de Pestañas -->
       <div class="flex gap-2 mb-6 bg-slate-950 p-1 rounded-xl border border-custom">
-        <button onclick="switchModalTab('tab-basic')" id="btn-tab-basic" class="modal-tab-btn active flex-1 py-2 text-xs font-extrabold rounded-lg transition text-slate-400 border border-transparent">
-          📊 Stats & Historial
+        <button onclick="switchModalTab('tab-basic')" id="btn-tab-basic" class="modal-tab-btn active flex-1 py-2 text-xs font-extrabold rounded-lg transition text-slate-400 border border-transparent flex items-center justify-center gap-2">
+          <span>📊</span> Stats & Historial
         </button>
-        <button onclick="switchModalTab('tab-pro')" id="btn-tab-pro" class="modal-tab-btn flex-1 py-2 text-xs font-extrabold rounded-lg transition text-slate-400 border border-transparent">
-          🎯 Diagnóstico de Errores (Ficha Pro)
+        <button onclick="switchModalTab('tab-pro')" id="btn-tab-pro" class="modal-tab-btn flex-1 py-2 text-xs font-extrabold rounded-lg transition text-slate-400 border border-transparent flex items-center justify-center gap-2">
+          <span>🎯</span> Diagnóstico de Errores (Ficha Pro)
         </button>
       </div>
 
@@ -206,54 +206,65 @@
         </div>
       </div>
 
-      <!-- PESTAÑA 2: VISTA PROFESIONAL (DIAGNÓSTICO Y MÉTRICAS CLAVE) -->
+      <!-- PESTAÑA 2: VISTA PROFESIONAL CON PUNTOS FUERTES Y DÉBILES -->
       <div id="modal-tab-pro" class="hidden space-y-6">
         
-        <!-- Bloque 1: Diagnóstico Automático del Entrenador -->
-        <div class="bg-slate-950 border border-custom rounded-xl p-4">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-yellow-400 mb-2 flex items-center gap-2">
-            <i data-lucide="alert-triangle" class="w-4 h-4 text-yellow-500"></i> Diagnóstico de Puntos Débiles (Últimas partidas)
-          </h3>
-          <div id="pro-diagnosis-list" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-            <!-- Inyectado por JS -->
+        <!-- Bloque de Diagnóstico Dividido (Fuertes vs Débiles) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Puntos Fuertes -->
+          <div class="bg-slate-950 border border-green-500/30 rounded-xl p-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-green-400 mb-3 flex items-center gap-2">
+              <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> Puntos Fuertes
+            </h3>
+            <div id="pro-strengths-list" class="space-y-2 text-xs">
+              <!-- Inyectado dinámicamente -->
+            </div>
+          </div>
+
+          <!-- Puntos Débiles / Errores -->
+          <div class="bg-slate-950 border border-red-500/30 rounded-xl p-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-red-400 mb-3 flex items-center gap-2">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-red-400"></i> Puntos Débiles (A Mejorar)
+            </h3>
+            <div id="pro-weaknesses-list" class="space-y-2 text-xs">
+              <!-- Inyectado dinámicamente -->
+            </div>
           </div>
         </div>
 
-        <!-- Bloque 2: Métricas Esenciales por Fases -->
+        <!-- Métricas Clave de Rendimiento -->
         <div>
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
             <span>⚡</span> Métricas Clave de Rendimiento
           </h3>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            
-            <div class="bg-slate-900/80 p-3 rounded-xl border border-custom">
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
               <span class="text-[10px] text-slate-400 uppercase font-bold block">Fase de Líneas (CSD@10)</span>
-              <span class="text-lg font-black text-white" id="pro-csd10">+0.0</span>
-              <span class="text-[9px] block mt-0.5 text-slate-500" id="pro-csd10-sub">Diferencia CS min 10</span>
+              <span class="text-xl font-black text-white" id="pro-csd10">+0.0</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Diferencia CS min 10</span>
             </div>
 
-            <div class="bg-slate-900/80 p-3 rounded-xl border border-custom">
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
               <span class="text-[10px] text-slate-400 uppercase font-bold block">Ventaja Oro (GD@10)</span>
-              <span class="text-lg font-black text-white" id="pro-gd10">+0</span>
-              <span class="text-[9px] block mt-0.5 text-slate-500" id="pro-gd10-sub">Diferencia Oro min 10</span>
+              <span class="text-xl font-black text-white" id="pro-gd10">+0g</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Diferencia Oro min 10</span>
             </div>
 
-            <div class="bg-slate-900/80 p-3 rounded-xl border border-custom">
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
               <span class="text-[10px] text-slate-400 uppercase font-bold block">Eficiencia Oro / Daño</span>
-              <span class="text-lg font-black text-white" id="pro-dmg-efficiency">0.00</span>
-              <span class="text-[9px] block mt-0.5 text-slate-500" id="pro-dmg-eff-sub">Ratio DPM / Oro%</span>
+              <span class="text-xl font-black text-white" id="pro-dmg-efficiency">0.00</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Ratio DPM / Oro%</span>
             </div>
 
-            <div class="bg-slate-900/80 p-3 rounded-xl border border-custom">
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
               <span class="text-[10px] text-slate-400 uppercase font-bold block">Control de Visión</span>
-              <span class="text-lg font-black text-white" id="pro-vision-pm">0.0 /m</span>
-              <span class="text-[9px] block mt-0.5 text-slate-500" id="pro-vision-sub">Puntuación visión/min</span>
+              <span class="text-xl font-black text-white" id="pro-vision-pm">0.0 /m</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Puntuación visión/min</span>
             </div>
-
           </div>
         </div>
 
-        <!-- Bloque 3: Tabla Detallada de Telemetría -->
+        <!-- Tabla de Telemetría Partida a Partida -->
         <div>
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
             <span>📊</span> Telemetría Partida a Partida
@@ -262,13 +273,13 @@
             <table class="w-full text-left text-xs">
               <thead class="bg-slate-900/90 text-slate-400 uppercase text-[10px]">
                 <tr>
-                  <th class="p-2.5">Champ</th>
-                  <th class="p-2.5 text-center">KDA</th>
-                  <th class="p-2.5 text-center">CS/m</th>
-                  <th class="p-2.5 text-center">CSD@10</th>
-                  <th class="p-2.5 text-center">KP %</th>
-                  <th class="p-2.5 text-center">Daño %</th>
-                  <th class="p-2.5 text-center">Visión/m</th>
+                  <th class="p-3">Champ</th>
+                  <th class="p-3 text-center">KDA</th>
+                  <th class="p-3 text-center">CS/m</th>
+                  <th class="p-3 text-center">CSD@10</th>
+                  <th class="p-3 text-center">KP %</th>
+                  <th class="p-3 text-center">Daño %</th>
+                  <th class="p-3 text-center">Visión/m</th>
                 </tr>
               </thead>
               <tbody id="pro-matches-body" class="divide-y divide-custom/40"></tbody>
@@ -553,75 +564,93 @@
       const perf = p.performanceMetrics || {};
       const matches = p.recentMatches || [];
 
-      // Cálculo de métricas avanzadas promedio
+      // Cálculo de promedios
       const avgCsd10 = perf.avgCsd10 !== undefined ? perf.avgCsd10 : (matches.length ? (matches.reduce((acc, m) => acc + (m.csd10 || 0), 0) / matches.length) : 0);
       const avgGd10 = perf.avgGd10 !== undefined ? perf.avgGd10 : (matches.length ? (matches.reduce((acc, m) => acc + (m.gd10 || 0), 0) / matches.length) : 0);
       const avgDpm = perf.avgDpm || 0;
-      const avgCspm = parseFloat(perf.avgCspm || 0);
+      const avgCspm = parseFloat(perf.avgCspm || (matches.length ? (matches.reduce((acc, m) => acc + parseFloat(m.cspm || (m.cs / m.gameDurationMinutes)), 0) / matches.length) : 0));
       const avgVision = perf.avgVisionPerMin || 1.1;
       const goldShare = parseFloat(perf.goldShare || "22%");
-      const dmgEfficiency = goldShare > 0 ? (avgDpm / goldShare).toFixed(1) : "0.0";
+      const dmgEfficiency = goldShare > 0 ? (avgDpm / goldShare).toFixed(1) : "35.7";
 
-      // Inyección en UI de Bloque Métricas Clave
+      // Inyección Bloque Métricas Clave
       const csdElem = document.getElementById('pro-csd10');
       csdElem.innerText = (avgCsd10 >= 0 ? '+' : '') + avgCsd10.toFixed(1);
-      csdElem.className = `text-lg font-black ${avgCsd10 >= 0 ? 'text-green-400' : 'text-red-400'}`;
+      csdElem.className = `text-xl font-black ${avgCsd10 >= 0 ? 'text-green-400' : 'text-red-400'}`;
 
       const gdElem = document.getElementById('pro-gd10');
       gdElem.innerText = (avgGd10 >= 0 ? '+' : '') + Math.round(avgGd10) + 'g';
-      gdElem.className = `text-lg font-black ${avgGd10 >= 0 ? 'text-green-400' : 'text-red-400'}`;
+      gdElem.className = `text-xl font-black ${avgGd10 >= 0 ? 'text-green-400' : 'text-red-400'}`;
 
       document.getElementById('pro-dmg-efficiency').innerText = dmgEfficiency;
       document.getElementById('pro-vision-pm').innerText = `${avgVision} /m`;
 
-      // Sistema de Generación de Diagnósticos Automáticos
-      const diagnosisList = document.getElementById('pro-diagnosis-list');
-      const diagnostics = [];
+      // GENERADOR DE PUNTOS FUERTES Y DÉBILES
+      const strengths = [];
+      const weaknesses = [];
+      const isSupport = (p.role || '').toLowerCase() === 'support' || (p.role || '').toLowerCase() === 'supp';
 
-      if (avgCsd10 < -5) {
-        diagnostics.push({ text: 'Pierde ventaja de CS en fase de líneas (CSD@10 negativo). Revisar las mecánicas de las primeras oleadas.', alert: true });
-      } else if (avgCsd10 > 5) {
-        diagnostics.push({ text: 'Dominio sólido de la fase de líneas (CSD@10 positivo).', alert: false });
+      // Evaluación Fase de Líneas
+      if (avgCsd10 >= 0) {
+        strengths.push('Excelente fase de líneas (CSD@10 positivo o neutro frente al rival).');
+      } else {
+        weaknesses.push('Pierde súbditos en fase de líneas (CSD@10 negativo). Revisar tradings y last hit.');
       }
 
-      if (avgCspm < 7.0 && (p.role || '').toLowerCase() !== 'support') {
-        diagnostics.push({ text: 'Bajo CS por minuto en mid/late game. Se desconecta de las oleadas al agruparse.', alert: true });
+      // Evaluación CS Mid/Late
+      if (avgCspm >= 7.0) {
+        strengths.push('Excelente recolección de recursos (CS/min constante en mid/late game).');
+      } else if (!isSupport) {
+        weaknesses.push('Bajo CS por minuto en mid/late game. Se desconecta de las oleadas al agruparse.');
       }
 
-      if (parseFloat(dmgEfficiency) < 20 && avgDpm < 450) {
-        diagnostics.push({ text: 'Baja conversión de recurso a daño (Poco impacto en peleas de equipo respecto al oro recibido).', alert: true });
+      // Evaluación Eficiencia / Daño
+      if (parseFloat(dmgEfficiency) >= 30 || avgDpm >= 500) {
+        strengths.push('Gran conversión de oro a daño. Aporta alto impacto en peleas grupales.');
+      } else {
+        weaknesses.push('Baja conversión de oro a daño. Poco impacto en peleas respecto al oro asignado.');
       }
 
-      if (avgVision < 0.9 && (p.role || '').toLowerCase() !== 'adc') {
-        diagnostics.push({ text: 'Puntuación de visión por debajo de la media. Comprar más Control Wards o cambiar a Lente del Oráculo.', alert: true });
+      // Evaluación Visión
+      if (avgVision >= (isSupport ? 2.0 : 1.2)) {
+        strengths.push('Buen control del mapa mediante guardias de visión e información constante.');
+      } else {
+        weaknesses.push('Puntuación de visión mejorable. Falta de guardianes de control en zonas clave.');
       }
 
-      if (diagnostics.length === 0) {
-        diagnostics.push({ text: 'Rendimiento equilibrado en todas las fases. Mantener consistencia en la toma de decisiones.', alert: false });
-      }
+      // Rendimiento por defecto si falta variedad
+      if (strengths.length === 0) strengths.push('Mantiene solidez básica y adaptación en situaciones complejas.');
+      if (weaknesses.length === 0) weaknesses.push('Rendimiento muy estable sin fallos críticos detectados.');
 
-      diagnosisList.innerHTML = diagnostics.map(d => `
-        <div class="p-2 rounded-lg flex items-start gap-2 ${d.alert ? 'bg-red-500/10 border border-red-500/30 text-red-300' : 'bg-green-500/10 border border-green-500/30 text-green-300'}">
-          <span class="mt-0.5">${d.alert ? '⚠️' : '✅'}</span>
-          <span>${d.text}</span>
+      document.getElementById('pro-strengths-list').innerHTML = strengths.map(s => `
+        <div class="p-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300 flex items-start gap-2">
+          <span class="text-green-400 font-bold">✓</span>
+          <span>${s}</span>
         </div>
       `).join('');
 
-      // Tabla de Telemetría Partida a Partida
+      document.getElementById('pro-weaknesses-list').innerHTML = weaknesses.map(w => `
+        <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 flex items-start gap-2">
+          <span class="text-red-400 font-bold">⚠️</span>
+          <span>${w}</span>
+        </div>
+      `).join('');
+
+      // Tabla Telemetría Partida a Partida
       const proTableBody = document.getElementById('pro-matches-body');
       if (matches.length > 0) {
         proTableBody.innerHTML = matches.slice().reverse().map(m => `
           <tr class="${m.win ? 'bg-green-950/10' : 'bg-red-950/10'} hover:bg-slate-900 transition">
-            <td class="p-2.5 font-bold text-white flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full ${m.win ? 'bg-green-500' : 'bg-red-500'}"></span>
+            <td class="p-3 font-bold text-white flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full ${m.win ? 'bg-green-500' : 'bg-red-500'}"></span>
               ${m.championName}
             </td>
-            <td class="p-2.5 text-center font-mono font-bold text-slate-300">${m.kills}/${m.deaths}/${m.assists}</td>
-            <td class="p-2.5 text-center text-slate-300 font-semibold">${m.cspm || (m.cs / m.gameDurationMinutes).toFixed(1)}</td>
-            <td class="p-2.5 text-center font-bold ${ (m.csd10 || 0) >= 0 ? 'text-green-400' : 'text-red-400'}">${(m.csd10 || 0) >= 0 ? '+' : ''}${m.csd10 || 0}</td>
-            <td class="p-2.5 text-center text-slate-300">${m.killParticipation || '0%'}</td>
-            <td class="p-2.5 text-center text-slate-300">${m.damageShare || '0%'}</td>
-            <td class="p-2.5 text-center text-slate-300">${m.visionPerMin || '1.0'}</td>
+            <td class="p-3 text-center font-mono font-bold text-slate-300">${m.kills}/${m.deaths}/${m.assists}</td>
+            <td class="p-3 text-center text-slate-300 font-semibold">${m.cspm || (m.cs / (m.gameDurationMinutes || 30)).toFixed(1)}</td>
+            <td class="p-3 text-center font-bold ${ (m.csd10 || 0) >= 0 ? 'text-green-400' : 'text-red-400'}">${(m.csd10 || 0) >= 0 ? '+' : ''}${m.csd10 || 0}</td>
+            <td class="p-3 text-center text-slate-300">${m.killParticipation || '0%'}</td>
+            <td class="p-3 text-center text-slate-300">${m.damageShare || '0%'}</td>
+            <td class="p-3 text-center text-slate-300">${m.visionPerMin || '1.0'}</td>
           </tr>
         `).join('');
       } else {

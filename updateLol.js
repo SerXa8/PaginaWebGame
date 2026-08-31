@@ -42,7 +42,7 @@ function getAbsoluteLp(tier, rank, lp) {
   return (tiers[tier?.toUpperCase()] || 0) + (ranks[rank?.toUpperCase()] || 0) + (lp || 0);
 }
 
-// ESTIMADOR DE LP BASADO EN MMR / WINRATE
+// ESTIMADOR DINÁMICO DE LP BASADO EN WINRATE REAL
 function estimateLpByWinrate(wins, losses) {
   const totalGames = wins + losses;
   if (totalGames === 0) return { gain: 20, loss: 20 };
@@ -245,8 +245,12 @@ async function getPlayerData(player, previousState) {
     let totalLossLp = prev.totalLossLp || 0;
     let lossEvents = prev.lossEvents || 0;
 
-    // CÁLCULO DE DELTA DE LP FIABLE Y MATEMÁTICAMENTE EXACTO
-    if (typeof prev.absoluteElo === 'number') {
+    // Estimación dinámica de respaldo basada en el Winrate actual
+    const fallbackLp = estimateLpByWinrate(wins, losses);
+    const currentLossEstimate = prev.lossLp || fallbackLp.loss;
+
+    // CÁLCULO DE DELTA DE LP (RECALCULADO DINÁMICAMENTE)
+    if (typeof prev.absoluteElo === 'number' && (prev.win !== wins || prev.loss !== losses)) {
       const winsDiff = wins - (prev.win || wins);
       const lossesDiff = losses - (prev.loss || losses);
       const totalMatchesDiff = winsDiff + lossesDiff;
@@ -261,7 +265,7 @@ async function getPlayerData(player, previousState) {
           totalLossLp += Math.abs(eloDelta);
           lossEvents += lossesDiff;
         } else if (winsDiff > 0 && lossesDiff > 0) {
-          const estimatedLossesTotal = lossesDiff * (prev.lossLp || 15);
+          const estimatedLossesTotal = lossesDiff * currentLossEstimate;
           const estimatedWinGain = eloDelta + estimatedLossesTotal;
           const calculatedGain = Math.max(10, Math.round(estimatedWinGain / winsDiff));
           
@@ -273,11 +277,9 @@ async function getPlayerData(player, previousState) {
       }
     }
 
-    // ESTIMACIÓN DE RESPALDO (Si no hay partidas registradas en el estado guardado)
-    const fallbackLp = estimateLpByWinrate(wins, losses);
-
-    const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : (prev.gain || fallbackLp.gain);
-    const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : (prev.lossLp || fallbackLp.loss);
+    // Se prefiere el promedio real acumulado; si no hay eventos registrados, usa el estimador de MMR
+    const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : fallbackLp.gain;
+    const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : fallbackLp.loss;
 
     const topMasteries = await getTopMasteries(accountData.puuid);
     const detailedMatches = await getDetailedMatches(accountData.puuid);

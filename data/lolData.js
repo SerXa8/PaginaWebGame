@@ -616,8 +616,8 @@ const gameData = {
       "lossEvents": 0,
       "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 15 L 37.5 18 L 45.0 21 L 52.5 18 L 60.0 15 L 67.5 18 L 75.0 21",
       "twitch": "",
-      "inGame": true,
-      "champion": "LeBlanc",
+      "inGame": false,
+      "champion": null,
       "topMasteries": [
         {
           "championName": "Vex",
@@ -797,5 +797,5 @@ const gameData = {
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-08-31T11:54:57.772Z"
+  "lastUpdated": "2026-08-31T18:07:21.145Z"
 };

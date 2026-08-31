@@ -12,6 +12,14 @@
     .bg-card-hover:hover { background-color: #1a202c; }
     .border-custom { border-color: #1e2638; }
     .role-btn.active { background-color: #f59e0b; color: #000; font-weight: 800; }
+    
+    /* Pestañas del Modal */
+    .modal-tab-btn.active {
+      background-color: #f59e0b;
+      color: #0b0d12;
+      border-color: #f59e0b;
+      font-weight: 800;
+    }
   </style>
 </head>
 <body class="min-h-screen pb-12">
@@ -161,32 +169,95 @@
 
   </div>
 
-  <!-- MODAL INTERACTIVO DE FICHA EXTENDIDA -->
+  <!-- MODAL INTERACTIVO DE FICHA EXTENDIDA (ACTUALIZADO CON NAVEGACIÓN Y FICHA PRO) -->
   <div id="playerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-[#121620] border border-custom rounded-2xl max-w-2xl w-full p-6 text-white relative max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div class="bg-[#121620] border border-custom rounded-2xl max-w-3xl w-full p-6 text-white relative max-h-[90vh] overflow-y-auto shadow-2xl">
       <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold transition">&times;</button>
 
-      <div class="flex items-center gap-4 mb-6 border-b border-custom pb-4">
+      <!-- Cabecera del Jugador -->
+      <div class="flex items-center gap-4 mb-4 border-b border-custom pb-4">
         <div class="bg-yellow-500/20 border border-yellow-500/50 text-yellow-400 p-3 rounded-xl font-black text-2xl" id="modalRank">#1</div>
-        <div>
+        <div class="flex-1">
           <h2 class="text-2xl font-black text-white" id="modalPlayerName">Nombre <span class="text-slate-500 text-sm font-normal" id="modalPlayerTag">#TAG</span></h2>
-          <p class="text-xs font-semibold text-yellow-400 mt-1" id="modalTier">GOLD I - 50 LP</p>
+          <p class="text-xs font-semibold text-yellow-400 mt-0.5" id="modalTier">GOLD I - 50 LP</p>
         </div>
       </div>
 
-      <div class="mb-6">
-        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-          <span>🔥</span> Top Campeones (Maestría)
-        </h3>
-        <div class="grid grid-cols-3 gap-3" id="modalMasteries"></div>
+      <!-- Selector de Pestañas -->
+      <div class="flex gap-2 mb-6 bg-slate-950 p-1 rounded-xl border border-custom">
+        <button onclick="switchModalTab('tab-basic')" id="btn-tab-basic" class="modal-tab-btn active flex-1 py-2 text-xs font-extrabold rounded-lg transition text-slate-400 border border-transparent">
+          📊 Stats & Elo
+        </button>
+        <button onclick="switchModalTab('tab-pro')" id="btn-tab-pro" class="modal-tab-btn flex-1 py-2 text-xs font-extrabold rounded-lg transition text-slate-400 border border-transparent">
+          ⚡ Ficha Profesional
+        </button>
       </div>
 
-      <div>
-        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-          <span>📜</span> Últimas Partidas Ranked
-        </h3>
-        <div class="space-y-2" id="modalMatches"></div>
+      <!-- PESTAÑA 1: VISTA BÁSICA (Stats & Elo) -->
+      <div id="modal-tab-basic" class="space-y-6">
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+            <span>🔥</span> Top Campeones (Maestría)
+          </h3>
+          <div class="grid grid-cols-3 gap-3" id="modalMasteries"></div>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+            <span>📜</span> Últimas Partidas Ranked
+          </h3>
+          <div class="space-y-2" id="modalMatches"></div>
+        </div>
       </div>
+
+      <!-- PESTAÑA 2: VISTA PROFESIONAL -->
+      <div id="modal-tab-pro" class="hidden space-y-6">
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+            <span>🎯</span> Rendimiento Medio (Últimas Partidas)
+          </h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-custom text-center">
+              <span class="text-[10px] text-slate-400 uppercase font-bold block">KDA Medio</span>
+              <span class="text-xl font-black text-pink-500" id="pro-kda">0.00</span>
+            </div>
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-custom text-center">
+              <span class="text-[10px] text-slate-400 uppercase font-bold block">CS / MIN</span>
+              <span class="text-xl font-black text-yellow-400" id="pro-cspm">0.0</span>
+            </div>
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-custom text-center">
+              <span class="text-[10px] text-slate-400 uppercase font-bold block">Daño / MIN</span>
+              <span class="text-xl font-black text-blue-400" id="pro-dpm">0</span>
+            </div>
+            <div class="bg-slate-900/80 p-3 rounded-xl border border-custom text-center">
+              <span class="text-[10px] text-slate-400 uppercase font-bold block">KP %</span>
+              <span class="text-xl font-black text-green-400" id="pro-kp">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+            <span>📊</span> Telemetría de Partidas Recientes
+          </h3>
+          <div class="overflow-x-auto rounded-xl border border-custom bg-slate-950">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-900/90 text-slate-400 uppercase text-[10px]">
+                <tr>
+                  <th class="p-2.5">Champ</th>
+                  <th class="p-2.5 text-center">KDA</th>
+                  <th class="p-2.5 text-center">CS/m</th>
+                  <th class="p-2.5 text-center">KP %</th>
+                  <th class="p-2.5 text-center">Daño %</th>
+                  <th class="p-2.5 text-center">Oro %</th>
+                </tr>
+              </thead>
+              <tbody id="pro-matches-body" class="divide-y divide-custom/40"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -416,18 +487,34 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    // ABRIR Y CERRAR EL MODAL DETALLADO
+    // NAVEGACIÓN ENTRE PESTAÑAS DEL MODAL
+    function switchModalTab(tabId) {
+      document.getElementById('modal-tab-basic').classList.add('hidden');
+      document.getElementById('modal-tab-pro').classList.add('hidden');
+
+      document.getElementById('btn-tab-basic').classList.remove('active');
+      document.getElementById('btn-tab-pro').classList.remove('active');
+
+      document.getElementById(`modal-${tabId}`).classList.remove('hidden');
+      document.getElementById(`btn-${tabId}`).classList.add('active');
+    }
+
+    // ABRIR Y RENDERIZAR EL MODAL CON FICHA BÁSICA Y PROFESIONAL
     function openPlayerModal(playerName) {
       if (typeof gameData === 'undefined' || !gameData.players) return;
       const p = gameData.players.find(player => player.name === playerName);
       if (!p) return;
 
+      // Resetea siempre a la primera pestaña
+      switchModalTab('tab-basic');
+
+      // Datos de Cabecera
       document.getElementById('modalRank').innerText = `#${p.rank}`;
       document.getElementById('modalPlayerName').childNodes[0].nodeValue = p.name + ' ';
       document.getElementById('modalPlayerTag').innerText = p.tag;
       document.getElementById('modalTier').innerText = `${p.tierName} ${p.rankTier} - ${p.elo} LP (${p.wr} Winrate)`;
 
-      // Renderizar Top Campeones
+      // --- PESTAÑA 1: VISTA BÁSICA ---
       const masteriesContainer = document.getElementById('modalMasteries');
       if (p.topMasteries && p.topMasteries.length > 0) {
         masteriesContainer.innerHTML = p.topMasteries.map(m => `
@@ -441,7 +528,6 @@
         masteriesContainer.innerHTML = '<p class="text-xs text-slate-500 col-span-3 text-center py-2">Sin datos de maestría disponibles.</p>';
       }
 
-      // Renderizar Historial Reciente
       const matchesContainer = document.getElementById('modalMatches');
       if (p.recentMatches && p.recentMatches.length > 0) {
         matchesContainer.innerHTML = p.recentMatches.slice().reverse().map(m => `
@@ -460,6 +546,32 @@
         `).join('');
       } else {
         matchesContainer.innerHTML = '<p class="text-xs text-slate-500 text-center py-2">Sin partidas recientes registradas.</p>';
+      }
+
+      // --- PESTAÑA 2: VISTA PROFESIONAL ---
+      const perf = p.performanceMetrics || {};
+      document.getElementById('pro-kda').innerText = perf.avgKda || '0.00';
+      document.getElementById('pro-cspm').innerText = perf.avgCspm || '0.0';
+      document.getElementById('pro-dpm').innerText = perf.avgDpm || '0';
+      document.getElementById('pro-kp').innerText = perf.avgKp || '0%';
+
+      const proTableBody = document.getElementById('pro-matches-body');
+      if (p.recentMatches && p.recentMatches.length > 0) {
+        proTableBody.innerHTML = p.recentMatches.slice().reverse().map(m => `
+          <tr class="${m.win ? 'bg-green-950/10' : 'bg-red-950/10'} hover:bg-slate-900 transition">
+            <td class="p-2.5 font-bold text-white flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full ${m.win ? 'bg-green-500' : 'bg-red-500'}"></span>
+              ${m.championName}
+            </td>
+            <td class="p-2.5 text-center font-mono font-bold text-slate-300">${m.kills}/${m.deaths}/${m.assists} (${m.kdaRatio})</td>
+            <td class="p-2.5 text-center text-slate-300">${m.cspm}</td>
+            <td class="p-2.5 text-center text-slate-300">${m.killParticipation}</td>
+            <td class="p-2.5 text-center text-slate-300">${m.damageShare}</td>
+            <td class="p-2.5 text-center text-slate-300">${m.goldShare}</td>
+          </tr>
+        `).join('');
+      } else {
+        proTableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">Sin datos de telemetría disponibles.</td></tr>';
       }
 
       const modal = document.getElementById('playerModal');

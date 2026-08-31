@@ -1,0 +1,62 @@
+{
+  "JavierLoL": {
+    "elo": 2591,
+    "absoluteElo": 5691,
+    "win": 205,
+    "loss": 144,
+    "tierName": "CHALLENGER",
+    "rankTier": "I",
+    "gain": 23,
+    "lossLp": 18,
+    "totalGainLp": 0,
+    "winEvents": 0,
+    "totalLossLp": 0,
+    "lossEvents": 0,
+    "timestamp": 1788177297772
+  },
+  "Maiiser": {
+    "elo": 55,
+    "absoluteElo": 2755,
+    "win": 123,
+    "loss": 96,
+    "tierName": "DIAMOND",
+    "rankTier": "I",
+    "gain": 22,
+    "lossLp": 19,
+    "totalGainLp": 0,
+    "winEvents": 0,
+    "totalLossLp": 0,
+    "lossEvents": 0,
+    "timestamp": 1788177297772
+  },
+  "SerXa8": {
+    "elo": 48,
+    "absoluteElo": 648,
+    "win": 144,
+    "loss": 158,
+    "tierName": "BRONZE",
+    "rankTier": "II",
+    "gain": 19,
+    "lossLp": 21,
+    "totalGainLp": 0,
+    "winEvents": 0,
+    "totalLossLp": 0,
+    "lossEvents": 0,
+    "timestamp": 1788177297772
+  },
+  "mamielizabeth": {
+    "elo": 51,
+    "absoluteElo": 551,
+    "win": 84,
+    "loss": 93,
+    "tierName": "BRONZE",
+    "rankTier": "III",
+    "gain": 19,
+    "lossLp": 21,
+    "totalGainLp": 0,
+    "winEvents": 0,
+    "totalLossLp": 0,
+    "lossEvents": 0,
+    "timestamp": 1788177297772
+  }
+}

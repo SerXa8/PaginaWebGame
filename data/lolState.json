@@ -12,7 +12,7 @@
     "winEvents": 0,
     "totalLossLp": 0,
     "lossEvents": 0,
-    "timestamp": 1788538012490
+    "timestamp": 1788548670376
   },
   "Maiiser": {
     "elo": 55,
@@ -27,36 +27,36 @@
     "winEvents": 0,
     "totalLossLp": 0,
     "lossEvents": 0,
-    "timestamp": 1788538012490
+    "timestamp": 1788548670376
   },
   "SerXa8": {
-    "elo": 6,
-    "absoluteElo": 706,
-    "win": 147,
+    "elo": 31,
+    "absoluteElo": 731,
+    "win": 148,
     "loss": 159,
     "tierName": "BRONZE",
     "rankTier": "I",
     "gain": 26,
     "lossLp": 21,
-    "totalGainLp": 78,
-    "winEvents": 3,
+    "totalGainLp": 103,
+    "winEvents": 4,
     "totalLossLp": 21,
     "lossEvents": 1,
-    "timestamp": 1788538012490
+    "timestamp": 1788548670376
   },
   "mamielizabeth": {
     "elo": 37,
     "absoluteElo": 537,
-    "win": 90,
-    "loss": 100,
+    "win": 91,
+    "loss": 101,
     "tierName": "BRONZE",
     "rankTier": "III",
     "gain": 22,
     "lossLp": 21,
-    "totalGainLp": 132,
-    "winEvents": 6,
-    "totalLossLp": 147,
-    "lossEvents": 7,
-    "timestamp": 1788538012490
+    "totalGainLp": 153,
+    "winEvents": 7,
+    "totalLossLp": 168,
+    "lossEvents": 8,
+    "timestamp": 1788548670376
   }
 }

@@ -402,23 +402,23 @@ const gameData = {
       "name": "SerXa8",
       "tag": "#1197",
       "role": "top",
-      "elo": 6,
-      "absoluteElo": 706,
+      "elo": 31,
+      "absoluteElo": 731,
       "tierName": "BRONZE",
       "rankTier": "I",
-      "win": 147,
+      "win": 148,
       "loss": 159,
       "wr": "48%",
       "gain": 26,
       "lossLp": 21,
-      "totalGainLp": 78,
-      "winEvents": 3,
+      "totalGainLp": 103,
+      "winEvents": 4,
       "totalLossLp": 21,
       "lossEvents": 1,
-      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 18 L 30.0 15 L 37.5 18 L 45.0 15 L 52.5 18 L 60.0 21 L 67.5 18 L 75.0 15",
+      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 18 L 30.0 15 L 37.5 18 L 45.0 21 L 52.5 18 L 60.0 15 L 67.5 18 L 75.0 15",
       "twitch": "s3rxa8",
-      "inGame": false,
-      "champion": null,
+      "inGame": true,
+      "champion": "Singed",
       "topMasteries": [
         {
           "championName": "Nocturne",
@@ -437,43 +437,13 @@ const gameData = {
         }
       ],
       "performanceMetrics": {
-        "avgDpm": 675,
-        "avgCspm": "5.2",
-        "avgKp": "39.2%",
-        "avgKda": "1.62",
+        "avgDpm": 685,
+        "avgCspm": "5.8",
+        "avgKp": "35.5%",
+        "avgKda": "1.44",
         "totalAnalyzedGames": 10
       },
       "recentMatches": [
-        {
-          "win": false,
-          "championName": "Leona",
-          "kills": 9,
-          "deaths": 15,
-          "assists": 22,
-          "kdaRatio": "2.07",
-          "cs": 39,
-          "cspm": "0.8",
-          "dpm": 610,
-          "killParticipation": "45.6%",
-          "damageShare": "12.5%",
-          "goldShare": "16.6%",
-          "gameDurationMinutes": 48
-        },
-        {
-          "win": true,
-          "championName": "Caitlyn",
-          "kills": 11,
-          "deaths": 5,
-          "assists": 3,
-          "kdaRatio": "2.80",
-          "cs": 138,
-          "cspm": "5.9",
-          "dpm": 878,
-          "killParticipation": "45.2%",
-          "damageShare": "23.4%",
-          "goldShare": "23.8%",
-          "gameDurationMinutes": 24
-        },
         {
           "win": false,
           "championName": "Kaisa",
@@ -593,6 +563,36 @@ const gameData = {
           "damageShare": "10.1%",
           "goldShare": "16.3%",
           "gameDurationMinutes": 16
+        },
+        {
+          "win": false,
+          "championName": "Nasus",
+          "kills": 6,
+          "deaths": 8,
+          "assists": 1,
+          "kdaRatio": "0.88",
+          "cs": 258,
+          "cspm": "6.9",
+          "dpm": 693,
+          "killParticipation": "22.6%",
+          "damageShare": "19.0%",
+          "goldShare": "20.6%",
+          "gameDurationMinutes": 38
+        },
+        {
+          "win": true,
+          "championName": "Veigar",
+          "kills": 5,
+          "deaths": 8,
+          "assists": 11,
+          "kdaRatio": "2.00",
+          "cs": 197,
+          "cspm": "6.2",
+          "dpm": 899,
+          "killParticipation": "30.8%",
+          "damageShare": "15.6%",
+          "goldShare": "17.1%",
+          "gameDurationMinutes": 32
         }
       ],
       "rank": 3
@@ -605,29 +605,29 @@ const gameData = {
       "absoluteElo": 537,
       "tierName": "BRONZE",
       "rankTier": "III",
-      "win": 90,
-      "loss": 100,
+      "win": 91,
+      "loss": 101,
       "wr": "47%",
       "gain": 22,
       "lossLp": 21,
-      "totalGainLp": 132,
-      "winEvents": 6,
-      "totalLossLp": 147,
-      "lossEvents": 7,
-      "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 24 L 30.0 27 L 37.5 24 L 45.0 27 L 52.5 24 L 60.0 21 L 67.5 18 L 75.0 21",
+      "totalGainLp": 153,
+      "winEvents": 7,
+      "totalLossLp": 168,
+      "lossEvents": 8,
+      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 18 L 30.0 15 L 37.5 12 L 45.0 9 L 52.5 12 L 60.0 9 L 67.5 12 L 75.0 15",
       "twitch": "",
-      "inGame": true,
-      "champion": "Vex",
+      "inGame": false,
+      "champion": null,
       "topMasteries": [
         {
           "championName": "Vex",
-          "championLevel": 12,
-          "championPoints": 108166
+          "championLevel": 13,
+          "championPoints": 109466
         },
         {
           "championName": "Gwen",
           "championLevel": 7,
-          "championPoints": 51673
+          "championPoints": 52568
         },
         {
           "championName": "Lux",
@@ -636,58 +636,13 @@ const gameData = {
         }
       ],
       "performanceMetrics": {
-        "avgDpm": 788,
-        "avgCspm": "3.9",
-        "avgKp": "48.5%",
-        "avgKda": "2.21",
+        "avgDpm": 754,
+        "avgCspm": "4.5",
+        "avgKp": "41.4%",
+        "avgKda": "2.04",
         "totalAnalyzedGames": 10
       },
       "recentMatches": [
-        {
-          "win": false,
-          "championName": "Leblanc",
-          "kills": 8,
-          "deaths": 8,
-          "assists": 6,
-          "kdaRatio": "1.75",
-          "cs": 186,
-          "cspm": "5.3",
-          "dpm": 665,
-          "killParticipation": "41.2%",
-          "damageShare": "20.5%",
-          "goldShare": "18.2%",
-          "gameDurationMinutes": 35
-        },
-        {
-          "win": false,
-          "championName": "Soraka",
-          "kills": 2,
-          "deaths": 8,
-          "assists": 7,
-          "kdaRatio": "1.13",
-          "cs": 18,
-          "cspm": "0.8",
-          "dpm": 381,
-          "killParticipation": "52.9%",
-          "damageShare": "12.8%",
-          "goldShare": "17.1%",
-          "gameDurationMinutes": 24
-        },
-        {
-          "win": false,
-          "championName": "Vex",
-          "kills": 14,
-          "deaths": 10,
-          "assists": 6,
-          "kdaRatio": "2.00",
-          "cs": 176,
-          "cspm": "5.1",
-          "dpm": 1392,
-          "killParticipation": "58.8%",
-          "damageShare": "31.3%",
-          "goldShare": "22.8%",
-          "gameDurationMinutes": 34
-        },
         {
           "win": false,
           "championName": "MasterYi",
@@ -792,10 +747,55 @@ const gameData = {
           "damageShare": "28.9%",
           "goldShare": "19.8%",
           "gameDurationMinutes": 37
+        },
+        {
+          "win": true,
+          "championName": "Vex",
+          "kills": 5,
+          "deaths": 4,
+          "assists": 8,
+          "kdaRatio": "3.25",
+          "cs": 152,
+          "cspm": "5.7",
+          "dpm": 876,
+          "killParticipation": "31.7%",
+          "damageShare": "19.3%",
+          "goldShare": "16.1%",
+          "gameDurationMinutes": 27
+        },
+        {
+          "win": false,
+          "championName": "Gwen",
+          "kills": 8,
+          "deaths": 11,
+          "assists": 3,
+          "kdaRatio": "1.00",
+          "cs": 252,
+          "cspm": "6.5",
+          "dpm": 856,
+          "killParticipation": "23.4%",
+          "damageShare": "20.2%",
+          "goldShare": "20.5%",
+          "gameDurationMinutes": 39
+        },
+        {
+          "win": false,
+          "championName": "Katarina",
+          "kills": 4,
+          "deaths": 12,
+          "assists": 4,
+          "kdaRatio": "0.67",
+          "cs": 198,
+          "cspm": "5.3",
+          "dpm": 366,
+          "killParticipation": "25.8%",
+          "damageShare": "10.0%",
+          "goldShare": "17.7%",
+          "gameDurationMinutes": 38
         }
       ],
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-04T16:06:52.491Z"
+  "lastUpdated": "2026-09-04T19:04:30.377Z"
 };

@@ -402,23 +402,23 @@ const gameData = {
       "name": "SerXa8",
       "tag": "#1197",
       "role": "top",
-      "elo": 31,
-      "absoluteElo": 731,
+      "elo": 40,
+      "absoluteElo": 740,
       "tierName": "BRONZE",
       "rankTier": "I",
-      "win": 148,
-      "loss": 159,
+      "win": 149,
+      "loss": 160,
       "wr": "48%",
-      "gain": 26,
+      "gain": 27,
       "lossLp": 21,
-      "totalGainLp": 103,
-      "winEvents": 4,
-      "totalLossLp": 21,
-      "lossEvents": 1,
-      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 18 L 30.0 15 L 37.5 18 L 45.0 21 L 52.5 18 L 60.0 15 L 67.5 18 L 75.0 15",
+      "totalGainLp": 133,
+      "winEvents": 5,
+      "totalLossLp": 42,
+      "lossEvents": 2,
+      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 18 L 30.0 21 L 37.5 18 L 45.0 15 L 52.5 18 L 60.0 15 L 67.5 18 L 75.0 15",
       "twitch": "s3rxa8",
-      "inGame": true,
-      "champion": "Singed",
+      "inGame": false,
+      "champion": null,
       "topMasteries": [
         {
           "championName": "Nocturne",
@@ -437,43 +437,13 @@ const gameData = {
         }
       ],
       "performanceMetrics": {
-        "avgDpm": 685,
-        "avgCspm": "5.8",
-        "avgKp": "35.5%",
-        "avgKda": "1.44",
+        "avgDpm": 717,
+        "avgCspm": "6.1",
+        "avgKp": "35.7%",
+        "avgKda": "1.48",
         "totalAnalyzedGames": 10
       },
       "recentMatches": [
-        {
-          "win": false,
-          "championName": "Kaisa",
-          "kills": 4,
-          "deaths": 11,
-          "assists": 2,
-          "kdaRatio": "0.55",
-          "cs": 155,
-          "cspm": "5.8",
-          "dpm": 568,
-          "killParticipation": "30.0%",
-          "damageShare": "19.7%",
-          "goldShare": "23.6%",
-          "gameDurationMinutes": 27
-        },
-        {
-          "win": true,
-          "championName": "Nocturne",
-          "kills": 9,
-          "deaths": 11,
-          "assists": 22,
-          "kdaRatio": "2.82",
-          "cs": 207,
-          "cspm": "4.9",
-          "dpm": 788,
-          "killParticipation": "55.4%",
-          "damageShare": "15.7%",
-          "goldShare": "19.7%",
-          "gameDurationMinutes": 42
-        },
         {
           "win": false,
           "championName": "Twitch",
@@ -593,6 +563,36 @@ const gameData = {
           "damageShare": "15.6%",
           "goldShare": "17.1%",
           "gameDurationMinutes": 32
+        },
+        {
+          "win": false,
+          "championName": "Singed",
+          "kills": 10,
+          "deaths": 9,
+          "assists": 5,
+          "kdaRatio": "1.67",
+          "cs": 249,
+          "cspm": "7.7",
+          "dpm": 878,
+          "killParticipation": "55.6%",
+          "damageShare": "29.5%",
+          "goldShare": "25.6%",
+          "gameDurationMinutes": 32
+        },
+        {
+          "win": true,
+          "championName": "Veigar",
+          "kills": 11,
+          "deaths": 11,
+          "assists": 11,
+          "kdaRatio": "2.00",
+          "cs": 242,
+          "cspm": "6.0",
+          "dpm": 802,
+          "killParticipation": "31.9%",
+          "damageShare": "19.5%",
+          "goldShare": "19.0%",
+          "gameDurationMinutes": 40
         }
       ],
       "rank": 3
@@ -797,5 +797,5 @@ const gameData = {
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-04T19:04:30.377Z"
+  "lastUpdated": "2026-09-04T20:03:38.757Z"
 };

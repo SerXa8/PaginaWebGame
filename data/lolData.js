@@ -797,5 +797,5 @@ const gameData = {
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-05T15:04:25.864Z"
+  "lastUpdated": "2026-09-05T17:30:18.349Z"
 };

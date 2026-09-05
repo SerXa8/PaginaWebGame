@@ -601,20 +601,20 @@ const gameData = {
       "name": "mamielizabeth",
       "tag": "#fdm",
       "role": "mid",
-      "elo": 37,
-      "absoluteElo": 537,
+      "elo": 17,
+      "absoluteElo": 517,
       "tierName": "BRONZE",
       "rankTier": "III",
       "win": 92,
-      "loss": 102,
+      "loss": 103,
       "wr": "47%",
       "gain": 22,
       "lossLp": 21,
       "totalGainLp": 173,
       "winEvents": 8,
-      "totalLossLp": 188,
-      "lossEvents": 9,
-      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 9 L 37.5 6 L 45.0 9 L 52.5 12 L 60.0 15 L 67.5 12 L 75.0 9",
+      "totalLossLp": 208,
+      "lossEvents": 10,
+      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 9 L 37.5 12 L 45.0 15 L 52.5 18 L 60.0 15 L 67.5 12 L 75.0 15",
       "twitch": "",
       "inGame": false,
       "champion": null,
@@ -622,7 +622,7 @@ const gameData = {
         {
           "championName": "Vex",
           "championLevel": 13,
-          "championPoints": 109466
+          "championPoints": 110140
         },
         {
           "championName": "Gwen",
@@ -636,28 +636,13 @@ const gameData = {
         }
       ],
       "performanceMetrics": {
-        "avgDpm": 837,
-        "avgCspm": "5.3",
-        "avgKp": "39.3%",
-        "avgKda": "1.75",
+        "avgDpm": 866,
+        "avgCspm": "5.5",
+        "avgKp": "39.7%",
+        "avgKda": "1.72",
         "totalAnalyzedGames": 10
       },
       "recentMatches": [
-        {
-          "win": true,
-          "championName": "Senna",
-          "kills": 3,
-          "deaths": 10,
-          "assists": 8,
-          "kdaRatio": "1.10",
-          "cs": 42,
-          "cspm": "1.8",
-          "dpm": 417,
-          "killParticipation": "34.4%",
-          "damageShare": "13.0%",
-          "goldShare": "15.1%",
-          "gameDurationMinutes": 24
-        },
         {
           "win": true,
           "championName": "Mel",
@@ -792,10 +777,25 @@ const gameData = {
           "damageShare": "20.6%",
           "goldShare": "20.8%",
           "gameDurationMinutes": 34
+        },
+        {
+          "win": false,
+          "championName": "Vex",
+          "kills": 6,
+          "deaths": 11,
+          "assists": 4,
+          "kdaRatio": "0.91",
+          "cs": 133,
+          "cspm": "4.2",
+          "dpm": 704,
+          "killParticipation": "38.5%",
+          "damageShare": "25.1%",
+          "goldShare": "18.4%",
+          "gameDurationMinutes": 31
         }
       ],
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-05T08:15:17.338Z"
+  "lastUpdated": "2026-09-05T11:58:53.743Z"
 };

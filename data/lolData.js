@@ -601,20 +601,20 @@ const gameData = {
       "name": "mamielizabeth",
       "tag": "#fdm",
       "role": "mid",
-      "elo": 14,
-      "absoluteElo": 614,
+      "elo": 35,
+      "absoluteElo": 635,
       "tierName": "BRONZE",
       "rankTier": "II",
-      "win": 97,
+      "win": 98,
       "loss": 104,
-      "wr": "48%",
-      "gain": 23,
+      "wr": "49%",
+      "gain": 22,
       "lossLp": 21,
-      "totalGainLp": 293,
-      "winEvents": 13,
+      "totalGainLp": 314,
+      "winEvents": 14,
       "totalLossLp": 229,
       "lossEvents": 11,
-      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 15 L 37.5 12 L 45.0 15 L 52.5 12 L 60.0 9 L 67.5 6 L 75.0 3",
+      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 9 L 37.5 12 L 45.0 9 L 52.5 6 L 60.0 3 L 67.5 2 L 75.0 2",
       "twitch": "",
       "inGame": false,
       "champion": null,
@@ -636,28 +636,13 @@ const gameData = {
         }
       ],
       "performanceMetrics": {
-        "avgDpm": 866,
-        "avgCspm": "5.4",
+        "avgDpm": 796,
+        "avgCspm": "4.7",
         "avgKp": "38.0%",
-        "avgKda": "1.63",
+        "avgKda": "1.82",
         "totalAnalyzedGames": 10
       },
       "recentMatches": [
-        {
-          "win": false,
-          "championName": "Gwen",
-          "kills": 5,
-          "deaths": 9,
-          "assists": 7,
-          "kdaRatio": "1.33",
-          "cs": 194,
-          "cspm": "7.5",
-          "dpm": 1149,
-          "killParticipation": "54.5%",
-          "damageShare": "31.9%",
-          "goldShare": "26.2%",
-          "gameDurationMinutes": 26
-        },
         {
           "win": true,
           "championName": "Gwen",
@@ -792,10 +777,25 @@ const gameData = {
           "damageShare": "36.9%",
           "goldShare": "24.7%",
           "gameDurationMinutes": 31
+        },
+        {
+          "win": true,
+          "championName": "Thresh",
+          "kills": 2,
+          "deaths": 8,
+          "assists": 25,
+          "kdaRatio": "3.38",
+          "cs": 38,
+          "cspm": "1.2",
+          "dpm": 452,
+          "killParticipation": "55.1%",
+          "damageShare": "11.5%",
+          "goldShare": "15.3%",
+          "gameDurationMinutes": 33
         }
       ],
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-07T10:59:37.758Z"
+  "lastUpdated": "2026-09-07T13:24:45.666Z"
 };

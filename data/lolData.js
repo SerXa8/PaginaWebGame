@@ -601,23 +601,23 @@ const gameData = {
       "name": "mamielizabeth",
       "tag": "#fdm",
       "role": "mid",
-      "elo": 38,
-      "absoluteElo": 638,
+      "elo": 99,
+      "absoluteElo": 599,
       "tierName": "BRONZE",
-      "rankTier": "II",
+      "rankTier": "III",
       "win": 100,
-      "loss": 106,
-      "wr": "49%",
+      "loss": 108,
+      "wr": "48%",
       "gain": 23,
       "lossLp": 21,
       "totalGainLp": 360,
       "winEvents": 16,
-      "totalLossLp": 271,
-      "lossEvents": 13,
-      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 9 L 37.5 6 L 45.0 3 L 52.5 2 L 60.0 5 L 67.5 8 L 75.0 5",
+      "totalLossLp": 310,
+      "lossEvents": 15,
+      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 3 L 37.5 2 L 45.0 5 L 52.5 8 L 60.0 5 L 67.5 8 L 75.0 11",
       "twitch": "",
-      "inGame": false,
-      "champion": null,
+      "inGame": true,
+      "champion": "Tristana",
       "topMasteries": [
         {
           "championName": "Vex",
@@ -636,43 +636,13 @@ const gameData = {
         }
       ],
       "performanceMetrics": {
-        "avgDpm": 742,
-        "avgCspm": "3.6",
-        "avgKp": "44.9%",
-        "avgKda": "2.37",
+        "avgDpm": 740,
+        "avgCspm": "3.8",
+        "avgKp": "44.3%",
+        "avgKda": "2.07",
         "totalAnalyzedGames": 10
       },
       "recentMatches": [
-        {
-          "win": false,
-          "championName": "Morgana",
-          "kills": 6,
-          "deaths": 5,
-          "assists": 8,
-          "kdaRatio": "2.80",
-          "cs": 177,
-          "cspm": "4.8",
-          "dpm": 598,
-          "killParticipation": "45.2%",
-          "damageShare": "16.1%",
-          "goldShare": "20.0%",
-          "gameDurationMinutes": 37
-        },
-        {
-          "win": true,
-          "championName": "MasterYi",
-          "kills": 4,
-          "deaths": 9,
-          "assists": 4,
-          "kdaRatio": "0.89",
-          "cs": 176,
-          "cspm": "5.7",
-          "dpm": 577,
-          "killParticipation": "22.9%",
-          "damageShare": "15.2%",
-          "goldShare": "18.2%",
-          "gameDurationMinutes": 31
-        },
         {
           "win": true,
           "championName": "Soraka",
@@ -792,10 +762,40 @@ const gameData = {
           "damageShare": "5.3%",
           "goldShare": "14.3%",
           "gameDurationMinutes": 34
+        },
+        {
+          "win": false,
+          "championName": "Yone",
+          "kills": 3,
+          "deaths": 12,
+          "assists": 5,
+          "kdaRatio": "0.67",
+          "cs": 222,
+          "cspm": "7.1",
+          "dpm": 632,
+          "killParticipation": "34.8%",
+          "damageShare": "19.9%",
+          "goldShare": "19.5%",
+          "gameDurationMinutes": 31
+        },
+        {
+          "win": false,
+          "championName": "Leblanc",
+          "kills": 2,
+          "deaths": 8,
+          "assists": 5,
+          "kdaRatio": "0.88",
+          "cs": 133,
+          "cspm": "5.3",
+          "dpm": 526,
+          "killParticipation": "26.9%",
+          "damageShare": "18.3%",
+          "goldShare": "16.5%",
+          "gameDurationMinutes": 25
         }
       ],
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-08T05:04:26.687Z"
+  "lastUpdated": "2026-09-08T10:00:18.362Z"
 };

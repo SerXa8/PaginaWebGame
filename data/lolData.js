@@ -4,8 +4,8 @@ const gameData = {
       "name": "JavierLoL",
       "tag": "#514",
       "role": "mid",
-      "elo": 2216,
-      "absoluteElo": 5316,
+      "elo": 2141,
+      "absoluteElo": 5241,
       "tierName": "GRANDMASTER",
       "rankTier": "I",
       "win": 205,
@@ -797,5 +797,5 @@ const gameData = {
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-07T21:43:57.460Z"
+  "lastUpdated": "2026-09-08T00:06:45.253Z"
 };

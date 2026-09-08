@@ -402,20 +402,20 @@ const gameData = {
       "name": "SerXa8",
       "tag": "#1197",
       "role": "top",
-      "elo": 67,
-      "absoluteElo": 767,
+      "elo": 89,
+      "absoluteElo": 789,
       "tierName": "BRONZE",
       "rankTier": "I",
-      "win": 152,
+      "win": 153,
       "loss": 165,
       "wr": "48%",
-      "gain": 28,
+      "gain": 27,
       "lossLp": 15,
-      "totalGainLp": 225,
-      "winEvents": 8,
+      "totalGainLp": 247,
+      "winEvents": 9,
       "totalLossLp": 107,
       "lossEvents": 7,
-      "spark": "M 0 15 L 7.5 12 L 15.0 15 L 22.5 12 L 30.0 9 L 37.5 6 L 45.0 9 L 52.5 12 L 60.0 15 L 67.5 12 L 75.0 15",
+      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 9 L 37.5 12 L 45.0 15 L 52.5 18 L 60.0 15 L 67.5 18 L 75.0 15",
       "twitch": "s3rxa8",
       "inGame": false,
       "champion": null,
@@ -437,28 +437,13 @@ const gameData = {
         }
       ],
       "performanceMetrics": {
-        "avgDpm": 807,
-        "avgCspm": "4.2",
-        "avgKp": "39.4%",
-        "avgKda": "1.60",
+        "avgDpm": 845,
+        "avgCspm": "4.1",
+        "avgKp": "40.7%",
+        "avgKda": "1.65",
         "totalAnalyzedGames": 10
       },
       "recentMatches": [
-        {
-          "win": true,
-          "championName": "Veigar",
-          "kills": 11,
-          "deaths": 11,
-          "assists": 11,
-          "kdaRatio": "2.00",
-          "cs": 242,
-          "cspm": "6.0",
-          "dpm": 802,
-          "killParticipation": "31.9%",
-          "damageShare": "19.5%",
-          "goldShare": "19.0%",
-          "gameDurationMinutes": 40
-        },
         {
           "win": false,
           "championName": "Rell",
@@ -593,6 +578,21 @@ const gameData = {
           "damageShare": "13.2%",
           "goldShare": "14.8%",
           "gameDurationMinutes": 39
+        },
+        {
+          "win": true,
+          "championName": "Veigar",
+          "kills": 10,
+          "deaths": 11,
+          "assists": 17,
+          "kdaRatio": "2.45",
+          "cs": 185,
+          "cspm": "5.2",
+          "dpm": 1179,
+          "killParticipation": "45.0%",
+          "damageShare": "20.9%",
+          "goldShare": "19.8%",
+          "gameDurationMinutes": 36
         }
       ],
       "rank": 3
@@ -601,20 +601,20 @@ const gameData = {
       "name": "mamielizabeth",
       "tag": "#fdm",
       "role": "mid",
-      "elo": 79,
-      "absoluteElo": 579,
+      "elo": 98,
+      "absoluteElo": 598,
       "tierName": "BRONZE",
       "rankTier": "III",
-      "win": 100,
+      "win": 101,
       "loss": 110,
       "wr": "48%",
-      "gain": 23,
+      "gain": 22,
       "lossLp": 19,
-      "totalGainLp": 360,
-      "winEvents": 16,
+      "totalGainLp": 379,
+      "winEvents": 17,
       "totalLossLp": 330,
       "lossEvents": 17,
-      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 6 L 30.0 9 L 37.5 12 L 45.0 9 L 52.5 12 L 60.0 15 L 67.5 18 L 75.0 21",
+      "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 15 L 37.5 12 L 45.0 15 L 52.5 18 L 60.0 21 L 67.5 24 L 75.0 21",
       "twitch": "",
       "inGame": false,
       "champion": null,
@@ -636,28 +636,13 @@ const gameData = {
         }
       ],
       "performanceMetrics": {
-        "avgDpm": 794,
-        "avgCspm": "4.3",
-        "avgKp": "48.5%",
-        "avgKda": "2.01",
+        "avgDpm": 717,
+        "avgCspm": "3.9",
+        "avgKp": "46.8%",
+        "avgKda": "1.79",
         "totalAnalyzedGames": 10
       },
       "recentMatches": [
-        {
-          "win": true,
-          "championName": "Vex",
-          "kills": 22,
-          "deaths": 4,
-          "assists": 8,
-          "kdaRatio": "7.50",
-          "cs": 209,
-          "cspm": "6.8",
-          "dpm": 1598,
-          "killParticipation": "58.8%",
-          "damageShare": "36.9%",
-          "goldShare": "24.7%",
-          "gameDurationMinutes": 31
-        },
         {
           "win": true,
           "championName": "Thresh",
@@ -792,10 +777,25 @@ const gameData = {
           "damageShare": "32.5%",
           "goldShare": "26.4%",
           "gameDurationMinutes": 29
+        },
+        {
+          "win": true,
+          "championName": "AurelionSol",
+          "kills": 10,
+          "deaths": 11,
+          "assists": 15,
+          "kdaRatio": "2.27",
+          "cs": 93,
+          "cspm": "2.6",
+          "dpm": 829,
+          "killParticipation": "41.7%",
+          "damageShare": "14.7%",
+          "goldShare": "18.5%",
+          "gameDurationMinutes": 36
         }
       ],
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-08T18:03:02.447Z"
+  "lastUpdated": "2026-09-08T20:29:55.096Z"
 };

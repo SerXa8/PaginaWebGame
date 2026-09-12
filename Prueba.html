@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba</title>
+</head>
+<body>
+    <!-- Contenido por agregar -->
+    <script>
+        // Ejemplo de cómo evitar la inyección de scripts (XSS) y manipulación no segura del DOM
+        function mostrarMensaje(mensaje) {
+            document.body.insertAdjacentHTML('beforeend', `<p>${document.createTextNode(mensaje).nodeValue}</p>`);
+        }
+    </script>
+</body>
+</html>

@@ -4,43 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valorant Lineups</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            background-color: #1a1a1a;
-            color: #ffffff;
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
         header {
-            background-color: #ff0000;
-            color: #ffffff;
-            padding: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
             text-align: center;
+        }
+        nav {
+            background-color: #444;
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
         }
         main {
             padding: 20px;
         }
-        h1, h2 {
-            color: #0000ff;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .card {
-            background-color: #ffffff;
-            color: #000000;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-        .card h2 {
-            color: #ff0000;
-        }
-        .card p {
-            color: #666666;
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
     </style>
 </head>
@@ -48,18 +52,20 @@
     <header>
         <h1>Valorant Lineups</h1>
     </header>
+    <nav>
+        <ul>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Lineups</a></li>
+            <li><a href="#">Mapas</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </nav>
     <main>
-        <div class="container">
-            <div class="card">
-                <h2>Lineup 1</h2>
-                <p>Descripción de la primera lineup...</p>
-            </div>
-            <div class="card">
-                <h2>Lineup 2</h2>
-                <p>Descripción de la segunda lineup...</p>
-            </div>
-            <!-- Agregar más lineups según sea necesario -->
-        </div>
+        <h2>Bienvenido a Valorant Lineups</h2>
+        <p>Este es un sitio web dedicado a los lineups de Valorant.</p>
     </main>
+    <footer>
+        <p>&copy; 2023 Valorant Lineups</p>
+    </footer>
 </body>
 </html>

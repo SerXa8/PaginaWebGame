@@ -1,57 +1,24 @@
-@@ -1,321 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SoloQ Challenge - Valorant</title>
+  
+  <!-- Estilos y librerías externas -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  
   <style>
     body { background-color: #0b0d12; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
     .bg-card { background-color: #121620; }
     .bg-card-hover:hover { background-color: #1a202c; }
     .border-custom { border-color: #1e2638; }
   </style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Directos Valorant</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        .directo {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            margin: 20px 0;
-            padding: 20px;
-        }
-        .directo h2 {
-            margin-top: 0;
-        }
-        .directo .graficos {
-            margin-top: 20px;
-        }
-        .directo .redes-sociales {
-            margin-top: 20px;
-        }
-        .directo .redes-sociales a {
-            margin-right: 10px;
-        }
-    </style>
 </head>
 <body class="min-h-screen pb-12">
 
+  <!-- Navegación Superior -->
   <header class="border-b border-custom bg-[#080a0e] sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <div class="flex items-center gap-6">
@@ -86,7 +53,7 @@
     <!-- Sección principal del directo -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
       
-      <!-- Panel Izquierdo: Espectadores Totales e Info -->
+      <!-- Panel Izquierdo: Espectadores Totales -->
       <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-6 flex flex-col justify-between">
         <div>
           <span class="inline-flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 text-xs font-bold uppercase mb-4">
@@ -104,7 +71,7 @@
         </div>
       </div>
 
-      <!-- Panel Centro: Reproductor sin chat -->
+      <!-- Panel Centro: Reproductor Twitch -->
       <div class="lg:col-span-6 bg-card border border-custom rounded-2xl p-4 flex flex-col justify-between">
         <div class="flex justify-between items-center mb-3">
           <div class="flex items-center gap-2">
@@ -130,7 +97,7 @@
 
     </section>
 
-    <!-- Sección Ranking -->
+    <!-- Sección Podio / Ranking -->
     <section>
       <div class="flex justify-between items-end mb-4">
         <div>
@@ -144,11 +111,11 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container"></div>
     </section>
 
-    <!-- Barra de Filtros Superior para Valorant -->
+    <!-- Barra de Filtros Superior -->
     <div class="overflow-x-auto">
       <div class="flex flex-wrap items-center justify-between gap-4 mb-4 bg-card border border-custom p-3 rounded-2xl text-xs min-w-[700px]">
         
-        <!-- Filtros principales de la izquierda -->
+        <!-- Filtros principales -->
         <div class="flex items-center gap-2">
           <button class="px-3 py-1.5 font-bold rounded-lg bg-white text-black">TODOS</button>
           <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">HIGH ELO</button>
@@ -169,7 +136,7 @@
           </button>
         </div>
 
-        <!-- Filtros de la derecha (Roles de Valorant) -->
+        <!-- Filtros por Roles -->
         <div class="flex items-center gap-2">
           <button class="px-3 py-1.5 font-bold rounded-lg bg-red-500 text-white">TODOS</button>
           <div class="flex gap-1 bg-slate-950 p-1 rounded-lg border border-custom text-slate-400">
@@ -178,20 +145,6 @@
             <button class="p-1 hover:text-white" title="Controlador"><i data-lucide="cloud" class="w-4 h-4"></i></button>
             <button class="p-1 hover:text-white" title="Centinela"><i data-lucide="shield" class="w-4 h-4"></i></button>
           </div>
-<body>
-    <div class="container">
-        <div class="directo">
-            <h2>Sistema de Directos Valorant</h2>
-            <div class="graficos">
-                <h3>Gráficos en tiempo real</h3>
-                <div id="graficos"></div>
-            </div>
-            <div class="redes-sociales">
-                <h3>Redes Sociales</h3>
-                <a href="https://twitter.com/valorant" target="_blank">Twitter</a>
-                <a href="https://www.instagram.com/valorant" target="_blank">Instagram</a>
-                <a href="https://www.twitch.tv/valorant" target="_blank">Twitch</a>
-            </div>
         </div>
 
       </div>
@@ -221,12 +174,13 @@
 
   </div>
 
+  <!-- Scripts externos de datos -->
   <script src="https://embed.twitch.tv/embed/v1.js"></script>
   <script src="data/valorantData.js"></script>
   <script src="valorant.js"></script>
 
+  <!-- Lógica JavaScript Principal -->
   <script>
-    // Mapeo de roles de Valorant a iconos de Lucide
     const roleIcons = {
       duelista: 'flame',
       duelist: 'flame',
@@ -253,12 +207,12 @@
     }
 
     function renderUI(data) {
-      if (document.getElementById("leaderboard-body") && data.players) {
-        document.getElementById("leaderboard-body").innerHTML = data.players.map(p => {
+      const tbody = document.getElementById("leaderboard-body");
+      if (tbody && data && data.players) {
+        tbody.innerHTML = data.players.map(p => {
           const isPositive = p.gain >= 0;
           const strokeColor = isPositive ? "#22c55e" : "#ef4444";
           
-          // Asignar el icono correspondiente según p.role
           const roleKey = (p.role || '').toLowerCase();
           const iconName = roleIcons[roleKey] || 'crosshair';
 
@@ -286,16 +240,16 @@
                   </div>
                   <div>
                     <div class="flex items-center gap-1.5">
-                      <span class="text-slate-200 hover:text-red-400 transition cursor-pointer">${p.name}</span>
+                      <span class="text-slate-200 hover:text-red-400 transition cursor-pointer" onclick="setStream('${p.twitch || p.name}')">${p.name}</span>
                       <span class="bg-purple-900/60 text-purple-300 text-[9px] px-1 rounded border border-purple-500/30">Twitch</span>
-                      <span class="bg-lime-500/20 text-lime-400 text-[9px] font-black px-1.5 py-0.2 rounded border border-lime-500/40">LIVE</span>
+                      ${p.isLive ? '<span class="bg-lime-500/20 text-lime-400 text-[9px] font-black px-1.5 py-0.2 rounded border border-lime-500/40">LIVE</span>' : ''}
                     </div>
                     <div class="text-[10px] font-normal text-slate-500">${p.tag}</div>
                   </div>
                 </div>
               </td>
 
-              <!-- Rol Específico (Valorant) -->
+              <!-- Rol -->
               <td class="py-3 px-3 text-center">
                 <span class="inline-block p-1 bg-slate-900 rounded border border-custom text-slate-400" title="${p.role || 'Rol'}">
                   <i data-lucide="${iconName}" class="w-3.5 h-3.5"></i>
@@ -324,7 +278,7 @@
               <!-- Racha -->
               <td class="py-3 px-4 text-center">
                 <svg class="w-16 h-5 mx-auto overflow-visible" viewBox="0 0 75 30">
-                  <path d="${p.spark}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
+                  <path d="${p.spark || 'M0 15 L75 15'}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
                 </svg>
               </td>
 
@@ -343,7 +297,7 @@
 
               <!-- Stats (Tracker.gg) -->
               <td class="py-3 px-4 text-center">
-                <a href="#" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-red-500 hover:bg-red-400 text-white font-extrabold rounded-md text-[10px] uppercase transition shadow">
+                <a href="${p.trackerUrl || '#'}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-red-500 hover:bg-red-400 text-white font-extrabold rounded-md text-[10px] uppercase transition shadow">
                   TRACKER
                 </a>
               </td>
@@ -367,31 +321,5 @@
       }
     });
   </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const graficosDiv = document.getElementById('graficos');
-            graficosDiv.innerHTML = '<canvas id="graficoRealTime" width="400" height="200"></canvas>';
-            const canvas = document.getElementById('graficoRealTime');
-            const ctx = canvas.getContext('2d');
-
-            function actualizarGrafico() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'blue';
-                ctx.fillRect(50, 50, 100, 100);
-                requestAnimationFrame(actualizarGrafico);
-            }
-            actualizarGrafico();
-
-            document.querySelectorAll('.redes-sociales a').forEach(link => {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const url = this.getAttribute('href');
-                    window.open(url, '_blank');
-                });
-            });
-        });
-    </script>
 </body>
-</html>
 </html>

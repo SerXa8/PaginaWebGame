@@ -18,7 +18,7 @@
 </head>
 <body class="min-h-screen pb-12">
 
-  <!-- Navegación Superior -->
+  <!-- Navegación Superior Principal -->
   <header class="border-b border-custom bg-[#080a0e] sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <div class="flex items-center gap-6">
@@ -33,9 +33,6 @@
           </a>
           <a href="valorant.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-red-500/10 text-red-400 border border-red-500/30">
             <i data-lucide="crosshair" class="w-4 h-4"></i> Valorant
-          </a>
-          <a href="valorantLineups.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">
-            <i data-lucide="map-pin" class="w-4 h-4"></i> Lineups
           </a>
           <a href="cs2.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
             <i data-lucide="target" class="w-4 h-4"></i> CS2
@@ -114,12 +111,20 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container"></div>
     </section>
 
-    <!-- Barra de Filtros Superior -->
+    <!-- Barra de Filtros Superior + Botón de Lineups -->
     <div class="overflow-x-auto">
       <div class="flex flex-wrap items-center justify-between gap-4 mb-4 bg-card border border-custom p-3 rounded-2xl text-xs min-w-[700px]">
         
-        <!-- Filtros principales -->
+        <!-- Filtros principales y Acceso a Lineups -->
         <div class="flex items-center gap-2">
+          <!-- BOTÓN A VALORANT LINEUPS -->
+          <a href="valorantLineups.html" class="flex items-center gap-2 px-3 py-1.5 font-extrabold rounded-lg bg-red-500 hover:bg-red-600 text-white transition shadow-lg shadow-red-500/20 mr-2">
+            <i data-lucide="map-pin" class="w-4 h-4"></i>
+            <span>GUÍA DE LINEUPS</span>
+          </a>
+
+          <span class="h-4 w-[1px] bg-slate-700 mx-1"></span>
+
           <button class="px-3 py-1.5 font-bold rounded-lg bg-white text-black">TODOS</button>
           <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">HIGH ELO</button>
           <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">LOW ELO</button>

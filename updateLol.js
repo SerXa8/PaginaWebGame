@@ -5,7 +5,7 @@ const API_KEY = process.env.RIOT_API_KEY;
 
 const STREAMERS = [
   { name: "JavierLoL", riotName: "eMonkeyz Run", tag: "514", role: "mid", twitch: "javierrlol" },
-  { name: "SerXa8", riotName: "SerXa08", tag: "1197", role: "top", twitch: "s3rxa8" },
+  { name: "SerXa08", riotName: "SerXa08", tag: "1197", role: "top", twitch: "s3rxa8" },
   { name: "mamielizabeth", riotName: "mamielizabeth", tag: "fdm", role: "mid", twitch: "" },
   { name: "Maiiser", riotName: "Jabon de Hamster", tag: "WIWI", role: "top", twitch: "maiiser" }
 ];

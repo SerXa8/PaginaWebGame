@@ -3,7 +3,7 @@ const fs = require('fs');
 // Lista de jugadores de Valorant
 const PLAYERS = [
   { 
-    name: "SerXa8", 
+    name: "SerXa08", 
     riotName: "SerXa08", 
     tag: "1197", 
     role: "duelista", 

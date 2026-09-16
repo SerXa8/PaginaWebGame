@@ -1,8 +1,8 @@
 const gameData = {
-  "updatedAt": "2026-09-16T14:30:41.726Z",
+  "updatedAt": "2026-09-16T18:22:55.561Z",
   "players": [
     {
-      "name": "SerXa8",
+      "name": "SerXa08",
       "riotName": "SerXa08",
       "tag": "#1197",
       "role": "duelista",

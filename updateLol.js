@@ -3,6 +3,7 @@ const path = require('path');
 
 const API_KEY = process.env.RIOT_API_KEY;
 
+// ⚠️ Asegúrate de que el riotName y tag de JavierLoL sean los actuales en el juego
 const STREAMERS = [
   { name: "JavierLoL", riotName: "eMonkeyz Run", tag: "514", role: "mid", twitch: "javierrlol" },
   { name: "SerXa08", riotName: "SerXa08", tag: "1197", role: "top", twitch: "s3rxa8" },
@@ -42,7 +43,6 @@ function getAbsoluteLp(tier, rank, lp) {
   return (tiers[tier?.toUpperCase()] || 0) + (ranks[rank?.toUpperCase()] || 0) + (lp || 0);
 }
 
-// ESTIMADOR DINÁMICO DE LP BASADO EN WINRATE REAL
 function estimateLpByWinrate(wins, losses) {
   const totalGames = wins + losses;
   if (totalGames === 0) return { gain: 20, loss: 20 };
@@ -82,18 +82,7 @@ function saveCurrentState(playersData) {
     const state = {};
     playersData.forEach(p => {
       state[p.name] = {
-        elo: p.elo,
-        absoluteElo: p.absoluteElo,
-        win: p.win,
-        loss: p.loss,
-        tierName: p.tierName,
-        rankTier: p.rankTier,
-        gain: p.gain,
-        lossLp: p.lossLp,
-        totalGainLp: p.totalGainLp || 0,
-        winEvents: p.winEvents || 0,
-        totalLossLp: p.totalLossLp || 0,
-        lossEvents: p.lossEvents || 0,
+        ...p, // Guardamos el objeto completo como respaldo
         timestamp: Date.now()
       };
     });
@@ -194,7 +183,8 @@ async function getDetailedMatches(puuid) {
           });
         }
       }
-      await new Promise(r => setTimeout(r, 200));
+      // Aumentado a 1.2 segundos por consulta para evitar Rate Limit (429)
+      await new Promise(r => setTimeout(r, 1200));
     }
     return matches.reverse();
   } catch (e) {
@@ -245,11 +235,9 @@ async function getPlayerData(player, previousState) {
     let totalLossLp = prev.totalLossLp || 0;
     let lossEvents = prev.lossEvents || 0;
 
-    // Estimación dinámica de respaldo basada en el Winrate actual
     const fallbackLp = estimateLpByWinrate(wins, losses);
     const currentLossEstimate = prev.lossLp || fallbackLp.loss;
 
-    // CÁLCULO DE DELTA DE LP (RECALCULADO DINÁMICAMENTE)
     if (typeof prev.absoluteElo === 'number' && (prev.win !== wins || prev.loss !== losses)) {
       const winsDiff = wins - (prev.win || wins);
       const lossesDiff = losses - (prev.loss || losses);
@@ -277,7 +265,6 @@ async function getPlayerData(player, previousState) {
       }
     }
 
-    // Se prefiere el promedio real acumulado; si no hay eventos registrados, usa el estimador de MMR
     const avgGain = winEvents > 0 ? Math.round(totalGainLp / winEvents) : fallbackLp.gain;
     const avgLoss = lossEvents > 0 ? Math.round(totalLossLp / lossEvents) : fallbackLp.loss;
 
@@ -313,7 +300,14 @@ async function getPlayerData(player, previousState) {
       recentMatches: detailedMatches
     };
   } catch (error) {
-    console.error(`Error al procesar a ${player.name}:`, error.message);
+    console.error(`⚠️ Error al procesar a ${player.name}:`, error.message);
+    
+    // Si falla la API pero tenemos datos anteriores guardados en lolState.json, los reutiliza
+    if (previousState[player.name]) {
+      console.log(`🔄 Usando datos guardados en caché para ${player.name}`);
+      return previousState[player.name];
+    }
+    
     return null;
   }
 }
@@ -334,7 +328,7 @@ async function main() {
   }
 
   if (playersData.length === 0) {
-    console.error("❌ No se pudieron obtener datos.");
+    console.error("❌ No se pudieron obtener datos de ningún jugador.");
     process.exit(1);
   }
 
@@ -345,7 +339,7 @@ async function main() {
 
   const fileContent = `const gameData = ${JSON.stringify({ players: playersData, lastUpdated: new Date().toISOString() }, null, 2)};`;
   fs.writeFileSync('./data/lolData.js', fileContent);
-  console.log("¡data/lolData.js actualizado con historial, telemetría y deltas de LP calculados!");
+  console.log("¡data/lolData.js actualizado con éxito!");
 }
 
 main();

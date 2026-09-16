@@ -287,6 +287,7 @@ async function getPlayerData(player, previousState) {
     const sparkPath = generateSparkline(detailedMatches);
 
     return {
+      puuid: accountData.puuid,
       name: player.name,
       tag: `#${player.tag}`,
       role: player.role,

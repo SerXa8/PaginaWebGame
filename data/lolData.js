@@ -1,6 +1,206 @@
 const gameData = {
   "players": [
     {
+      "puuid": "ASTAV28DtpUXydMwpYPtss0inniLARqh9A4mgEdqpswGzjPDYyuztyKYmtxBLJt9gDc_B_8IZ-UVfQ",
+      "name": "JavierLoL",
+      "tag": "#514",
+      "role": "mid",
+      "elo": 1541,
+      "absoluteElo": 4641,
+      "tierName": "MASTER",
+      "rankTier": "I",
+      "win": 205,
+      "loss": 144,
+      "wr": "59%",
+      "gain": 23,
+      "lossLp": 18,
+      "totalGainLp": 0,
+      "winEvents": 0,
+      "totalLossLp": 0,
+      "lossEvents": 0,
+      "spark": "M 0 15 L 7.5 18 L 15.0 15 L 22.5 12 L 30.0 9 L 37.5 12 L 45.0 15 L 52.5 12 L 60.0 9 L 67.5 6 L 75.0 3",
+      "twitch": "javierrlol",
+      "inGame": false,
+      "champion": null,
+      "topMasteries": [
+        {
+          "championName": "Zoe",
+          "championLevel": 18,
+          "championPoints": 173667
+        },
+        {
+          "championName": "Twisted Fate",
+          "championLevel": 5,
+          "championPoints": 29872
+        },
+        {
+          "championName": "LeBlanc",
+          "championLevel": 5,
+          "championPoints": 24533
+        }
+      ],
+      "performanceMetrics": {
+        "avgDpm": 833,
+        "avgCspm": "5.8",
+        "avgKp": "54.3%",
+        "avgKda": "5.39",
+        "totalAnalyzedGames": 10
+      },
+      "recentMatches": [
+        {
+          "win": false,
+          "championName": "Zoe",
+          "kills": 3,
+          "deaths": 5,
+          "assists": 9,
+          "kdaRatio": "2.40",
+          "cs": 196,
+          "cspm": "6.5",
+          "dpm": 779,
+          "killParticipation": "46.2%",
+          "damageShare": "21.5%",
+          "goldShare": "17.6%",
+          "gameDurationMinutes": 30
+        },
+        {
+          "win": true,
+          "championName": "Zoe",
+          "kills": 8,
+          "deaths": 4,
+          "assists": 14,
+          "kdaRatio": "5.50",
+          "cs": 220,
+          "cspm": "6.3",
+          "dpm": 857,
+          "killParticipation": "61.1%",
+          "damageShare": "20.5%",
+          "goldShare": "17.8%",
+          "gameDurationMinutes": 35
+        },
+        {
+          "win": true,
+          "championName": "Zoe",
+          "kills": 5,
+          "deaths": 1,
+          "assists": 9,
+          "kdaRatio": "14.00",
+          "cs": 185,
+          "cspm": "7.6",
+          "dpm": 1005,
+          "killParticipation": "53.8%",
+          "damageShare": "24.9%",
+          "goldShare": "18.9%",
+          "gameDurationMinutes": 24
+        },
+        {
+          "win": true,
+          "championName": "Zoe",
+          "kills": 2,
+          "deaths": 5,
+          "assists": 17,
+          "kdaRatio": "3.80",
+          "cs": 29,
+          "cspm": "1.2",
+          "dpm": 584,
+          "killParticipation": "70.4%",
+          "damageShare": "17.5%",
+          "goldShare": "13.8%",
+          "gameDurationMinutes": 23
+        },
+        {
+          "win": false,
+          "championName": "Zoe",
+          "kills": 0,
+          "deaths": 0,
+          "assists": 0,
+          "kdaRatio": "0.00",
+          "cs": 5,
+          "cspm": "2.8",
+          "dpm": 152,
+          "killParticipation": "0.0%",
+          "damageShare": "42.0%",
+          "goldShare": "19.8%",
+          "gameDurationMinutes": 2
+        },
+        {
+          "win": false,
+          "championName": "Zoe",
+          "kills": 9,
+          "deaths": 3,
+          "assists": 3,
+          "kdaRatio": "4.00",
+          "cs": 151,
+          "cspm": "6.7",
+          "dpm": 1102,
+          "killParticipation": "75.0%",
+          "damageShare": "37.6%",
+          "goldShare": "25.2%",
+          "gameDurationMinutes": 22
+        },
+        {
+          "win": true,
+          "championName": "Lissandra",
+          "kills": 7,
+          "deaths": 5,
+          "assists": 22,
+          "kdaRatio": "5.80",
+          "cs": 189,
+          "cspm": "7.2",
+          "dpm": 1001,
+          "killParticipation": "56.9%",
+          "damageShare": "19.1%",
+          "goldShare": "18.3%",
+          "gameDurationMinutes": 26
+        },
+        {
+          "win": true,
+          "championName": "Zoe",
+          "kills": 12,
+          "deaths": 5,
+          "assists": 10,
+          "kdaRatio": "4.40",
+          "cs": 151,
+          "cspm": "6.1",
+          "dpm": 1180,
+          "killParticipation": "56.4%",
+          "damageShare": "21.7%",
+          "goldShare": "19.4%",
+          "gameDurationMinutes": 25
+        },
+        {
+          "win": true,
+          "championName": "Zoe",
+          "kills": 8,
+          "deaths": 3,
+          "assists": 14,
+          "kdaRatio": "7.33",
+          "cs": 209,
+          "cspm": "6.2",
+          "dpm": 1197,
+          "killParticipation": "57.9%",
+          "damageShare": "25.9%",
+          "goldShare": "18.5%",
+          "gameDurationMinutes": 34
+        },
+        {
+          "win": true,
+          "championName": "Galio",
+          "kills": 5,
+          "deaths": 0,
+          "assists": 10,
+          "kdaRatio": "15.00",
+          "cs": 130,
+          "cspm": "7.4",
+          "dpm": 474,
+          "killParticipation": "65.2%",
+          "damageShare": "15.0%",
+          "goldShare": "20.2%",
+          "gameDurationMinutes": 18
+        }
+      ],
+      "rank": 1
+    },
+    {
       "puuid": "r9nKZM0jY5VWPH59uM-yPv9Zokxmi3wspEmX63Cde9iaGg8Sm408s66yDy3_zJpvRIpGYHk5yJ2OFA",
       "name": "Maiiser",
       "tag": "#WIWI",
@@ -198,7 +398,207 @@ const gameData = {
           "gameDurationMinutes": 28
         }
       ],
-      "rank": 1
+      "rank": 2
+    },
+    {
+      "puuid": "mkjHAzFTqyG4gTig_ZezdKF_7Fsb2Nydc8jPbnBAat6a8PAsCuj32RWX5p-GTEhy6f8_GfsTkmuFJg",
+      "name": "SerXa08",
+      "tag": "#1197",
+      "role": "top",
+      "elo": 0,
+      "absoluteElo": 800,
+      "tierName": "SILVER",
+      "rankTier": "IV",
+      "win": 159,
+      "loss": 176,
+      "wr": "47%",
+      "gain": 19,
+      "lossLp": 21,
+      "totalGainLp": 0,
+      "winEvents": 0,
+      "totalLossLp": 0,
+      "lossEvents": 0,
+      "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 24 L 30.0 21 L 37.5 24 L 45.0 27 L 52.5 24 L 60.0 21 L 67.5 24 L 75.0 27",
+      "twitch": "s3rxa8",
+      "inGame": false,
+      "champion": null,
+      "topMasteries": [
+        {
+          "championName": "Nocturne",
+          "championLevel": 11,
+          "championPoints": 95141
+        },
+        {
+          "championName": "Caitlyn",
+          "championLevel": 8,
+          "championPoints": 64018
+        },
+        {
+          "championName": "Veigar",
+          "championLevel": 8,
+          "championPoints": 59480
+        }
+      ],
+      "performanceMetrics": {
+        "avgDpm": 623,
+        "avgCspm": "4.6",
+        "avgKp": "36.7%",
+        "avgKda": "1.16",
+        "totalAnalyzedGames": 10
+      },
+      "recentMatches": [
+        {
+          "win": false,
+          "championName": "Kayn",
+          "kills": 4,
+          "deaths": 14,
+          "assists": 4,
+          "kdaRatio": "0.57",
+          "cs": 156,
+          "cspm": "4.8",
+          "dpm": 395,
+          "killParticipation": "47.1%",
+          "damageShare": "15.3%",
+          "goldShare": "19.9%",
+          "gameDurationMinutes": 32
+        },
+        {
+          "win": false,
+          "championName": "Kayn",
+          "kills": 7,
+          "deaths": 9,
+          "assists": 6,
+          "kdaRatio": "1.44",
+          "cs": 132,
+          "cspm": "5.5",
+          "dpm": 597,
+          "killParticipation": "54.2%",
+          "damageShare": "18.2%",
+          "goldShare": "21.6%",
+          "gameDurationMinutes": 24
+        },
+        {
+          "win": false,
+          "championName": "Nocturne",
+          "kills": 7,
+          "deaths": 11,
+          "assists": 10,
+          "kdaRatio": "1.55",
+          "cs": 209,
+          "cspm": "5.8",
+          "dpm": 734,
+          "killParticipation": "68.0%",
+          "damageShare": "25.4%",
+          "goldShare": "21.9%",
+          "gameDurationMinutes": 36
+        },
+        {
+          "win": true,
+          "championName": "Veigar",
+          "kills": 0,
+          "deaths": 0,
+          "assists": 0,
+          "kdaRatio": "0.00",
+          "cs": 6,
+          "cspm": "3.6",
+          "dpm": 124,
+          "killParticipation": "0.0%",
+          "damageShare": "20.2%",
+          "goldShare": "20.2%",
+          "gameDurationMinutes": 2
+        },
+        {
+          "win": false,
+          "championName": "Veigar",
+          "kills": 4,
+          "deaths": 9,
+          "assists": 1,
+          "kdaRatio": "0.56",
+          "cs": 71,
+          "cspm": "2.6",
+          "dpm": 680,
+          "killParticipation": "20.0%",
+          "damageShare": "23.5%",
+          "goldShare": "16.9%",
+          "gameDurationMinutes": 27
+        },
+        {
+          "win": false,
+          "championName": "Caitlyn",
+          "kills": 1,
+          "deaths": 11,
+          "assists": 1,
+          "kdaRatio": "0.18",
+          "cs": 189,
+          "cspm": "6.7",
+          "dpm": 359,
+          "killParticipation": "15.4%",
+          "damageShare": "15.6%",
+          "goldShare": "19.5%",
+          "gameDurationMinutes": 28
+        },
+        {
+          "win": true,
+          "championName": "Singed",
+          "kills": 12,
+          "deaths": 10,
+          "assists": 14,
+          "kdaRatio": "2.60",
+          "cs": 148,
+          "cspm": "4.9",
+          "dpm": 960,
+          "killParticipation": "47.3%",
+          "damageShare": "21.8%",
+          "goldShare": "22.2%",
+          "gameDurationMinutes": 30
+        },
+        {
+          "win": true,
+          "championName": "Singed",
+          "kills": 6,
+          "deaths": 11,
+          "assists": 13,
+          "kdaRatio": "1.73",
+          "cs": 171,
+          "cspm": "4.6",
+          "dpm": 414,
+          "killParticipation": "34.5%",
+          "damageShare": "9.8%",
+          "goldShare": "18.6%",
+          "gameDurationMinutes": 37
+        },
+        {
+          "win": false,
+          "championName": "Veigar",
+          "kills": 3,
+          "deaths": 14,
+          "assists": 3,
+          "kdaRatio": "0.43",
+          "cs": 128,
+          "cspm": "4.6",
+          "dpm": 871,
+          "killParticipation": "27.3%",
+          "damageShare": "25.6%",
+          "goldShare": "17.8%",
+          "gameDurationMinutes": 28
+        },
+        {
+          "win": false,
+          "championName": "Lux",
+          "kills": 7,
+          "deaths": 9,
+          "assists": 11,
+          "kdaRatio": "2.00",
+          "cs": 118,
+          "cspm": "3.0",
+          "dpm": 1096,
+          "killParticipation": "52.9%",
+          "damageShare": "31.9%",
+          "goldShare": "19.2%",
+          "gameDurationMinutes": 40
+        }
+      ],
+      "rank": 3
     },
     {
       "puuid": "QQvt4VG3fPkdt3d-wAWepGRyopVDG2FyqpLKQFuWwpVCOt0lSgYi1r3UK6xO_AX69f2thGOEFtvj6g",
@@ -398,8 +798,8 @@ const gameData = {
           "gameDurationMinutes": 27
         }
       ],
-      "rank": 2
+      "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-16T15:37:07.304Z"
+  "lastUpdated": "2026-09-16T15:42:24.366Z"
 };

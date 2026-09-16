@@ -801,5 +801,5 @@ const gameData = {
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-16T15:42:24.366Z"
+  "lastUpdated": "2026-09-16T18:21:57.447Z"
 };

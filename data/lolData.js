@@ -420,8 +420,8 @@ const gameData = {
       "lossEvents": 3,
       "spark": "M 0 15 L 7.5 12 L 15.0 15 L 22.5 18 L 30.0 15 L 37.5 12 L 45.0 15 L 52.5 18 L 60.0 21 L 67.5 24 L 75.0 27",
       "twitch": "s3rxa8",
-      "inGame": true,
-      "champion": "Viego",
+      "inGame": false,
+      "champion": null,
       "topMasteries": [
         {
           "championName": "Nocturne",
@@ -620,8 +620,8 @@ const gameData = {
       "lossEvents": 35,
       "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 15 L 37.5 12 L 45.0 15 L 52.5 18 L 60.0 21 L 67.5 24 L 75.0 27",
       "twitch": "",
-      "inGame": true,
-      "champion": "Ashe",
+      "inGame": false,
+      "champion": null,
       "topMasteries": [
         {
           "championName": "Vex",
@@ -801,5 +801,5 @@ const gameData = {
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-17T10:20:23.567Z"
+  "lastUpdated": "2026-09-17T15:15:05.455Z"
 };

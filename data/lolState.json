@@ -198,7 +198,7 @@
       }
     ],
     "rank": 1,
-    "timestamp": 1789640423566
+    "timestamp": 1789658105454
   },
   "Maiiser": {
     "puuid": "r9nKZM0jY5VWPH59uM-yPv9Zokxmi3wspEmX63Cde9iaGg8Sm408s66yDy3_zJpvRIpGYHk5yJ2OFA",
@@ -399,7 +399,7 @@
       }
     ],
     "rank": 2,
-    "timestamp": 1789640423566
+    "timestamp": 1789658105454
   },
   "SerXa08": {
     "puuid": "mkjHAzFTqyG4gTig_ZezdKF_7Fsb2Nydc8jPbnBAat6a8PAsCuj32RWX5p-GTEhy6f8_GfsTkmuFJg",
@@ -421,8 +421,8 @@
     "lossEvents": 3,
     "spark": "M 0 15 L 7.5 12 L 15.0 15 L 22.5 18 L 30.0 15 L 37.5 12 L 45.0 15 L 52.5 18 L 60.0 21 L 67.5 24 L 75.0 27",
     "twitch": "s3rxa8",
-    "inGame": true,
-    "champion": "Viego",
+    "inGame": false,
+    "champion": null,
     "topMasteries": [
       {
         "championName": "Nocturne",
@@ -600,7 +600,7 @@
       }
     ],
     "rank": 3,
-    "timestamp": 1789640423566
+    "timestamp": 1789658105454
   },
   "mamielizabeth": {
     "puuid": "QQvt4VG3fPkdt3d-wAWepGRyopVDG2FyqpLKQFuWwpVCOt0lSgYi1r3UK6xO_AX69f2thGOEFtvj6g",
@@ -622,8 +622,8 @@
     "lossEvents": 35,
     "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 15 L 37.5 12 L 45.0 15 L 52.5 18 L 60.0 21 L 67.5 24 L 75.0 27",
     "twitch": "",
-    "inGame": true,
-    "champion": "Ashe",
+    "inGame": false,
+    "champion": null,
     "topMasteries": [
       {
         "championName": "Vex",
@@ -801,6 +801,6 @@
       }
     ],
     "rank": 4,
-    "timestamp": 1789640423566
+    "timestamp": 1789658105454
   }
 }

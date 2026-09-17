@@ -5,8 +5,8 @@ const gameData = {
       "name": "JavierLoL",
       "tag": "#514",
       "role": "mid",
-      "elo": 1541,
-      "absoluteElo": 4641,
+      "elo": 1466,
+      "absoluteElo": 4566,
       "tierName": "MASTER",
       "rankTier": "I",
       "win": 205,
@@ -205,8 +205,8 @@ const gameData = {
       "name": "Maiiser",
       "tag": "#WIWI",
       "role": "top",
-      "elo": 55,
-      "absoluteElo": 2755,
+      "elo": 5,
+      "absoluteElo": 2705,
       "tierName": "DIAMOND",
       "rankTier": "I",
       "win": 123,
@@ -801,5 +801,5 @@ const gameData = {
       "rank": 4
     }
   ],
-  "lastUpdated": "2026-09-16T21:36:38.392Z"
+  "lastUpdated": "2026-09-17T00:15:45.587Z"
 };

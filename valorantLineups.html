@@ -18,7 +18,7 @@
     /* Scrollbar personalizada para los filtros */
     .custom-scrollbar::-webkit-scrollbar { height: 4px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: #0b0d12; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e2638; rounded: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e2638; border-radius: 4px; }
   </style>
 </head>
 <body class="min-h-screen pb-12">
@@ -86,7 +86,7 @@
       
       <!-- 1. Filtro por Mapa -->
       <div>
-        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 block flex items-center gap-1.5">
+        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
           <i data-lucide="map" class="w-3.5 h-3.5 text-red-400"></i> Seleccionar Mapa
         </label>
         <div class="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar" id="map-filters">
@@ -108,7 +108,7 @@
         
         <!-- Bando (Ataque / Defensa) -->
         <div>
-          <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 block flex items-center gap-1.5">
+          <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
             <i data-lucide="swords" class="w-3.5 h-3.5 text-red-400"></i> Bando
           </label>
           <div class="flex gap-2 bg-slate-950 p-1 rounded-xl border border-custom" id="side-filters">
@@ -120,7 +120,7 @@
 
         <!-- Agentes -->
         <div>
-          <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 block flex items-center gap-1.5">
+          <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
             <i data-lucide="user" class="w-3.5 h-3.5 text-red-400"></i> Agente
           </label>
           <select id="agent-filter" class="w-full bg-slate-950 border border-custom rounded-xl px-3 py-1.5 text-xs text-slate-200 font-bold focus:outline-none focus:border-red-500 transition">
@@ -137,7 +137,7 @@
 
         <!-- Sitio (A, B, C, Mid) -->
         <div>
-          <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 block flex items-center gap-1.5">
+          <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
             <i data-lucide="map-pin" class="w-3.5 h-3.5 text-red-400"></i> Sitio
           </label>
           <div class="flex gap-1.5" id="site-filters">
@@ -185,9 +185,9 @@
       </div>
 
       <div class="p-6 space-y-4">
-        <!-- Preview / Placeholder de Imagen o Video -->
-        <div class="aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden relative flex items-center justify-center">
-          <img id="modal-image" src="" alt="Lineup preview" class="w-full h-full object-cover">
+        <!-- Preview / Contenedor Dinámico para Vídeo o Imagen -->
+        <div id="modal-media-container" class="aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden relative flex items-center justify-center">
+          <!-- Insertado dinámicamente con JS -->
         </div>
 
         <div class="bg-slate-950 border border-custom p-4 rounded-xl space-y-2">
@@ -200,77 +200,9 @@
     </div>
   </div>
 
-  <!-- Lógica JavaScript Principal -->
+  <!-- Lógica JavaScript Principal con Carga Dinámica de JSON -->
   <script>
-    // Datos de ejemplo para los Lineups
-    const lineupsData = [
-      {
-        id: 1,
-        title: "Dardo de Revelación Post-Plant Site A",
-        map: "ascent",
-        agent: "sova",
-        side: "ataque",
-        site: "A",
-        ability: "Dardo Reconocimiento",
-        description: "Apunta a la esquina del generador desde Main A. Carga 2 barras, 1 rebote. Revela a todos los defensores retakeando desde Heaven y árbol.",
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: 2,
-        title: "Veneno Post-Plant B Default",
-        map: "bind",
-        agent: "viper",
-        side: "ataque",
-        site: "B",
-        ability: "Veneno de Serpiente",
-        description: "Ponte junto a la fuente en Long B. Alinea la barra de HUD con la esquina del edificio. Lanza con clic izquierdo para cubrir todo el plante default.",
-        image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: 3,
-        title: "Molly Antidefuse B Site",
-        map: "ascent",
-        agent: "brimstone",
-        side: "ataque",
-        site: "B",
-        ability: "Incendiario",
-        description: "Desde la entrada de B Main, alinea el icono del incendiario con la antena del tejado. Lanza normal. El fuego cubre todo el punto de plant de la caja verde.",
-        image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: 4,
-        title: "Nanobots de Control Site A",
-        map: "lotus",
-        agent: "killjoy",
-        side: "defensa",
-        site: "A",
-        ability: "Enjambre de Nanos",
-        description: "Coloca la granada en la puerta rota y la otra en el punto de plant principal. Actívala cuando escuches el audio de entrada para frenar el rush.",
-        image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: 5,
-        title: "Ojo de Apoyo para Entrada Mid",
-        map: "sunset",
-        agent: "fade",
-        side: "ataque",
-        site: "MID",
-        ability: "Tormento",
-        description: "Lanza el ojo por encima de las cajas de Mid. Cae justo sobre el techo de Mercado y marca a los operadores enemigos posicionados.",
-        image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: 6,
-        title: "Cero/Memoria Anti-Push B Site",
-        map: "haven",
-        agent: "kayo",
-        side: "defensa",
-        site: "B",
-        ability: "CUKnife",
-        description: "Lanza el cuchillo a través de la ventana superior de Mid. Desactiva todas las habilidades de los atacantes que intenten entrar por Garaje o Mid.",
-        image: "https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=800&q=80"
-      }
-    ];
+    let lineupsData = [];
 
     // Estado de filtros
     let filters = {
@@ -281,23 +213,64 @@
       search: ''
     };
 
-    // Renderizar Lineups
+    // Lista de mapas y agentes para construir la búsqueda de archivos JSON
+    const availableAgents = ['sova', 'viper', 'brimstone', 'killjoy', 'fade', 'kayo', 'cypher'];
+    const availableMaps = ['ascent', 'bind', 'haven', 'lotus', 'sunset', 'icebox', 'breeze'];
+
+    // Función principal para cargar archivos .json desde tus carpetas
+    async function loadLineupsData() {
+      lineupsData = [];
+      
+      const mapsToLoad = filters.map === 'all' ? availableMaps : [filters.map];
+      const agentsToLoad = filters.agent === 'all' ? availableAgents : [filters.agent];
+
+      const fetchPromises = [];
+
+      for (const map of mapsToLoad) {
+        for (const agent of agentsToLoad) {
+          // Construye la ruta: Valorant/ValorantLineups/Mapas/Ascent/ascentSova.json
+          const mapCapitalized = map.charAt(0).toUpperCase() + map.slice(1);
+          const agentCapitalized = agent.charAt(0).toUpperCase() + agent.slice(1);
+          const jsonPath = `Valorant/ValorantLineups/Mapas/${mapCapitalized}/${map}${agentCapitalized}.json`;
+
+          const promise = fetch(jsonPath)
+            .then(res => {
+              if (res.ok) return res.json();
+              return []; // Si el archivo no existe aún, retorna array vacío
+            })
+            .catch(() => []); // Captura errores de red/ruta no encontrada
+
+          fetchPromises.push(promise);
+        }
+      }
+
+      // Esperar a que se lean todos los archivos
+      const results = await Promise.all(fetchPromises);
+      lineupsData = results.flat();
+
+      renderLineups();
+    }
+
+    // Renderizar tarjetas de Lineups
     function renderLineups() {
       const grid = document.getElementById('lineups-grid');
       const noResults = document.getElementById('no-results');
       const countElem = document.getElementById('lineup-count');
 
       const filtered = lineupsData.filter(item => {
-        const matchesMap = filters.map === 'all' || item.map === filters.map;
-        const matchesSide = filters.side === 'all' || item.side === filters.side;
-        const matchesAgent = filters.agent === 'all' || item.agent === filters.agent;
-        const matchesSite = filters.site === 'all' || item.site === filters.site;
+        const matchesSide = filters.side === 'all' || item.lado?.toLowerCase() === filters.side || item.side?.toLowerCase() === filters.side;
+        const matchesSite = filters.site === 'all' || item.sitio?.toUpperCase() === filters.site || item.site?.toUpperCase() === filters.site;
+        
+        const title = item.nombre || item.title || '';
+        const ability = item.tipo || item.ability || '';
+        const agent = item.agente || item.agent || '';
+        
         const matchesSearch = filters.search === '' || 
-          item.title.toLowerCase().includes(filters.search.toLowerCase()) ||
-          item.ability.toLowerCase().includes(filters.search.toLowerCase()) ||
-          item.agent.toLowerCase().includes(filters.search.toLowerCase());
+          title.toLowerCase().includes(filters.search.toLowerCase()) ||
+          ability.toLowerCase().includes(filters.search.toLowerCase()) ||
+          agent.toLowerCase().includes(filters.search.toLowerCase());
 
-        return matchesMap && matchesSide && matchesAgent && matchesSite && matchesSearch;
+        return matchesSide && matchesSite && matchesSearch;
       });
 
       countElem.textContent = filtered.length;
@@ -310,32 +283,48 @@
 
       noResults.classList.add('hidden');
       grid.innerHTML = filtered.map(item => {
-        const sideColor = item.side === 'ataque' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+        const side = item.lado || item.side || 'ataque';
+        const map = item.mapa || item.map || '';
+        const agent = item.agente || item.agent || '';
+        const site = item.sitio || item.site || '';
+        const title = item.nombre || item.title || 'Sin Título';
+        const description = item.descripcion || item.description || '';
+        const ability = item.tipo || item.ability || 'Habilidad';
+        const image = item.imagen_url || item.image || '';
+
+        const sideColor = side.toLowerCase() === 'ataque' 
+          ? 'bg-red-500/10 text-red-400 border-red-500/20' 
+          : 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+
+        // Imagen por defecto si falla la ruta local
+        const fallbackImg = "https://via.placeholder.com/800x450/0b0d12/334155?text=Sin+Vista+Previa";
 
         return `
           <div class="bg-card border border-custom rounded-2xl overflow-hidden hover:border-slate-600 transition group flex flex-col justify-between">
             <div>
-              <!-- Imagen de Vista Previa -->
+              <!-- Imagen de Vista Previa con fallback -->
               <div class="relative aspect-video bg-slate-950 overflow-hidden cursor-pointer" onclick="openModal(${item.id})">
-                <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <img src="${image}" alt="${title}" 
+                  onerror="this.onerror=null; this.src='${fallbackImg}';"
+                  class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                 <div class="absolute inset-0 bg-gradient-to-t from-[#121620] via-transparent to-transparent"></div>
                 
                 <!-- Badges sobre la imagen -->
                 <div class="absolute top-3 left-3 flex gap-1.5 flex-wrap">
                   <span class="px-2 py-0.5 rounded text-[10px] font-black border uppercase ${sideColor}">
-                    ${item.side}
+                    ${side}
                   </span>
                   <span class="px-2 py-0.5 rounded text-[10px] font-black bg-slate-900/80 text-white border border-custom uppercase">
-                    Sitio ${item.site}
+                    Sitio ${site}
                   </span>
                 </div>
 
                 <div class="absolute bottom-3 left-3 right-3 flex justify-between items-center">
                   <span class="text-[11px] font-extrabold text-slate-300 uppercase tracking-wide bg-slate-900/90 px-2 py-0.5 rounded border border-custom">
-                    ${item.map}
+                    ${map}
                   </span>
                   <span class="text-[11px] font-bold text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20 uppercase">
-                    ${item.agent}
+                    ${agent}
                   </span>
                 </div>
               </div>
@@ -343,10 +332,10 @@
               <!-- Contenido de la carta -->
               <div class="p-4 space-y-2">
                 <h3 class="font-bold text-white text-sm leading-snug group-hover:text-red-400 transition cursor-pointer" onclick="openModal(${item.id})">
-                  ${item.title}
+                  ${title}
                 </h3>
                 <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                  ${item.description}
+                  ${description}
                 </p>
               </div>
             </div>
@@ -354,7 +343,7 @@
             <!-- Footer de la carta -->
             <div class="p-4 pt-0 border-t border-custom/30 mt-3 flex items-center justify-between">
               <span class="text-[10px] font-bold text-slate-500 uppercase flex items-center gap-1">
-                <i data-lucide="zap" class="w-3 h-3 text-red-400"></i> ${item.ability}
+                <i data-lucide="zap" class="w-3 h-3 text-red-400"></i> ${ability}
               </span>
               <button onclick="openModal(${item.id})" class="px-3 py-1 bg-slate-900 hover:bg-red-500 text-slate-300 hover:text-white font-bold rounded-lg text-xs transition border border-custom">
                 VER GUÍA
@@ -369,20 +358,39 @@
       }
     }
 
-    // Modal Control
+    // Modal Control (Reproduce Vídeo si existe o Imagen como Respaldo)
     function openModal(id) {
       const item = lineupsData.find(l => l.id === id);
       if (!item) return;
 
-      document.getElementById('modal-title').textContent = item.title;
-      document.getElementById('modal-map').textContent = item.map;
-      document.getElementById('modal-agent').textContent = item.agent;
-      document.getElementById('modal-description').textContent = item.description;
-      document.getElementById('modal-image').src = item.image;
+      document.getElementById('modal-title').textContent = item.nombre || item.title || '';
+      document.getElementById('modal-map').textContent = item.mapa || item.map || '';
+      document.getElementById('modal-agent').textContent = item.agente || item.agent || '';
+      document.getElementById('modal-description').textContent = item.descripcion || item.description || '';
+
+      const mediaContainer = document.getElementById('modal-media-container');
+      const videoPath = item.video_url || item.video || '';
+      const imagePath = item.imagen_url || item.image || '';
+      const fallbackImg = "https://via.placeholder.com/800x450/0b0d12/334155?text=Vista+Previa+No+Disponible";
+
+      // Si existe un vídeo configurado, lo muestra en un reproductor de HTML5
+      if (videoPath && videoPath.trim() !== '') {
+        mediaContainer.innerHTML = `
+          <video controls autoplay class="w-full h-full object-cover" onerror="this.parentNode.innerHTML='<img src=\'${imagePath}\' onerror=\'this.src=\\\"${fallbackImg}\\\"\ ' class=\'w-full h-full object-cover\'>'">
+            <source src="${videoPath}" type="video/mp4">
+            Tu navegador no soporta reproducción de vídeo.
+          </video>`;
+      } else {
+        mediaContainer.innerHTML = `
+          <img src="${imagePath}" alt="${item.nombre || item.title}" 
+            onerror="this.onerror=null; this.src='${fallbackImg}';" 
+            class="w-full h-full object-cover">`;
+      }
 
       const sideBadge = document.getElementById('modal-side');
-      sideBadge.textContent = item.side;
-      sideBadge.className = item.side === 'ataque' 
+      const side = item.lado || item.side || 'ataque';
+      sideBadge.textContent = side;
+      sideBadge.className = side.toLowerCase() === 'ataque' 
         ? 'text-[10px] font-black px-2 py-0.5 rounded uppercase bg-red-500/20 text-red-400 border border-red-500/30'
         : 'text-[10px] font-black px-2 py-0.5 rounded uppercase bg-blue-500/20 text-blue-400 border border-blue-500/30';
 
@@ -391,6 +399,8 @@
 
     document.getElementById('close-modal').addEventListener('click', () => {
       document.getElementById('lineup-modal').classList.add('hidden');
+      // Detener vídeo al cerrar el modal
+      document.getElementById('modal-media-container').innerHTML = '';
     });
 
     // Event Listeners para los Filtros
@@ -404,7 +414,7 @@
           });
           e.target.className = 'filter-map-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-red-500 text-white transition whitespace-nowrap';
           filters.map = e.target.getAttribute('data-map');
-          renderLineups();
+          loadLineupsData();
         });
       });
 
@@ -423,7 +433,7 @@
       // Filtro de Agente
       document.getElementById('agent-filter').addEventListener('change', (e) => {
         filters.agent = e.target.value;
-        renderLineups();
+        loadLineupsData();
       });
 
       // Filtros de Sitio
@@ -444,8 +454,8 @@
         renderLineups();
       });
 
-      // Render inicial
-      renderLineups();
+      // Carga Inicial
+      loadLineupsData();
       if (window.lucide) lucide.createIcons();
     });
   </script>

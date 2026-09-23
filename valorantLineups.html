@@ -352,16 +352,28 @@
       const videoPath = (item.video_url || item.video || '').trim();
       const imagePath = item.imagen_url || item.image || fallbackImg;
 
-      // Cargar reproductor dinámico
+      // Restablecer estilos predeterminados para evitar deformaciones
+      mediaContainer.className = "aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden relative flex items-center justify-center";
+
+      // 1. TIKTOK (Optimizacion de diseño)
       if (videoPath.includes('tiktok.com')) {
         const match = videoPath.match(/video\/(\d+)/);
         const tiktokId = match ? match[1] : null;
 
         if (tiktokId) {
+          mediaContainer.className = "w-full max-w-[340px] h-[480px] mx-auto bg-black rounded-xl border border-custom overflow-hidden relative flex items-center justify-center shadow-lg";
           mediaContainer.innerHTML = `
-            <iframe src="https://www.tiktok.com/embed/v2/${tiktokId}" 
-              class="w-full h-full border-0 rounded-xl" allowfullscreen allow="encrypted-media;"></iframe>`;
-        } else showFallbackImage();
+            <div class="w-full h-[580px] -mt-10 overflow-hidden flex items-center justify-center">
+              <iframe 
+                src="https://www.tiktok.com/embed/v2/${tiktokId}" 
+                class="w-full h-full border-0 pointer-events-auto" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+              </iframe>
+            </div>`;
+        } else {
+          showFallbackImage();
+        }
       } 
       else if (videoPath.includes('youtube.com') || videoPath.includes('youtu.be')) {
         let youtubeId = null;
@@ -376,7 +388,6 @@
         } else showFallbackImage();
       } 
       else if (videoPath.includes('twitch.tv')) {
-        // Fix Twitch Origin Parent Bug
         const domain = (window.location.hostname && window.location.hostname !== '') ? window.location.hostname : 'localhost';
         let embedSrc = '';
 

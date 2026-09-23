@@ -158,7 +158,7 @@
       <!-- Se llena dinámicamente con JS -->
     </section>
 
-    <!-- Estado Vacío (Sin resultados) -->
+    <!-- Estado Vacío -->
     <div id="no-results" class="hidden bg-card border border-custom rounded-2xl p-12 text-center">
       <i data-lucide="search-x" class="w-12 h-12 text-slate-600 mx-auto mb-3"></i>
       <h3 class="text-base font-bold text-white">No se encontraron lineups</h3>
@@ -167,7 +167,7 @@
 
   </div>
 
-  <!-- Modal de Previsualización de Lineup -->
+  <!-- Modal de Previsualización -->
   <div id="lineup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-card border border-custom rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl relative">
       <button id="close-modal" class="absolute top-3 right-3 bg-slate-900/80 hover:bg-red-500 text-white p-1.5 rounded-lg border border-custom transition z-10">
@@ -185,10 +185,7 @@
       </div>
 
       <div class="p-6 space-y-4">
-        <!-- Preview / Contenedor Dinámico para Vídeo o Imagen -->
-        <div id="modal-media-container" class="aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden relative flex items-center justify-center">
-          <!-- Insertado dinámicamente con JS -->
-        </div>
+        <div id="modal-media-container" class="aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden relative flex items-center justify-center"></div>
 
         <div class="bg-slate-950 border border-custom p-4 rounded-xl space-y-2">
           <h4 class="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -200,11 +197,10 @@
     </div>
   </div>
 
-  <!-- Lógica JavaScript Principal con Carga Dinámica de JSON -->
   <script>
-    let lineupsData = [];
+    let rawLineups = []; // Almacena todos los datos cargados de JSON
+    const fallbackImg = "https://via.placeholder.com/800x450/0b0d12/334155?text=Sin+Vista+Previa";
 
-    // Estado de filtros
     let filters = {
       map: 'all',
       side: 'all',
@@ -213,64 +209,64 @@
       search: ''
     };
 
-    // Lista de mapas y agentes para construir la búsqueda de archivos JSON
     const availableAgents = ['sova', 'viper', 'brimstone', 'killjoy', 'fade', 'kayo', 'cypher'];
     const availableMaps = ['ascent', 'bind', 'haven', 'lotus', 'sunset', 'icebox', 'breeze'];
 
-    // Función principal para cargar archivos .json desde tus carpetas
-    async function loadLineupsData() {
-      lineupsData = [];
-      
-      const mapsToLoad = filters.map === 'all' ? availableMaps : [filters.map];
-      const agentsToLoad = filters.agent === 'all' ? availableAgents : [filters.agent];
-
+    // Carga única de todos los archivos JSON al inicio
+    async function fetchAllJSONs() {
       const fetchPromises = [];
 
-      for (const map of mapsToLoad) {
-        for (const agent of agentsToLoad) {
-          // Construye la ruta: Valorant/ValorantLineups/Mapas/Ascent/ascentSova.json
-          const mapCapitalized = map.charAt(0).toUpperCase() + map.slice(1);
-          const agentCapitalized = agent.charAt(0).toUpperCase() + agent.slice(1);
-          const jsonPath = `Valorant/ValorantLineups/Mapas/${mapCapitalized}/${map}${agentCapitalized}.json`;
+      for (const map of availableMaps) {
+        for (const agent of availableAgents) {
+          const mapCap = map.charAt(0).toUpperCase() + map.slice(1);
+          const agentCap = agent.charAt(0).toUpperCase() + agent.slice(1);
+          const path = `Valorant/ValorantLineups/Mapas/${mapCap}/${map}${agentCap}.json`;
 
-          const promise = fetch(jsonPath)
-            .then(res => {
-              if (res.ok) return res.json();
-              return []; // Si el archivo no existe aún, retorna array vacío
+          const promise = fetch(path)
+            .then(res => res.ok ? res.json() : [])
+            .then(data => {
+              // Asignar mapa y agente si no están especificados en el elemento interno
+              return data.map((item, idx) => ({
+                ...item,
+                id: item.id || `${map}-${agent}-${idx}`,
+                mapa: item.mapa || item.map || map,
+                agente: item.agente || item.agent || agent
+              }));
             })
-            .catch(() => []); // Captura errores de red/ruta no encontrada
+            .catch(() => []);
 
           fetchPromises.push(promise);
         }
       }
 
-      // Esperar a que se lean todos los archivos
       const results = await Promise.all(fetchPromises);
-      lineupsData = results.flat();
-
+      rawLineups = results.flat();
       renderLineups();
     }
 
-    // Renderizar tarjetas de Lineups
     function renderLineups() {
       const grid = document.getElementById('lineups-grid');
       const noResults = document.getElementById('no-results');
       const countElem = document.getElementById('lineup-count');
 
-      const filtered = lineupsData.filter(item => {
-        const matchesSide = filters.side === 'all' || item.lado?.toLowerCase() === filters.side || item.side?.toLowerCase() === filters.side;
-        const matchesSite = filters.site === 'all' || item.sitio?.toUpperCase() === filters.site || item.site?.toUpperCase() === filters.site;
-        
-        const title = item.nombre || item.title || '';
-        const ability = item.tipo || item.ability || '';
-        const agent = item.agente || item.agent || '';
-        
-        const matchesSearch = filters.search === '' || 
-          title.toLowerCase().includes(filters.search.toLowerCase()) ||
-          ability.toLowerCase().includes(filters.search.toLowerCase()) ||
-          agent.toLowerCase().includes(filters.search.toLowerCase());
+      const filtered = rawLineups.filter(item => {
+        const itemMap = (item.mapa || item.map || '').toLowerCase();
+        const itemAgent = (item.agente || item.agent || '').toLowerCase();
+        const itemSide = (item.lado || item.side || '').toLowerCase();
+        const itemSite = (item.sitio || item.site || '').toUpperCase();
+        const title = (item.nombre || item.title || '').toLowerCase();
+        const ability = (item.tipo || item.ability || '').toLowerCase();
 
-        return matchesSide && matchesSite && matchesSearch;
+        const matchesMap = filters.map === 'all' || itemMap === filters.map;
+        const matchesAgent = filters.agent === 'all' || itemAgent === filters.agent;
+        const matchesSide = filters.side === 'all' || itemSide === filters.side;
+        const matchesSite = filters.site === 'all' || itemSite === filters.site;
+        const matchesSearch = filters.search === '' || 
+          title.includes(filters.search.toLowerCase()) || 
+          ability.includes(filters.search.toLowerCase()) ||
+          itemAgent.includes(filters.search.toLowerCase());
+
+        return matchesMap && matchesAgent && matchesSide && matchesSite && matchesSearch;
       });
 
       countElem.textContent = filtered.length;
@@ -284,54 +280,46 @@
       noResults.classList.add('hidden');
       grid.innerHTML = filtered.map(item => {
         const side = item.lado || item.side || 'ataque';
-        const map = item.mapa || item.map || '';
-        const agent = item.agente || item.agent || '';
-        const site = item.sitio || item.site || '';
-        const title = item.nombre || item.title || 'Sin Título';
-        const description = item.descripcion || item.description || '';
-        const ability = item.tipo || item.ability || 'Habilidad';
-        const image = item.imagen_url || item.image || '';
-
-        const sideColor = side.toLowerCase() === 'ataque' 
+        const isAttack = side.toLowerCase() === 'ataque';
+        const sideColor = isAttack 
           ? 'bg-red-500/10 text-red-400 border-red-500/20' 
           : 'bg-blue-500/10 text-blue-400 border-blue-500/20';
 
-        // Imagen por defecto si falla la ruta local
-        const fallbackImg = "https://via.placeholder.com/800x450/0b0d12/334155?text=Sin+Vista+Previa";
+        const image = item.imagen_url || item.image || fallbackImg;
+        const title = item.nombre || item.title || 'Sin Título';
+        const description = item.descripcion || item.description || '';
+        const ability = item.tipo || item.ability || 'Habilidad';
 
         return `
           <div class="bg-card border border-custom rounded-2xl overflow-hidden hover:border-slate-600 transition group flex flex-col justify-between">
             <div>
-              <!-- Imagen de Vista Previa con fallback -->
-              <div class="relative aspect-video bg-slate-950 overflow-hidden cursor-pointer" onclick="openModal(${item.id})">
+              <div class="relative aspect-video bg-slate-950 overflow-hidden cursor-pointer" onclick="openModal('${item.id}')">
                 <img src="${image}" alt="${title}" 
                   onerror="this.onerror=null; this.src='${fallbackImg}';"
                   class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                 <div class="absolute inset-0 bg-gradient-to-t from-[#121620] via-transparent to-transparent"></div>
                 
-                <!-- Badges sobre la imagen -->
                 <div class="absolute top-3 left-3 flex gap-1.5 flex-wrap">
                   <span class="px-2 py-0.5 rounded text-[10px] font-black border uppercase ${sideColor}">
                     ${side}
                   </span>
                   <span class="px-2 py-0.5 rounded text-[10px] font-black bg-slate-900/80 text-white border border-custom uppercase">
-                    Sitio ${site}
+                    Sitio ${item.sitio || item.site || ''}
                   </span>
                 </div>
 
                 <div class="absolute bottom-3 left-3 right-3 flex justify-between items-center">
                   <span class="text-[11px] font-extrabold text-slate-300 uppercase tracking-wide bg-slate-900/90 px-2 py-0.5 rounded border border-custom">
-                    ${map}
+                    ${item.mapa}
                   </span>
                   <span class="text-[11px] font-bold text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20 uppercase">
-                    ${agent}
+                    ${item.agente}
                   </span>
                 </div>
               </div>
 
-              <!-- Contenido de la carta -->
               <div class="p-4 space-y-2">
-                <h3 class="font-bold text-white text-sm leading-snug group-hover:text-red-400 transition cursor-pointer" onclick="openModal(${item.id})">
+                <h3 class="font-bold text-white text-sm leading-snug group-hover:text-red-400 transition cursor-pointer" onclick="openModal('${item.id}')">
                   ${title}
                 </h3>
                 <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">
@@ -340,12 +328,11 @@
               </div>
             </div>
 
-            <!-- Footer de la carta -->
             <div class="p-4 pt-0 border-t border-custom/30 mt-3 flex items-center justify-between">
               <span class="text-[10px] font-bold text-slate-500 uppercase flex items-center gap-1">
                 <i data-lucide="zap" class="w-3 h-3 text-red-400"></i> ${ability}
               </span>
-              <button onclick="openModal(${item.id})" class="px-3 py-1 bg-slate-900 hover:bg-red-500 text-slate-300 hover:text-white font-bold rounded-lg text-xs transition border border-custom">
+              <button onclick="openModal('${item.id}')" class="px-3 py-1 bg-slate-900 hover:bg-red-500 text-slate-300 hover:text-white font-bold rounded-lg text-xs transition border border-custom">
                 VER GUÍA
               </button>
             </div>
@@ -353,30 +340,25 @@
         `;
       }).join('');
 
-      if (window.lucide) {
-        lucide.createIcons();
-      }
+      if (window.lucide) lucide.createIcons();
     }
 
-    // Modal Control (Reproduce Vídeo si existe o Imagen como Respaldo)
-        function openModal(id) {
-      const item = lineupsData.find(l => l.id === id);
+    function openModal(id) {
+      const item = rawLineups.find(l => String(l.id) === String(id));
       if (!item) return;
 
       document.getElementById('modal-title').textContent = item.nombre || item.title || '';
-      document.getElementById('modal-map').textContent = item.mapa || item.map || '';
-      document.getElementById('modal-agent').textContent = item.agente || item.agent || '';
+      document.getElementById('modal-map').textContent = item.mapa || '';
+      document.getElementById('modal-agent').textContent = item.agente || '';
       document.getElementById('modal-description').textContent = item.descripcion || item.description || '';
 
       const mediaContainer = document.getElementById('modal-media-container');
       const videoPath = item.video_url || item.video || '';
-      const imagePath = item.imagen_url || item.image || '';
-      const fallbackImg = "https://via.placeholder.com/800x450/0b0d12/334155?text=Vista+Previa+No+Disponible";
+      const imagePath = item.imagen_url || item.image || fallbackImg;
 
-      // Si existe un vídeo configurado, lo muestra en un reproductor de HTML5
       if (videoPath && videoPath.trim() !== '') {
         mediaContainer.innerHTML = `
-          <video controls autoplay class="w-full h-full object-cover" onerror="this.parentNode.innerHTML='<img src=\'${imagePath}\' onerror=\'this.src=\\\"${fallbackImg}\\\"\ ' class=\'w-full h-full object-cover\'>'">
+          <video controls autoplay class="w-full h-full object-cover">
             <source src="${videoPath}" type="video/mp4">
             Tu navegador no soporta reproducción de vídeo.
           </video>`;
@@ -397,23 +379,15 @@
       document.getElementById('lineup-modal').classList.remove('hidden');
     }
 
-    document.getElementById('close-modal').addEventListener('click', () => {
+    function closeModal() {
       document.getElementById('lineup-modal').classList.add('hidden');
-      // Detener vídeo al cerrar el modal
       document.getElementById('modal-media-container').innerHTML = '';
-    });
+    }
 
-
-    document.getElementById('close-modal').addEventListener('click', () => {
-      document.getElementById('lineup-modal').classList.add('hidden');
-      // Detener vídeo al cerrar el modal
-      document.getElementById('modal-media-container').innerHTML = '';
-    });
-
-    // Event Listeners para los Filtros
     document.addEventListener('DOMContentLoaded', () => {
-      
-      // Filtros de Mapa
+      document.getElementById('close-modal').addEventListener('click', closeModal);
+
+      // Eventos Filtro Mapa
       document.querySelectorAll('.filter-map-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           document.querySelectorAll('.filter-map-btn').forEach(b => {
@@ -421,11 +395,11 @@
           });
           e.target.className = 'filter-map-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-red-500 text-white transition whitespace-nowrap';
           filters.map = e.target.getAttribute('data-map');
-          loadLineupsData();
+          renderLineups();
         });
       });
 
-      // Filtros de Bando
+      // Eventos Filtro Bando
       document.querySelectorAll('.filter-side-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           document.querySelectorAll('.filter-side-btn').forEach(b => {
@@ -437,13 +411,13 @@
         });
       });
 
-      // Filtro de Agente
+      // Evento Filtro Agente
       document.getElementById('agent-filter').addEventListener('change', (e) => {
         filters.agent = e.target.value;
-        loadLineupsData();
+        renderLineups();
       });
 
-      // Filtros de Sitio
+      // Eventos Filtro Sitio
       document.querySelectorAll('.filter-site-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           document.querySelectorAll('.filter-site-btn').forEach(b => {
@@ -461,8 +435,8 @@
         renderLineups();
       });
 
-      // Carga Inicial
-      loadLineupsData();
+      // Inicialización
+      fetchAllJSONs();
       if (window.lucide) lucide.createIcons();
     });
   </script>

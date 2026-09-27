@@ -98,6 +98,7 @@
           <button data-map="sunset" class="filter-map-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-950 text-slate-400 hover:text-white border border-custom transition whitespace-nowrap">Sunset</button>
           <button data-map="icebox" class="filter-map-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-950 text-slate-400 hover:text-white border border-custom transition whitespace-nowrap">Icebox</button>
           <button data-map="breeze" class="filter-map-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-950 text-slate-400 hover:text-white border border-custom transition whitespace-nowrap">Breeze</button>
+          <button data-map="abyss" class="filter-map-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-950 text-slate-400 hover:text-white border border-custom transition whitespace-nowrap">Abyss</button>
         </div>
       </div>
 
@@ -110,7 +111,7 @@
             <i data-lucide="swords" class="w-3.5 h-3.5 text-red-400"></i> Bando
           </label>
           <div class="flex gap-2 bg-slate-950 p-1 rounded-xl border border-custom" id="side-filters">
-            <button data-side="all" class="filter-side-btn flex-1 py-1 text-xs font-bold rounded-lg bg-slate-800 text-white transition">Todos</button>
+            <button data-side="all" class="filter-side-btn active flex-1 py-1 text-xs font-bold rounded-lg bg-slate-800 text-white transition">Todos</button>
             <button data-side="ataque" class="filter-side-btn flex-1 py-1 text-xs font-bold rounded-lg text-slate-400 hover:text-red-400 transition">Ataque</button>
             <button data-side="defensa" class="filter-side-btn flex-1 py-1 text-xs font-bold rounded-lg text-slate-400 hover:text-blue-400 transition">Defensa</button>
           </div>
@@ -193,15 +194,33 @@
     let rawLineups = []; 
     const fallbackImg = "https://via.placeholder.com/800x450/0b0d12/334155?text=Sin+Vista+Previa";
 
-    // RUTAS A TUS IMÁGENES LOCALES
     const agentIcons = {
-      sova: "assets/agentes/sova.png",
-      viper: "assets/agentes/viper.png",
-      brimstone: "assets/agentes/brimstone.png",
-      killjoy: "assets/agentes/killjoy.png",
-      fade: "assets/agentes/fade.png",
-      kayo: "assets/agentes/kayo.png",
-      cypher: "assets/agentes/cypher.png"
+      breach: "https://media.valorant-api.com/agents/5f8d3a7f-467b-97f3-062c-13acf203c006/displayicon.png",
+      fade: "https://media.valorant-api.com/agents/ade6964f-4273-a013-171a-09c446d758d6/displayicon.png",
+      gekko: "https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/displayicon.png",
+      kayo: "https://media.valorant-api.com/agents/601d3b66-4b26-4d77-84a5-4d6d81965a8e/displayicon.png",
+      skye: "https://media.valorant-api.com/agents/6f2a04ca-43e0-be17-7f36-b0908d750b22/displayicon.png",
+      sova: "https://media.valorant-api.com/agents/ded3520f-4264-bf56-8132-b50e2b584e7b/displayicon.png",
+      tejo: "https://media.valorant-api.com/agents/8437f13d-424a-1316-0925-bf89eb0e0237/displayicon.png",
+      astra: "https://media.valorant-api.com/agents/41fb69c1-4189-7b37-f117-bcaf1e96f1bf/displayicon.png",
+      brimstone: "https://media.valorant-api.com/agents/9f0e8ba1-4881-bf96-0741-ac0b20159f0e/displayicon.png",
+      clove: "https://media.valorant-api.com/agents/1dbf2ea7-4fea-abe8-8680-88913d4e9e4b/displayicon.png",
+      harbor: "https://media.valorant-api.com/agents/ea611105-4158-09e6-3f0f-9095ae75d4e1/displayicon.png",
+      omen: "https://media.valorant-api.com/agents/8e253930-4c05-31dd-1b6c-968525494517/displayicon.png",
+      viper: "https://media.valorant-api.com/agents/70773516-4080-97b2-a722-10b5ee0e35d0/displayicon.png",
+      iso: "https://media.valorant-api.com/agents/0e38b542-4471-9eef-4c2e-d0a09e023395/displayicon.png",
+      jett: "https://media.valorant-api.com/agents/20a73709-47f3-9a70-85d8-23d2b81024d5/displayicon.png",
+      neon: "https://media.valorant-api.com/agents/bb2a4828-46eb-8a68-f7da-66928b5b4227/displayicon.png",
+      phoenix: "https://media.valorant-api.com/agents/eb93336a-449d-9c1b-0a54-a891f7921d69/displayicon.png",
+      raze: "https://media.valorant-api.com/agents/f949b57d-4884-057b-1904-7b0a8f8ff4f5/displayicon.png",
+      reyna: "https://media.valorant-api.com/agents/a3bfb853-43b2-7238-a4f1-7d22e9a36380/displayicon.png",
+      yoru: "https://media.valorant-api.com/agents/7f23dc29-479e-3e21-014e-3e866a010839/displayicon.png",
+      chamber: "https://media.valorant-api.com/agents/22697a3d-45bf-8dd7-4fec-84a9e28c69d7/displayicon.png",
+      cypher: "https://media.valorant-api.com/agents/117ed9e3-49f3-6512-3ccf-0cca8e36e778/displayicon.png",
+      deadlock: "https://media.valorant-api.com/agents/cc8b042f-4676-a9a7-3db0-04897e23539f/displayicon.png",
+      killjoy: "https://media.valorant-api.com/agents/1e58d037-43a9-95e0-9c12-f0898750711b/displayicon.png",
+      sage: "https://media.valorant-api.com/agents/56407e14-4b7b-556b-0b90-2741714478d1/displayicon.png",
+      vyse: "https://media.valorant-api.com/agents/601e8631-4796-03f3-9f44-8098c47143e9/displayicon.png"
     };
 
     let filters = {
@@ -212,8 +231,8 @@
       search: ''
     };
 
-    const availableAgents = ['sova', 'viper', 'brimstone', 'killjoy', 'fade', 'kayo', 'cypher'];
-    const availableMaps = ['ascent', 'bind', 'haven', 'lotus', 'sunset', 'icebox', 'breeze'];
+    const availableAgents = ['astra','breach','brimstone','chamber','clove','cypher','deadlock','fade','gekko','harbor','iso','jett','kayo','killjoy','neon','omen','phoenix','raze','reyna','sage','skye','sova','tejo','viper','vyse','yoru'];
+    const availableMaps = ['ascent', 'bind', 'haven', 'lotus', 'sunset', 'icebox', 'breeze', 'abyss'];
 
     async function fetchAllJSONs() {
       const fetchPromises = [];
@@ -297,7 +316,6 @@
         const description = item.descripcion || item.description || '';
         const ability = item.tipo || item.ability || 'Habilidad';
 
-        // Obtener icono local del agente
         const agentKey = (item.agente || item.agent || '').toLowerCase().trim();
         const agentIconUrl = agentIcons[agentKey] || '';
 
@@ -324,7 +342,6 @@
                     ${item.mapa}
                   </span>
                   
-                  <!-- Icono de Agente Local -->
                   <div class="w-7 h-7 rounded-lg bg-slate-900/90 border border-red-500/30 p-1 flex items-center justify-center shadow-lg" title="${item.agente}">
                     ${agentIconUrl ? `<img src="${agentIconUrl}" alt="${item.agente}" onerror="this.style.display='none';" class="w-full h-full object-contain">` : `<span class="text-[10px] font-bold text-red-400 uppercase">${item.agente}</span>`}
                   </div>
@@ -460,44 +477,55 @@
         if (e.key === 'Escape') closeModal();
       });
 
+      // Filtro por Mapa
       document.querySelectorAll('.filter-map-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           document.querySelectorAll('.filter-map-btn').forEach(b => {
             b.className = 'filter-map-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-950 text-slate-400 hover:text-white border border-custom transition whitespace-nowrap';
           });
-          e.target.className = 'filter-map-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-red-500 text-white transition whitespace-nowrap';
-          filters.map = e.target.getAttribute('data-map');
+          e.currentTarget.className = 'filter-map-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-red-500 text-white transition whitespace-nowrap';
+          filters.map = e.currentTarget.getAttribute('data-map');
           renderLineups();
         });
       });
 
+      // Filtro por Bando (Ataque / Defensa)
       document.querySelectorAll('.filter-side-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           document.querySelectorAll('.filter-side-btn').forEach(b => {
-            b.className = 'filter-side-btn flex-1 py-1 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition';
+            const sideAttr = b.getAttribute('data-side');
+            let hoverClass = 'hover:text-white';
+            if(sideAttr === 'ataque') hoverClass = 'hover:text-red-400';
+            if(sideAttr === 'defensa') hoverClass = 'hover:text-blue-400';
+            
+            b.className = `filter-side-btn flex-1 py-1 text-xs font-bold rounded-lg text-slate-400 ${hoverClass} transition`;
           });
-          e.target.className = 'filter-side-btn flex-1 py-1 text-xs font-bold rounded-lg bg-slate-800 text-white transition';
-          filters.side = e.target.getAttribute('data-side');
+          
+          e.currentTarget.className = 'filter-side-btn flex-1 py-1 text-xs font-bold rounded-lg bg-slate-800 text-white transition';
+          filters.side = e.currentTarget.getAttribute('data-side');
           renderLineups();
         });
       });
 
+      // Filtro por Agente
       document.getElementById('agent-filter').addEventListener('change', (e) => {
         filters.agent = e.target.value;
         renderLineups();
       });
 
+      // Filtro por Sitio
       document.querySelectorAll('.filter-site-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           document.querySelectorAll('.filter-site-btn').forEach(b => {
             b.className = 'filter-site-btn flex-1 py-1 text-xs font-bold rounded-lg bg-slate-950 border border-custom text-slate-400 hover:text-white transition';
           });
-          e.target.className = 'filter-site-btn flex-1 py-1 text-xs font-bold rounded-lg bg-red-500 text-white transition';
-          filters.site = e.target.getAttribute('data-site');
+          e.currentTarget.className = 'filter-site-btn flex-1 py-1 text-xs font-bold rounded-lg bg-red-500 text-white transition';
+          filters.site = e.currentTarget.getAttribute('data-site');
           renderLineups();
         });
       });
 
+      // Buscador
       document.getElementById('search-input').addEventListener('input', (e) => {
         filters.search = e.target.value;
         renderLineups();

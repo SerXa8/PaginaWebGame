@@ -193,6 +193,17 @@
     let rawLineups = []; 
     const fallbackImg = "https://via.placeholder.com/800x450/0b0d12/334155?text=Sin+Vista+Previa";
 
+    // RUTAS A TUS IMÁGENES LOCALES
+    const agentIcons = {
+      sova: "assets/agentes/sova.png",
+      viper: "assets/agentes/viper.png",
+      brimstone: "assets/agentes/brimstone.png",
+      killjoy: "assets/agentes/killjoy.png",
+      fade: "assets/agentes/fade.png",
+      kayo: "assets/agentes/kayo.png",
+      cypher: "assets/agentes/cypher.png"
+    };
+
     let filters = {
       map: 'all',
       side: 'all',
@@ -286,6 +297,10 @@
         const description = item.descripcion || item.description || '';
         const ability = item.tipo || item.ability || 'Habilidad';
 
+        // Obtener icono local del agente
+        const agentKey = (item.agente || item.agent || '').toLowerCase().trim();
+        const agentIconUrl = agentIcons[agentKey] || '';
+
         return `
           <div class="bg-card border border-custom rounded-2xl overflow-hidden hover:border-slate-600 transition group flex flex-col justify-between">
             <div>
@@ -308,9 +323,11 @@
                   <span class="text-[11px] font-extrabold text-slate-300 uppercase tracking-wide bg-slate-900/90 px-2 py-0.5 rounded border border-custom">
                     ${item.mapa}
                   </span>
-                  <span class="text-[11px] font-bold text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20 uppercase">
-                    ${item.agente}
-                  </span>
+                  
+                  <!-- Icono de Agente Local -->
+                  <div class="w-7 h-7 rounded-lg bg-slate-900/90 border border-red-500/30 p-1 flex items-center justify-center shadow-lg" title="${item.agente}">
+                    ${agentIconUrl ? `<img src="${agentIconUrl}" alt="${item.agente}" onerror="this.style.display='none';" class="w-full h-full object-contain">` : `<span class="text-[10px] font-bold text-red-400 uppercase">${item.agente}</span>`}
+                  </div>
                 </div>
               </div>
 
@@ -352,10 +369,8 @@
       const videoPath = (item.video_url || item.video || '').trim();
       const imagePath = item.imagen_url || item.image || fallbackImg;
 
-      // Restablecer estilos predeterminados para evitar deformaciones
       mediaContainer.className = "aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden relative flex items-center justify-center";
 
-      // 1. TIKTOK (Optimizacion de diseño)
       if (videoPath.includes('tiktok.com')) {
         const match = videoPath.match(/video\/(\d+)/);
         const tiktokId = match ? match[1] : null;
@@ -437,17 +452,14 @@
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('close-modal').addEventListener('click', closeModal);
 
-      // Clic fuera del modal para cerrar
       document.getElementById('lineup-modal').addEventListener('click', (e) => {
         if (e.target.id === 'lineup-modal') closeModal();
       });
 
-      // Tecla ESC para cerrar modal
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeModal();
       });
 
-      // Eventos Filtro Mapa
       document.querySelectorAll('.filter-map-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           document.querySelectorAll('.filter-map-btn').forEach(b => {
@@ -459,7 +471,6 @@
         });
       });
 
-      // Eventos Filtro Bando
       document.querySelectorAll('.filter-side-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           document.querySelectorAll('.filter-side-btn').forEach(b => {
@@ -471,13 +482,11 @@
         });
       });
 
-      // Evento Filtro Agente
       document.getElementById('agent-filter').addEventListener('change', (e) => {
         filters.agent = e.target.value;
         renderLineups();
       });
 
-      // Eventos Filtro Sitio
       document.querySelectorAll('.filter-site-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           document.querySelectorAll('.filter-site-btn').forEach(b => {
@@ -489,7 +498,6 @@
         });
       });
 
-      // Buscador
       document.getElementById('search-input').addEventListener('input', (e) => {
         filters.search = e.target.value;
         renderLineups();

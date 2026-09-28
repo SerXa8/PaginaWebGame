@@ -378,25 +378,36 @@
     }
 
     function renderSidebar(players) {
-      const listContainer = document.getElementById("streamers-list");
-      if (!listContainer || !players) return;
+  const listContainer = document.getElementById("streamers-list");
+  const viewersElem = document.getElementById("total-viewers"); // Elemento del DOM
+  if (!listContainer || !players) return;
 
-      const activeStreamers = players.filter(p => p.isLive === true && p.twitch && p.twitch.trim() !== '');
+  const activeStreamers = players.filter(p => p.isLive === true && p.twitch && p.twitch.trim() !== '');
 
-      if (activeStreamers.length === 0) {
-        listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Ningún streamer en directo ahora</p>`;
-        return;
+  // Sumar espectadores totales
+  const totalViewers = activeStreamers.reduce((sum, p) => sum + (Number(p.viewers) || 0), 0);
+  if (viewersElem) viewersElem.textContent = totalViewers.toLocaleString();
+
+  if (activeStreamers.length === 0) {
+    listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Ningún streamer en directo ahora</p>`;
+    return;
+  }
+
+  listContainer.innerHTML = activeStreamers.map(p => `
+    <button onclick="setStream('${p.twitch}')" class="w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/50 hover:bg-slate-800 transition border border-custom text-left">
+      <div class="flex items-center gap-2">
+        <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+        <span class="text-xs font-bold text-white">${p.name}</span>
+      </div>
+      <span class="text-[10px] text-purple-400 font-semibold uppercase">${p.viewers ? Number(p.viewers).toLocaleString() + ' 👁' : 'Ver canal'}</span>
+    </button>
+  `).join('');
+}
+
+      // Cargar el primer directo disponible de forma automática
+      if (activeStreamers.length > 0) {
+        setStream(activeStreamers[0].twitch);
       }
-
-      listContainer.innerHTML = activeStreamers.map(p => `
-        <button onclick="setStream('${p.twitch}')" class="w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/50 hover:bg-slate-800 transition border border-custom text-left">
-          <div class="flex items-center gap-2">
-            <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-            <span class="text-xs font-bold text-white">${p.name}</span>
-          </div>
-          <span class="text-[10px] text-purple-400 font-semibold uppercase">${p.viewers ? p.viewers + ' 👁' : 'Ver canal'}</span>
-        </button>
-      `).join('');
     }
 
     function renderTableRows(players) {
@@ -503,6 +514,31 @@
       if (window.lucide) lucide.createIcons();
     }
 
+    function applyFilters() {
+      if (typeof gameData === 'undefined' || !gameData.players) return;
+
+      const searchInput = document.getElementById("search-input").value.toLowerCase();
+      let filtered = gameData.players.filter(p => {
+        const matchesName = p.name.toLowerCase().includes(searchInput) || p.tag.toLowerCase().includes(searchInput);
+        const roleKey = (p.role || '').toLowerCase();
+        const matchesRole = currentRoleFilter === 'all' || roleKey === currentRoleFilter;
+        return matchesName && matchesRole;
+      });
+
+      const countElem = document.getElementById("player-count");
+      if (countElem) countElem.textContent = `${filtered.length} Jugadores`;
+
+      renderTableRows(filtered);
+    }
+
+    function setRoleFilter(role) {
+      currentRoleFilter = role;
+      document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`role-btn-${role}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      applyFilters();
+    }
+
     function switchModalTab(tabId) {
       document.getElementById('modal-tab-basic').classList.add('hidden');
       document.getElementById('modal-tab-pro').classList.add('hidden');
@@ -566,7 +602,6 @@
       const perf = p.performanceMetrics || {};
       const matches = p.recentMatches || [];
 
-      // Cálculo dinámico por jugador
       const avgCsd10 = perf.avgCsd10 !== undefined 
         ? perf.avgCsd10 
         : (matches.length ? (matches.reduce((acc, m) => acc + (Number(m.csd10) || 0), 0) / matches.length) : 0);
@@ -587,7 +622,6 @@
       const goldShare = parseFloat(perf.goldShare || "20%");
       const dmgEfficiency = goldShare > 0 ? (avgDpm / goldShare).toFixed(1) : "30.0";
 
-      // Inyección Métricas Clave
       const csdElem = document.getElementById('pro-csd10');
       csdElem.innerText = (avgCsd10 >= 0 ? '+' : '') + avgCsd10.toFixed(1);
       csdElem.className = `text-xl font-black ${avgCsd10 >= 0 ? 'text-green-400' : 'text-red-400'}`;
@@ -599,7 +633,6 @@
       document.getElementById('pro-dmg-efficiency').innerText = dmgEfficiency;
       document.getElementById('pro-vision-pm').innerText = `${avgVision.toFixed(1)} /m`;
 
-      // Generación de Puntos Fuertes y Débiles Exclusivos
       const strengths = [];
       const weaknesses = [];
       const role = (p.role || '').toLowerCase();
@@ -630,81 +663,32 @@
 
       document.getElementById('pro-strengths-list').innerHTML = strengths.length > 0
         ? strengths.map(s => `
-            <div class="p-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300 flex items-start gap-2">
-              <span class="text-green-400 font-bold">✓</span>
-              <span>${s}</span>
+            <div class="p-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300 flex items-center gap-2">
+              <span>✔</span> <span>${s}</span>
             </div>
           `).join('')
-        : '<p class="text-slate-500 text-xs">Sin puntos destacados.</p>';
+        : '<p class="text-slate-500 text-xs">Sin puntos destacados</p>';
 
       document.getElementById('pro-weaknesses-list').innerHTML = weaknesses.length > 0
         ? weaknesses.map(w => `
-            <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 flex items-start gap-2">
-              <span class="text-red-400 font-bold">⚠️</span>
-              <span>${w}</span>
+            <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 flex items-center gap-2">
+              <span>⚠️</span> <span>${w}</span>
             </div>
           `).join('')
-        : '<p class="text-slate-500 text-xs">Sin fallos críticos detectados.</p>';
-
-      // Telemetría
-      const proTableBody = document.getElementById('pro-matches-body');
-      if (matches.length > 0) {
-        proTableBody.innerHTML = matches.slice().reverse().map(m => `
-          <tr class="${m.win ? 'bg-green-950/10' : 'bg-red-950/10'} hover:bg-slate-900 transition">
-            <td class="p-3 font-bold text-white flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full ${m.win ? 'bg-green-500' : 'bg-red-500'}"></span>
-              ${m.championName}
-            </td>
-            <td class="p-3 text-center font-mono font-bold text-slate-300">${m.kills}/${m.deaths}/${m.assists}</td>
-            <td class="p-3 text-center text-slate-300 font-semibold">${m.cspm || (m.cs / (m.gameDurationMinutes || 30)).toFixed(1)}</td>
-            <td class="p-3 text-center font-bold ${(Number(m.csd10) || 0) >= 0 ? 'text-green-400' : 'text-red-400'}">${(Number(m.csd10) || 0) >= 0 ? '+' : ''}${m.csd10 || 0}</td>
-            <td class="p-3 text-center text-slate-300">${m.killParticipation || '0%'}</td>
-            <td class="p-3 text-center text-slate-300">${m.damageShare || '0%'}</td>
-            <td class="p-3 text-center text-slate-300">${m.visionPerMin || '1.0'}</td>
-          </tr>
-        `).join('');
-      } else {
-        proTableBody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-slate-500">Sin datos de telemetría disponibles.</td></tr>';
-      }
+        : '<p class="text-slate-500 text-xs">Sin debilidades notables</p>';
 
       const modal = document.getElementById('playerModal');
       modal.classList.remove('hidden');
       modal.classList.add('flex');
     }
 
-    function applyFilters() {
-      if (typeof gameData === 'undefined' || !gameData.players) return;
-      const query = document.getElementById('search-input').value.toLowerCase().trim();
-
-      const filtered = gameData.players.filter(p => {
-        const matchesName = p.name.toLowerCase().includes(query) || p.tag.toLowerCase().includes(query);
-        const matchesRole = currentRoleFilter === 'all' || (p.role || '').toLowerCase() === currentRoleFilter;
-        return matchesName && matchesRole;
-      });
-
-      document.getElementById('player-count').textContent = `${filtered.length} jugadores`;
-      renderPodium(gameData.players);
-      renderTableRows(filtered);
-    }
-
-    function setRoleFilter(role) {
-      currentRoleFilter = role;
-      document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
-      const activeBtn = document.getElementById(`role-btn-${role}`);
-      if (activeBtn) activeBtn.classList.add('active');
-      applyFilters();
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
+    // Inicialización al cargar la ventana
+    window.addEventListener('DOMContentLoaded', () => {
       if (typeof gameData !== 'undefined' && gameData.players) {
-        sortAndRankPlayers(gameData.players);
-        renderPodium(gameData.players);
-        renderSidebar(gameData.players);
-        renderTableRows(gameData.players);
-        document.getElementById('player-count').textContent = `${gameData.players.length} jugadores`;
-
-        const firstLive = gameData.players.find(p => p.isLive && p.twitch);
-        if (firstLive) setStream(firstLive.twitch);
+        const rankedPlayers = sortAndRankPlayers(gameData.players);
+        renderPodium(rankedPlayers);
+        renderSidebar(rankedPlayers);
+        applyFilters();
       }
     });
   </script>

@@ -4,20 +4,20 @@
     "name": "Send0o",
     "tag": "#MILK",
     "role": "top",
-    "elo": 1707,
-    "absoluteElo": 4807,
+    "elo": 1695,
+    "absoluteElo": 4795,
     "tierName": "GRANDMASTER",
     "rankTier": "I",
-    "win": 338,
-    "loss": 290,
+    "win": 340,
+    "loss": 293,
     "wr": "54%",
-    "gain": 10,
+    "gain": 19,
     "lossLp": 19,
-    "totalGainLp": 10,
-    "winEvents": 1,
-    "totalLossLp": 57,
-    "lossEvents": 3,
-    "spark": "M 0 15 L 7.5 12 L 15.0 9 L 22.5 12 L 30.0 9 L 37.5 6 L 45.0 9 L 52.5 12 L 60.0 15 L 67.5 12 L 75.0 15",
+    "totalGainLp": 56,
+    "winEvents": 3,
+    "totalLossLp": 114,
+    "lossEvents": 6,
+    "spark": "M 0 15 L 7.5 18 L 15.0 21 L 22.5 24 L 30.0 21 L 37.5 24 L 45.0 27 L 52.5 24 L 60.0 27 L 67.5 28 L 75.0 25",
     "twitch": "send0o",
     "inGame": false,
     "champion": null,
@@ -39,88 +39,13 @@
       }
     ],
     "performanceMetrics": {
-      "avgDpm": 847,
-      "avgCspm": "6.4",
-      "avgKp": "43.7%",
-      "avgKda": "1.68",
+      "avgDpm": 737,
+      "avgCspm": "6.0",
+      "avgKp": "40.6%",
+      "avgKda": "1.00",
       "totalAnalyzedGames": 10
     },
     "recentMatches": [
-      {
-        "win": true,
-        "championName": "Camille",
-        "kills": 14,
-        "deaths": 8,
-        "assists": 7,
-        "kdaRatio": "2.63",
-        "cs": 222,
-        "cspm": "7.3",
-        "dpm": 1414,
-        "killParticipation": "42.0%",
-        "damageShare": "29.6%",
-        "goldShare": "22.4%",
-        "gameDurationMinutes": 30
-      },
-      {
-        "win": true,
-        "championName": "Sion",
-        "kills": 8,
-        "deaths": 9,
-        "assists": 7,
-        "kdaRatio": "1.67",
-        "cs": 201,
-        "cspm": "6.4",
-        "dpm": 975,
-        "killParticipation": "39.5%",
-        "damageShare": "26.1%",
-        "goldShare": "20.1%",
-        "gameDurationMinutes": 31
-      },
-      {
-        "win": false,
-        "championName": "Zilean",
-        "kills": 4,
-        "deaths": 5,
-        "assists": 6,
-        "kdaRatio": "2.00",
-        "cs": 181,
-        "cspm": "7.3",
-        "dpm": 676,
-        "killParticipation": "47.6%",
-        "damageShare": "19.5%",
-        "goldShare": "19.9%",
-        "gameDurationMinutes": 25
-      },
-      {
-        "win": true,
-        "championName": "Camille",
-        "kills": 8,
-        "deaths": 7,
-        "assists": 8,
-        "kdaRatio": "2.29",
-        "cs": 181,
-        "cspm": "7.4",
-        "dpm": 947,
-        "killParticipation": "51.6%",
-        "damageShare": "21.8%",
-        "goldShare": "20.2%",
-        "gameDurationMinutes": 24
-      },
-      {
-        "win": true,
-        "championName": "Cassiopeia",
-        "kills": 10,
-        "deaths": 7,
-        "assists": 5,
-        "kdaRatio": "2.14",
-        "cs": 176,
-        "cspm": "6.7",
-        "dpm": 977,
-        "killParticipation": "39.5%",
-        "damageShare": "22.8%",
-        "goldShare": "18.3%",
-        "gameDurationMinutes": 26
-      },
       {
         "win": false,
         "championName": "Viego",
@@ -195,10 +120,85 @@
         "damageShare": "27.6%",
         "goldShare": "22.8%",
         "gameDurationMinutes": 15
+      },
+      {
+        "win": false,
+        "championName": "Sett",
+        "kills": 8,
+        "deaths": 10,
+        "assists": 2,
+        "kdaRatio": "1.00",
+        "cs": 164,
+        "cspm": "6.9",
+        "dpm": 1212,
+        "killParticipation": "45.5%",
+        "damageShare": "33.5%",
+        "goldShare": "23.0%",
+        "gameDurationMinutes": 24
+      },
+      {
+        "win": true,
+        "championName": "Sett",
+        "kills": 8,
+        "deaths": 10,
+        "assists": 5,
+        "kdaRatio": "1.30",
+        "cs": 162,
+        "cspm": "5.9",
+        "dpm": 729,
+        "killParticipation": "34.2%",
+        "damageShare": "17.8%",
+        "goldShare": "18.2%",
+        "gameDurationMinutes": 28
+      },
+      {
+        "win": false,
+        "championName": "Sett",
+        "kills": 2,
+        "deaths": 11,
+        "assists": 1,
+        "kdaRatio": "0.27",
+        "cs": 132,
+        "cspm": "5.7",
+        "dpm": 573,
+        "killParticipation": "60.0%",
+        "damageShare": "26.0%",
+        "goldShare": "18.1%",
+        "gameDurationMinutes": 23
+      },
+      {
+        "win": false,
+        "championName": "Sett",
+        "kills": 3,
+        "deaths": 15,
+        "assists": 4,
+        "kdaRatio": "0.47",
+        "cs": 125,
+        "cspm": "4.9",
+        "dpm": 475,
+        "killParticipation": "22.6%",
+        "damageShare": "15.3%",
+        "goldShare": "16.4%",
+        "gameDurationMinutes": 26
+      },
+      {
+        "win": true,
+        "championName": "Yorick",
+        "kills": 7,
+        "deaths": 4,
+        "assists": 1,
+        "kdaRatio": "2.00",
+        "cs": 153,
+        "cspm": "7.8",
+        "dpm": 902,
+        "killParticipation": "26.7%",
+        "damageShare": "27.2%",
+        "goldShare": "20.2%",
+        "gameDurationMinutes": 20
       }
     ],
     "rank": 1,
-    "timestamp": 1790787543396
+    "timestamp": 1790803459353
   },
   "JavierLoL": {
     "puuid": "ASTAV28DtpUXydMwpYPtss0inniLARqh9A4mgEdqpswGzjPDYyuztyKYmtxBLJt9gDc_B_8IZ-UVfQ",
@@ -399,7 +399,7 @@
       }
     ],
     "rank": 2,
-    "timestamp": 1790787543396
+    "timestamp": 1790803459353
   },
   "Maiiser": {
     "puuid": "r9nKZM0jY5VWPH59uM-yPv9Zokxmi3wspEmX63Cde9iaGg8Sm408s66yDy3_zJpvRIpGYHk5yJ2OFA",
@@ -600,7 +600,7 @@
       }
     ],
     "rank": 3,
-    "timestamp": 1790787543396
+    "timestamp": 1790803459353
   },
   "SerXa08": {
     "puuid": "mkjHAzFTqyG4gTig_ZezdKF_7Fsb2Nydc8jPbnBAat6a8PAsCuj32RWX5p-GTEhy6f8_GfsTkmuFJg",
@@ -801,7 +801,7 @@
       }
     ],
     "rank": 4,
-    "timestamp": 1790787543396
+    "timestamp": 1790803459353
   },
   "mamielizabeth": {
     "puuid": "QQvt4VG3fPkdt3d-wAWepGRyopVDG2FyqpLKQFuWwpVCOt0lSgYi1r3UK6xO_AX69f2thGOEFtvj6g",
@@ -1002,6 +1002,6 @@
       }
     ],
     "rank": 5,
-    "timestamp": 1790787543396
+    "timestamp": 1790803459353
   }
 }

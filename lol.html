@@ -327,12 +327,6 @@
     return players;
   }
 
-  function getParentDomain() {
-    let host = window.location.hostname;
-    if (!host || host === "") return "localhost";
-    return host;
-  }
-
   // Variable global para mantener la instancia del reproductor de Twitch
 let twitchPlayerInstance = null;
 
@@ -361,10 +355,10 @@ function setStream(username, displayName) {
       channel: cleanUsername,
       parent: [parentDomain],
       autoplay: true,
-      muted: true // Imprescindible para evitar el bloqueo del navegador
+      muted: true // Evita que los navegadores bloqueen la autoreproducción
     });
   } else {
-    // Fallback de Iframe si por algún motivo la librería no cargó
+    // Fallback de Iframe si por algún motivo la librería oficial no cargó
     embedContainer.innerHTML = `
       <iframe 
         src="https://player.twitch.tv/?channel=${cleanUsername}&parent=${parentDomain}&autoplay=true&muted=true" 

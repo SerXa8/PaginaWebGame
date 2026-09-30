@@ -357,7 +357,7 @@
     }
   }
 
-  // 2. Leer live.json y cargar streamer en directo
+  // 2. Leer live.json, sincronizar viewers/isLive y actualizar la UI
   async function loadLiveStatus() {
     try {
       const response = await fetch('data/live.json');
@@ -368,12 +368,31 @@
       const json = await response.json();
 
       if (json.data && json.data.length > 0) {
+        // Cargar el primer streamer en el reproductor principal
         const activeStream = json.data[0]; 
-        const twitchUser = activeStream.user_login;
-        const displayName = activeStream.user_name;
+        setStream(activeStream.user_login, activeStream.user_name);
 
-        console.log(`Streamer en directo encontrado: ${displayName} (${twitchUser})`);
-        setStream(twitchUser, displayName);
+        // Si existen jugadores cargados en gameData, sincronizamos la info
+        if (typeof gameData !== 'undefined' && gameData.players) {
+          json.data.forEach(liveItem => {
+            const player = gameData.players.find(p => 
+              (p.twitch && p.twitch.toLowerCase().trim() === liveItem.user_login.toLowerCase().trim()) ||
+              (p.name && p.name.toLowerCase().trim() === liveItem.user_name.toLowerCase().trim())
+            );
+            if (player) {
+              player.isLive = true;
+              player.viewers = liveItem.viewer_count;
+            }
+          });
+
+          // Actualizamos la tabla, podium y la barra lateral con la información combinada
+          renderSidebar(gameData.players);
+          renderTableRows(gameData.players);
+        } else {
+          // Si gameData no tiene la lista de jugadores, mostramos directamente lo que venga de live.json
+          renderSidebarFromLiveJson(json.data);
+        }
+
         return true;
       } else {
         console.log("No hay transmisiones en directo dentro de live.json.");
@@ -391,6 +410,27 @@
       console.error("Error al leer data/live.json:", error);
       return false;
     }
+  }
+
+  // Renderizar la barra lateral directamente desde el JSON en caso de respaldo
+  function renderSidebarFromLiveJson(liveData) {
+    const listContainer = document.getElementById("streamers-list");
+    const viewersElem = document.getElementById("total-viewers");
+
+    const totalViewers = liveData.reduce((sum, item) => sum + (Number(item.viewer_count) || 0), 0);
+    if (viewersElem) viewersElem.textContent = totalViewers.toLocaleString();
+
+    if (!listContainer) return;
+
+    listContainer.innerHTML = liveData.map(stream => `
+      <button onclick="setStream('${stream.user_login}', '${stream.user_name}')" class="w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/50 hover:bg-slate-800 transition border border-custom text-left">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+          <span class="text-xs font-bold text-white">${stream.user_name}</span>
+        </div>
+        <span class="text-[10px] text-purple-400 font-semibold uppercase">${stream.viewer_count ? Number(stream.viewer_count).toLocaleString() + ' 👁' : 'Ver canal'}</span>
+      </button>
+    `).join('');
   }
 
   function renderPodium(players) {
@@ -428,7 +468,7 @@
     const viewersElem = document.getElementById("total-viewers");
     if (!listContainer || !players) return;
 
-    const activeStreamers = players.filter(p => p.isLive === true && p.twitch && p.twitch.trim() !== '');
+    const activeStreamers = players.filter(p => p.isLive === true);
 
     const totalViewers = activeStreamers.reduce((sum, p) => sum + (Number(p.viewers) || 0), 0);
     if (viewersElem) viewersElem.textContent = totalViewers.toLocaleString();
@@ -439,7 +479,7 @@
     }
 
     listContainer.innerHTML = activeStreamers.map(p => `
-      <button onclick="setStream('${p.twitch}', '${p.name}')" class="w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/50 hover:bg-slate-800 transition border border-custom text-left">
+      <button onclick="setStream('${p.twitch || p.name}', '${p.name}')" class="w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/50 hover:bg-slate-800 transition border border-custom text-left">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
           <span class="text-xs font-bold text-white">${p.name}</span>
@@ -774,12 +814,9 @@
     applyFilters();
   }
 
-  // Entrada única tras cargar el DOM
+  // Carga inicial del DOM
   document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Intentar cargar stream desde live.json
-    const hasLiveJsonStream = await loadLiveStatus();
-
-    // 2. Renderizar tabla y leaderboard
+    // 1. Cargar lista base de jugadores
     if (typeof gameData !== 'undefined' && gameData.players) {
       const sorted = sortAndRankPlayers(gameData.players);
       renderPodium(sorted);
@@ -788,15 +825,10 @@
 
       const countElem = document.getElementById('player-count');
       if (countElem) countElem.textContent = `${sorted.length} jugadores`;
-
-      // Si live.json no encontró directo, fallback al primer streamer activo en gameData
-      if (!hasLiveJsonStream) {
-        const firstLive = sorted.find(p => p.isLive === true && p.twitch);
-        if (firstLive) {
-          setStream(firstLive.twitch, firstLive.name);
-        }
-      }
     }
+
+    // 2. Cargar estado en vivo desde live.json y actualizar estado + barra lateral
+    await loadLiveStatus();
   });
 </script>
 </body>

@@ -8,7 +8,8 @@ const STREAMERS = [
   { name: "JavierLoL", riotName: "eMonkeyz Run", tag: "514", role: "mid", twitch: "javierrlol" },
   { name: "SerXa08", riotName: "SerXa08", tag: "1197", role: "top", twitch: "s3rxa8" },
   { name: "mamielizabeth", riotName: "mamielizabeth", tag: "fdm", role: "mid", twitch: "" },
-  { name: "Maiiser", riotName: "Jabon de Hamster", tag: "WIWI", role: "top", twitch: "maiiser" }
+  { name: "Maiiser", riotName: "Jabon de Hamster", tag: "WIWI", role: "top", twitch: "maiiser" },
+  { name: "Send0o", riotName: "Madres Enjoyer", tag: "MILK", role: "top", twitch: "send0o" }
 ];
 
 const STATE_FILE = path.join('./data', 'lolState.json');

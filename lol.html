@@ -333,26 +333,53 @@
     return host;
   }
 
-  function setStream(username, displayName) {
-    if (!username) return;
-    const embedContainer = document.getElementById("twitch-embed");
-    const parentDomain = getParentDomain();
+  // Variable global para mantener la instancia del reproductor de Twitch
+let twitchPlayerInstance = null;
 
-    if (embedContainer) {
-      embedContainer.innerHTML = `
-        <iframe 
-          src="https://player.twitch.tv/?channel=${username}&parent=${parentDomain}&autoplay=true" 
-          height="100%" 
-          width="100%" 
-          allowfullscreen="true"
-          style="border:none;">
-        </iframe>
-      `;
-    }
+function setStream(username, displayName) {
+  if (!username) return;
+  
+  const cleanUsername = username.trim().toLowerCase();
+  const embedContainer = document.getElementById("twitch-embed");
+  
+  if (!embedContainer) return;
 
-    const nameElem = document.getElementById("streamer-current-name");
-    if (nameElem) nameElem.textContent = displayName || username;
+  // Limpiamos el contenedor
+  embedContainer.innerHTML = "";
+
+  // Obtenemos el dominio actual limpio
+  let parentDomain = window.location.hostname;
+  if (!parentDomain || parentDomain === "" || window.location.protocol === "file:") {
+    parentDomain = "localhost";
   }
+
+  // Si la SDK de Twitch está disponible, usamos la API oficial
+  if (typeof Twitch !== 'undefined' && Twitch.Embed) {
+    twitchPlayerInstance = new Twitch.Embed("twitch-embed", {
+      width: "100%",
+      height: "100%",
+      channel: cleanUsername,
+      parent: [parentDomain],
+      autoplay: true,
+      muted: true // Imprescindible para evitar el bloqueo del navegador
+    });
+  } else {
+    // Fallback de Iframe si por algún motivo la librería no cargó
+    embedContainer.innerHTML = `
+      <iframe 
+        src="https://player.twitch.tv/?channel=${cleanUsername}&parent=${parentDomain}&autoplay=true&muted=true" 
+        height="100%" 
+        width="100%" 
+        allowfullscreen="true"
+        style="border:none;">
+      </iframe>
+    `;
+  }
+
+  const nameElem = document.getElementById("streamer-current-name");
+  if (nameElem) nameElem.textContent = displayName || username;
+}
+  
 
   function renderPodium(players) {
     const podiumContainer = document.getElementById("podium-container");

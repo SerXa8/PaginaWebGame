@@ -327,22 +327,20 @@
     return players;
   }
 
-  // --- FUNCIÓN DE EMBED ROBUSTA Y COMPATIBLE CON GITHUB PAGES ---
+  // 1. Inyectar reproductor de Twitch
   function setStream(username, displayName) {
     if (!username) return;
-    
+
     const embedContainer = document.getElementById("twitch-embed");
     if (!embedContainer) return;
 
     const cleanUsername = username.trim().toLowerCase();
-    
-    // Obtenemos únicamente el hostname puro
+
     let host = window.location.hostname;
     if (!host || host === "" || window.location.protocol === "file:") {
       host = "localhost";
     }
 
-    // Inyección de Iframe nativo garantizado para GitHub Pages
     embedContainer.innerHTML = `
       <iframe
         src="https://player.twitch.tv/?channel=${cleanUsername}&parent=${host}&autoplay=true&muted=true"
@@ -354,7 +352,45 @@
     `;
 
     const nameElem = document.getElementById("streamer-current-name");
-    if (nameElem) nameElem.textContent = displayName || username;
+    if (nameElem) {
+      nameElem.textContent = displayName || username;
+    }
+  }
+
+  // 2. Leer live.json y cargar streamer en directo
+  async function loadLiveStatus() {
+    try {
+      const response = await fetch('data/live.json');
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+      }
+
+      const json = await response.json();
+
+      if (json.data && json.data.length > 0) {
+        const activeStream = json.data[0]; 
+        const twitchUser = activeStream.user_login;
+        const displayName = activeStream.user_name;
+
+        console.log(`Streamer en directo encontrado: ${displayName} (${twitchUser})`);
+        setStream(twitchUser, displayName);
+        return true;
+      } else {
+        console.log("No hay transmisiones en directo dentro de live.json.");
+        const embedContainer = document.getElementById("twitch-embed");
+        if (embedContainer) {
+          embedContainer.innerHTML = `
+            <div class="flex items-center justify-center h-full text-slate-500 font-bold">
+              Ningún canal está en directo en este momento.
+            </div>
+          `;
+        }
+        return false;
+      }
+    } catch (error) {
+      console.error("Error al leer data/live.json:", error);
+      return false;
+    }
   }
 
   function renderPodium(players) {
@@ -518,20 +554,22 @@
   }
 
   function switchModalTab(tabId) {
-    document.getElementById('modal-tab-basic').classList.add('hidden');
-    document.getElementById('modal-tab-pro').classList.add('hidden');
+    document.getElementById('modal-tab-basic')?.classList.add('hidden');
+    document.getElementById('modal-tab-pro')?.classList.add('hidden');
 
-    document.getElementById('btn-tab-basic').classList.remove('active');
-    document.getElementById('btn-tab-pro').classList.remove('active');
+    document.getElementById('btn-tab-basic')?.classList.remove('active');
+    document.getElementById('btn-tab-pro')?.classList.remove('active');
 
-    document.getElementById(`modal-${tabId}`).classList.remove('hidden');
-    document.getElementById(`btn-${tabId}`).classList.add('active');
+    document.getElementById(`modal-${tabId}`)?.classList.remove('hidden');
+    document.getElementById(`btn-${tabId}`)?.classList.add('active');
   }
 
   function closeModal() {
     const modal = document.getElementById('playerModal');
-    modal.classList.remove('flex');
-    modal.classList.add('hidden');
+    if (modal) {
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
   }
 
   function openPlayerModal(playerName) {
@@ -541,38 +579,49 @@
 
     switchModalTab('tab-basic');
 
-    document.getElementById('modalRank').innerText = `#${p.rank}`;
-    document.getElementById('modalPlayerName').childNodes[0].nodeValue = p.name + ' ';
-    document.getElementById('modalPlayerTag').innerText = p.tag;
-    document.getElementById('modalTier').innerText = `${p.tierName} ${p.rankTier} - ${p.elo} LP (${p.wr} Winrate)`;
+    const rankElem = document.getElementById('modalRank');
+    if (rankElem) rankElem.innerText = `#${p.rank}`;
+
+    const nameElem = document.getElementById('modalPlayerName');
+    if (nameElem) nameElem.textContent = `${p.name} `;
+
+    const tagElem = document.getElementById('modalPlayerTag');
+    if (tagElem) tagElem.innerText = p.tag || '';
+
+    const tierElem = document.getElementById('modalTier');
+    if (tierElem) tierElem.innerText = `${p.tierName} ${p.rankTier} - ${p.elo} LP (${p.wr} Winrate)`;
 
     const masteriesContainer = document.getElementById('modalMasteries');
-    if (p.topMasteries && p.topMasteries.length > 0) {
-      masteriesContainer.innerHTML = p.topMasteries.map(m => `
-        <div class="bg-slate-900/80 p-3 rounded-xl text-center border border-custom">
-          <p class="font-extrabold text-sm text-white">${m.championName}</p>
-          <p class="text-[10px] text-yellow-400 font-bold mt-0.5">Nivel ${m.championLevel}</p>
-          <p class="text-[10px] text-slate-400">${(m.championPoints / 1000).toFixed(0)}k pts</p>
-        </div>
-      `).join('');
-    } else {
-      masteriesContainer.innerHTML = '<p class="text-xs text-slate-500 col-span-3 text-center py-2">Sin datos disponibles.</p>';
+    if (masteriesContainer) {
+      if (p.topMasteries && p.topMasteries.length > 0) {
+        masteriesContainer.innerHTML = p.topMasteries.map(m => `
+          <div class="bg-slate-900/80 p-3 rounded-xl text-center border border-custom">
+            <p class="font-extrabold text-sm text-white">${m.championName}</p>
+            <p class="text-[10px] text-yellow-400 font-bold mt-0.5">Nivel ${m.championLevel}</p>
+            <p class="text-[10px] text-slate-400">${(m.championPoints / 1000).toFixed(0)}k pts</p>
+          </div>
+        `).join('');
+      } else {
+        masteriesContainer.innerHTML = '<p class="text-xs text-slate-500 col-span-3 text-center py-2">Sin datos disponibles.</p>';
+      }
     }
 
     const matchesContainer = document.getElementById('modalMatches');
-    if (p.recentMatches && p.recentMatches.length > 0) {
-      matchesContainer.innerHTML = p.recentMatches.slice().reverse().map(m => `
-        <div class="flex items-center justify-between p-3 rounded-xl border ${m.win ? 'bg-green-950/20 border-green-800/40' : 'bg-red-950/20 border-red-800/40'}">
-          <div class="flex items-center gap-3">
-            <span class="font-extrabold text-xs px-2 py-0.5 rounded ${m.win ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">${m.win ? 'VICTORIA' : 'DERROTA'}</span>
-            <span class="font-bold text-xs text-white">${m.championName}</span>
+    if (matchesContainer) {
+      if (p.recentMatches && p.recentMatches.length > 0) {
+        matchesContainer.innerHTML = p.recentMatches.slice().reverse().map(m => `
+          <div class="flex items-center justify-between p-3 rounded-xl border ${m.win ? 'bg-green-950/20 border-green-800/40' : 'bg-red-950/20 border-red-800/40'}">
+            <div class="flex items-center gap-3">
+              <span class="font-extrabold text-xs px-2 py-0.5 rounded ${m.win ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">${m.win ? 'VICTORIA' : 'DERROTA'}</span>
+              <span class="font-bold text-xs text-white">${m.championName}</span>
+            </div>
+            <div class="text-xs font-mono font-bold text-slate-300">${m.kills} / ${m.deaths} / ${m.assists}</div>
+            <div class="text-[10px] text-slate-400 font-medium">${m.cs} CS (${m.gameDurationMinutes}m)</div>
           </div>
-          <div class="text-xs font-mono font-bold text-slate-300">${m.kills} / ${m.deaths} / ${m.assists}</div>
-          <div class="text-[10px] text-slate-400 font-medium">${m.cs} CS (${m.gameDurationMinutes}m)</div>
-        </div>
-      `).join('');
-    } else {
-      matchesContainer.innerHTML = '<p class="text-xs text-slate-500 text-center py-2">Sin partidas registradas.</p>';
+        `).join('');
+      } else {
+        matchesContainer.innerHTML = '<p class="text-xs text-slate-500 text-center py-2">Sin partidas registradas.</p>';
+      }
     }
 
     const perf = p.performanceMetrics || {};
@@ -725,7 +774,12 @@
     applyFilters();
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  // Entrada única tras cargar el DOM
+  document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Intentar cargar stream desde live.json
+    const hasLiveJsonStream = await loadLiveStatus();
+
+    // 2. Renderizar tabla y leaderboard
     if (typeof gameData !== 'undefined' && gameData.players) {
       const sorted = sortAndRankPlayers(gameData.players);
       renderPodium(sorted);
@@ -735,9 +789,12 @@
       const countElem = document.getElementById('player-count');
       if (countElem) countElem.textContent = `${sorted.length} jugadores`;
 
-      const firstLive = sorted.find(p => p.isLive === true && p.twitch);
-      if (firstLive) {
-        setStream(firstLive.twitch, firstLive.name);
+      // Si live.json no encontró directo, fallback al primer streamer activo en gameData
+      if (!hasLiveJsonStream) {
+        const firstLive = sorted.find(p => p.isLive === true && p.twitch);
+        if (firstLive) {
+          setStream(firstLive.twitch, firstLive.name);
+        }
       }
     }
   });

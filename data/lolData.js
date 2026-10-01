@@ -198,7 +198,9 @@ const gameData = {
           "gameDurationMinutes": 20
         }
       ],
-      "rank": 1
+      "rank": 1,
+      "timestamp": 1790838264845,
+      "isLive": true
     },
     {
       "puuid": "ASTAV28DtpUXydMwpYPtss0inniLARqh9A4mgEdqpswGzjPDYyuztyKYmtxBLJt9gDc_B_8IZ-UVfQ",
@@ -398,7 +400,9 @@ const gameData = {
           "gameDurationMinutes": 18
         }
       ],
-      "rank": 2
+      "rank": 2,
+      "timestamp": 1790838264845,
+      "isLive": true
     },
     {
       "puuid": "r9nKZM0jY5VWPH59uM-yPv9Zokxmi3wspEmX63Cde9iaGg8Sm408s66yDy3_zJpvRIpGYHk5yJ2OFA",
@@ -598,7 +602,9 @@ const gameData = {
           "gameDurationMinutes": 28
         }
       ],
-      "rank": 3
+      "rank": 3,
+      "timestamp": 1790838264845,
+      "isLive": false
     },
     {
       "puuid": "mkjHAzFTqyG4gTig_ZezdKF_7Fsb2Nydc8jPbnBAat6a8PAsCuj32RWX5p-GTEhy6f8_GfsTkmuFJg",
@@ -798,7 +804,9 @@ const gameData = {
           "gameDurationMinutes": 35
         }
       ],
-      "rank": 4
+      "rank": 4,
+      "timestamp": 1790838264845,
+      "isLive": false
     },
     {
       "puuid": "QQvt4VG3fPkdt3d-wAWepGRyopVDG2FyqpLKQFuWwpVCOt0lSgYi1r3UK6xO_AX69f2thGOEFtvj6g",
@@ -998,8 +1006,10 @@ const gameData = {
           "gameDurationMinutes": 35
         }
       ],
-      "rank": 5
+      "rank": 5,
+      "timestamp": 1790838264845,
+      "isLive": false
     }
   ],
-  "lastUpdated": "2026-10-01T07:04:24.846Z"
+  "lastUpdated": "2026-10-01T14:42:28.570Z"
 };

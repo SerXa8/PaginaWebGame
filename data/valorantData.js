@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-10-01T07:30:26.688Z",
+  "updatedAt": "2026-10-01T14:43:36.906Z",
   "players": [
     {
       "name": "SerXa08",
@@ -7,9 +7,12 @@ const gameData = {
       "tag": "#1197",
       "role": "duelista",
       "twitch": "s3rxa8",
+      "isLive": false,
       "rank": 1,
       "elo": 0,
       "tierName": "Sin datos",
+      "rankTier": "",
+      "absoluteRR": 0,
       "win": 0,
       "loss": 0,
       "wr": "0%",
@@ -24,9 +27,12 @@ const gameData = {
       "tag": "#fdm",
       "role": "duelista",
       "twitch": "",
+      "isLive": false,
       "rank": 2,
       "elo": 0,
       "tierName": "Sin datos",
+      "rankTier": "",
+      "absoluteRR": 0,
       "win": 0,
       "loss": 0,
       "wr": "0%",

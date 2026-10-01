@@ -35,7 +35,25 @@ function calculateAbsoluteRR(tierName, rankTier, rrInTier) {
   return base + divBase + (Number(rrInTier) || 0);
 }
 
+// Comprueba si el canal está en directo JUGANDO A VALORANT
+async function checkStreamingValorant(twitchUser) {
+  if (!twitchUser) return false;
+  try {
+    const res = await fetch(`https://decapi.me/twitch/game/${encodeURIComponent(twitchUser)}`);
+    if (!res.ok) return false;
+    
+    const currentGame = (await res.text()).trim();
+    // Twitch registra la categoría de Valorant exactamente como "VALORANT"
+    return currentGame.toLowerCase() === 'valorant';
+  } catch (err) {
+    return false;
+  }
+}
+
 async function getValorantData(player) {
+  // Verificamos si está retransmitiendo VALORANT en Twitch justo ahora
+  const isLive = await checkStreamingValorant(player.twitch);
+
   try {
     const response = await fetch(
       `https://api.henrikdev.xyz/valorant/v2/mmr/eu/${encodeURIComponent(player.riotName)}/${encodeURIComponent(player.tag)}`
@@ -64,6 +82,7 @@ async function getValorantData(player) {
       tag: `#${player.tag}`,
       role: player.role,
       twitch: player.twitch,
+      isLive: isLive, // <-- Propiedad agregada para el frontend
       rank: 0,
       elo: elo,
       tierName: tierName,
@@ -85,6 +104,7 @@ async function getValorantData(player) {
       tag: `#${player.tag}`,
       role: player.role,
       twitch: player.twitch,
+      isLive: isLive,
       rank: 0,
       elo: 0,
       tierName: "Sin datos",

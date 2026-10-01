@@ -29,7 +29,21 @@ async function loadChampionMap() {
     });
     console.log(`✅ Cargadas ${Object.keys(CHAMPION_MAP).length} definiciones de campeones.`);
   } catch (err) {
-    console.error('⚠️ Error al cargar DataDragon:', err.message);
+    console.error('⚠️️ Error al cargar DataDragon:', err.message);
+  }
+}
+
+async function checkStreamingLol(twitchUser) {
+  if (!twitchUser) return false;
+  try {
+    const res = await fetch(`https://decapi.me/twitch/game/${encodeURIComponent(twitchUser)}`);
+    if (!res.ok) return false;
+    
+    const currentGame = (await res.text()).trim();
+    // Twitch registra LoL como "League of Legends"
+    return currentGame.toLowerCase() === 'league of legends';
+  } catch (err) {
+    return false;
   }
 }
 
@@ -208,6 +222,9 @@ function calculatePlayerPerformance(matches) {
 }
 
 async function getPlayerData(player, previousState) {
+  // Comprobamos en Twitch si está streameando League of Legends en este momento
+  const isLive = await checkStreamingLol(player.twitch);
+
   try {
     const accountUrl = `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(player.riotName)}/${encodeURIComponent(player.tag)}?api_key=${API_KEY}`;
     const accountRes = await fetch(accountUrl);
@@ -279,6 +296,7 @@ async function getPlayerData(player, previousState) {
       name: player.name,
       tag: `#${player.tag}`,
       role: player.role,
+      isLive: isLive, // <-- Campo que indica si está streameando LoL
       elo: currentElo,
       absoluteElo: currentAbsoluteElo,
       tierName: soloQ.tier || "UNRANKED",
@@ -306,7 +324,10 @@ async function getPlayerData(player, previousState) {
     // Si falla la API pero tenemos datos anteriores guardados en lolState.json, los reutiliza
     if (previousState[player.name]) {
       console.log(`🔄 Usando datos guardados en caché para ${player.name}`);
-      return previousState[player.name];
+      return {
+        ...previousState[player.name],
+        isLive: isLive // Mantiene el estado de Twitch fresco incluso usando caché de Riot
+      };
     }
     
     return null;

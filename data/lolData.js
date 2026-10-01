@@ -7,7 +7,7 @@ const gameData = {
       "role": "top",
       "elo": 1695,
       "absoluteElo": 4795,
-      "tierName": "GRANDMASTER",
+      "tierName": "MASTER",
       "rankTier": "I",
       "win": 340,
       "loss": 293,
@@ -205,8 +205,8 @@ const gameData = {
       "name": "JavierLoL",
       "tag": "#514",
       "role": "mid",
-      "elo": 491,
-      "absoluteElo": 3591,
+      "elo": 416,
+      "absoluteElo": 3516,
       "tierName": "MASTER",
       "rankTier": "I",
       "win": 205,
@@ -1001,5 +1001,5 @@ const gameData = {
       "rank": 5
     }
   ],
-  "lastUpdated": "2026-09-30T21:24:19.354Z"
+  "lastUpdated": "2026-10-01T00:47:36.028Z"
 };

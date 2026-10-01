@@ -6,7 +6,7 @@
     "role": "top",
     "elo": 1695,
     "absoluteElo": 4795,
-    "tierName": "GRANDMASTER",
+    "tierName": "MASTER",
     "rankTier": "I",
     "win": 340,
     "loss": 293,
@@ -198,15 +198,15 @@
       }
     ],
     "rank": 1,
-    "timestamp": 1790803459353
+    "timestamp": 1790815656027
   },
   "JavierLoL": {
     "puuid": "ASTAV28DtpUXydMwpYPtss0inniLARqh9A4mgEdqpswGzjPDYyuztyKYmtxBLJt9gDc_B_8IZ-UVfQ",
     "name": "JavierLoL",
     "tag": "#514",
     "role": "mid",
-    "elo": 491,
-    "absoluteElo": 3591,
+    "elo": 416,
+    "absoluteElo": 3516,
     "tierName": "MASTER",
     "rankTier": "I",
     "win": 205,
@@ -399,7 +399,7 @@
       }
     ],
     "rank": 2,
-    "timestamp": 1790803459353
+    "timestamp": 1790815656027
   },
   "Maiiser": {
     "puuid": "r9nKZM0jY5VWPH59uM-yPv9Zokxmi3wspEmX63Cde9iaGg8Sm408s66yDy3_zJpvRIpGYHk5yJ2OFA",
@@ -600,7 +600,7 @@
       }
     ],
     "rank": 3,
-    "timestamp": 1790803459353
+    "timestamp": 1790815656027
   },
   "SerXa08": {
     "puuid": "mkjHAzFTqyG4gTig_ZezdKF_7Fsb2Nydc8jPbnBAat6a8PAsCuj32RWX5p-GTEhy6f8_GfsTkmuFJg",
@@ -801,7 +801,7 @@
       }
     ],
     "rank": 4,
-    "timestamp": 1790803459353
+    "timestamp": 1790815656027
   },
   "mamielizabeth": {
     "puuid": "QQvt4VG3fPkdt3d-wAWepGRyopVDG2FyqpLKQFuWwpVCOt0lSgYi1r3UK6xO_AX69f2thGOEFtvj6g",
@@ -1002,6 +1002,6 @@
       }
     ],
     "rank": 5,
-    "timestamp": 1790803459353
+    "timestamp": 1790815656027
   }
 }

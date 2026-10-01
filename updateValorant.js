@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 // Lista de jugadores de Valorant
 const PLAYERS = [
@@ -15,7 +16,7 @@ const PLAYERS = [
     tag: "fdm", 
     role: "duelista", 
     twitch: "" // Vacío si no hace streaming
-  }
+  },
 ];
 
 // Mapeo de rangos de Valorant a RR Base acumulados
@@ -27,6 +28,35 @@ const TIER_BASE_RR = {
 
 const DIVISION_RR = { '1': 0, '2': 100, '3': 200 };
 
+// Cargar y parsear el archivo live.json generado por la GitHub Action
+function getLiveTwitchStreams() {
+  const liveFilePath = path.join('./data', 'live.json');
+  try {
+    if (fs.existsSync(liveFilePath)) {
+      const rawData = fs.readFileSync(liveFilePath, 'utf8');
+      const parsed = JSON.parse(rawData);
+      return parsed.data || [];
+    }
+  } catch (err) {
+    console.error('⚠️ Error leyendo data/live.json:', err.message);
+  }
+  return [];
+}
+
+// Verifica si un jugador está en directo JUGANDO A VALORANT según live.json
+function isStreamingValorant(twitchUser, liveStreams) {
+  if (!twitchUser) return false;
+  
+  const stream = liveStreams.find(
+    s => s.user_login.toLowerCase() === twitchUser.toLowerCase()
+  );
+
+  if (!stream) return false;
+
+  // Comprueba que la categoría/juego sea exactamente "VALORANT"
+  return stream.game_name?.toLowerCase() === 'valorant';
+}
+
 function calculateAbsoluteRR(tierName, rankTier, rrInTier) {
   const tierKey = (tierName || 'IRON').toUpperCase();
   const divKey = String(rankTier || '1');
@@ -35,24 +65,9 @@ function calculateAbsoluteRR(tierName, rankTier, rrInTier) {
   return base + divBase + (Number(rrInTier) || 0);
 }
 
-// Comprueba si el canal está en directo JUGANDO A VALORANT
-async function checkStreamingValorant(twitchUser) {
-  if (!twitchUser) return false;
-  try {
-    const res = await fetch(`https://decapi.me/twitch/game/${encodeURIComponent(twitchUser)}`);
-    if (!res.ok) return false;
-    
-    const currentGame = (await res.text()).trim();
-    // Twitch registra la categoría de Valorant exactamente como "VALORANT"
-    return currentGame.toLowerCase() === 'valorant';
-  } catch (err) {
-    return false;
-  }
-}
-
-async function getValorantData(player) {
-  // Verificamos si está retransmitiendo VALORANT en Twitch justo ahora
-  const isLive = await checkStreamingValorant(player.twitch);
+async function getValorantData(player, liveStreams) {
+  // Verificamos el estado en vivo desde el archivo oficial data/live.json
+  const isLive = isStreamingValorant(player.twitch, liveStreams);
 
   try {
     const response = await fetch(
@@ -65,7 +80,6 @@ async function getValorantData(player) {
     const currentData = res.data?.current_data || {};
 
     const rawTierPatched = currentData.currenttierpatched || "Unranked 1";
-    // Separar "Ascendant 2" -> tierName: "Ascendant", rankTier: "2"
     const tierParts = rawTierPatched.split(' ');
     const tierName = tierParts[0] || "Unranked";
     const rankTier = tierParts[1] || "1";
@@ -82,7 +96,7 @@ async function getValorantData(player) {
       tag: `#${player.tag}`,
       role: player.role,
       twitch: player.twitch,
-      isLive: isLive, // <-- Propiedad agregada para el frontend
+      isLive: isLive, // Solo será true si en Twitch la categoría elegida es "VALORANT"
       rank: 0,
       elo: elo,
       tierName: tierName,
@@ -122,14 +136,16 @@ async function getValorantData(player) {
 }
 
 async function updateAll() {
+  const liveStreams = getLiveTwitchStreams();
   const results = [];
+
   for (const p of PLAYERS) {
-    const data = await getValorantData(p);
+    const data = await getValorantData(p, liveStreams);
     results.push(data);
     await new Promise(r => setTimeout(r, 1200));
   }
 
-  // Ordenar por el RR absoluto acumulado (ej. Diamante 2 50RR > Diamante 1 90RR)
+  // Ordenar por el RR absoluto acumulado
   results.sort((a, b) => b.absoluteRR - a.absoluteRR);
   results.forEach((p, index) => {
     p.rank = index + 1;

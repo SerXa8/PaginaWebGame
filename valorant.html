@@ -252,47 +252,65 @@
     }
   }
 
-  // 2. Leer live.json, sincronizar viewers/isLive y actualizar la UI
+  // 2. Leer live.json y filtrar ESTRICTAMENTE por 'VALORANT'
   async function loadLiveStatus() {
     try {
-      const response = await fetch('data/live.json');
+      const response = await fetch('data/live.json?v=' + Date.now());
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
 
       const json = await response.json();
+      const rawStreams = json.data || [];
 
-      if (json.data && json.data.length > 0) {
-        const activeStream = json.data[0]; 
+      // FILTRO ESTRICTO: Descartar si no existe game_name o si NO es 'VALORANT'
+      const valorantStreams = rawStreams.filter(s => 
+        s.game_name && s.game_name.toLowerCase() === 'valorant'
+      );
+
+      if (typeof gameData !== 'undefined' && gameData.players) {
+        // Resetear todos los estados live a false
+        gameData.players.forEach(p => {
+          p.isLive = false;
+          p.viewers = 0;
+        });
+
+        // Solo activar a los que están jugando al VALORANT
+        valorantStreams.forEach(liveItem => {
+          const player = gameData.players.find(p => 
+            (p.twitch && p.twitch.toLowerCase().trim() === liveItem.user_login.toLowerCase().trim()) ||
+            (p.name && p.name.toLowerCase().trim() === liveItem.user_name.toLowerCase().trim())
+          );
+          if (player) {
+            player.isLive = true;
+            player.viewers = liveItem.viewer_count;
+          }
+        });
+
+        renderSidebar(gameData.players);
+        renderTableRows(gameData.players);
+      } else {
+        renderSidebarFromLiveJson(valorantStreams);
+      }
+
+      // Si hay gente en directo jugando a VALORANT, incrusta el primero
+      if (valorantStreams.length > 0) {
+        const activeStream = valorantStreams[0]; 
         setStream(activeStream.user_login, activeStream.user_name);
-
-        if (typeof gameData !== 'undefined' && gameData.players) {
-          json.data.forEach(liveItem => {
-            const player = gameData.players.find(p => 
-              (p.twitch && p.twitch.toLowerCase().trim() === liveItem.user_login.toLowerCase().trim()) ||
-              (p.name && p.name.toLowerCase().trim() === liveItem.user_name.toLowerCase().trim())
-            );
-            if (player) {
-              player.isLive = true;
-              player.viewers = liveItem.viewer_count;
-            }
-          });
-
-          renderSidebar(gameData.players);
-          renderTableRows(gameData.players);
-        } else {
-          renderSidebarFromLiveJson(json.data);
-        }
-
         return true;
       } else {
+        // Si no hay nadie jugando a Valorant (o están en LoL/otra cosa)
         const embedContainer = document.getElementById("twitch-embed");
         if (embedContainer) {
           embedContainer.innerHTML = `
             <div class="flex items-center justify-center h-full text-slate-500 font-bold">
-              Ningún canal está en directo en este momento.
+              Ningún streamer en directo jugando a Valorant ahora.
             </div>
           `;
+        }
+        const nameElem = document.getElementById("streamer-current-name");
+        if (nameElem) {
+          nameElem.textContent = "Ninguno";
         }
         return false;
       }
@@ -310,6 +328,11 @@
     if (viewersElem) viewersElem.textContent = totalViewers.toLocaleString();
 
     if (!listContainer) return;
+
+    if (!liveData || liveData.length === 0) {
+      listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Ningún streamer en directo ahora</p>`;
+      return;
+    }
 
     listContainer.innerHTML = liveData.map(stream => `
       <button onclick="setStream('${stream.user_login}', '${stream.user_name}')" class="w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/50 hover:bg-slate-800 transition border border-custom text-left">
@@ -520,7 +543,6 @@
     const tierElem = document.getElementById('modalTier');
     if (tierElem) tierElem.innerText = `${p.tierName} ${p.rankTier || ''} - ${p.elo} RR (${p.wr} Winrate)`;
 
-    // Agentes principales (reemplazan las maestrías)
     const masteriesContainer = document.getElementById('modalMasteries');
     if (masteriesContainer) {
       if (p.topAgents && p.topAgents.length > 0) {
@@ -536,7 +558,6 @@
       }
     }
 
-    // Partidas recientes
     const matchesContainer = document.getElementById('modalMatches');
     if (matchesContainer) {
       if (p.recentMatches && p.recentMatches.length > 0) {
@@ -555,7 +576,6 @@
       }
     }
 
-    // Métricas Pro adaptadas a Valorant
     const perf = p.performanceMetrics || {};
     const matches = p.recentMatches || [];
 
@@ -582,7 +602,6 @@
     const visionElem = document.getElementById('pro-vision-pm');
     if (visionElem) visionElem.innerText = `${avgAdr} ADR`;
 
-    // Fortalezas y Debilidades de Valorant
     const strengths = [];
     const weaknesses = [];
 
@@ -622,7 +641,7 @@
       weaknessesList.innerHTML = weaknesses.length > 0
         ? weaknesses.map(w => `
             <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 flex items-start gap-2">
-              <span class="text-red-400 font-bold">⚠️</span>
+              <span class="text-red-400 font-bold">⚠️️</span>
               <span>${w}</span>
             </div>
           `).join('')

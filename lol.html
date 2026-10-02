@@ -357,52 +357,66 @@
     }
   }
 
-  // 2. Leer live.json, sincronizar viewers/isLive y actualizar la UI
+// 2. Leer live.json, filtrar ESTRICTAMENTE por 'League of Legends' y sincronizar
   async function loadLiveStatus() {
     try {
-      const response = await fetch('data/live.json');
+      // Evita que el navegador mantenga en caché una versión vieja del json
+      const response = await fetch('data/live.json?v=' + Date.now());
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
 
       const json = await response.json();
+      const rawStreams = json.data || [];
 
-      if (json.data && json.data.length > 0) {
-        // Cargar el primer streamer en el reproductor principal
-        const activeStream = json.data[0]; 
+      // FILTRO ESTRICTO PARA LOL: Solo streamers jugando a League of Legends
+      const lolStreams = rawStreams.filter(s => 
+        s.game_name && s.game_name.toLowerCase() === 'league of legends'
+      );
+
+      if (typeof gameData !== 'undefined' && gameData.players) {
+        // Resetear el estado en directo de todos los jugadores antes de mapear
+        gameData.players.forEach(p => {
+          p.isLive = false;
+          p.viewers = 0;
+        });
+
+        // Activar solo a los que están en la lista filtrada de LoL
+        lolStreams.forEach(liveItem => {
+          const player = gameData.players.find(p => 
+            (p.twitch && p.twitch.toLowerCase().trim() === liveItem.user_login.toLowerCase().trim()) ||
+            (p.name && p.name.toLowerCase().trim() === liveItem.user_name.toLowerCase().trim())
+          );
+          if (player) {
+            player.isLive = true;
+            player.viewers = liveItem.viewer_count;
+          }
+        });
+
+        renderSidebar(gameData.players);
+        renderTableRows(gameData.players);
+      } else {
+        renderSidebarFromLiveJson(lolStreams);
+      }
+
+      // Si hay gente en directo jugando al LoL, inyecta el primero en el reproductor
+      if (lolStreams.length > 0) {
+        const activeStream = lolStreams[0]; 
         setStream(activeStream.user_login, activeStream.user_name);
-
-        // Si existen jugadores cargados en gameData, sincronizamos la info
-        if (typeof gameData !== 'undefined' && gameData.players) {
-          json.data.forEach(liveItem => {
-            const player = gameData.players.find(p => 
-              (p.twitch && p.twitch.toLowerCase().trim() === liveItem.user_login.toLowerCase().trim()) ||
-              (p.name && p.name.toLowerCase().trim() === liveItem.user_name.toLowerCase().trim())
-            );
-            if (player) {
-              player.isLive = true;
-              player.viewers = liveItem.viewer_count;
-            }
-          });
-
-          // Actualizamos la tabla, podium y la barra lateral con la información combinada
-          renderSidebar(gameData.players);
-          renderTableRows(gameData.players);
-        } else {
-          // Si gameData no tiene la lista de jugadores, mostramos directamente lo que venga de live.json
-          renderSidebarFromLiveJson(json.data);
-        }
-
         return true;
       } else {
-        console.log("No hay transmisiones en directo dentro de live.json.");
+        // Si no hay transmisiones activas de LoL
         const embedContainer = document.getElementById("twitch-embed");
         if (embedContainer) {
           embedContainer.innerHTML = `
             <div class="flex items-center justify-center h-full text-slate-500 font-bold">
-              Ningún canal está en directo en este momento.
+              Ningún canal está en directo jugando a League of Legends.
             </div>
           `;
+        }
+        const nameElem = document.getElementById("streamer-current-name");
+        if (nameElem) {
+          nameElem.textContent = "Ninguno";
         }
         return false;
       }

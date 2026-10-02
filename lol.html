@@ -360,7 +360,6 @@
 // 2. Leer live.json, filtrar ESTRICTAMENTE por 'League of Legends' y sincronizar
   async function loadLiveStatus() {
     try {
-      // Evita que el navegador mantenga en caché una versión vieja del json
       const response = await fetch('data/live.json?v=' + Date.now());
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
@@ -369,11 +368,12 @@
       const json = await response.json();
       const rawStreams = json.data || [];
 
-      // FILTRO ESTRICTO PARA LOL: Solo streamers jugando a League of Legends
+      // FILTRO ESTRICTO PARA LOL
       const lolStreams = rawStreams.filter(s => 
         s.game_name && s.game_name.toLowerCase() === 'league of legends'
       );
 
+      // --- AQUÍ VA EL BLOQUE QUE PREGUNTAS ---
       if (typeof gameData !== 'undefined' && gameData.players) {
         // Resetear el estado en directo de todos los jugadores antes de mapear
         gameData.players.forEach(p => {
@@ -398,14 +398,14 @@
       } else {
         renderSidebarFromLiveJson(lolStreams);
       }
+      // ----------------------------------------
 
-      // Si hay gente en directo jugando al LoL, inyecta el primero en el reproductor
+      // Inyectar el directo en el reproductor si hay alguien jugando
       if (lolStreams.length > 0) {
         const activeStream = lolStreams[0]; 
         setStream(activeStream.user_login, activeStream.user_name);
         return true;
       } else {
-        // Si no hay transmisiones activas de LoL
         const embedContainer = document.getElementById("twitch-embed");
         if (embedContainer) {
           embedContainer.innerHTML = `

@@ -426,17 +426,25 @@
     }
   }
 
-  // Renderizar la barra lateral directamente desde el JSON en caso de respaldo
+  // Renderizar la lista lateral únicamente con los streams filtrados
   function renderSidebarFromLiveJson(liveData) {
     const listContainer = document.getElementById("streamers-list");
     const viewersElem = document.getElementById("total-viewers");
 
-    const totalViewers = liveData.reduce((sum, item) => sum + (Number(item.viewer_count) || 0), 0);
+    // Aseguramos que solo trabajamos con streams válidos
+    const streams = liveData || [];
+
+    const totalViewers = streams.reduce((sum, item) => sum + (Number(item.viewer_count) || 0), 0);
     if (viewersElem) viewersElem.textContent = totalViewers.toLocaleString();
 
     if (!listContainer) return;
 
-    listContainer.innerHTML = liveData.map(stream => `
+    if (streams.length === 0) {
+      listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Ningún streamer en directo jugando a League of Legends ahora</p>`;
+      return;
+    }
+
+    listContainer.innerHTML = streams.map(stream => `
       <button onclick="setStream('${stream.user_login}', '${stream.user_name}')" class="w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/50 hover:bg-slate-800 transition border border-custom text-left">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
@@ -446,7 +454,6 @@
       </button>
     `).join('');
   }
-
   function renderPodium(players) {
     const podiumContainer = document.getElementById("podium-container");
     if (!podiumContainer || !players || players.length === 0) return;

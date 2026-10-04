@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneo Valorant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 50px;
+        }
+        .team-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            height: 400px;
+            width: 45%;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .team {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            transition: transform 0.2s ease;
+        }
+        .team:last-child {
+            border-bottom: none;
+        }
+        .team:hover {
+            transform: scale(1.05);
+        }
+        .line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 100px;
+            background-color: #000;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .line.show {
+            opacity: 1;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .team:hover {
+                transform: none;
+            }
+            .line {
+                opacity: 1;
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="team-container">
+            <div class="team">Equipo 1</div>
+            <div class="team">Equipo 2</div>
+            <div class="team">Equipo 3</div>
+            <div class="team">Equipo 4</div>
+            <div class="team">Equipo 5</div>
+            <div class="team">Equipo 6</div>
+            <div class="team">Equipo 7</div>
+            <div class="team">Equipo 8</div>
+        </div>
+        <div class="team-container">
+            <div class="team">Equipo 9</div>
+            <div class="team">Equipo 10</div>
+            <div class="team">Equipo 11</div>
+            <div class="team">Equipo 12</div>
+            <div class="team">Equipo 13</div>
+            <div class="team">Equipo 14</div>
+            <div class="team">Equipo 15</div>
+            <div class="team">Equipo 16</div>
+        </div>
+    </div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <script>
+        const teams = document.querySelectorAll('.team');
+        const lines = document.querySelectorAll('.line');
+
+        teams.forEach((team, index) => {
+            team.addEventListener('mouseover', () => {
+                const lineIndex = index % 8;
+                lines[lineIndex].classList.add('show');
+            });
+            team.addEventListener('mouseout', () => {
+                lines.forEach(line => line.classList.remove('show'));
+            });
+        });
+    </script>
+</body>
+</html>

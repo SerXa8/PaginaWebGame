@@ -10,22 +10,28 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            background-color: #f4f4f4;
         }
         header {
             background-color: #333;
             color: #fff;
             padding: 1rem;
             text-align: center;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
         }
         nav {
             display: flex;
             justify-content: center;
             background-color: #444;
+            padding: 0.5rem;
+            width: 100%;
         }
         nav a {
             color: #fff;
             text-decoration: none;
-            padding: 1rem;
+            padding: 0.5rem 1rem;
             transition: background-color 0.3s;
         }
         nav a:hover {
@@ -34,6 +40,7 @@
         main {
             padding: 2rem;
             text-align: center;
+            margin-top: 6rem;
         }
         footer {
             background-color: #333;
@@ -50,25 +57,10 @@
                 animation: none !important;
             }
         }
-        .players-list, .teams-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .players-list li, .teams-list li {
-            margin: 0.5rem 0;
-        }
-        .match-table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        .match-table th, .match-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        .match-table th {
-            background-color: #f2f2f2;
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -77,145 +69,26 @@
         <h1>Torneo Valorant</h1>
     </header>
     <nav>
-        <a href="#players">Jugadores</a>
-        <a href="#teams">Equipos</a>
-        <a href="#matches">Partidos</a>
+        <a href="#home">Inicio</a>
+        <a href="#about">Acerca de</a>
+        <a href="#contact">Contacto</a>
     </nav>
     <main>
-        <section id="players">
-            <h2>Jugadores</h2>
-            <ul class="players-list">
-                <li>Jugador 1</li>
-                <li>Jugador 2</li>
-                <li>Jugador 3</li>
-                <li>Jugador 4</li>
-                <li>Jugador 5</li>
-                <li>Jugador 6</li>
-                <li>Jugador 7</li>
-                <li>Jugador 8</li>
-                <li>Jugador 9</li>
-                <li>Jugador 10</li>
-                <li>Jugador 11</li>
-                <li>Jugador 12</li>
-                <li>Jugador 13</li>
-                <li>Jugador 14</li>
-                <li>Jugador 15</li>
-                <li>Jugador 16</li>
-            </ul>
+        <section id="home">
+            <h2>Bienvenido al Torneo Valorant</h2>
+            <p>Esta es una página web completamente nueva y funcional para el torneo de Valorant.</p>
         </section>
-        <section id="teams">
-            <h2>Equipos</h2>
-            <ul class="teams-list">
-                <li>Equipo 1</li>
-                <li>Equipo 2</li>
-                <li>Equipo 3</li>
-                <li>Equipo 4</li>
-                <li>Equipo 5</li>
-                <li>Equipo 6</li>
-                <li>Equipo 7</li>
-                <li>Equipo 8</li>
-                <li>Equipo 9</li>
-                <li>Equipo 10</li>
-                <li>Equipo 11</li>
-                <li>Equipo 12</li>
-                <li>Equipo 13</li>
-                <li>Equipo 14</li>
-                <li>Equipo 15</li>
-                <li>Equipo 16</li>
-            </ul>
+        <section id="about">
+            <h2>Acerca del Torneo</h2>
+            <p>Esta sección proporciona información sobre el torneo de Valorant.</p>
         </section>
-        <section id="matches">
-            <h2>Partidos</h2>
-            <table class="match-table">
-                <thead>
-                    <tr>
-                        <th>Ronda</th>
-                        <th>Equipo 1</th>
-                        <th>Equipo 2</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Octavos de Final</td>
-                        <td>Equipo 1</td>
-                        <td>Equipo 2</td>
-                    </tr>
-                    <tr>
-                        <td>Octavos de Final</td>
-                        <td>Equipo 3</td>
-                        <td>Equipo 4</td>
-                    </tr>
-                    <tr>
-                        <td>Octavos de Final</td>
-                        <td>Equipo 5</td>
-                        <td>Equipo 6</td>
-                    </tr>
-                    <tr>
-                        <td>Octavos de Final</td>
-                        <td>Equipo 7</td>
-                        <td>Equipo 8</td>
-                    </tr>
-                    <tr>
-                        <td>Octavos de Final</td>
-                        <td>Equipo 9</td>
-                        <td>Equipo 10</td>
-                    </tr>
-                    <tr>
-                        <td>Octavos de Final</td>
-                        <td>Equipo 11</td>
-                        <td>Equipo 12</td>
-                    </tr>
-                    <tr>
-                        <td>Octavos de Final</td>
-                        <td>Equipo 13</td>
-                        <td>Equipo 14</td>
-                    </tr>
-                    <tr>
-                        <td>Octavos de Final</td>
-                        <td>Equipo 15</td>
-                        <td>Equipo 16</td>
-                    </tr>
-                    <tr>
-                        <td>Cuartos de Final</td>
-                        <td>Equipo Ganador 1</td>
-                        <td>Equipo Ganador 2</td>
-                    </tr>
-                    <tr>
-                        <td>Cuartos de Final</td>
-                        <td>Equipo Ganador 3</td>
-                        <td>Equipo Ganador 4</td>
-                    </tr>
-                    <tr>
-                        <td>Cuartos de Final</td>
-                        <td>Equipo Ganador 5</td>
-                        <td>Equipo Ganador 6</td>
-                    </tr>
-                    <tr>
-                        <td>Cuartos de Final</td>
-                        <td>Equipo Ganador 7</td>
-                        <td>Equipo Ganador 8</td>
-                    </tr>
-                    <tr>
-                        <td>Semifinales</td>
-                        <td>Equipo Ganador 1</td>
-                        <td>Equipo Ganador 2</td>
-                    </tr>
-                    <tr>
-                        <td>Semifinales</td>
-                        <td>Equipo Ganador 3</td>
-                        <td>Equipo Ganador 4</td>
-                    </tr>
-                    <tr>
-                        <td>Final</td>
-                        <td>Equipo Ganador 1</td>
-                        <td>Equipo Ganador 2</td>
-                    </tr>
-                </tbody>
-            </table>
+        <section id="contact">
+            <h2>Contacto</h2>
+            <p>Información de contacto y formulario de contacto para el torneo de Valorant.</p>
         </section>
     </main>
     <footer>
-        <p>&copy; 2023 Torneo Valorant</p>
+        <p>&copy;  2023 Torneo Valorant</p>
     </footer>
 </body>
 </html>

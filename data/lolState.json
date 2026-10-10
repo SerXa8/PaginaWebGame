@@ -198,7 +198,7 @@
       }
     ],
     "rank": 1,
-    "timestamp": 1791654368667,
+    "timestamp": 1791667541950,
     "isLive": true
   },
   "JavierLoL": {
@@ -400,8 +400,8 @@
       }
     ],
     "rank": 2,
-    "timestamp": 1791654368667,
-    "isLive": true
+    "timestamp": 1791667541951,
+    "isLive": false
   },
   "Maiiser": {
     "puuid": "r9nKZM0jY5VWPH59uM-yPv9Zokxmi3wspEmX63Cde9iaGg8Sm408s66yDy3_zJpvRIpGYHk5yJ2OFA",
@@ -602,7 +602,7 @@
       }
     ],
     "rank": 3,
-    "timestamp": 1791654368667,
+    "timestamp": 1791667541951,
     "isLive": false
   },
   "SerXa08": {
@@ -804,7 +804,7 @@
       }
     ],
     "rank": 4,
-    "timestamp": 1791654368667,
+    "timestamp": 1791667541951,
     "isLive": false
   },
   "mamielizabeth": {
@@ -1006,7 +1006,7 @@
       }
     ],
     "rank": 5,
-    "timestamp": 1791654368667,
+    "timestamp": 1791667541951,
     "isLive": false
   }
 }

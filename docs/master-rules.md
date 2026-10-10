@@ -19,10 +19,12 @@ Dado que el proyecto utiliza archivos independientes autocontenidos con CSS y JS
       });
     }
   });```
-  Dependencias: No introducir librerías externas pesadas de JavaScript a menos que sea estrictamente necesario.
+
+  
+- **Dependencias:** No introducir librerías externas pesadas de JavaScript a menos que sea estrictamente necesario.
 
 
-  ## 2. MULTI-GAME DESIGN SYSTEM
+## 2. MULTI-GAME DESIGN SYSTEM
 
 ### A. Global / Hub Principal (`index.html`)
 - **Estética:** Hub central de selección de juegos con cabecera oscura (`#0B0F19`), logotipo corporativo `SOLOQCHALLENGE` y badge flotante de directos activos (`#FF4655`).

@@ -5,186 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Torneo Valorant</title>
     <style>
+        :root {
+            --background-color: #0F1923;
+            --container-color: #151D2A;
+            --accent-color: #FF4655;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            background: #222;
-            color: #fff;
+            background-color: var(--background-color);
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 10px 0;
+
+        .header {
+            background-color: var(--container-color);
+            color: white;
+            padding: 1rem;
             text-align: center;
         }
-        nav {
-            display: flex;
-            justify-content: space-around;
-            background: #444;
-            padding: 10px 0;
+
+        .content {
+            padding: 2rem;
+            background-color: var(--container-color);
         }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px;
-            transition: background 0.3s;
-        }
-        nav a:hover {
-            background: #555;
-        }
-        main {
-            margin-top: 20px;
-        }
+
         .card {
-            background: #fff;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 1rem;
+            padding: 1rem;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         .card:hover {
-            transform: scale(1.02);
+            transform: translateY(-5px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        .card.lose {
-            background: #ff4d4d;
+
+        .card:active {
+            transform: translateY(2px);
         }
-        .card.win {
-            background: #4caf50;
+
+        .card.disabled {
+            opacity: 0.5;
+            pointer-events: none;
         }
-        .card.final {
-            background: gold;
-        }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            margin-top: 20px;
-        }
+
         @media (prefers-reduced-motion: reduce) {
-            .card:hover {
+            .card:hover, .card:active {
                 transform: none;
                 box-shadow: none;
             }
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
     </style>
 </head>
 <body>
-    <header>
+    <header class="header">
         <h1>Torneo Valorant</h1>
     </header>
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-    </nav>
-    <main>
-        <div class="container">
-            <div class="card">
-                <div>Equipo 1</div>
-                <div>Equipo 2</div>
-            </div>
-            <div class="card">
-                <div>Equipo 3</div>
-                <div>Equipo 4</div>
-            </div>
-            <div class="card">
-                <div>Equipo 5</div>
-                <div>Equipo 6</div>
-            </div>
-            <div class="card">
-                <div>Equipo 7</div>
-                <div>Equipo 8</div>
-            </div>
+    <div class="content">
+        <div class="card">
+            <h2>Podio Actual</h2>
+            <p>Contenido del podio actual.</p>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Equipo</th>
-                    <th>Puntuación</th>
-                    <th>Kills</th>
-                    <th>Muertes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Equipo 1</td>
-                    <td>10</td>
-                    <td>15</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td>Equipo 2</td>
-                    <td>8</td>
-                    <td>12</td>
-                    <td>7</td>
-                </tr>
-                <tr>
-                    <td>Equipo 3</td>
-                    <td>12</td>
-                    <td>18</td>
-                    <td>6</td>
-                </tr>
-                <tr>
-                    <td>Equipo 4</td>
-                    <td>9</td>
-                    <td>14</td>
-                    <td>8</td>
-                </tr>
-                <tr>
-                    <td>Equipo 5</td>
-                    <td>11</td>
-                    <td>16</td>
-                    <td>4</td>
-                </tr>
-                <tr>
-                    <td>Equipo 6</td>
-                    <td>7</td>
-                    <td>10</td>
-                    <td>9</td>
-                </tr>
-                <tr>
-                    <td>Equipo 7</td>
-                    <td>13</td>
-                    <td>19</td>
-                    <td>3</td>
-                </tr>
-                <tr>
-                    <td>Equipo 8</td>
-                    <td>10</td>
-                    <td>15</td>
-                    <td>5</td>
-                </tr>
-            </tbody>
-        </table>
-    </main>
-    <footer>
-        <p>&copy; 2023 Torneo Valorant. Todos los derechos reservados.</p>
-    </footer>
+        <div class="card">
+            <h2>Próximos Partidos</h2>
+            <p>Contenido de los próximos partidos.</p>
+        </div>
+        <div class="card">
+            <h2>Tabla de Clasificación</h2>
+            <p>Contenido de la tabla de clasificación.</p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // JavaScript necesario
+        });
+    </script>
 </body>
 </html>

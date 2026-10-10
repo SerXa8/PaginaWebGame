@@ -18,8 +18,7 @@ Dado que el proyecto utiliza archivos independientes autocontenidos con CSS y JS
         // Lógica de filtrado
       });
     }
-  });
-
+  });```
   Dependencias: No introducir librerías externas pesadas de JavaScript a menos que sea estrictamente necesario.
 
 

@@ -73,7 +73,7 @@ League of Legends: Transiciones fluidas y elegantes con halos dorados/hextech su
 
 Accesibilidad Obligatoria:
 
-CSS
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;

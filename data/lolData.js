@@ -199,7 +199,7 @@ const gameData = {
         }
       ],
       "rank": 1,
-      "timestamp": 1791879465129,
+      "timestamp": 1791908363826,
       "isLive": true
     },
     {
@@ -401,7 +401,7 @@ const gameData = {
         }
       ],
       "rank": 2,
-      "timestamp": 1791879465129,
+      "timestamp": 1791908363826,
       "isLive": true
     },
     {
@@ -603,7 +603,7 @@ const gameData = {
         }
       ],
       "rank": 3,
-      "timestamp": 1791879465129,
+      "timestamp": 1791908363826,
       "isLive": false
     },
     {
@@ -805,7 +805,7 @@ const gameData = {
         }
       ],
       "rank": 4,
-      "timestamp": 1791879465129,
+      "timestamp": 1791908363826,
       "isLive": false
     },
     {
@@ -1007,9 +1007,9 @@ const gameData = {
         }
       ],
       "rank": 5,
-      "timestamp": 1791879465129,
+      "timestamp": 1791908363826,
       "isLive": false
     }
   ],
-  "lastUpdated": "2026-10-13T16:19:23.827Z"
+  "lastUpdated": "2026-10-13T21:28:25.539Z"
 };

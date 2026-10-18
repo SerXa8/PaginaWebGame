@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipos LoL & Clash | SoloQ Challenge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#0b0e14] text-slate-100 min-h-screen font-sans">
+
+  <!-- Navegación Superior Principal -->
+  <header class="border-b border-slate-800 bg-[#080a0e] sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition">
+          <div class="w-8 h-8 rounded-lg bg-yellow-500/20 border border-yellow-500/50 flex items-center justify-center font-black text-yellow-400">SQ</div>
+          <span class="font-extrabold text-xl tracking-wider text-white uppercase">SoloQ<span class="text-yellow-500">Challenge</span></span>
+        </a>
+
+        <nav class="flex gap-1 bg-slate-900/80 p-1 rounded-lg border border-slate-800">
+          <a href="lol.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-yellow-500/10 text-yellow-400 border border-yellow-500/30">
+            <i data-lucide="swords" class="w-4 h-4"></i> League of Legends
+          </a>
+          <a href="valorant.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+            <i data-lucide="crosshair" class="w-4 h-4"></i> Valorant
+          </a>
+          <a href="cs2.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+            <i data-lucide="target" class="w-4 h-4"></i> CS2
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pestañas secundarias de League of Legends -->
+  <main class="max-w-7xl mx-auto px-4 pt-6 pb-12">
+    <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800/80 pb-3 mb-6 gap-4">
+      <div class="flex items-center gap-2">
+        <a href="lol.html" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition flex items-center gap-2 tracking-wide">
+          <span>🏆</span> SOLOQ RANKING
+        </a>
+
+        <a href="equiposLol.html" class="px-4 py-2 rounded-xl text-xs font-black bg-yellow-500 text-slate-950 shadow-lg shadow-yellow-500/20 flex items-center gap-2 tracking-wide transition">
+          <span>🛡️</span> EQUIPOS & CLASH
+        </a>
+      </div>
+
+      <!-- Control de vista (Equipos / LFT) -->
+      <div class="flex bg-slate-900/80 p-1 rounded-xl border border-slate-800 self-start md:self-auto">
+        <button id="btn-tab-teams" onclick="switchTab('teams')" class="px-4 py-1.5 rounded-lg font-bold text-xs transition bg-yellow-500 text-slate-950 shadow">
+          EQUIPOS / CLASH
+        </button>
+        <button id="btn-tab-lft" onclick="switchTab('lft')" class="px-4 py-1.5 rounded-lg font-bold text-xs transition text-slate-400 hover:text-white">
+          BUSCO EQUIPO (LFT)
+        </button>
+      </div>
+    </div>
+
+    <!-- Panel de Filtros e Inputs para LoL -->
+    <div class="bg-[#121620]/80 border border-slate-800/80 p-4 rounded-2xl mb-6 flex flex-col md:flex-row items-center gap-4 justify-between">
+      <!-- Buscador por Texto -->
+      <div class="relative w-full md:w-80">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
+        <input id="search-input" oninput="applyFilters()" type="text" placeholder="Buscar por nombre, tag o nota..." class="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition">
+      </div>
+
+      <!-- Filtros por Rol de LoL y Estado -->
+      <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+        <!-- Selector de Rol de League of Legends -->
+        <select id="role-filter" onchange="applyFilters()" class="bg-slate-900 border border-slate-800 text-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-yellow-500">
+          <option value="ALL">Todos los Roles</option>
+          <option value="Top">Top</option>
+          <option value="Jungle">Jungle</option>
+          <option value="Mid">Mid</option>
+          <option value="ADC">ADC</option>
+          <option value="Support">Support</option>
+        </select>
+
+        <!-- Selector de Estado de Búsqueda -->
+        <select id="status-filter" onchange="applyFilters()" class="bg-slate-900 border border-slate-800 text-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-yellow-500">
+          <option value="ALL">Todos los Estados</option>
+          <option value="TRYOUTS">Buscando Jugadores (Tryouts)</option>
+          <option value="COMPLETO">Roster Completo</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Pestaña 1: Equipos de LoL -->
+    <div id="tab-teams" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    <!-- Pestaña 2: LFT de LoL -->
+    <div id="tab-lft" class="hidden">
+      <div class="overflow-x-auto bg-[#121620]/60 border border-slate-800 rounded-2xl shadow-xl">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-[11px] text-slate-400 uppercase tracking-wider bg-slate-900/50">
+              <th class="py-3 px-4">Jugador</th>
+              <th class="py-3 px-4">Estado</th>
+              <th class="py-3 px-4">Rango</th>
+              <th class="py-3 px-4">Rol Principal</th>
+              <th class="py-3 px-4">Rol Secundario</th>
+              <th class="py-3 px-4">Notas / Disponibilidad</th>
+              <th class="py-3 px-4 text-center">Contacto</th>
+            </tr>
+          </thead>
+          <tbody id="lft-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="data/lolData.js"></script>
+  <script src="data/lolEquiposData.js"></script>
+  <script>
+    let currentTab = 'teams';
+
+    function switchTab(tab) {
+      currentTab = tab;
+      const teamsTab = document.getElementById('tab-teams');
+      const lftTab = document.getElementById('tab-lft');
+      const btnTeams = document.getElementById('btn-tab-teams');
+      const btnLft = document.getElementById('btn-tab-lft');
+
+      if (tab === 'teams') {
+        teamsTab.classList.remove('hidden');
+        lftTab.classList.add('hidden');
+        btnTeams.className = "px-4 py-1.5 rounded-lg font-bold text-xs transition bg-yellow-500 text-slate-950 shadow";
+        btnLft.className = "px-4 py-1.5 rounded-lg font-bold text-xs transition text-slate-400 hover:text-white";
+      } else {
+        teamsTab.classList.add('hidden');
+        lftTab.classList.remove('hidden');
+        btnLft.className = "px-4 py-1.5 rounded-lg font-bold text-xs transition bg-yellow-500 text-slate-950 shadow";
+        btnTeams.className = "px-4 py-1.5 rounded-lg font-bold text-xs transition text-slate-400 hover:text-white";
+      }
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const search = document.getElementById('search-input').value.toLowerCase();
+      const role = document.getElementById('role-filter').value;
+      const status = document.getElementById('status-filter').value;
+
+      if (currentTab === 'teams') renderTeams(search, role, status);
+      else renderLFT(search, role, status);
+    }
+
+    function renderTeams(search = '', roleFilter = 'ALL', statusFilter = 'ALL') {
+      const container = document.getElementById('tab-teams');
+      if (!container || typeof lolEquiposData === 'undefined') return;
+
+      let filtered = lolEquiposData.teams || [];
+
+      // Filtrar por texto
+      if (search) {
+        filtered = filtered.filter(t => t.name.toLowerCase().includes(search) || t.tag.toLowerCase().includes(search));
+      }
+
+      // Filtrar por estado de búsqueda
+      if (statusFilter !== 'ALL') {
+        filtered = filtered.filter(t => (t.status || 'COMPLETO') === statusFilter);
+      }
+
+      // Filtrar por rol
+      if (roleFilter !== 'ALL') {
+        filtered = filtered.filter(t => 
+          (t.seekingRoles && t.seekingRoles.includes(roleFilter)) ||
+          t.members.some(m => m.role === roleFilter)
+        );
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p class="col-span-full text-center text-slate-500 py-12 font-semibold">No se encontraron equipos con los filtros seleccionados.</p>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(team => {
+        const isTryouts = team.status === 'TRYOUTS';
+        return `
+        <div class="bg-[#121620] border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-black text-yellow-400">
+                  ${team.tag || 'LOL'}
+                </div>
+                <div>
+                  <h3 class="font-black text-lg text-white">${team.name}</h3>
+                  <p class="text-xs text-slate-400 font-semibold">${team.division || 'Clash'}</p>
+                </div>
+              </div>
+              <div class="flex flex-col items-end gap-1">
+                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded border ${isTryouts ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-slate-800 text-slate-400 border-slate-700'}">
+                  ${isTryouts ? '● BUSCANDO JUGADORES' : 'COMPLETO'}
+                </span>
+                <span class="text-[9px] font-bold text-slate-500 uppercase">${team.type || 'CLASH'}</span>
+              </div>
+            </div>
+
+            ${isTryouts && team.seekingRoles ? `
+              <div class="mb-4 bg-emerald-950/20 border border-emerald-500/20 p-2.5 rounded-xl">
+                <p class="text-[10px] font-black uppercase text-emerald-400 mb-1 flex items-center gap-1">
+                  <span>🎯</span> Roles que buscan:
+                </p>
+                <div class="flex flex-wrap gap-1">
+                  ${team.seekingRoles.map(r => `<span class="text-[10px] font-bold bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">${r}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <div class="space-y-2 border-t border-slate-800/80 pt-3">
+              <p class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">Alineación / Roster</p>
+              ${team.members.map(m => `
+                <div class="flex items-center justify-between bg-slate-900/50 p-2 rounded-lg border border-slate-800 text-xs">
+                  <span class="font-bold text-white">${m.name} <span class="text-slate-500 font-normal">${m.tag || ''}</span></span>
+                  <span class="text-[10px] bg-slate-800 text-slate-300 font-semibold px-2 py-0.5 rounded">${m.role}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `}).join('');
+    }
+
+    function renderLFT(search = '', roleFilter = 'ALL', statusFilter = 'ALL') {
+      const tbody = document.getElementById('lft-table-body');
+      if (!tbody || typeof lolEquiposData === 'undefined') return;
+
+      let filtered = lolEquiposData.lftPlayers || [];
+
+      if (search) {
+        filtered = filtered.filter(p => p.name.toLowerCase().includes(search) || p.notes.toLowerCase().includes(search));
+      }
+
+      if (roleFilter !== 'ALL') {
+        filtered = filtered.filter(p => p.primaryRole === roleFilter || p.secondaryRole === roleFilter);
+      }
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-12 text-slate-500 font-semibold">No se encontraron jugadores que coincidan con la búsqueda.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => `
+        <tr class="border-b border-slate-800/50 hover:bg-slate-900/40 transition">
+          <td class="py-3 px-4 font-bold text-white">
+            ${p.name} <span class="text-slate-500 text-xs font-normal">${p.tag || ''}</span>
+          </td>
+          <td class="py-3 px-4">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+              ${p.status || 'BUSCANDO'}
+            </span>
+          </td>
+          <td class="py-3 px-4 text-xs font-bold text-yellow-400">${p.rank}</td>
+          <td class="py-3 px-4 text-xs text-slate-300 font-semibold">${p.primaryRole}</td>
+          <td class="py-3 px-4 text-xs text-slate-400">${p.secondaryRole || '-'}</td>
+          <td class="py-3 px-4 text-xs text-slate-300 max-w-xs truncate" title="${p.notes}">${p.notes}</td>
+          <td class="py-3 px-4 text-center">
+            <div class="flex justify-center gap-2">
+              ${p.twitter ? `<a href="${p.twitter}" target="_blank" class="px-2 py-1 bg-sky-600 hover:bg-sky-500 text-white rounded text-[10px] font-bold">Twitter</a>` : ''}
+              ${p.twitch ? `<a href="https://twitch.tv/${p.twitch}" target="_blank" class="px-2 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-[10px] font-bold">Twitch</a>` : ''}
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      applyFilters();
+      if (window.lucide) lucide.createIcons();
+    });
+
+    
+
+  </script>
+</body>
+</html>

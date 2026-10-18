@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipos & Premier Valorant | SoloQ Challenge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#0b0e14] text-slate-100 min-h-screen font-sans">
+
+  <!-- Navegación -->
+  <nav class="border-b border-slate-800 bg-[#121620]/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="font-extrabold text-xl tracking-wider text-red-500">SOLOQ<span class="text-white">CHALLENGE</span></a>
+        <div class="hidden md:flex gap-4 text-sm font-semibold text-slate-400">
+          <a href="valorant.html" class="hover:text-white transition">Valorant SoloQ</a>
+          <a href="equiposValorant.html" class="text-red-400 font-bold border-b-2 border-red-500 pb-1">Equipos / Premier</a>
+          <a href="lol.html" class="hover:text-white transition">League of Legends</a>
+          <a href="cs2.html" class="hover:text-white transition">CS2</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido Principal -->
+  <main class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-3xl font-black tracking-tight text-white flex items-center gap-3">
+          <span>🛡️</span> EQUIPOS & PREMIER VALORANT
+        </h1>
+        <p class="text-slate-400 text-sm mt-1">Equipos profesionales, escuadras de Premier y jugadores buscando equipo (LFT).</p>
+      </div>
+
+      <!-- Selector de Pestañas -->
+      <div class="flex bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+        <button id="btn-tab-teams" onclick="switchTab('teams')" class="px-4 py-2 rounded-lg font-bold text-xs transition bg-red-600 text-white shadow">
+          EQUIPOS / PREMIER
+        </button>
+        <button id="btn-tab-lft" onclick="switchTab('lft')" class="px-4 py-2 rounded-lg font-bold text-xs transition text-slate-400 hover:text-white">
+          BUSCO EQUIPO (LFT)
+        </button>
+      </div>
+    </div>
+
+    <!-- Pestaña 1: Lista de Equipos -->
+    <div id="tab-teams" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Se rellenará dinámicamente con JS -->
+    </div>
+
+    <!-- Pestaña 2: Jugadores LFT (Busco Equipo) -->
+    <div id="tab-lft" class="hidden">
+      <div class="overflow-x-auto bg-[#121620]/60 border border-slate-800 rounded-2xl shadow-xl">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-[11px] text-slate-400 uppercase tracking-wider bg-slate-900/50">
+              <th class="py-3 px-4">Jugador</th>
+              <th class="py-3 px-4">Rango</th>
+              <th class="py-3 px-4">Rol Principal</th>
+              <th class="py-3 px-4">Rol Secundario</th>
+              <th class="py-3 px-4">Información / Disponibilidad</th>
+              <th class="py-3 px-4 text-center">Contacto</th>
+            </tr>
+          </thead>
+          <tbody id="lft-table-body">
+            <!-- Se rellenará dinámicamente con JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Datos y Lógica Script -->
+  <script src="data/equiposData.js"></script>
+  <script>
+    function switchTab(tab) {
+      const teamsTab = document.getElementById('tab-teams');
+      const lftTab = document.getElementById('tab-lft');
+      const btnTeams = document.getElementById('btn-tab-teams');
+      const btnLft = document.getElementById('btn-tab-lft');
+
+      if (tab === 'teams') {
+        teamsTab.classList.remove('hidden');
+        lftTab.classList.add('hidden');
+        btnTeams.className = "px-4 py-2 rounded-lg font-bold text-xs transition bg-red-600 text-white shadow";
+        btnLft.className = "px-4 py-2 rounded-lg font-bold text-xs transition text-slate-400 hover:text-white";
+      } else {
+        teamsTab.classList.add('hidden');
+        lftTab.classList.remove('hidden');
+        btnLft.className = "px-4 py-2 rounded-lg font-bold text-xs transition bg-red-600 text-white shadow";
+        btnTeams.className = "px-4 py-2 rounded-lg font-bold text-xs transition text-slate-400 hover:text-white";
+      }
+    }
+
+    function renderTeams() {
+      const container = document.getElementById('tab-teams');
+      if (!container || typeof equiposData === 'undefined') return;
+
+      if (!equiposData.teams || equiposData.teams.length === 0) {
+        container.innerHTML = `<p class="col-span-full text-center text-slate-500 py-8">No hay equipos registrados de momento.</p>`;
+        return;
+      }
+
+      container.innerHTML = equiposData.teams.map(team => `
+        <div class="bg-[#121620] border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-black text-red-500">
+                  ${team.tag || 'TEAM'}
+                </div>
+                <div>
+                  <h3 class="font-black text-lg text-white">${team.name}</h3>
+                  <p class="text-xs text-slate-400 font-semibold">${team.division || 'Premier'}</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-1 rounded border ${team.type === 'PRO' ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' : 'bg-red-500/10 text-red-400 border-red-500/30'}">
+                ${team.type || 'PREMIER'}
+              </span>
+            </div>
+
+            <div class="space-y-2 mt-4 border-t border-slate-800/80 pt-3">
+              <p class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">Alineación / Roster</p>
+              ${team.members.map(m => `
+                <div class="flex items-center justify-between bg-slate-900/50 p-2 rounded-lg border border-slate-800 text-xs">
+                  <span class="font-bold text-white">${m.name} <span class="text-slate-500 font-normal">${m.tag || ''}</span></span>
+                  <span class="text-[10px] bg-slate-800 text-slate-300 font-semibold px-2 py-0.5 rounded">${m.role}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderLFT() {
+      const tbody = document.getElementById('lft-table-body');
+      if (!tbody || typeof equiposData === 'undefined') return;
+
+      if (!equiposData.lftPlayers || equiposData.lftPlayers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-500 font-bold">No hay jugadores buscando equipo en este momento.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = equiposData.lftPlayers.map(p => `
+        <tr class="border-b border-slate-800/50 hover:bg-slate-900/40 transition">
+          <td class="py-3 px-4 font-bold text-white">
+            ${p.name} <span class="text-slate-500 text-xs font-normal">${p.tag || ''}</span>
+          </td>
+          <td class="py-3 px-4 text-xs font-bold text-red-400">${p.rank}</td>
+          <td class="py-3 px-4 text-xs text-slate-300 font-semibold">${p.primaryRole}</td>
+          <td class="py-3 px-4 text-xs text-slate-400">${p.secondaryRole || '-'}</td>
+          <td class="py-3 px-4 text-xs text-slate-300 max-w-xs truncate" title="${p.notes}">${p.notes}</td>
+          <td class="py-3 px-4 text-center">
+            <div class="flex justify-center gap-2">
+              ${p.twitter ? `<a href="${p.twitter}" target="_blank" class="px-2 py-1 bg-sky-600 hover:bg-sky-500 text-white rounded text-[10px] font-bold">Twitter</a>` : ''}
+              ${p.twitch ? `<a href="https://twitch.tv/${p.twitch}" target="_blank" class="px-2 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-[10px] font-bold">Twitch</a>` : ''}
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTeams();
+      renderLFT();
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

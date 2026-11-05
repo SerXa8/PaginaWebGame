@@ -229,11 +229,23 @@
       let filtered = lolEquiposData.lftPlayers || [];
 
       if (search) {
-        filtered = filtered.filter(p => p.name.toLowerCase().includes(search) || p.notes.toLowerCase().includes(search));
+        filtered = filtered.filter(p =>
+          (p.name || '').toLowerCase().includes(search) ||
+          (p.tag || '').toLowerCase().includes(search) ||
+          (p.notes || '').toLowerCase().includes(search)
+        );
       }
 
       if (roleFilter !== 'ALL') {
         filtered = filtered.filter(p => p.primaryRole === roleFilter || p.secondaryRole === roleFilter);
+      }
+
+      if (statusFilter !== 'ALL') {
+        filtered = filtered.filter(p => {
+          const status = (p.status || 'BUSCANDO').toUpperCase();
+          if (statusFilter === 'TRYOUTS') return status === 'BUSCANDO';
+          return status === statusFilter;
+        });
       }
 
       if (filtered.length === 0) {

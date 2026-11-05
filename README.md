@@ -29,10 +29,21 @@ Dashboard web en tiempo real que recopila las clasificaciones, estadísticas det
 ├── lol.html                # Dashboard de League of Legends
 ├── valorant.html           # Dashboard de Valorant
 ├── cs2.html                # Dashboard de Counter-Strike 2
+├── equiposLol.html         # Equipos / Clash y jugadores LFT de LoL
+├── equiposValorant.html    # Equipos / Premier y jugadores LFT de Valorant
+├── valorantLineups.html    # Guía de lineups de Valorant
 ├── data/
 │   ├── live.json           # JSON generado automáticamente con los directos activos de Twitch
 │   ├── lolData.js          # Datos estáticos y jugadores de LoL
 │   ├── valorantData.js     # Datos estáticos y jugadores de Valorant
+│   ├── cs2Data.js          # Datos de ejemplo de jugadores de CS2
+│   ├── cs2.js              # Carga de directos y estado live de CS2
+│   ├── lolEquiposData.js   # Equipos y LFT de LoL
+│   ├── valorantEquiposData.js # Equipos y LFT de Valorant
 │   └── twitch.js           # Lógica global / aux de Twitch
+├── Valorant/
+│   └── ValorantLineups/    # JSON de lineups por mapa/agente
+├── docs/
+│   └── design-system.md    # Tokens, componentes y mapa de páginas
 └── .github/
     └── workflows/          # GitHub Actions para actualización automatizada cada 10 min

@@ -9,15 +9,42 @@
     if (!contenedor) return;
 
     try {
-      const response = await fetch('live.json?t=' + Date.now());
+      const response = await fetch('data/live.json?t=' + Date.now());
       const data = await response.json();
       const streams = data.data || [];
 
       // Filtrar únicamente streamers en directo jugando a CS2
-      const streamsJuego = streams.filter(s => s.game_id === GAME_ID_CS2);
+      const streamsJuego = streams.filter(s =>
+        s.game_id === GAME_ID_CS2 ||
+        (s.game_name && s.game_name.toLowerCase() === 'counter-strike 2')
+      );
+
+      // Sincronizar el estado live con los jugadores del ranking
+      if (typeof gameData !== 'undefined' && Array.isArray(gameData.players)) {
+        gameData.players.forEach(p => {
+          p.isLive = false;
+          p.viewers = 0;
+        });
+
+        streamsJuego.forEach(s => {
+          const login = (s.user_login || '').toLowerCase().trim();
+          if (!login) return;
+          const player = gameData.players.find(p =>
+            p.twitch && p.twitch.toLowerCase().trim() === login
+          );
+          if (player) {
+            player.isLive = true;
+            player.viewers = Number(s.viewer_count) || 0;
+          }
+        });
+
+        if (typeof renderUI === 'function') {
+          renderUI(gameData);
+        }
+      }
 
       // 1. Contador total de espectadores
-      const totalEspectadores = streamsJuego.reduce((sum, s) => sum + s.viewer_count, 0);
+      const totalEspectadores = streamsJuego.reduce((sum, s) => sum + (Number(s.viewer_count) || 0), 0);
       if (totalViewersElem) {
         totalViewersElem.textContent = totalEspectadores.toLocaleString('es-ES');
       }
@@ -26,18 +53,20 @@
       if (listaStreamers) {
         if (streamsJuego.length > 0) {
           listaStreamers.innerHTML = streamsJuego.map(s => {
-            const viewersFormatted = s.viewer_count >= 1000 
-              ? (s.viewer_count / 1000).toFixed(1) + 'k' 
-              : s.viewer_count;
+            const displayName = s.user_name || s.user_login || 'Streamer';
+            const viewers = Number(s.viewer_count) || 0;
+            const viewersFormatted = viewers >= 1000 
+              ? (viewers / 1000).toFixed(1) + 'k' 
+              : viewers;
 
             return `
-              <button onclick="setStream('${s.user_login}')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-800 transition border border-transparent hover:border-orange-500/30 text-left group">
+              <button onclick="setStream('${s.user_login}', '${displayName}')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-800 transition border border-transparent hover:border-orange-500/30 text-left group">
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 rounded-full bg-orange-900/50 border border-orange-500/40 flex items-center justify-center font-bold text-xs text-orange-300">
-                    ${s.user_name.substring(0, 2).toUpperCase()}
+                    ${displayName.substring(0, 2).toUpperCase()}
                   </div>
                   <div>
-                    <div class="text-xs font-bold text-slate-200 group-hover:text-orange-300 transition">${s.user_name}</div>
+                    <div class="text-xs font-bold text-slate-200 group-hover:text-orange-300 transition">${displayName}</div>
                     <div class="text-[10px] text-slate-500">Twitch</div>
                   </div>
                 </div>
@@ -58,19 +87,7 @@
       // 3. Incrustar reproductor SIN CHAT (layout: "video")
       if (streamsJuego.length > 0) {
         const streamActivo = streamsJuego[0];
-        contenedor.innerHTML = "";
-        const parentDomain = window.location.hostname || "localhost";
-        
-        new Twitch.Embed("twitch-embed", {
-          width: "100%",
-          height: "100%",
-          channel: streamActivo.user_login,
-          layout: "video",
-          parent: [parentDomain]
-        });
-
-        const nameElem = document.getElementById("streamer-current-name");
-        if (nameElem) nameElem.textContent = streamActivo.user_name;
+        setStream(streamActivo.user_login, streamActivo.user_name);
       } else {
         contenedor.innerHTML = `
           <div class="flex flex-col items-center justify-center h-full text-slate-400 p-6 text-center">

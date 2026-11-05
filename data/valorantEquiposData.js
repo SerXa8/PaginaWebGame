@@ -1,8 +1,8 @@
 // Obtiene el rango automáticamente si el jugador existe en valorantData.js
 function getPlayerRankVal(playerName, fallbackRank = "Sin Rango") {
-  if (typeof valorantData !== 'undefined' && Array.isArray(valorantData)) {
-    const p = valorantData.find(player => player.name.toLowerCase() === playerName.toLowerCase());
-    if (p) return `${p.rank || p.tier || ''} (${p.rr || 0} RR)`.trim();
+  if (typeof gameData !== 'undefined' && Array.isArray(gameData.players)) {
+    const p = gameData.players.find(player => player.name.toLowerCase() === playerName.toLowerCase());
+    if (p) return `${p.tierName || p.tier || ''} ${p.rankTier || ''} (${p.elo || 0} RR)`.replace(/\s+/g, ' ').trim();
   }
   return fallbackRank;
 }

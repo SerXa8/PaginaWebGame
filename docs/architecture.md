@@ -1,4 +1,4 @@
-# Architecture & Code Quality Standards
+# Arquitectura y Normas de Calidad del Código
 
 Dado que el proyecto utiliza archivos independientes autocontenidos (`index.html`, `lol.html`, `valorant.html`) con el CSS y JS integrados, se debe cumplir lo siguiente en cada modificación o generación:
 
@@ -22,3 +22,4 @@ Dado que el proyecto utiliza archivos independientes autocontenidos (`index.html
       });
     }
   });
+  

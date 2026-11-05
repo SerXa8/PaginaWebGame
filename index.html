@@ -28,9 +28,6 @@
       border-color: rgba(249, 115, 22, 0.6);
     }
   </style>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prueba</title>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
@@ -43,8 +40,8 @@
         <span class="font-extrabold text-2xl tracking-wider text-white uppercase">SoloQ<span class="text-yellow-500">Challenge</span></span>
       </div>
 
-      <div class="flex items-center gap-2 bg-red-500/10 text-red-400 px-4 py-1.5 rounded-full border border-red-500/20 text-xs font-bold">
-        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> 3 DIRECTOS ACTIVOS
+      <div id="live-badge" class="flex items-center gap-2 bg-red-500/10 text-red-400 px-4 py-1.5 rounded-full border border-red-500/20 text-xs font-bold">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> <span id="live-badge-text">CARGANDO DIRECTOS...</span>
       </div>
     </div>
   </header>
@@ -120,10 +117,40 @@
 
   <script>
     lucide.createIcons();
+
+    // Badge de directos activos: cuenta streams de LoL, Valorant y CS2
+    (async () => {
+      const badge = document.getElementById('live-badge');
+      const text = document.getElementById('live-badge-text');
+      if (!badge || !text) return;
+
+      const GAME_IDS = ['21779', '516575', '32399'];
+      const GAME_NAMES = ['league of legends', 'valorant', 'counter-strike 2'];
+
+      try {
+        const res = await fetch('data/live.json?t=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const json = await res.json();
+        const streams = (json.data || []).filter(s =>
+          GAME_IDS.includes(String(s.game_id)) ||
+          GAME_NAMES.includes((s.game_name || '').toLowerCase())
+        );
+
+        if (streams.length > 0) {
+          text.textContent = `${streams.length} DIRECTOS ACTIVOS`;
+        } else {
+          badge.className = 'flex items-center gap-2 bg-slate-800/60 text-slate-400 px-4 py-1.5 rounded-full border border-slate-700 text-xs font-bold';
+          badge.querySelector('span').className = 'w-2 h-2 rounded-full bg-slate-500';
+          text.textContent = 'SIN DIRECTOS AHORA';
+        }
+      } catch (error) {
+        console.error('No se pudo cargar el estado de directos:', error);
+        badge.className = 'flex items-center gap-2 bg-slate-800/60 text-slate-400 px-4 py-1.5 rounded-full border border-slate-700 text-xs font-bold';
+        badge.querySelector('span').className = 'w-2 h-2 rounded-full bg-slate-500';
+        text.textContent = 'ESTADO NO DISPONIBLE';
+      }
+    })();
   </script>
-<body>
-<h1>Prueba aprobada</h1>
 </body>
 </html>
-</html>
-</html>
+

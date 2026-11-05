@@ -14,6 +14,10 @@
     .bg-card { background-color: #121620; }
     .bg-card-hover:hover { background-color: #1a202c; }
     .border-custom { border-color: #1e2638; }
+    .role-btn.active { background-color: #ef4444; color: #fff; font-weight: 800; }
+    .elo-btn.active { background-color: #fff; color: #000; }
+    .status-btn.active { background-color: #ef4444; color: #fff; border-color: #ef4444; }
+    .modal-tab-btn.active { background-color: #ef4444; color: #fff; border-color: #ef4444; font-weight: 800; }
   </style>
 </head>
 <body class="min-h-screen pb-12">
@@ -39,6 +43,12 @@
           </a>
         </nav>
       </div>
+
+      <div class="flex items-center gap-3 text-xs text-slate-400">
+        <span class="flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 font-bold">
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> EN DIRECTO
+        </span>
+      </div>
     </div>
   </header>
 
@@ -57,14 +67,6 @@
     </div>
 
     <!-- Resto del contenido (Reproductor de Twitch, Tablas, etc.) -->
-
-      <div class="flex items-center gap-3 text-xs text-slate-400">
-        <span class="flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 font-bold">
-          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> EN DIRECTO
-        </span>
-      </div>
-    </div>
-  </header>
 
   <div class="max-w-7xl mx-auto px-4 mt-6 space-y-8">
 
@@ -143,33 +145,35 @@
 
           <span class="h-4 w-[1px] bg-slate-700 mx-1"></span>
 
-          <button class="px-3 py-1.5 font-bold rounded-lg bg-white text-black">TODOS</button>
-          <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">HIGH ELO</button>
-          <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">LOW ELO</button>
+          <button onclick="setEloFilter('all')" id="elo-btn-all" class="elo-btn active px-3 py-1.5 font-bold rounded-lg bg-white text-black">TODOS</button>
+          <button onclick="setEloFilter('high')" id="elo-btn-high" class="elo-btn px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">HIGH ELO</button>
+          <button onclick="setEloFilter('low')" id="elo-btn-low" class="elo-btn px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">LOW ELO</button>
           
           <!-- Buscador -->
           <div class="relative ml-2">
             <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-500"></i>
-            <input type="text" placeholder="Buscar jugador" class="bg-slate-950 border border-custom rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500">
+            <input type="text" id="search-input" oninput="applyFilters()" placeholder="Buscar jugador" class="bg-slate-950 border border-custom rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500">
           </div>
 
+          <span id="player-count" class="text-slate-400 text-xs font-semibold"></span>
+
           <!-- Badges de estado -->
-          <button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
+          <button onclick="setStatusFilter('live')" id="status-btn-live" class="status-btn flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
             <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> LIVE
           </button>
-          <button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
+          <button onclick="setStatusFilter('ingame')" id="status-btn-ingame" class="status-btn flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
             <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> EN PARTIDA
           </button>
         </div>
 
         <!-- Filtros por Roles -->
         <div class="flex items-center gap-2">
-          <button class="px-3 py-1.5 font-bold rounded-lg bg-red-500 text-white">TODOS</button>
+          <button onclick="setRoleFilter('all')" id="role-btn-all" class="role-btn active px-3 py-1.5 font-bold rounded-lg bg-red-500 text-white">TODOS</button>
           <div class="flex gap-1 bg-slate-950 p-1 rounded-lg border border-custom text-slate-400">
-            <button class="p-1 hover:text-white" title="Duelista"><i data-lucide="flame" class="w-4 h-4"></i></button>
-            <button class="p-1 hover:text-white" title="Iniciador"><i data-lucide="eye" class="w-4 h-4"></i></button>
-            <button class="p-1 hover:text-white" title="Controlador"><i data-lucide="cloud" class="w-4 h-4"></i></button>
-            <button class="p-1 hover:text-white" title="Centinela"><i data-lucide="shield" class="w-4 h-4"></i></button>
+            <button onclick="setRoleFilter('duelista')" id="role-btn-duelista" class="role-btn p-1 hover:text-white" title="Duelista"><i data-lucide="flame" class="w-4 h-4"></i></button>
+            <button onclick="setRoleFilter('iniciador')" id="role-btn-iniciador" class="role-btn p-1 hover:text-white" title="Iniciador"><i data-lucide="eye" class="w-4 h-4"></i></button>
+            <button onclick="setRoleFilter('controlador')" id="role-btn-controlador" class="role-btn p-1 hover:text-white" title="Controlador"><i data-lucide="cloud" class="w-4 h-4"></i></button>
+            <button onclick="setRoleFilter('centinela')" id="role-btn-centinela" class="role-btn p-1 hover:text-white" title="Centinela"><i data-lucide="shield" class="w-4 h-4"></i></button>
           </div>
         </div>
 
@@ -199,6 +203,122 @@
     </section>
 
   </div>
+  </main>
+
+  <!-- MODAL INTERACTIVO CON ESTADÍSTICAS Y DIAGNÓSTICO -->
+  <div id="playerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div class="bg-[#121620] border border-custom rounded-2xl max-w-5xl w-full p-6 text-white relative max-h-[92vh] overflow-y-auto shadow-2xl">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold transition">&times;</button>
+
+      <!-- Cabecera del Jugador -->
+      <div class="flex items-center gap-4 mb-4 border-b border-custom pb-4">
+        <div class="bg-red-500/20 border border-red-500/50 text-red-400 p-3 rounded-xl font-black text-2xl" id="modalRank">#1</div>
+        <div class="flex-1">
+          <h2 class="text-2xl font-black text-white">
+            <span id="modalPlayerName">Nombre</span>
+            <span class="text-slate-500 text-sm font-normal" id="modalPlayerTag">#TAG</span>
+          </h2>
+          <p class="text-xs font-semibold text-red-400 mt-0.5" id="modalTier">GOLD I - 50 RR</p>
+        </div>
+      </div>
+
+      <!-- Selector de Pestañas -->
+      <div class="flex gap-2 mb-6 bg-slate-950 p-1 rounded-xl border border-custom">
+        <button onclick="switchModalTab('tab-basic')" id="btn-tab-basic" class="modal-tab-btn active flex-1 py-2 text-xs font-extrabold rounded-lg transition text-slate-400 border border-transparent flex items-center justify-center gap-2">
+          <span>📊</span> Stats & Historial
+        </button>
+        <button onclick="switchModalTab('tab-pro')" id="btn-tab-pro" class="modal-tab-btn flex-1 py-2 text-xs font-extrabold rounded-lg transition text-slate-400 border border-transparent flex items-center justify-center gap-2">
+          <span>🎯</span> Diagnóstico de Errores (Ficha Pro)
+        </button>
+      </div>
+
+      <!-- PESTAÑA 1: VISTA BÁSICA -->
+      <div id="modal-tab-basic" class="space-y-6">
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+            <span>🔥</span> Agentes Más Jugados
+          </h3>
+          <div class="grid grid-cols-3 gap-3" id="modalMasteries"></div>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+            <span>📜</span> Últimas Partidas
+          </h3>
+          <div class="space-y-2" id="modalMatches"></div>
+        </div>
+      </div>
+
+      <!-- PESTAÑA 2: VISTA PROFESIONAL -->
+      <div id="modal-tab-pro" class="hidden space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-slate-950 border border-green-500/30 rounded-xl p-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-green-400 mb-3 flex items-center gap-2">
+              <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> Puntos Fuertes
+            </h3>
+            <div id="pro-strengths-list" class="space-y-2 text-xs"></div>
+          </div>
+
+          <div class="bg-slate-950 border border-red-500/30 rounded-xl p-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-red-400 mb-3 flex items-center gap-2">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-red-400"></i> Puntos Débiles (A Mejorar)
+            </h3>
+            <div id="pro-weaknesses-list" class="space-y-2 text-xs"></div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+            <span>⚡</span> Métricas Clave de Rendimiento
+          </h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
+              <span class="text-[10px] text-slate-400 uppercase font-bold block">K/D Promedio</span>
+              <span class="text-xl font-black text-white" id="pro-csd10">0.00</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Ratio de eliminaciones</span>
+            </div>
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
+              <span class="text-[10px] text-slate-400 uppercase font-bold block">ACS Promedio</span>
+              <span class="text-xl font-black text-white" id="pro-gd10">0</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Impacto por ronda</span>
+            </div>
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
+              <span class="text-[10px] text-slate-400 uppercase font-bold block">Precisión de Cabeza</span>
+              <span class="text-xl font-black text-white" id="pro-dmg-efficiency">0%</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Headshot %</span>
+            </div>
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
+              <span class="text-[10px] text-slate-400 uppercase font-bold block">Daño por Ronda</span>
+              <span class="text-xl font-black text-white" id="pro-vision-pm">0 ADR</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Average Damage per Round</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+            <span>📊</span> Telemetría Partida a Partida
+          </h3>
+          <div class="overflow-x-auto rounded-xl border border-custom bg-slate-950">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-900/90 text-slate-400 uppercase text-[10px]">
+                <tr>
+                  <th class="p-3">Agente</th>
+                  <th class="p-3 text-center">K/D/A</th>
+                  <th class="p-3 text-center">ACS</th>
+                  <th class="p-3 text-center">Mapa</th>
+                  <th class="p-3 text-center">HS%</th>
+                  <th class="p-3 text-center">ADR</th>
+                  <th class="p-3 text-center">FB</th>
+                </tr>
+              </thead>
+              <tbody id="pro-matches-body" class="divide-y divide-custom/40"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script src="https://embed.twitch.tv/embed/v1.js"></script>
 <script src="data/valorantData.js"></script>
@@ -206,6 +326,8 @@
 
 <script>
   let currentRoleFilter = 'all';
+  let currentEloFilter = 'all';
+  let currentStatusFilter = 'all';
 
   const roleIcons = {
     duelista: 'flame',
@@ -295,18 +417,19 @@
 
         // Solo activar a los que están jugando al VALORANT
         valorantStreams.forEach(liveItem => {
+          const login = (liveItem.user_login || '').toLowerCase().trim();
+          const userName = (liveItem.user_name || '').toLowerCase().trim();
           const player = gameData.players.find(p => 
-            (p.twitch && p.twitch.toLowerCase().trim() === liveItem.user_login.toLowerCase().trim()) ||
-            (p.name && p.name.toLowerCase().trim() === liveItem.user_name.toLowerCase().trim())
+            (p.twitch && login && p.twitch.toLowerCase().trim() === login) ||
+            (p.name && userName && p.name.toLowerCase().trim() === userName)
           );
           if (player) {
             player.isLive = true;
-            player.viewers = liveItem.viewer_count;
+            player.viewers = Number(liveItem.viewer_count) || 0;
           }
         });
 
-        renderSidebar(gameData.players);
-        renderTableRows(gameData.players);
+        applyFilters();
       } else {
         renderSidebarFromLiveJson(valorantStreams);
       }
@@ -559,7 +682,10 @@
     if (tagElem) tagElem.innerText = p.tag || '';
 
     const tierElem = document.getElementById('modalTier');
-    if (tierElem) tierElem.innerText = `${p.tierName} ${p.rankTier || ''} - ${p.elo} RR (${p.wr} Winrate)`;
+    if (tierElem) {
+      const tierLabel = [p.tierName, p.rankTier].filter(Boolean).join(' ');
+      tierElem.innerText = `${tierLabel} - ${p.elo} RR (${p.wr} Winrate)`;
+    }
 
     const masteriesContainer = document.getElementById('modalMasteries');
     if (masteriesContainer) {
@@ -703,7 +829,14 @@
     const filtered = gameData.players.filter(p => {
       const matchesName = (p.name || '').toLowerCase().includes(query) || (p.tag || '').toLowerCase().includes(query);
       const matchesRole = currentRoleFilter === 'all' || (p.role || '').toLowerCase() === currentRoleFilter;
-      return matchesName && matchesRole;
+      const absoluteRR = getAbsoluteRR(p);
+      const matchesElo = currentEloFilter === 'all'
+        || (currentEloFilter === 'high' && absoluteRR >= 1800)
+        || (currentEloFilter === 'low' && absoluteRR < 1800);
+      const matchesStatus = currentStatusFilter === 'all'
+        || (currentStatusFilter === 'live' && p.isLive === true)
+        || (currentStatusFilter === 'ingame' && p.inGame === true);
+      return matchesName && matchesRole && matchesElo && matchesStatus;
     });
 
     sortAndRankPlayers(filtered);
@@ -723,16 +856,26 @@
     applyFilters();
   }
 
+  function setEloFilter(filter) {
+    currentEloFilter = filter;
+    document.querySelectorAll('.elo-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.getElementById(`elo-btn-${filter}`);
+    if (activeBtn) activeBtn.classList.add('active');
+    applyFilters();
+  }
+
+  function setStatusFilter(filter) {
+    currentStatusFilter = currentStatusFilter === filter ? 'all' : filter;
+    document.querySelectorAll('.status-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.getElementById(`status-btn-${currentStatusFilter}`);
+    if (activeBtn) activeBtn.classList.add('active');
+    applyFilters();
+  }
+
   // Carga inicial del DOM
   document.addEventListener('DOMContentLoaded', async () => {
     if (typeof gameData !== 'undefined' && gameData.players) {
-      const sorted = sortAndRankPlayers(gameData.players);
-      renderPodium(sorted);
-      renderSidebar(sorted);
-      renderTableRows(sorted);
-
-      const countElem = document.getElementById('player-count');
-      if (countElem) countElem.textContent = `${sorted.length} jugadores`;
+      applyFilters();
     }
 
     await loadLiveStatus();

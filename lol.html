@@ -180,6 +180,7 @@
     </section>
 
   </div>
+  </main>
 
   <!-- MODAL INTERACTIVO AMPLIO CON PUNTOS FUERTES Y DÉBILES -->
   <div id="playerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
@@ -190,7 +191,10 @@
       <div class="flex items-center gap-4 mb-4 border-b border-custom pb-4">
         <div class="bg-yellow-500/20 border border-yellow-500/50 text-yellow-400 p-3 rounded-xl font-black text-2xl" id="modalRank">#1</div>
         <div class="flex-1">
-          <h2 class="text-2xl font-black text-white" id="modalPlayerName">Nombre <span class="text-slate-500 text-sm font-normal" id="modalPlayerTag">#TAG</span></h2>
+          <h2 class="text-2xl font-black text-white">
+            <span id="modalPlayerName">Nombre</span>
+            <span class="text-slate-500 text-sm font-normal" id="modalPlayerTag">#TAG</span>
+          </h2>
           <p class="text-xs font-semibold text-yellow-400 mt-0.5" id="modalTier">GOLD I - 50 LP</p>
         </div>
       </div>
@@ -399,18 +403,20 @@
 
         // Activar solo a los que están en la lista filtrada de LoL
         lolStreams.forEach(liveItem => {
+          const login = (liveItem.user_login || '').toLowerCase().trim();
+          const userName = (liveItem.user_name || '').toLowerCase().trim();
           const player = gameData.players.find(p => 
-            (p.twitch && p.twitch.toLowerCase().trim() === liveItem.user_login.toLowerCase().trim()) ||
-            (p.name && p.name.toLowerCase().trim() === liveItem.user_name.toLowerCase().trim())
+            (p.twitch && login && p.twitch.toLowerCase().trim() === login) ||
+            (p.name && userName && p.name.toLowerCase().trim() === userName)
           );
           if (player) {
             player.isLive = true;
-            player.viewers = liveItem.viewer_count;
+            player.viewers = Number(liveItem.viewer_count) || 0;
           }
         });
 
         renderSidebar(gameData.players);
-        renderTableRows(gameData.players);
+        applyFilters();
       } else {
         renderSidebarFromLiveJson(lolStreams);
       }
@@ -660,13 +666,16 @@
     if (rankElem) rankElem.innerText = `#${p.rank}`;
 
     const nameElem = document.getElementById('modalPlayerName');
-    if (nameElem) nameElem.textContent = `${p.name} `;
+    if (nameElem) nameElem.textContent = p.name;
 
     const tagElem = document.getElementById('modalPlayerTag');
     if (tagElem) tagElem.innerText = p.tag || '';
 
     const tierElem = document.getElementById('modalTier');
-    if (tierElem) tierElem.innerText = `${p.tierName} ${p.rankTier} - ${p.elo} LP (${p.wr} Winrate)`;
+    if (tierElem) {
+      const tierLabel = [p.tierName, p.rankTier].filter(Boolean).join(' ');
+      tierElem.innerText = `${tierLabel} - ${p.elo} LP (${p.wr} Winrate)`;
+    }
 
     const masteriesContainer = document.getElementById('modalMasteries');
     if (masteriesContainer) {
@@ -853,16 +862,8 @@
 
   // Carga inicial del DOM
   document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Cargar lista base de jugadores
-    if (typeof gameData !== 'undefined' && gameData.players) {
-      const sorted = sortAndRankPlayers(gameData.players);
-      renderPodium(sorted);
-      renderSidebar(sorted);
-      renderTableRows(sorted);
-
-      const countElem = document.getElementById('player-count');
-      if (countElem) countElem.textContent = `${sorted.length} jugadores`;
-    }
+    // 1. Cargar lista base de jugadores (aplica filtros y contador)
+    applyFilters();
 
     // 2. Cargar estado en vivo desde live.json y actualizar estado + barra lateral
     await loadLiveStatus();

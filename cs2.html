@@ -11,6 +11,9 @@
     .bg-card { background-color: #121620; }
     .bg-card-hover:hover { background-color: #1a202c; }
     .border-custom { border-color: #1e2638; }
+    .elo-btn.active { background-color: #fff; color: #000; }
+    .status-btn.active { background-color: #f97316; color: #fff; border-color: #f97316; }
+    .platform-btn.active { background-color: #f97316; color: #fff; }
   </style>
 </head>
 <body class="min-h-screen pb-12">
@@ -113,21 +116,23 @@
         
         <!-- Filtros principales -->
         <div class="flex items-center gap-2">
-          <button class="px-3 py-1.5 font-bold rounded-lg bg-white text-black">TODOS</button>
-          <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">HIGH ELO</button>
-          <button class="px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">LOW ELO</button>
+          <button onclick="setEloFilter('all')" id="elo-btn-all" class="elo-btn active px-3 py-1.5 font-bold rounded-lg bg-white text-black">TODOS</button>
+          <button onclick="setEloFilter('high')" id="elo-btn-high" class="elo-btn px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">HIGH ELO</button>
+          <button onclick="setEloFilter('low')" id="elo-btn-low" class="elo-btn px-3 py-1.5 font-bold rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">LOW ELO</button>
           
           <!-- Buscador -->
           <div class="relative ml-2">
             <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-500"></i>
-            <input type="text" placeholder="Buscar jugador" class="bg-slate-950 border border-custom rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500">
+            <input type="text" id="search-input" oninput="applyFilters()" placeholder="Buscar jugador" class="bg-slate-950 border border-custom rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500">
           </div>
 
+          <span id="player-count" class="text-slate-400 text-xs font-semibold"></span>
+
           <!-- Badges de estado -->
-          <button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
+          <button onclick="setStatusFilter('live')" id="status-btn-live" class="status-btn flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
             <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> LIVE
           </button>
-          <button class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
+          <button onclick="setStatusFilter('ingame')" id="status-btn-ingame" class="status-btn flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
             <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> EN PARTIDA
           </button>
         </div>
@@ -135,8 +140,9 @@
         <!-- Filtro de plataforma (Premier / FACEIT) -->
         <div class="flex items-center gap-2">
           <div class="flex gap-1 bg-slate-950 p-1 rounded-lg border border-custom text-slate-400">
-            <button class="px-2.5 py-1 font-bold text-[11px] rounded bg-orange-500 text-white">PREMIER</button>
-            <button class="px-2.5 py-1 font-bold text-[11px] rounded hover:text-white transition">FACEIT</button>
+            <button onclick="setPlatformFilter('all')" id="platform-btn-all" class="platform-btn active px-2.5 py-1 font-bold text-[11px] rounded bg-orange-500 text-white">TODAS</button>
+            <button onclick="setPlatformFilter('PREMIER')" id="platform-btn-premier" class="platform-btn px-2.5 py-1 font-bold text-[11px] rounded hover:text-white transition">PREMIER</button>
+            <button onclick="setPlatformFilter('FACEIT')" id="platform-btn-faceit" class="platform-btn px-2.5 py-1 font-bold text-[11px] rounded hover:text-white transition">FACEIT</button>
           </div>
         </div>
 
@@ -168,30 +174,49 @@
   </div>
 
   <script src="https://embed.twitch.tv/embed/v1.js"></script>
+  <script src="data/cs2Data.js"></script>
   <script src="data/cs2.js"></script>
 
   <script>
-    function setStream(username) {
+    let currentEloFilter = 'all';
+    let currentStatusFilter = 'all';
+    let currentPlatformFilter = 'all';
+
+    function setStream(username, displayName) {
       const parentDomain = window.location.hostname || "localhost";
       document.getElementById("twitch-embed").innerHTML = `
         <iframe 
-          src="https://player.twitch.tv/?channel=${username}&parent=${parentDomain}&autoplay=true" 
+          src="https://player.twitch.tv/?channel=${username}&parent=${parentDomain}&autoplay=true&muted=true" 
           height="100%" 
           width="100%" 
-          allowfullscreen="true">
+          allowfullscreen="true"
+          allow="autoplay; fullscreen">
         </iframe>
       `;
       const nameElem = document.getElementById("streamer-current-name");
-      if (nameElem) nameElem.textContent = username;
+      if (nameElem) nameElem.textContent = displayName || username;
     }
 
-    function renderUI(data) {
-      if (document.getElementById("leaderboard-body") && data.players) {
-        document.getElementById("leaderboard-body").innerHTML = data.players.map(p => {
-          const isPositive = p.gain >= 0;
-          const strokeColor = isPositive ? "#22c55e" : "#ef4444";
+    function renderTable(players) {
+      const tbody = document.getElementById("leaderboard-body");
+      if (!tbody) return;
 
-          return `
+      if (!players || players.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" class="py-8 text-center text-slate-500 font-bold">
+              No se encontraron jugadores.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = players.map(p => {
+        const isPositive = (p.gain || 0) >= 0;
+        const strokeColor = isPositive ? "#22c55e" : "#ef4444";
+
+        return `
             <tr class="bg-[#121620]/60 hover:bg-[#1a202c] transition group border-l-4 ${p.rank <= 3 ? 'border-l-orange-500' : 'border-l-transparent'}">
               
               <!-- Posición -->
@@ -217,7 +242,9 @@
                     <div class="flex items-center gap-1.5">
                       <span class="text-slate-200 hover:text-orange-400 transition cursor-pointer">${p.name}</span>
                       <span class="bg-purple-900/60 text-purple-300 text-[9px] px-1 rounded border border-purple-500/30">Twitch</span>
-                      <span class="bg-lime-500/20 text-lime-400 text-[9px] font-black px-1.5 py-0.2 rounded border border-lime-500/40">LIVE</span>
+                      ${p.isLive
+                        ? `<span class="bg-lime-500/20 text-lime-400 text-[9px] font-black px-1.5 py-0.2 rounded border border-lime-500/40">LIVE</span>`
+                        : `<span class="text-[9px] text-slate-500 font-medium uppercase">OFFLINE</span>`}
                     </div>
                     <div class="text-[10px] font-normal text-slate-500">${p.tag}</div>
                   </div>
@@ -253,7 +280,7 @@
               <!-- Racha -->
               <td class="py-3 px-4 text-center">
                 <svg class="w-16 h-5 mx-auto overflow-visible" viewBox="0 0 75 30">
-                  <path d="${p.spark}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
+                  <path d="${p.spark || 'M 0 15 L 75 15'}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
                 </svg>
               </td>
 
@@ -272,24 +299,124 @@
 
               <!-- Stats (CSSTATS / HLTV) -->
               <td class="py-3 px-4 text-center">
-                <a href="#" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-orange-500 hover:bg-orange-400 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
+                <a href="${p.statsUrl || 'https://csstats.gg/'}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-orange-500 hover:bg-orange-400 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
                   CSSTATS
                 </a>
               </td>
 
             </tr>
           `;
-        }).join('');
-      }
+      }).join('');
 
       if (window.lucide) {
         lucide.createIcons();
       }
     }
 
+    function renderPodium(players) {
+      const container = document.getElementById('podium-container');
+      if (!container) return;
+
+      const top3 = (players || []).slice(0, 3);
+      if (top3.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = top3.map((p, index) => {
+        const medal = index === 0 ? '👑' : index === 1 ? '🥈' : '🥉';
+        const borderColor = index === 0 ? 'border-orange-500/50' : index === 1 ? 'border-slate-400/50' : 'border-amber-600/50';
+
+        return `
+          <div class="bg-card border ${borderColor} p-4 rounded-2xl flex items-center justify-between shadow-lg">
+            <div class="flex items-center gap-3">
+              <div class="text-2xl">${medal}</div>
+              <div>
+                <div class="font-extrabold text-white text-base flex items-center gap-1.5">
+                  ${p.name}
+                  <span class="text-slate-500 text-xs font-normal">${p.tag || ''}</span>
+                </div>
+                <div class="text-xs text-orange-400 font-bold mt-0.5">${p.elo || 0} pts · ${p.platform || 'PREMIER'}</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs font-black text-green-400">${p.wr || '0%'} WR</div>
+              <div class="text-[10px] text-slate-400">${p.win || 0}V / ${p.loss || 0}D</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function applyFilters() {
+      if (typeof gameData === 'undefined' || !gameData.players) return;
+
+      const searchElem = document.getElementById('search-input');
+      const query = searchElem ? searchElem.value.toLowerCase().trim() : '';
+
+      const filtered = gameData.players.filter(p => {
+        const matchesSearch = !query
+          || (p.name || '').toLowerCase().includes(query)
+          || (p.tag || '').toLowerCase().includes(query);
+        const elo = Number(p.elo) || 0;
+        const matchesElo = currentEloFilter === 'all'
+          || (currentEloFilter === 'high' && elo >= 18000)
+          || (currentEloFilter === 'low' && elo < 18000);
+        const matchesStatus = currentStatusFilter === 'all'
+          || (currentStatusFilter === 'live' && p.isLive === true)
+          || (currentStatusFilter === 'ingame' && p.inGame === true);
+        const matchesPlatform = currentPlatformFilter === 'all'
+          || (p.platform || '').toUpperCase() === currentPlatformFilter;
+        return matchesSearch && matchesElo && matchesStatus && matchesPlatform;
+      });
+
+      filtered.sort((a, b) => (a.rank || 0) - (b.rank || 0));
+      filtered.forEach((p, index) => { p.rank = index + 1; });
+
+      renderPodium(filtered);
+      renderTable(filtered);
+
+      const countElem = document.getElementById('player-count');
+      if (countElem) countElem.textContent = `${filtered.length} jugadores`;
+    }
+
+    function setEloFilter(filter) {
+      currentEloFilter = filter;
+      document.querySelectorAll('.elo-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`elo-btn-${filter}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      applyFilters();
+    }
+
+    function setStatusFilter(filter) {
+      currentStatusFilter = currentStatusFilter === filter ? 'all' : filter;
+      document.querySelectorAll('.status-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`status-btn-${currentStatusFilter}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      applyFilters();
+    }
+
+    function setPlatformFilter(platform) {
+      currentPlatformFilter = platform;
+      document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`platform-btn-${platform.toLowerCase()}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      applyFilters();
+    }
+
+    function renderUI(data) {
+      if (data && data.players) {
+        gameData.players = data.players;
+      }
+      applyFilters();
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
-      if (typeof gameData !== 'undefined') { 
-        renderUI(gameData); 
+      if (typeof gameData !== 'undefined') {
+        renderUI(gameData);
       }
       if (window.lucide) {
         lucide.createIcons();

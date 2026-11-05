@@ -18,14 +18,14 @@ const valorantEquiposData = {
       seekingRoles: ["Controlador", "Flex"],
       division: "División 5 - Premier",
       members: [
-        { name: "Sendo", tag: "#ESP", role: "Iniciador", twitch: "send0o" }
+        { name: "SerXa08", tag: "#1197", role: "duelista", twitch: "s3rxa8" }
       ]
     }
   ],
   lftPlayers: [
     {
       name: "SerXa08",
-      tag: "#ESP",
+      tag: "#1197",
       // Sincroniza automáticamente con valorantData.js si existe
       get rank() { return getPlayerRankVal(this.name, "Inmortal 2"); },
       primaryRole: "Duelista",
@@ -33,7 +33,7 @@ const valorantEquiposData = {
       status: "BUSCANDO",
       notes: "Busco equipo serio para Premier Div 4-5.",
       twitter: "https://twitter.com/",
-      twitch: "serxa08"
+      twitch: "s3rxa8"
     }
   ]
 };

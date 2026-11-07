@@ -36,7 +36,6 @@ jobs:
             echo "::error::Falta el secret RIOT_API_KEY"
             exit 1
           fi
-
       - name: Ejecutar script de actualización
         env:
           RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}

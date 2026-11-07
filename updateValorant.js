@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
-// Clave de la API de HenrikDev (se inyecta como secret en GitHub Actions)
+// Clave de la API de HenrikDev (nunca debe ir en el código ni en el frontend)
 const HENRIK_KEY = process.env.VALORANT_API_KEY_HENRY;
 
 if (!HENRIK_KEY) {
-  console.error('❌ Falta la variable de entorno VALORANT_API_KEY_HENRY');
-  console.error('   En local: $env:VALORANT_API_KEY_HENRY = "HDEV-..."');
+  console.error('❌ Falta la variable de entorno VALORANT_API_KEY_HENRY.');
+  console.error('   Local:  $env:VALORANT_API_KEY_HENRY = "HDEV-..."');
+  console.error('   GitHub: Settings > Secrets and variables > Actions');
   process.exit(1);
 }
 
@@ -36,46 +37,6 @@ const TIER_BASE_RR = {
 };
 
 const DIVISION_RR = { '1': 0, '2': 100, '3': 200 };
-
-/**
- * Llama a la API de HenrikDev añadiendo la key y reintentando si hay rate limit.
- */
-async function fetchHenrik(url, intentos = 3) {
-  for (let i = 1; i <= intentos; i++) {
-    const response = await fetch(url, {
-      headers: { Authorization: HENRIK_KEY }
-    });
-
-    if (response.status === 429 && i < intentos) {
-      const espera = Number(response.headers.get('retry-after')) || 5;
-      console.warn(`⏳ Rate limit (429). Reintentando en ${espera}s...`);
-      await new Promise(r => setTimeout(r, espera * 1000));
-      continue;
-    }
-
-    if (response.status === 401) throw new Error('401: key inválida o ausente');
-    if (response.status === 403) throw new Error('403: key sin permisos');
-    if (response.status === 404) throw new Error('404: Riot ID o región incorrectos');
-    if (response.status === 429) throw new Error('429: límite de peticiones alcanzado');
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-    return response;
-  }
-}
-
-/**
- * Lee el último valorantData.js generado para no perder datos buenos
- * cuando la API falla para un jugador concreto.
- */
-function cargarDatosPrevios() {
-  try {
-    const raw = fs.readFileSync('./data/valorantData.js', 'utf8');
-    const json = raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1);
-    return JSON.parse(json).players || [];
-  } catch {
-    return [];
-  }
-}
 
 // Cargar y parsear el archivo live.json generado por la GitHub Action
 function getLiveTwitchStreams() {
@@ -118,14 +79,25 @@ async function getValorantData(player, liveStreams) {
   // Verificamos el estado en vivo desde el archivo oficial data/live.json
   const isLive = isStreamingValorant(player.twitch, liveStreams);
 
-  // Región de la plataforma: eu, na, latam, br, ap, kr
-  const region = (player.region || 'eu').toLowerCase();
-
   try {
-    const response = await fetchHenrik(
-      `https://api.henrikdev.xyz/valorant/v2/mmr/${region}/${encodeURIComponent(player.riotName)}/${encodeURIComponent(player.tag)}`
+    const response = await fetch(
+      `https://api.henrikdev.xyz/valorant/v2/mmr/eu/${encodeURIComponent(player.riotName)}/${encodeURIComponent(player.tag)}`,
+      { headers: { Authorization: HENRIK_KEY } }
     );
 
+    if (response.status === 401) {
+      throw new Error('401: key inválida, ausente o caducada');
+    }
+    if (response.status === 404) {
+      throw new Error(`404: Riot ID o región incorrectos (${player.riotName}#${player.tag})`);
+    }
+    if (response.status === 429) {
+      throw new Error('429: límite de peticiones alcanzado');
+    }
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+    
     const res = await response.json();
     const currentData = res.data?.current_data || {};
 
@@ -185,6 +157,18 @@ async function getValorantData(player, liveStreams) {
   }
 }
 
+// Lee el valorantData.js anterior para poder conservar datos si la API falla
+function loadPreviousData() {
+  try {
+    const raw = fs.readFileSync(path.join('./data', 'valorantData.js'), 'utf8');
+    const json = raw.replace(/^\s*const\s+gameData\s*=\s*/, '').replace(/;\s*$/, '');
+    return JSON.parse(json);
+  } catch (err) {
+    console.warn('⚠️ No se pudo leer el valorantData.js anterior:', err.message);
+    return null;
+  }
+}
+
 async function updateAll() {
   const liveStreams = getLiveTwitchStreams();
   const results = [];
@@ -195,38 +179,47 @@ async function updateAll() {
     await new Promise(r => setTimeout(r, 1200));
   }
 
-  // Si un jugador falla, se conserva su último dato bueno en lugar de ponerlo a cero
-  const previos = cargarDatosPrevios();
-  const mapaPrevios = new Map(previos.map(p => [p.name.toLowerCase(), p]));
+  // Si un jugador falló, conservamos sus datos anteriores en lugar de escribir "Sin datos"
+  const previous = loadPreviousData();
+  const previousByName = new Map(
+    ((previous && previous.players) || []).map(p => [p.name.toLowerCase(), p])
+  );
 
-  const finales = results.map(r => {
-    if (r.tierName && r.tierName !== 'Sin datos') return r;
-
-    const previo = mapaPrevios.get(r.name.toLowerCase());
-    if (previo && previo.tierName && previo.tierName !== 'Sin datos') {
-      console.warn(`⚠️ ${r.name} sin datos: se conserva el último dato bueno.`);
-      return { ...previo, isLive: r.isLive };
+  for (const p of results) {
+    if (!p.tierName || p.tierName === 'Sin datos') {
+      const prev = previousByName.get(p.name.toLowerCase());
+      if (prev && prev.tierName && prev.tierName !== 'Sin datos') {
+        console.log(`🔄 Conservando datos anteriores de ${p.name}`);
+        Object.assign(p, prev, {
+          isLive: p.isLive,
+          twitch: p.twitch,
+          role: p.role
+        });
+      }
     }
+  }
 
-    return r;
-  });
+  const conDatos = results.filter(r => r.tierName && r.tierName !== 'Sin datos');
 
-  const conDatos = finales.filter(r => r.tierName && r.tierName !== 'Sin datos');
-
+  // Si nadie devolvió datos, no machacamos el archivo que ya funcionaba
   if (conDatos.length === 0) {
     console.error('❌ Ningún jugador devolvió datos. No se sobrescribe data/valorantData.js');
     process.exit(1);
   }
 
+  if (conDatos.length < results.length) {
+    console.warn(`⚠️ ${results.length - conDatos.length} jugador(es) siguen sin datos.`);
+  }
+
   // Ordenar por el RR absoluto acumulado
-  finales.sort((a, b) => b.absoluteRR - a.absoluteRR);
-  finales.forEach((p, index) => {
+  results.sort((a, b) => b.absoluteRR - a.absoluteRR);
+  results.forEach((p, index) => {
     p.rank = index + 1;
   });
 
   const outputData = {
     updatedAt: new Date().toISOString(),
-    players: finales
+    players: results
   };
 
   fs.mkdirSync('./data', { recursive: true });

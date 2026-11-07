@@ -36,7 +36,6 @@ jobs:
             echo "::error::Falta el secret VALORANT_API_KEY_HENRY"
             exit 1
           fi
-
       - name: Ejecutar Script de Valorant
         env:
           VALORANT_API_KEY_HENRY: ${{ secrets.VALORANT_API_KEY_HENRY }}

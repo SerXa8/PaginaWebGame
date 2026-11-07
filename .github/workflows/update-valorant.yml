@@ -2,21 +2,44 @@ name: Actualizar Ranking Valorant
 
 on:
   schedule:
-    - cron: '*/10 * * * *' # Se ejecuta cada 10 minutos
+    - cron: '*/30 * * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-updates
+  cancel-in-progress: false
 
 jobs:
   update-valorant:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: '22'
+
+      - name: Comprobar VALORANT_API_KEY_HENRY
+        env:
+          VALORANT_API_KEY_HENRY: ${{ secrets.VALORANT_API_KEY_HENRY }}
+        run: |
+          if [ -z "$VALORANT_API_KEY_HENRY" ]; then
+            echo "::error::Falta el secret VALORANT_API_KEY_HENRY"
+            exit 1
+          fi
 
       - name: Ejecutar Script de Valorant
+        env:
+          VALORANT_API_KEY_HENRY: ${{ secrets.VALORANT_API_KEY_HENRY }}
         run: node updateValorant.js
 
       - name: Guardar cambios
@@ -24,5 +47,10 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add data/valorantData.js
-          git commit -m "Auto-update Valorant leaderboard" || exit 0
+          if git diff --staged --quiet; then
+            echo "Sin cambios"
+            exit 0
+          fi
+          git commit -m "chore: actualizar ranking de Valorant"
+          git pull --rebase --autostash
           git push

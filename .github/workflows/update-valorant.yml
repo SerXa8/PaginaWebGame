@@ -53,4 +53,8 @@ jobs:
           fi
           git commit -m "chore: actualizar ranking de Valorant"
           git pull --rebase --autostash
+<<<<<<< HEAD
           git push
+=======
+          git push
+>>>>>>> 68cc3bb3ce14b8d7c89b74670a04c4f28250ac52

@@ -199,7 +199,11 @@ const gameData = {
         }
       ],
       "rank": 1,
+<<<<<<< HEAD
       "timestamp": 1794081759668,
+=======
+      "timestamp": 1794081813658,
+>>>>>>> d6319b79f3168f5dde2a7b208bca0b5603015c77
       "isLive": true
     },
     {
@@ -401,7 +405,11 @@ const gameData = {
         }
       ],
       "rank": 2,
+<<<<<<< HEAD
       "timestamp": 1794081759668,
+=======
+      "timestamp": 1794081813658,
+>>>>>>> d6319b79f3168f5dde2a7b208bca0b5603015c77
       "isLive": true
     },
     {
@@ -603,7 +611,11 @@ const gameData = {
         }
       ],
       "rank": 3,
+<<<<<<< HEAD
       "timestamp": 1794081759668,
+=======
+      "timestamp": 1794081813658,
+>>>>>>> d6319b79f3168f5dde2a7b208bca0b5603015c77
       "isLive": false
     },
     {
@@ -805,7 +817,11 @@ const gameData = {
         }
       ],
       "rank": 4,
+<<<<<<< HEAD
       "timestamp": 1794081759668,
+=======
+      "timestamp": 1794081813658,
+>>>>>>> d6319b79f3168f5dde2a7b208bca0b5603015c77
       "isLive": false
     },
     {
@@ -1007,9 +1023,17 @@ const gameData = {
         }
       ],
       "rank": 5,
+<<<<<<< HEAD
       "timestamp": 1794081759668,
       "isLive": false
     }
   ],
   "lastUpdated": "2026-11-07T20:03:33.659Z"
+=======
+      "timestamp": 1794081813658,
+      "isLive": false
+    }
+  ],
+  "lastUpdated": "2026-11-07T20:48:47.894Z"
+>>>>>>> d6319b79f3168f5dde2a7b208bca0b5603015c77
 };

@@ -36,7 +36,7 @@ Dado que el proyecto utiliza archivos independientes autocontenidos con CSS y JS
   - Background General: `#0B0F19` a `#010A13` (Oscuro profundo).
   - Cards / Contenedores: `#111827` con bordes finos oscuros (`#1F2937`).
   - Acentos & Destacados: Dorado clásico de LoL (`#C89B3C`) para ligas, trofeos y botones (`OP.GG`).
-- **Componentes Clave:** Podio superior para el Top 3 y tabla con métricas específicas: **ELO / LP (Master, Emerald, Bronze)**, **V / D**, **Racha**, **±LP (Media)**, columnas de **Aegis** y **Shells**, y enlace a **OP.GG**.
+- **Componentes Clave:** Podio superior para el Top 3 y tabla con métricas específicas: **ELO / LP (Master, Emerald, Bronze)**, **V / D**, **Racha**, **±LP (Media)** y enlace a **OP.GG**.
 
 ### C. Valorant View (`valorant.html`)
 - **Temática:** Táctica, industrial, futurista y agresiva (HUD / Radiante).

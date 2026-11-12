@@ -3,13 +3,17 @@ const path = require('path');
 
 const API_KEY = process.env.RIOT_API_KEY;
 
-// ⚠️ Asegúrate de que el riotName y tag de JavierLoL sean los actuales en el juego
+// Número de partidas para las que se descarga el timeline (CSD@10 / GD@10).
+// Con dev key conviene bajarlo (p. ej. LOL_TIMELINE_MATCHES=5) por rate limit.
+const TIMELINE_MATCH_LIMIT = Math.max(0, Math.min(10, Number(process.env.LOL_TIMELINE_MATCHES) || 10));
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+// Riot ID y tag deben coincidir con la cuenta actual en el juego.
 const STREAMERS = [
-  { name: "JavierLoL", riotName: "eMonkeyz Run", tag: "514", role: "mid", twitch: "javierrlol" },
   { name: "SerXa08", riotName: "SerXa08", tag: "1197", role: "top", twitch: "s3rxa8" },
   { name: "mamielizabeth", riotName: "mamielizabeth", tag: "fdm", role: "mid", twitch: "" },
-  { name: "Maiiser", riotName: "Jabon de Hamster", tag: "WIWI", role: "top", twitch: "maiiser" },
-  { name: "Send0o", riotName: "Madres Enjoyer", tag: "MILK", role: "top", twitch: "send0o" }
+  { name: "Send0o", riotName: "Madres Enjoyer", tag: "MILK", role: "top", twitch: "send0o" },
+  { name: "AkariNeko", riotName: "AkariNeko", tag: "1935", role: "support", twitch: "" }
 ];
 
 const STATE_FILE = path.join('./data', 'lolState.json');
@@ -155,17 +159,76 @@ async function getTopMasteries(puuid) {
   }
 }
 
+/**
+ * fetch con reintentos para 429 (rate limit) y errores 5xx de Riot.
+ */
+async function riotFetch(url, { retries = 3, baseDelay = 1500 } = {}) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const res = await fetch(url);
+    if (res.status === 429) {
+      const retryAfter = Number(res.headers.get('retry-after')) || 2;
+      console.warn(`⏳ Rate limit (429). Reintentando en ${retryAfter + 1}s...`);
+      await sleep((retryAfter + 1) * 1000);
+      continue;
+    }
+    if (res.status >= 500 && attempt < retries) {
+      await sleep(baseDelay * (attempt + 1));
+      continue;
+    }
+    return res;
+  }
+  throw new Error('Rate limit persistente tras varios reintentos');
+}
+
+/**
+ * Extrae CSD@10 y GD@10 comparando al jugador con su rival de línea.
+ */
+async function getTimelineStats(matchId, playerId, opponentId) {
+  try {
+    const res = await riotFetch(`https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}/timeline?api_key=${API_KEY}`);
+    if (!res.ok) return { csd10: null, gd10: null };
+
+    const timeline = await res.json();
+    const frames = timeline.info?.frames || [];
+
+    // El frame 10 equivale al minuto 10 (timestamp 600000).
+    if (frames.length <= 10) return { csd10: null, gd10: null };
+
+    const frame = frames[10];
+    const playerFrame = frame.participantFrames?.[String(playerId)];
+    const opponentFrame = opponentId != null
+      ? frame.participantFrames?.[String(opponentId)]
+      : null;
+
+    if (!playerFrame) return { csd10: null, gd10: null };
+
+    const playerCs = (playerFrame.minionsKilled || 0) + (playerFrame.jungleMinionsKilled || 0);
+    const opponentCs = opponentFrame
+      ? (opponentFrame.minionsKilled || 0) + (opponentFrame.jungleMinionsKilled || 0)
+      : null;
+
+    return {
+      csd10: opponentFrame ? playerCs - opponentCs : null,
+      gd10: opponentFrame ? (playerFrame.totalGold || 0) - (opponentFrame.totalGold || 0) : null
+    };
+  } catch (err) {
+    console.warn(`⚠️ No se pudo leer el timeline de ${matchId}: ${err.message}`);
+    return { csd10: null, gd10: null };
+  }
+}
+
 async function getDetailedMatches(puuid) {
   try {
-    const matchesUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=0&count=10&api_key=${API_KEY}`;
-    const res = await fetch(matchesUrl);
+    // queue=420 = Ranked Solo/Duo (evita mezclar Flex con SoloQ)
+    const matchesUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=420&start=0&count=10&api_key=${API_KEY}`;
+    const res = await riotFetch(matchesUrl);
     if (!res.ok) return [];
     const matchIds = await res.json();
 
     const matches = [];
     for (const matchId of matchIds) {
       const detailUrl = `https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`;
-      const detailRes = await fetch(detailUrl);
+      const detailRes = await riotFetch(detailUrl);
       if (detailRes.ok) {
         const detail = await detailRes.json();
         const p = detail.info?.participants?.find(part => part.puuid === puuid);
@@ -180,16 +243,40 @@ async function getDetailedMatches(puuid) {
           const kp = teamKills > 0 ? (((p.kills + p.assists) / teamKills) * 100).toFixed(1) : "0.0";
           const dmgShare = teamDamage > 0 ? ((p.totalDamageDealtToChampions / teamDamage) * 100).toFixed(1) : "0.0";
           const goldShare = teamGold > 0 ? ((p.goldEarned / teamGold) * 100).toFixed(1) : "0.0";
+          const visionPerMin = Number(((p.visionScore || 0) / durationMin).toFixed(2));
+
+          // Rival de línea: mismo teamPosition en el equipo contrario.
+          const laneOpponent = detail.info.participants.find(part =>
+            part.teamId !== p.teamId &&
+            p.teamPosition && part.teamPosition === p.teamPosition
+          );
+
+          let csd10 = null;
+          let gd10 = null;
+          if (matches.length < TIMELINE_MATCH_LIMIT) {
+            const timelineStats = await getTimelineStats(
+              matchId,
+              p.participantId,
+              laneOpponent?.participantId
+            );
+            csd10 = timelineStats.csd10;
+            gd10 = timelineStats.gd10;
+          }
 
           matches.push({
             win: p.win,
             championName: p.championName || "Desconocido",
+            laneOpponent: laneOpponent?.championName || null,
             kills: p.kills,
             deaths: p.deaths,
             assists: p.assists,
             kdaRatio: p.deaths === 0 ? (p.kills + p.assists).toFixed(2) : ((p.kills + p.assists) / p.deaths).toFixed(2),
             cs: totalCs,
             cspm: (totalCs / durationMin).toFixed(1),
+            csd10,
+            gd10,
+            visionScore: p.visionScore || 0,
+            visionPerMin,
             dpm: Math.round(p.totalDamageDealtToChampions / durationMin),
             killParticipation: `${kp}%`,
             damageShare: `${dmgShare}%`,
@@ -198,11 +285,12 @@ async function getDetailedMatches(puuid) {
           });
         }
       }
-      // Aumentado a 1.2 segundos por consulta para evitar Rate Limit (429)
-      await new Promise(r => setTimeout(r, 1200));
+      // 1.2s entre partidas para respetar el rate limit (detalle + timeline)
+      await sleep(1200);
     }
     return matches.reverse();
   } catch (e) {
+    console.error(`⚠️ Error al leer partidas: ${e.message}`);
     return [];
   }
 }
@@ -210,15 +298,43 @@ async function getDetailedMatches(puuid) {
 function calculatePlayerPerformance(matches) {
   if (!matches || matches.length === 0) return null;
   const total = matches.length;
-  const avgDpm = Math.round(matches.reduce((acc, m) => acc + m.dpm, 0) / total);
-  const avgCspm = (matches.reduce((acc, m) => acc + parseFloat(m.cspm), 0) / total).toFixed(1);
-  const avgKp = (matches.reduce((acc, m) => acc + parseFloat(m.killParticipation), 0) / total).toFixed(1);
+
+  const avgOf = (list, getter) => list.length
+    ? list.reduce((acc, item) => acc + getter(item), 0) / list.length
+    : null;
+
+  const withCsd = matches.filter(m => typeof m.csd10 === 'number');
+  const withGd = matches.filter(m => typeof m.gd10 === 'number');
+
+  const avgDpm = Math.round(avgOf(matches, m => m.dpm) || 0);
+  const avgCspm = (avgOf(matches, m => parseFloat(m.cspm)) || 0).toFixed(1);
+  const avgKp = (avgOf(matches, m => parseFloat(m.killParticipation)) || 0).toFixed(1);
   const kills = matches.reduce((acc, m) => acc + m.kills, 0);
   const deaths = matches.reduce((acc, m) => acc + m.deaths, 0);
   const assists = matches.reduce((acc, m) => acc + m.assists, 0);
   const avgKda = deaths === 0 ? (kills + assists).toFixed(2) : ((kills + assists) / deaths).toFixed(2);
 
-  return { avgDpm, avgCspm, avgKp: `${avgKp}%`, avgKda, totalAnalyzedGames: total };
+  const avgCsd10 = avgOf(withCsd, m => m.csd10);
+  const avgGd10 = avgOf(withGd, m => m.gd10);
+  const avgVisionPerMin = avgOf(matches, m => m.visionPerMin);
+  const avgGoldShare = avgOf(matches, m => parseFloat(m.goldShare));
+  const avgDamageShare = avgOf(matches, m => parseFloat(m.damageShare));
+  const avgDeaths = avgOf(matches, m => m.deaths);
+
+  return {
+    avgDpm,
+    avgCspm,
+    avgKp: `${avgKp}%`,
+    avgKda,
+    avgCsd10: avgCsd10 === null ? null : Number(avgCsd10.toFixed(1)),
+    avgGd10: avgGd10 === null ? null : Math.round(avgGd10),
+    avgVisionPerMin: avgVisionPerMin === null ? null : Number(avgVisionPerMin.toFixed(2)),
+    avgGoldShare: avgGoldShare === null ? null : Number(avgGoldShare.toFixed(1)),
+    avgDamageShare: avgDamageShare === null ? null : Number(avgDamageShare.toFixed(1)),
+    avgDeaths: avgDeaths === null ? null : Number(avgDeaths.toFixed(1)),
+    csdSample: withCsd.length,
+    totalAnalyzedGames: total
+  };
 }
 
 async function getPlayerData(player, previousState) {
@@ -294,6 +410,7 @@ async function getPlayerData(player, previousState) {
     return {
       puuid: accountData.puuid,
       name: player.name,
+      riotName: player.riotName,
       tag: `#${player.tag}`,
       role: player.role,
       isLive: isLive, // <-- Campo que indica si está streameando LoL
@@ -326,6 +443,8 @@ async function getPlayerData(player, previousState) {
       console.log(`🔄 Usando datos guardados en caché para ${player.name}`);
       return {
         ...previousState[player.name],
+        riotName: player.riotName,
+        tag: `#${player.tag}`,
         isLive: isLive // Mantiene el estado de Twitch fresco incluso usando caché de Riot
       };
     }

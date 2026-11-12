@@ -1,5 +1,6 @@
 const gameData = {
   "updatedAt": "2026-11-05T00:00:00.000Z",
+  "demo": true,
   "players": [
     {
       "name": "Nitro",

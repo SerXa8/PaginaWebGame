@@ -5,6 +5,12 @@
     const contenedor = document.getElementById("twitch-embed");
     const listaStreamers = document.getElementById("streamers-list");
     const totalViewersElem = document.getElementById("total-viewers");
+
+    // El aviso de demo se oculta automáticamente cuando existan datos reales
+    const demoBanner = document.getElementById("demo-banner");
+    if (demoBanner && typeof gameData !== 'undefined' && gameData.demo === false) {
+      demoBanner.classList.add("hidden");
+    }
     
     if (!contenedor) return;
 

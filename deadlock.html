@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
+  <title>SoloQ Challenge - Deadlock (Demo)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --accent: #d4a24c;
+      --accent-strong: #f0c674;
+      --accent-soft: rgba(212, 162, 76, 0.12);
+      --accent-border: rgba(212, 162, 76, 0.38);
+      --violet: #8b5cf6;
+    }
+    body { background-color: #0b0d12; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
+    .bg-card { background-color: #121620; }
+    .bg-card-hover:hover { background-color: #1a202c; }
+    .border-custom { border-color: #1e2638; }
+    .text-accent { color: var(--accent); }
+    .bg-accent { background-color: var(--accent); }
+    .bg-accent-soft { background-color: var(--accent-soft); }
+    .border-accent { border-color: var(--accent-border); }
+    .elo-btn.active { background-color: var(--accent); color: #161006; }
+    .status-btn.active { background-color: var(--accent); color: #161006; border-color: var(--accent); }
+    .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #0b0d12; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e2638; border-radius: 4px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-12">
+
+  <header class="border-b border-custom bg-[#080a0e] sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 xl:gap-6 min-w-0">
+        <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition shrink-0">
+          <div class="w-8 h-8 rounded-lg bg-accent-soft border border-accent flex items-center justify-center font-black text-accent">SQ</div>
+          <span class="hidden sm:inline font-extrabold text-xl tracking-wider text-white uppercase">SoloQ<span class="text-accent">Challenge</span></span>
+        </a>
+
+        <nav class="flex gap-1 bg-slate-900/80 p-1 rounded-lg border border-custom overflow-x-auto custom-scrollbar max-w-[62vw] lg:max-w-none" aria-label="Juegos">
+          <a href="lol.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap">
+            <i data-lucide="swords" class="w-4 h-4"></i><span class="hidden xl:inline">League of Legends</span>
+          </a>
+          <a href="valorant.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap">
+            <i data-lucide="crosshair" class="w-4 h-4"></i><span class="hidden xl:inline">Valorant</span>
+          </a>
+          <a href="cs2.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap">
+            <i data-lucide="target" class="w-4 h-4"></i><span class="hidden xl:inline">CS2</span>
+          </a>
+          <a href="deadlock.html" aria-current="page" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-accent-soft text-accent border border-accent whitespace-nowrap">
+            <i data-lucide="flame" class="w-4 h-4"></i><span class="hidden xl:inline">Deadlock</span>
+            <span class="text-[9px] font-black px-1 py-0.5 rounded bg-accent-soft text-accent border border-accent tracking-wider">DEMO</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="deadlockHeroes.html" class="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 px-3 py-1.5 rounded-lg border border-accent font-bold text-xs transition">
+          <i data-lucide="book-open" class="w-3.5 h-3.5 text-accent"></i>
+          <span class="hidden md:inline">GUÍA DE HÉROES</span>
+        </a>
+        <span class="hidden lg:flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 font-bold text-xs">
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> EN DIRECTO
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 mt-6 space-y-8">
+
+    <!-- Aviso de demo: los datos de Deadlock todavía no son reales -->
+    <div id="demo-banner" class="flex items-start gap-3 bg-accent-soft border border-accent rounded-2xl px-4 py-3">
+      <i data-lucide="construction" class="w-5 h-5 text-accent shrink-0 mt-0.5"></i>
+      <div>
+        <p class="text-sm font-black text-accent uppercase tracking-wide">Modo demo · Próximamente</p>
+        <p class="text-xs text-slate-300 mt-0.5">
+          Este ranking usa datos de ejemplo y no refleja partidas reales. La integración de MMR real llegará en una próxima actualización.
+        </p>
+      </div>
+    </div>
+
+    <!-- Sección principal del directo -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-4" aria-label="Directos de Deadlock">
+
+      <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-6 flex flex-col justify-between">
+        <div>
+          <span class="inline-flex items-center gap-1.5 bg-red-500/10 text-red-400 px-3 py-1 rounded-full border border-red-500/20 text-xs font-bold uppercase mb-4">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> EN DIRECTO
+          </span>
+          <div class="text-4xl font-black text-white tracking-tight" id="total-viewers">0</div>
+          <p class="text-xs text-slate-400 font-medium mt-1">espectadores en total</p>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-custom">
+          <h3 class="font-bold text-white text-base">SoloQChallenge · Deadlock</h3>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Directos de la comunidad, builds, héroes y guías para dominar el nuevo MOBA de Valve.
+          </p>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6 bg-card border border-custom rounded-2xl p-4 flex flex-col justify-between">
+        <div class="flex justify-between items-center mb-3">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded shrink-0">TWITCH</span>
+            <h3 class="text-sm font-bold text-slate-200 truncate">En directo: <span id="streamer-current-name" class="text-accent">Comprobando...</span></h3>
+          </div>
+          <span class="hidden md:inline text-xs text-slate-400 shrink-0">Haz clic en la lista para cambiar</span>
+        </div>
+
+        <div class="w-full aspect-video bg-slate-950 rounded-xl border border-custom overflow-hidden" id="twitch-embed"></div>
+      </div>
+
+      <div class="lg:col-span-3 bg-card border border-custom rounded-2xl p-4 flex flex-col">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center justify-between">
+          <span>En directo</span>
+          <span class="text-purple-400">Twitch</span>
+        </h4>
+        <div class="space-y-2 overflow-y-auto max-h-[380px] pr-1" id="streamers-list">
+          <p class="text-xs text-slate-500 text-center py-4">Cargando emisiones...</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Sección Ranking -->
+    <section aria-labelledby="ranking-title">
+      <div class="flex justify-between items-end mb-4 gap-4 flex-wrap">
+        <div>
+          <h2 id="ranking-title" class="text-3xl font-black uppercase tracking-tight text-white flex items-center gap-2 flex-wrap">
+            Ranking <span class="text-accent text-xl font-bold">Deadlock</span>
+            <span class="text-[10px] font-black px-2 py-0.5 rounded bg-accent-soft text-accent border border-accent tracking-wider">DEMO</span>
+          </h2>
+          <p class="text-xs text-slate-400">Datos de demostración · El MMR real está en camino</p>
+        </div>
+        <a href="deadlockHeroes.html" class="text-xs font-bold text-accent hover:text-white transition flex items-center gap-1.5">
+          <i data-lucide="layers" class="w-3.5 h-3.5"></i> Ver héroes, tierlist y builds
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="podium-container"></div>
+    </section>
+
+    <!-- Barra de filtros -->
+    <div class="overflow-x-auto">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-4 bg-card border border-custom p-3 rounded-2xl text-xs min-w-[760px]">
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <div class="flex gap-1 bg-slate-950 p-1 rounded-lg border border-custom">
+            <button onclick="setEloFilter('all')" id="elo-btn-all" class="elo-btn active px-3 py-1.5 font-bold rounded-md transition">TODOS</button>
+            <button onclick="setEloFilter('high')" id="elo-btn-high" class="elo-btn px-3 py-1.5 font-bold rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition">HIGH ELO</button>
+            <button onclick="setEloFilter('low')" id="elo-btn-low" class="elo-btn px-3 py-1.5 font-bold rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition">LOW ELO</button>
+          </div>
+
+          <div class="relative">
+            <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-500"></i>
+            <input type="text" id="search-input" oninput="applyFilters()" placeholder="Buscar jugador o héroe" class="bg-slate-950 border border-custom rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#d4a24c]">
+          </div>
+
+          <span id="player-count" class="text-slate-400 text-xs font-semibold"></span>
+
+          <button onclick="setStatusFilter('live')" id="status-btn-live" class="status-btn flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> LIVE
+          </button>
+          <button onclick="setStatusFilter('ingame')" id="status-btn-ingame" class="status-btn flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 border border-custom rounded-lg text-slate-300 font-bold hover:border-slate-600 transition">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> EN PARTIDA
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2 text-[11px] text-slate-500 font-bold uppercase tracking-wide">
+          <i data-lucide="swords" class="w-3.5 h-3.5 text-accent"></i>
+          <span>High ELO ≥ 2.400 MMR</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <section class="bg-[#0b0d12] border border-custom rounded-2xl overflow-hidden shadow-2xl" aria-label="Tabla de clasificación de Deadlock">
+      <div class="overflow-x-auto custom-scrollbar">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-custom bg-slate-950/80 text-slate-400 font-bold uppercase text-[11px] tracking-wider">
+              <th class="py-3 px-3 text-center">#</th>
+              <th class="py-3 px-4">Streamer</th>
+              <th class="py-3 px-3">Héroe main</th>
+              <th class="py-3 px-4">Rango / MMR</th>
+              <th class="py-3 px-4 text-center">V / D</th>
+              <th class="py-3 px-4 text-center">Racha</th>
+              <th class="py-3 px-4 text-center">±MMR</th>
+              <th class="py-3 px-3 text-center">KDA</th>
+              <th class="py-3 px-4 text-center">Stats</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body" class="divide-y divide-slate-800/60"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="border-t border-custom py-6 text-center text-xs text-slate-500 mt-10">
+    <p>SoloQ Challenge · Deadlock &copy; 2026 — Proyecto de entretenimiento no oficial. Deadlock es una marca de Valve.</p>
+  </footer>
+
+  <script src="https://embed.twitch.tv/embed/v1.js"></script>
+  <script src="data/deadlockHeroesData.js"></script>
+  <script src="data/deadlockData.js"></script>
+  <script src="data/deadlock.js"></script>
+
+  <script>
+    let currentEloFilter = 'all';
+    let currentStatusFilter = 'all';
+
+    function setStream(username, displayName) {
+      const parentDomain = window.location.hostname || 'localhost';
+      const embed = document.getElementById('twitch-embed');
+      if (embed) {
+        embed.innerHTML = `
+          <iframe
+            src="https://player.twitch.tv/?channel=${encodeURIComponent(username)}&parent=${parentDomain}&autoplay=true&muted=true"
+            height="100%"
+            width="100%"
+            allowfullscreen="true"
+            allow="autoplay; fullscreen">
+          </iframe>
+        `;
+      }
+      const nameElem = document.getElementById('streamer-current-name');
+      if (nameElem) nameElem.textContent = displayName || username;
+    }
+
+    function getHero(name) {
+      if (typeof deadlockHeroesData === 'undefined') return null;
+      return deadlockHeroesData.heroes.find((hero) => hero.name === name) || null;
+    }
+
+    function renderTable(players) {
+      const tbody = document.getElementById('leaderboard-body');
+      if (!tbody) return;
+
+      if (!players || players.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" class="py-8 text-center text-slate-500 font-bold">
+              No se encontraron jugadores.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = players.map((p) => {
+        const isPositive = (p.gain || 0) >= 0;
+        const strokeColor = isPositive ? '#22c55e' : '#ef4444';
+        const hero = getHero(p.hero);
+
+        return `
+          <tr class="bg-[#121620]/60 hover:bg-[#1a202c] transition group border-l-4 ${p.rank <= 3 ? 'border-l-[#d4a24c]' : 'border-l-transparent'}">
+
+            <td class="py-3 px-3 text-center font-black">
+              <div class="flex items-center justify-center gap-1">
+                ${p.rank === 1 ? '<span class="text-yellow-400">👑</span>' : ''}
+                ${p.rank === 2 ? '<span class="text-slate-300">🥈</span>' : ''}
+                ${p.rank === 3 ? '<span class="text-amber-600">🥉</span>' : ''}
+                <span class="text-slate-200">${p.rank}</span>
+              </div>
+            </td>
+
+            <td class="py-3 px-4 font-bold text-white">
+              <div class="flex items-center gap-3">
+                <div class="relative">
+                  <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center font-bold text-xs text-slate-300">
+                    ${p.name.substring(0, 2).toUpperCase()}
+                  </div>
+                  <span class="absolute -bottom-1 -right-1 text-[9px]">🇪🇸</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-slate-200 group-hover:text-accent transition">${p.name}</span>
+                    <span class="bg-purple-900/60 text-purple-300 text-[9px] px-1 rounded border border-purple-500/30">Twitch</span>
+                    ${p.isLive
+                      ? '<span class="bg-lime-500/20 text-lime-400 text-[9px] font-black px-1.5 py-0.2 rounded border border-lime-500/40">LIVE</span>'
+                      : '<span class="text-[9px] text-slate-500 font-medium uppercase">OFFLINE</span>'}
+                  </div>
+                  <div class="text-[10px] font-normal text-slate-500">${p.tag}</div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3 px-3">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-slate-900 border border-custom overflow-hidden shrink-0">
+                  ${hero && hero.image ? `<img src="${hero.image}" alt="${p.hero}" class="w-full h-full object-cover" onerror="this.style.display='none'">` : ''}
+                </div>
+                <span class="text-slate-300 font-bold">${p.hero || '—'}</span>
+              </div>
+            </td>
+
+            <td class="py-3 px-4 font-black text-slate-100">
+              <div class="flex items-center gap-1.5">
+                <span class="text-accent text-sm">✦</span>
+                <div>
+                  <div>${p.rankName || '—'}</div>
+                  <div class="text-[10px] text-slate-500 font-bold">${Number(p.mmr || 0).toLocaleString('es-ES')} MMR</div>
+                </div>
+              </div>
+            </td>
+
+            <td class="py-3 px-4 text-center">
+              <div class="text-[11px] font-bold text-slate-200 mb-1">
+                <span class="text-green-400">${p.wr || '—'}</span>
+                <span class="text-slate-400 text-[10px]">(${p.win || 0}V - ${p.loss || 0}D)</span>
+              </div>
+              <div class="w-24 h-1.5 bg-red-500/40 rounded-full mx-auto overflow-hidden flex">
+                <div class="bg-green-500 h-full" style="width: ${p.wr || '0%'}"></div>
+              </div>
+            </td>
+
+            <td class="py-3 px-4 text-center">
+              <svg class="w-16 h-5 mx-auto overflow-visible" viewBox="0 0 75 30" aria-hidden="true">
+                <path d="${p.spark || 'M 0 15 L 75 15'}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </td>
+
+            <td class="py-3 px-4 text-center font-bold">
+              <span class="text-green-400">▲ ${p.gain || 0}</span>
+              <span class="text-red-400 ml-1">▼ ${p.lossLp || 0}</span>
+            </td>
+
+            <td class="py-3 px-3 text-center font-bold text-slate-300">
+              <div class="inline-flex items-center gap-1 bg-slate-900/80 px-2 py-0.5 rounded-md border border-custom">
+                <span class="text-[10px] text-accent font-extrabold">${p.kda || '—'}</span>
+              </div>
+            </td>
+
+            <td class="py-3 px-4 text-center">
+              <a href="${p.statsUrl || 'https://statlocker.gg/'}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 px-2.5 py-1 bg-accent hover:bg-[#f0c674] text-[#161006] font-extrabold rounded-md text-[10px] uppercase transition shadow">
+                STATLOCKER
+              </a>
+            </td>
+
+          </tr>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderPodium(players) {
+      const container = document.getElementById('podium-container');
+      if (!container) return;
+
+      const top3 = (players || []).slice(0, 3);
+      if (top3.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = top3.map((p, index) => {
+        const medal = index === 0 ? '👑' : index === 1 ? '🥈' : '🥉';
+        const borderColor = index === 0 ? 'border-accent' : index === 1 ? 'border-slate-400/50' : 'border-amber-600/50';
+        const hero = getHero(p.hero);
+
+        return `
+          <div class="bg-card border ${borderColor} p-4 rounded-2xl flex items-center justify-between shadow-lg gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="text-2xl">${medal}</div>
+              <div class="w-9 h-9 rounded-xl bg-slate-900 border border-custom overflow-hidden shrink-0">
+                ${hero && hero.image ? `<img src="${hero.image}" alt="${p.hero}" class="w-full h-full object-cover" onerror="this.style.display='none'">` : ''}
+              </div>
+              <div class="min-w-0">
+                <div class="font-extrabold text-white text-base flex items-center gap-1.5">
+                  ${p.name}
+                  <span class="text-slate-500 text-xs font-normal">${p.tag || ''}</span>
+                </div>
+                <div class="text-xs text-accent font-bold mt-0.5 truncate">${p.rankName || '—'} · ${Number(p.mmr || 0).toLocaleString('es-ES')} MMR</div>
+                <div class="text-[10px] text-slate-500">Main: ${p.hero || '—'}</div>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-xs font-black text-green-400">${p.wr || '0%'} WR</div>
+              <div class="text-[10px] text-slate-400">${p.win || 0}V / ${p.loss || 0}D</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function applyFilters() {
+      if (typeof gameData === 'undefined' || !gameData.players) return;
+
+      const searchElem = document.getElementById('search-input');
+      const query = searchElem ? searchElem.value.toLowerCase().trim() : '';
+
+      const filtered = gameData.players.filter((p) => {
+        const matchesSearch =
+          !query ||
+          (p.name || '').toLowerCase().includes(query) ||
+          (p.tag || '').toLowerCase().includes(query) ||
+          (p.hero || '').toLowerCase().includes(query);
+        const mmr = Number(p.mmr) || 0;
+        const matchesElo =
+          currentEloFilter === 'all' ||
+          (currentEloFilter === 'high' && mmr >= 2400) ||
+          (currentEloFilter === 'low' && mmr < 2400);
+        const matchesStatus =
+          currentStatusFilter === 'all' ||
+          (currentStatusFilter === 'live' && p.isLive === true) ||
+          (currentStatusFilter === 'ingame' && p.inGame === true);
+        return matchesSearch && matchesElo && matchesStatus;
+      });
+
+      filtered.sort((a, b) => (a.rank || 0) - (b.rank || 0));
+      filtered.forEach((p, index) => { p.rank = index + 1; });
+
+      renderPodium(filtered);
+      renderTable(filtered);
+
+      const countElem = document.getElementById('player-count');
+      if (countElem) countElem.textContent = `${filtered.length} jugadores`;
+    }
+
+    function setEloFilter(filter) {
+      currentEloFilter = filter;
+      document.querySelectorAll('.elo-btn').forEach((btn) => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`elo-btn-${filter}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      applyFilters();
+    }
+
+    function setStatusFilter(filter) {
+      currentStatusFilter = currentStatusFilter === filter ? 'all' : filter;
+      document.querySelectorAll('.status-btn').forEach((btn) => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`status-btn-${currentStatusFilter}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      applyFilters();
+    }
+
+    function renderUI(data) {
+      if (data && data.players) {
+        gameData.players = data.players;
+      }
+      applyFilters();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof gameData !== 'undefined') {
+        renderUI(gameData);
+      }
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>

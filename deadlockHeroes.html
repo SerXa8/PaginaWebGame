@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoloQ Challenge - Héroes, Tierlist y Builds de Deadlock</title>
+  <meta name="description" content="Base de datos de héroes de Deadlock: builds, objetos recomendados, tierlist y guías en español.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --accent: #d4a24c;
+      --accent-strong: #f0c674;
+      --accent-soft: rgba(212, 162, 76, 0.12);
+      --accent-border: rgba(212, 162, 76, 0.38);
+      --violet: #8b5cf6;
+    }
+    body { background-color: #0b0d12; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
+    .bg-card { background-color: #121620; }
+    .bg-card-hover:hover { background-color: #1a202c; }
+    .border-custom { border-color: #1e2638; }
+    .text-accent { color: var(--accent); }
+    .bg-accent { background-color: var(--accent); }
+    .bg-accent-soft { background-color: var(--accent-soft); }
+    .border-accent { border-color: var(--accent-border); }
+    .tab-btn.active { background-color: var(--accent); color: #161006; }
+    .filter-btn.active { background-color: var(--accent); color: #161006; border-color: var(--accent); }
+    .tier-S { background-color: rgba(212, 162, 76, 0.16); color: #f0c674; border-color: rgba(212, 162, 76, 0.45); }
+    .tier-A { background-color: rgba(34, 197, 94, 0.12); color: #4ade80; border-color: rgba(34, 197, 94, 0.38); }
+    .tier-B { background-color: rgba(59, 130, 246, 0.12); color: #60a5fa; border-color: rgba(59, 130, 246, 0.38); }
+    .tier-C { background-color: rgba(249, 115, 22, 0.12); color: #fb923c; border-color: rgba(249, 115, 22, 0.38); }
+    .tier-D { background-color: rgba(239, 68, 68, 0.12); color: #f87171; border-color: rgba(239, 68, 68, 0.38); }
+    .custom-scrollbar::-webkit-scrollbar { height: 4px; width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #0b0d12; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e2638; border-radius: 4px; }
+    .hero-card img { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    .hero-card:hover img { transform: scale(1.05); }
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-12">
+
+  <header class="border-b border-custom bg-[#080a0e] sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 xl:gap-6 min-w-0">
+        <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition shrink-0">
+          <div class="w-8 h-8 rounded-lg bg-accent-soft border border-accent flex items-center justify-center font-black text-accent">SQ</div>
+          <span class="hidden sm:inline font-extrabold text-xl tracking-wider text-white uppercase">SoloQ<span class="text-accent">Challenge</span></span>
+        </a>
+
+        <nav class="flex gap-1 bg-slate-900/80 p-1 rounded-lg border border-custom overflow-x-auto custom-scrollbar max-w-[62vw] lg:max-w-none" aria-label="Juegos">
+          <a href="lol.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap">
+            <i data-lucide="swords" class="w-4 h-4"></i><span class="hidden xl:inline">League of Legends</span>
+          </a>
+          <a href="valorant.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap">
+            <i data-lucide="crosshair" class="w-4 h-4"></i><span class="hidden xl:inline">Valorant</span>
+          </a>
+          <a href="cs2.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap">
+            <i data-lucide="target" class="w-4 h-4"></i><span class="hidden xl:inline">CS2</span>
+          </a>
+          <a href="deadlock.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-accent-soft text-accent border border-accent whitespace-nowrap">
+            <i data-lucide="flame" class="w-4 h-4"></i><span class="hidden xl:inline">Deadlock</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="deadlock.html" class="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 px-3 py-1.5 rounded-lg border border-accent font-bold text-xs transition">
+          <i data-lucide="trophy" class="w-3.5 h-3.5 text-accent"></i>
+          <span class="hidden md:inline">VER RANKING</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 mt-6 space-y-6">
+
+    <!-- Cabecera de la sección -->
+    <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-card border border-custom p-6 rounded-2xl">
+      <div>
+        <div class="flex items-center gap-2 mb-1 flex-wrap">
+          <span class="bg-accent-soft text-accent text-xs font-bold px-2.5 py-0.5 rounded-full border border-accent uppercase tracking-wider">Base de datos</span>
+          <span class="text-xs text-slate-500">• Deadlock Compendium</span>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-black text-white uppercase tracking-tight flex items-center gap-2">
+          Héroes y <span class="text-accent">Builds</span>
+        </h1>
+        <p class="text-xs text-slate-400 mt-1">Información de los 44 héroes, objetos recomendados, tierlist y guías para dominar el juego.</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="bg-slate-950 border border-custom px-3 py-2 rounded-xl text-center min-w-[80px]">
+          <span class="block text-sm font-black text-accent" id="hero-total">0</span>
+          <span class="text-[10px] text-slate-500 uppercase font-bold">Héroes</span>
+        </div>
+        <div class="bg-slate-950 border border-custom px-3 py-2 rounded-xl text-center min-w-[80px]">
+          <span class="block text-sm font-black text-accent" id="item-total">0</span>
+          <span class="text-[10px] text-slate-500 uppercase font-bold">Objetos</span>
+        </div>
+        <div class="bg-slate-950 border border-custom px-3 py-2 rounded-xl text-center min-w-[80px]">
+          <span class="block text-sm font-black text-accent" id="guide-total">0</span>
+          <span class="text-[10px] text-slate-500 uppercase font-bold">Guías</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabs -->
+    <nav class="flex gap-1 bg-slate-950 border border-custom p-1 rounded-2xl overflow-x-auto custom-scrollbar" aria-label="Secciones de la guía">
+      <button data-tab="heroes" class="tab-btn active px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wide transition flex items-center gap-2 whitespace-nowrap">
+        <i data-lucide="users" class="w-4 h-4"></i> Héroes
+      </button>
+      <button data-tab="tierlist" class="tab-btn px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wide transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap">
+        <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Tierlist
+      </button>
+      <button data-tab="items" class="tab-btn px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wide transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap">
+        <i data-lucide="package" class="w-4 h-4"></i> Objetos
+      </button>
+      <button data-tab="guides" class="tab-btn px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wide transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap">
+        <i data-lucide="book-open" class="w-4 h-4"></i> Guías
+      </button>
+    </nav>
+
+    <!-- PANEL HÉROES -->
+    <section id="panel-heroes" class="tab-panel space-y-4">
+      <div class="bg-card border border-custom p-4 rounded-2xl space-y-3">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div class="relative w-full lg:w-80">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-500"></i>
+            <input type="text" id="hero-search" placeholder="Buscar héroe, rol o etiqueta..." class="w-full bg-slate-950 border border-custom rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#d4a24c] transition">
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <select id="hero-role" class="bg-slate-950 border border-custom rounded-xl px-3 py-2 text-xs text-slate-200 font-bold focus:outline-none focus:border-[#d4a24c]">
+              <option value="all">Todos los roles</option>
+              <option value="brawler">Tanque / Bruiser</option>
+              <option value="mystic">Místico</option>
+              <option value="marksman">Tirador</option>
+              <option value="assassin">Asesino</option>
+              <option value="unknown">Versátil</option>
+            </select>
+            <select id="hero-complexity" class="bg-slate-950 border border-custom rounded-xl px-3 py-2 text-xs text-slate-200 font-bold focus:outline-none focus:border-[#d4a24c]">
+              <option value="all">Cualquier complejidad</option>
+              <option value="1">Baja</option>
+              <option value="2">Media</option>
+              <option value="3">Alta</option>
+              <option value="4">Muy alta</option>
+            </select>
+            <select id="hero-tier" class="bg-slate-950 border border-custom rounded-xl px-3 py-2 text-xs text-slate-200 font-bold focus:outline-none focus:border-[#d4a24c]">
+              <option value="all">Todos los tiers</option>
+              <option value="S">Tier S</option>
+              <option value="A">Tier A</option>
+              <option value="B">Tier B</option>
+              <option value="C">Tier C</option>
+              <option value="D">Tier D</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-[11px] text-slate-500 font-semibold">
+          <span><span id="hero-count">0</span> héroes encontrados</span>
+          <span>Datos: deadlock-api.com · <span id="hero-updated">—</span></span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="heroes-grid"></div>
+      <div id="heroes-empty" class="hidden bg-card border border-custom rounded-2xl p-12 text-center">
+        <i data-lucide="search-x" class="w-12 h-12 text-slate-600 mx-auto mb-3"></i>
+        <h3 class="text-base font-bold text-white">No se encontraron héroes</h3>
+        <p class="text-xs text-slate-400 mt-1">Prueba a cambiar los filtros o el término de búsqueda.</p>
+      </div>
+    </section>
+
+    <!-- PANEL TIERLIST -->
+    <section id="panel-tierlist" class="tab-panel hidden space-y-4">
+      <div class="bg-card border border-custom p-5 rounded-2xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-black text-white uppercase tracking-tight flex items-center gap-2">
+              <i data-lucide="bar-chart-3" class="w-5 h-5 text-accent"></i> Tierlist de héroes
+            </h2>
+            <p class="text-xs text-slate-400 mt-1" id="tierlist-patch">—</p>
+          </div>
+          <select id="tier-role" class="bg-slate-950 border border-custom rounded-xl px-3 py-2 text-xs text-slate-200 font-bold focus:outline-none focus:border-[#d4a24c]">
+            <option value="all">Todos los roles</option>
+            <option value="brawler">Tanque / Bruiser</option>
+            <option value="mystic">Místico</option>
+            <option value="marksman">Tirador</option>
+            <option value="assassin">Asesino</option>
+            <option value="unknown">Versátil</option>
+          </select>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-3 leading-relaxed" id="tierlist-methodology"></p>
+      </div>
+
+      <div class="space-y-3" id="tierlist-rows"></div>
+    </section>
+
+    <!-- PANEL OBJETOS -->
+    <section id="panel-items" class="tab-panel hidden space-y-4">
+      <div class="bg-card border border-custom p-4 rounded-2xl">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div class="relative w-full lg:w-80">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-500"></i>
+            <input type="text" id="item-search" placeholder="Buscar objeto o estadística..." class="w-full bg-slate-950 border border-custom rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#d4a24c] transition">
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <select id="item-slot" class="bg-slate-950 border border-custom rounded-xl px-3 py-2 text-xs text-slate-200 font-bold focus:outline-none focus:border-[#d4a24c]">
+              <option value="all">Todas las categorías</option>
+              <option value="weapon">Arma</option>
+              <option value="vitality">Vitalidad</option>
+              <option value="spirit">Espíritu</option>
+            </select>
+            <select id="item-tier" class="bg-slate-950 border border-custom rounded-xl px-3 py-2 text-xs text-slate-200 font-bold focus:outline-none focus:border-[#d4a24c]">
+              <option value="all">Todos los tiers</option>
+              <option value="1">Tier 1 · 800</option>
+              <option value="2">Tier 2 · 1.600</option>
+              <option value="3">Tier 3 · 3.200</option>
+              <option value="4">Tier 4 · 6.400</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-[11px] text-slate-500 font-semibold mt-3">
+          <span><span id="item-count">0</span> objetos encontrados</span>
+          <span>Nombres en inglés · descripciones oficiales en español</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="items-grid"></div>
+      <div id="items-empty" class="hidden bg-card border border-custom rounded-2xl p-12 text-center">
+        <i data-lucide="search-x" class="w-12 h-12 text-slate-600 mx-auto mb-3"></i>
+        <h3 class="text-base font-bold text-white">No se encontraron objetos</h3>
+        <p class="text-xs text-slate-400 mt-1">Prueba con otra categoría, tier o término de búsqueda.</p>
+      </div>
+    </section>
+
+    <!-- PANEL GUÍAS -->
+    <section id="panel-guides" class="tab-panel hidden space-y-4">
+      <div class="bg-card border border-custom p-5 rounded-2xl">
+        <h2 class="text-lg font-black text-white uppercase tracking-tight flex items-center gap-2">
+          <i data-lucide="book-open" class="w-5 h-5 text-accent"></i> Guías rápidas
+        </h2>
+        <p class="text-xs text-slate-400 mt-1">Fundamentos, objetivos, itemización y combate explicados en español.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="guides-grid"></div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-custom py-6 text-center text-xs text-slate-500 mt-10">
+    <p>SoloQ Challenge · Deadlock &copy; 2026 — Proyecto de entretenimiento no oficial. Deadlock es una marca de Valve.</p>
+    <p class="mt-1 text-[10px] text-slate-600">Datos de héroes, objetos y estadísticas: deadlock-api.com. Última actualización: <span id="footer-updated">—</span>.</p>
+  </footer>
+
+  <!-- Modal de héroe -->
+  <div id="hero-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-3 md:p-6">
+    <div class="bg-card border border-custom rounded-2xl max-w-4xl w-full max-h-[92vh] overflow-y-auto custom-scrollbar shadow-2xl relative">
+      <button data-close="hero-modal" class="absolute top-3 right-3 z-20 bg-slate-900/80 hover:bg-accent hover:text-black text-white p-1.5 rounded-lg border border-custom transition" aria-label="Cerrar ficha">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div id="hero-modal-bg" class="h-44 md:h-56 bg-cover bg-center relative">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#121620] via-[#121620]/60 to-transparent"></div>
+        <div class="absolute bottom-4 left-5 right-5 flex items-end gap-4">
+          <div class="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden border-2 border-accent bg-slate-900 shrink-0 shadow-xl">
+            <img id="hero-modal-img" src="" alt="" class="w-full h-full object-cover">
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap mb-1">
+              <span id="hero-modal-tier" class="text-[11px] font-black px-2 py-0.5 rounded border">—</span>
+              <span id="hero-modal-role" class="text-[11px] font-bold text-slate-300 uppercase tracking-wide">—</span>
+              <span id="hero-modal-complexity" class="text-[10px] font-bold text-slate-500">—</span>
+            </div>
+            <h2 id="hero-modal-name" class="text-2xl md:text-4xl font-black text-white uppercase tracking-tight leading-none">—</h2>
+          </div>
+        </div>
+      </div>
+      <div id="hero-modal-content" class="p-5 md:p-6 space-y-6"></div>
+    </div>
+  </div>
+
+  <!-- Modal de objeto -->
+  <div id="item-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-3 md:p-6">
+    <div class="bg-card border border-custom rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl relative">
+      <button data-close="item-modal" class="absolute top-3 right-3 z-10 bg-slate-900/80 hover:bg-accent hover:text-black text-white p-1.5 rounded-lg border border-custom transition" aria-label="Cerrar objeto">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div id="item-modal-content" class="p-5 md:p-6"></div>
+    </div>
+  </div>
+
+  <!-- Modal de guía -->
+  <div id="guide-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-3 md:p-6">
+    <div class="bg-card border border-custom rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl relative">
+      <button data-close="guide-modal" class="absolute top-3 right-3 z-10 bg-slate-900/80 hover:bg-accent hover:text-black text-white p-1.5 rounded-lg border border-custom transition" aria-label="Cerrar guía">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div id="guide-modal-content" class="p-5 md:p-6"></div>
+    </div>
+  </div>
+
+  <div id="copy-toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-accent text-[#161006] px-4 py-2 rounded-xl text-xs font-black shadow-xl z-[60] hidden">
+    Build copiada al portapapeles
+  </div>
+
+  <script src="data/deadlockHeroesData.js"></script>
+  <script src="data/deadlockItemsData.js"></script>
+  <script src="data/deadlockGuidesData.js"></script>
+
+  <script>
+    const heroes = deadlockHeroesData.heroes;
+    const items = deadlockItemsData.items;
+    const guidesData = deadlockGuidesData;
+    const heroNotes = guidesData.heroNotes || {};
+    const itemByName = new Map(items.map((item) => [item.name, item]));
+
+    const tierOf = {};
+    guidesData.tierlist.tiers.forEach((tier) => {
+      tier.heroes.forEach((name) => { tierOf[name] = tier.key; });
+    });
+
+    const state = {
+      tab: 'heroes',
+      heroSearch: '',
+      heroRole: 'all',
+      heroComplexity: 'all',
+      heroTier: 'all',
+      tierRole: 'all',
+      itemSearch: '',
+      itemSlot: 'all',
+      itemTier: 'all'
+    };
+
+    const COMPLEXITY_LABEL = { 1: 'Complejidad baja', 2: 'Complejidad media', 3: 'Complejidad alta', 4: 'Complejidad muy alta' };
+    const ROLE_LABEL = { brawler: 'Tanque / Bruiser', mystic: 'Místico', marksman: 'Tirador', assassin: 'Asesino', unknown: 'Versátil' };
+    const SLOT_STYLE = {
+      weapon: 'bg-orange-500/10 text-orange-300 border-orange-500/30',
+      vitality: 'bg-green-500/10 text-green-300 border-green-500/30',
+      spirit: 'bg-violet-500/10 text-violet-300 border-violet-500/30'
+    };
+
+    function esc(value) {
+      return String(value === undefined || value === null ? '' : value).replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[char]));
+    }
+
+    function tierBadge(name) {
+      const tier = tierOf[name] || '—';
+      return `<span class="tier-${tier} text-[10px] font-black px-1.5 py-0.5 rounded border uppercase">${tier}</span>`;
+    }
+
+    function wrClass(winrate) {
+      if (winrate === null || winrate === undefined) return 'text-slate-400';
+      if (winrate >= 52) return 'text-green-400';
+      if (winrate >= 50) return 'text-slate-200';
+      return 'text-red-400';
+    }
+
+    function heroRole(hero) {
+      const note = heroNotes[hero.name];
+      return (note && note.roleLabel) || ROLE_LABEL[hero.type] || hero.typeLabel || 'Versátil';
+    }
+
+    function findItem(label) {
+      if (!label) return null;
+      if (itemByName.has(label)) return itemByName.get(label);
+      let best = null;
+      for (const item of items) {
+        if (label.startsWith(item.name) && (!best || item.name.length > best.name.length)) {
+          best = item;
+        }
+      }
+      return best;
+    }
+
+    function itemChip(label) {
+      const item = findItem(label);
+      if (!item) {
+        return `<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-950 border border-custom text-[11px] font-bold text-slate-300">${esc(label)}</span>`;
+      }
+      return `
+        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-950 border border-custom text-[11px] font-bold text-slate-200" title="${esc(item.name)} · ${item.cost.toLocaleString('es-ES')} almas">
+          <img src="${esc(item.image)}" alt="" class="w-4 h-4 object-contain" loading="lazy" onerror="this.style.display='none'">
+          ${esc(label)}
+        </span>
+      `;
+    }
+
+    function renderHeroes() {
+      const grid = document.getElementById('heroes-grid');
+      const empty = document.getElementById('heroes-empty');
+      const count = document.getElementById('hero-count');
+      if (!grid) return;
+
+      const query = state.heroSearch.toLowerCase().trim();
+      const filtered = heroes.filter((hero) => {
+        const note = heroNotes[hero.name] || {};
+        const text = [hero.name, hero.typeLabel, heroRole(hero), note.summary, (hero.tags || []).join(' ')].join(' ').toLowerCase();
+        const matchesSearch = !query || text.includes(query);
+        const matchesRole = state.heroRole === 'all' || hero.type === state.heroRole || (state.heroRole === 'unknown' && (!hero.type || hero.type === 'unknown'));
+        const matchesComplexity = state.heroComplexity === 'all' || String(hero.complexity) === state.heroComplexity;
+        const matchesTier = state.heroTier === 'all' || tierOf[hero.name] === state.heroTier;
+        return matchesSearch && matchesRole && matchesComplexity && matchesTier;
+      }).sort((a, b) => (tierOf[a.name] || 'Z').localeCompare(tierOf[b.name] || 'Z') || a.name.localeCompare(b.name));
+
+      count.textContent = filtered.length;
+      grid.innerHTML = filtered.map((hero) => {
+        const note = heroNotes[hero.name] || {};
+        return `
+          <article data-hero="${esc(hero.name)}" class="hero-card group bg-card border border-custom rounded-2xl overflow-hidden cursor-pointer hover:border-accent transition flex flex-col">
+            <div class="relative aspect-[4/3] overflow-hidden bg-slate-950">
+              <img src="${esc(hero.image)}" alt="${esc(hero.name)}" class="w-full h-full object-cover object-top opacity-90" loading="lazy" onerror="this.style.display='none'">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#121620] via-transparent to-transparent"></div>
+              <div class="absolute top-2 left-2 flex gap-1">
+                ${tierBadge(hero.name)}
+                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-950/80 text-slate-400 border border-custom uppercase">${esc(hero.typeLabel)}</span>
+              </div>
+              <div class="absolute bottom-2 right-2 text-[10px] font-black px-2 py-0.5 rounded bg-slate-950/85 border border-custom ${wrClass(hero.winrate)}">
+                ${hero.winrate !== null ? hero.winrate + '% WR' : '— WR'}
+              </div>
+            </div>
+
+            <div class="p-4 flex-1 flex flex-col">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <h3 class="font-black text-white text-base leading-tight group-hover:text-accent transition">${esc(hero.name)}</h3>
+                  <p class="text-[11px] text-slate-400 font-semibold">${esc(heroRole(hero))}</p>
+                </div>
+                <div class="text-right shrink-0">
+                  <div class="text-[10px] text-slate-500 font-bold">${'●'.repeat(hero.complexity || 1)}${'○'.repeat(Math.max(0, 3 - (hero.complexity || 1)))}</div>
+                  <div class="text-[9px] text-slate-600">${esc(COMPLEXITY_LABEL[hero.complexity] || '')}</div>
+                </div>
+              </div>
+
+              <p class="text-[11px] text-slate-400 mt-2 line-clamp-2 leading-relaxed">${esc(note.summary || hero.role || hero.playstyle || '')}</p>
+
+              <div class="mt-3 pt-3 border-t border-custom/60 flex items-center justify-between">
+                <span class="text-[10px] font-bold text-slate-500">Pickrate ${hero.pickrate !== null ? hero.pickrate + '%' : '—'}</span>
+                <span class="text-[10px] font-black text-accent group-hover:text-white transition flex items-center gap-1">
+                  Ver ficha <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </span>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      empty.classList.toggle('hidden', filtered.length !== 0);
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderTierlist() {
+      const container = document.getElementById('tierlist-rows');
+      if (!container) return;
+
+      document.getElementById('tierlist-patch').textContent = `${guidesData.patchLabel} · actualizado el ${guidesData.updatedAt}`;
+      document.getElementById('tierlist-methodology').textContent = guidesData.tierlist.methodology;
+
+      container.innerHTML = guidesData.tierlist.tiers.map((tier) => {
+        const tierHeroes = tier.heroes
+          .map((name) => heroes.find((hero) => hero.name === name))
+          .filter(Boolean)
+          .filter((hero) => state.tierRole === 'all' || hero.type === state.tierRole || (state.tierRole === 'unknown' && (!hero.type || hero.type === 'unknown')));
+
+        return `
+          <div class="bg-card border border-custom rounded-2xl overflow-hidden">
+            <div class="flex flex-col md:flex-row">
+              <div class="md:w-40 shrink-0 p-4 border-b md:border-b-0 md:border-r border-custom flex md:flex-col items-center md:items-start justify-between gap-2">
+                <div class="flex items-center gap-3">
+                  <span class="tier-${tier.key} w-10 h-10 rounded-xl border flex items-center justify-center text-lg font-black">${esc(tier.key)}</span>
+                  <div>
+                    <div class="text-xs font-black text-white uppercase">Tier ${esc(tier.key)}</div>
+                    <div class="text-[10px] text-slate-500">${tierHeroes.length} héroes</div>
+                  </div>
+                </div>
+                <p class="text-[10px] text-slate-500 leading-snug max-w-[220px] md:mt-2">${esc(tier.description)}</p>
+              </div>
+
+              <div class="p-3 md:p-4 flex flex-wrap gap-2">
+                ${tierHeroes.length === 0
+                  ? '<p class="text-xs text-slate-500 py-2">Sin héroes con este filtro.</p>'
+                  : tierHeroes.map((hero) => `
+                    <button data-hero="${esc(hero.name)}" class="flex items-center gap-2 bg-slate-950 hover:bg-[#1a202c] border border-custom hover:border-accent rounded-xl p-1.5 pr-3 transition group text-left">
+                      <div class="w-9 h-9 rounded-lg overflow-hidden bg-slate-900 shrink-0">
+                        <img src="${esc(hero.image)}" alt="${esc(hero.name)}" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display='none'">
+                      </div>
+                      <div>
+                        <div class="text-[11px] font-bold text-slate-200 group-hover:text-accent transition">${esc(hero.name)}</div>
+                        <div class="text-[9px] font-bold ${wrClass(hero.winrate)}">${hero.winrate !== null ? hero.winrate + '% WR' : '— WR'}</div>
+                      </div>
+                    </button>
+                  `).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.querySelectorAll('[data-hero]').forEach((el) => {
+        el.addEventListener('click', () => openHero(el.getAttribute('data-hero')));
+      });
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderItems() {
+      const grid = document.getElementById('items-grid');
+      const empty = document.getElementById('items-empty');
+      const count = document.getElementById('item-count');
+      if (!grid) return;
+
+      const query = state.itemSearch.toLowerCase().trim();
+      const filtered = items.filter((item) => {
+        const text = [item.name, item.description, item.slotLabel, ...(item.stats || []).map((s) => s.label + ' ' + s.value)].join(' ').toLowerCase();
+        const matchesSearch = !query || text.includes(query);
+        const matchesSlot = state.itemSlot === 'all' || item.slot === state.itemSlot;
+        const matchesTier = state.itemTier === 'all' || String(item.tier) === state.itemTier;
+        return matchesSearch && matchesSlot && matchesTier;
+      }).sort((a, b) => a.tier - b.tier || a.slot.localeCompare(b.slot) || a.name.localeCompare(b.name));
+
+      count.textContent = filtered.length;
+      grid.innerHTML = filtered.map((item) => `
+        <button data-item="${esc(item.name)}" class="text-left bg-card border border-custom hover:border-accent rounded-2xl p-3 transition group flex gap-3">
+          <div class="w-14 h-14 rounded-xl bg-slate-950 border border-custom overflow-hidden shrink-0 flex items-center justify-center">
+            <img src="${esc(item.image)}" alt="" class="w-full h-full object-contain p-1" loading="lazy" onerror="this.style.display='none'">
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="text-xs font-black text-white group-hover:text-accent transition leading-tight">${esc(item.name)}</h3>
+              <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-slate-950 border border-custom text-slate-400 shrink-0">T${item.tier}</span>
+            </div>
+            <div class="flex items-center gap-1.5 mt-1 flex-wrap">
+              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded border ${SLOT_STYLE[item.slot] || 'bg-slate-900 text-slate-300 border-custom'}">${esc(item.slotLabel)}</span>
+              <span class="text-[9px] font-bold text-accent">${item.cost.toLocaleString('es-ES')} almas</span>
+              ${item.active ? '<span class="text-[9px] font-bold text-violet-300">ACTIVO</span>' : ''}
+            </div>
+            <div class="mt-1 text-[10px] text-slate-400 line-clamp-1">${esc((item.stats || []).slice(0, 2).map((s) => s.label + ' ' + s.value).join(' · ') || item.description || '—')}</div>
+          </div>
+        </button>
+      `).join('');
+
+      empty.classList.toggle('hidden', filtered.length !== 0);
+      grid.querySelectorAll('[data-item]').forEach((el) => {
+        el.addEventListener('click', () => openItem(el.getAttribute('data-item')));
+      });
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderGuides() {
+      const grid = document.getElementById('guides-grid');
+      if (!grid) return;
+
+      grid.innerHTML = guidesData.guides.map((guide) => `
+        <button data-guide="${esc(guide.id)}" class="text-left bg-card border border-custom hover:border-accent rounded-2xl p-5 transition group flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-black px-2 py-0.5 rounded bg-accent-soft text-accent border border-accent uppercase tracking-wider">${esc(guide.category)}</span>
+            <h3 class="text-base font-black text-white mt-3 group-hover:text-accent transition leading-snug">${esc(guide.title)}</h3>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">${esc(guide.summary)}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-custom/60 flex items-center justify-between text-[11px] font-bold text-slate-500">
+            <span>${guide.tips.length} consejos</span>
+            <span class="text-accent group-hover:text-white transition flex items-center gap-1">Leer guía <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+          </div>
+        </button>
+      `).join('');
+
+      grid.querySelectorAll('[data-guide]').forEach((el) => {
+        el.addEventListener('click', () => openGuide(el.getAttribute('data-guide')));
+      });
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function openHero(name) {
+      const hero = heroes.find((h) => h.name === name);
+      if (!hero) return;
+      const note = heroNotes[name] || {};
+      const tier = tierOf[name] || '—';
+
+      const modal = document.getElementById('hero-modal');
+      const bg = document.getElementById('hero-modal-bg');
+      const img = document.getElementById('hero-modal-img');
+      const tierEl = document.getElementById('hero-modal-tier');
+      const roleEl = document.getElementById('hero-modal-role');
+      const complexityEl = document.getElementById('hero-modal-complexity');
+      const nameEl = document.getElementById('hero-modal-name');
+      const content = document.getElementById('hero-modal-content');
+
+      bg.style.backgroundImage = hero.background ? `url('${hero.background}')` : 'none';
+      img.src = hero.image || '';
+      img.alt = hero.name;
+      nameEl.textContent = hero.name;
+      tierEl.textContent = `Tier ${tier}`;
+      tierEl.className = `tier-${tier} text-[11px] font-black px-2 py-0.5 rounded border`;
+      roleEl.textContent = heroRole(hero);
+      complexityEl.textContent = COMPLEXITY_LABEL[hero.complexity] || '';
+
+      const build = note.build || null;
+      const phaseBlock = (label, list) => list && list.length ? `
+        <div>
+          <div class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5">${label}</div>
+          <div class="flex flex-wrap gap-1.5">${list.map(itemChip).join('')}</div>
+        </div>
+      ` : '';
+
+      content.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div class="lg:col-span-2 space-y-5">
+            <div>
+              <div class="flex items-center justify-between gap-2 flex-wrap">
+                <h3 class="text-xs font-black text-accent uppercase tracking-wider">Resumen</h3>
+                <div class="flex items-center gap-3 text-[11px] font-bold">
+                  <span class="${wrClass(hero.winrate)}">${hero.winrate !== null ? hero.winrate + '% WR' : '— WR'}</span>
+                  <span class="text-slate-400">${hero.pickrate !== null ? hero.pickrate + '% pickrate' : '— pickrate'}</span>
+                </div>
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed mt-1">${esc(note.summary || hero.role || hero.playstyle || '')}</p>
+              ${hero.playstyle ? `<p class="text-[11px] text-slate-500 mt-2 leading-relaxed">${esc(hero.playstyle)}</p>` : ''}
+            </div>
+
+            <div>
+              <h3 class="text-xs font-black text-accent uppercase tracking-wider mb-2">Habilidades</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                ${(hero.abilities || []).map((ability) => `
+                  <div class="bg-slate-950 border border-custom rounded-xl p-3">
+                    <div class="flex items-center gap-2 mb-1.5">
+                      <div class="w-8 h-8 rounded-lg bg-slate-900 border border-custom overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-black text-accent">${ability.slot}</div>
+                      <div class="min-w-0">
+                        <div class="text-[11px] font-black text-white truncate">${esc(ability.name)}</div>
+                        <div class="text-[9px] text-slate-500 font-bold">${ability.cooldown ? ability.cooldown + 's CD' : 'Pasiva'}</div>
+                      </div>
+                    </div>
+                    <p class="text-[10px] text-slate-400 leading-relaxed">${esc(ability.description || 'Descripción no disponible.')}</p>
+                    ${ability.upgrades && ability.upgrades.length ? `<div class="mt-1.5 space-y-1">${ability.upgrades.map((up) => `<div class="text-[9px] text-slate-500"><span class="text-accent font-black">T${up.tier}</span> ${esc(up.text)}</div>`).join('')}</div>` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <h3 class="text-xs font-black text-accent uppercase tracking-wider">Build recomendada</h3>
+                <button data-copy-build="${esc(hero.name)}" class="text-[10px] font-black px-2.5 py-1 rounded-lg bg-slate-900 border border-custom hover:border-accent hover:text-accent text-slate-300 transition flex items-center gap-1">
+                  <i data-lucide="copy" class="w-3 h-3"></i> COPIAR BUILD
+                </button>
+              </div>
+              ${build ? `
+                <div class="space-y-3">
+                  ${phaseBlock('Early game', build.early)}
+                  ${phaseBlock('Mid game', build.mid)}
+                  ${phaseBlock('Late game', build.late)}
+                  ${phaseBlock('Situacional', build.situational)}
+                </div>
+              ` : `<p class="text-xs text-slate-500">Build detallada en preparación.</p>`}
+              ${build && note.skillOrder ? `<p class="text-[11px] text-slate-400 mt-3"><span class="text-accent font-black">Orden de habilidades:</span> ${esc(note.skillOrder)}</p>` : ''}
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="bg-slate-950 border border-custom rounded-xl p-4">
+              <h3 class="text-xs font-black text-accent uppercase tracking-wider mb-2">Estadísticas base</h3>
+              <div class="space-y-1.5">
+                ${(hero.stats || []).map((stat) => `
+                  <div class="flex items-center justify-between gap-2 text-[11px]">
+                    <span class="text-slate-400">${esc(stat.label)}</span>
+                    <span class="font-black text-slate-200">${esc(stat.value)}</span>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="mt-3 pt-3 border-t border-custom/60 space-y-1.5 text-[11px]">
+                <div class="flex items-center justify-between"><span class="text-slate-400">Tipo</span><span class="font-black text-slate-200">${esc(hero.typeLabel)}</span></div>
+                <div class="flex items-center justify-between"><span class="text-slate-400">Complejidad</span><span class="font-black text-slate-200">${esc(COMPLEXITY_LABEL[hero.complexity] || '—')}</span></div>
+                <div class="flex items-center justify-between"><span class="text-slate-400">Arma</span><span class="font-black text-slate-200">${esc(hero.gunTag || '—')}</span></div>
+              </div>
+              ${(hero.tags || []).length ? `<div class="flex flex-wrap gap-1 mt-3">${hero.tags.map((tag) => `<span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-900 text-slate-400 border border-custom">${esc(tag)}</span>`).join('')}</div>` : ''}
+            </div>
+
+            <div class="bg-slate-950 border border-custom rounded-xl p-4">
+              <h3 class="text-xs font-black text-accent uppercase tracking-wider mb-2">Tendencia real</h3>
+              <p class="text-[9px] text-slate-500 mb-2">Ítems más comprados en el parche actual.</p>
+              <div class="space-y-2">
+                ${['early', 'mid', 'late'].map((phase) => {
+                  const list = (hero.popularItems && hero.popularItems[phase]) || [];
+                  if (!list.length) return '';
+                  return `<div>
+                    <div class="text-[9px] font-black text-slate-500 uppercase mb-1">${phase === 'early' ? 'Early' : phase === 'mid' ? 'Mid' : 'Late'}</div>
+                    <div class="space-y-1">${list.slice(0, 3).map((item) => `
+                      <div class="flex items-center justify-between gap-2 text-[10px]">
+                        <span class="text-slate-300 truncate">${esc(item.name)}</span>
+                        <span class="text-slate-500 font-bold shrink-0">${item.pickPct}%</span>
+                      </div>
+                    `).join('')}</div>
+                  </div>`;
+                }).join('')}
+              </div>
+            </div>
+
+            ${(note.tips || []).length ? `
+              <div class="bg-slate-950 border border-custom rounded-xl p-4">
+                <h3 class="text-xs font-black text-accent uppercase tracking-wider mb-2">Consejos</h3>
+                <ul class="space-y-1.5">
+                  ${note.tips.map((tip) => `<li class="text-[11px] text-slate-300 leading-relaxed flex gap-1.5"><span class="text-accent">•</span><span>${esc(tip)}</span></li>`).join('')}
+                </ul>
+              </div>
+            ` : ''}
+
+            ${(note.counters || []).length ? `
+              <div class="bg-slate-950 border border-custom rounded-xl p-4">
+                <h3 class="text-xs font-black text-accent uppercase tracking-wider mb-2">Counters</h3>
+                <div class="flex flex-wrap gap-1">${note.counters.map((c) => `<span class="text-[9px] px-1.5 py-0.5 rounded bg-red-500/10 text-red-300 border border-red-500/20">${esc(c)}</span>`).join('')}</div>
+              </div>
+            ` : ''}
+
+            ${(note.synergies || []).length ? `
+              <div class="bg-slate-950 border border-custom rounded-xl p-4">
+                <h3 class="text-xs font-black text-accent uppercase tracking-wider mb-2">Sinergias</h3>
+                <div class="flex flex-wrap gap-1">${note.synergies.map((s) => `<span class="text-[9px] px-1.5 py-0.5 rounded bg-green-500/10 text-green-300 border border-green-500/20">${esc(s)}</span>`).join('')}</div>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (modal.firstElementChild) modal.firstElementChild.scrollTop = 0;
+      document.body.classList.add('overflow-hidden');
+      if (window.lucide) lucide.createIcons();
+
+      const copyBtn = content.querySelector('[data-copy-build]');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => copyBuild(hero.name));
+      }
+    }
+
+    function openItem(name) {
+      const item = items.find((i) => i.name === name);
+      if (!item) return;
+
+      const users = heroes.filter((hero) => {
+        const popular = ['early', 'mid', 'late'].some((phase) =>
+          ((hero.popularItems && hero.popularItems[phase]) || []).some((entry) => entry.id === item.id)
+        );
+        if (popular) return true;
+        const note = heroNotes[hero.name] || {};
+        return Object.values(note.build || {}).flat().some((label) => {
+          const found = findItem(label);
+          return found && found.id === item.id;
+        });
+      }).slice(0, 12);
+
+      const content = document.getElementById('item-modal-content');
+      content.innerHTML = `
+        <div class="flex items-start gap-4 pr-8">
+          <div class="w-20 h-20 rounded-2xl bg-slate-950 border border-custom overflow-hidden shrink-0 flex items-center justify-center">
+            <img src="${esc(item.image)}" alt="" class="w-full h-full object-contain p-1">
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap mb-1">
+              <span class="text-[10px] font-black px-2 py-0.5 rounded border ${SLOT_STYLE[item.slot] || 'bg-slate-900 text-slate-300 border-custom'}">${esc(item.slotLabel)}</span>
+              <span class="text-[10px] font-bold text-slate-400">Tier ${item.tier}</span>
+              <span class="text-[10px] font-black text-accent">${item.cost.toLocaleString('es-ES')} almas</span>
+              ${item.active ? '<span class="text-[10px] font-bold text-violet-300">ACTIVO</span>' : ''}
+            </div>
+            <h2 class="text-xl md:text-2xl font-black text-white">${esc(item.name)}</h2>
+            <p class="text-xs text-slate-400 mt-1">${esc(item.description || 'Sin descripción oficial. Revisa sus estadísticas.')}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
+          ${(item.stats || []).map((stat) => `
+            <div class="bg-slate-950 border border-custom rounded-xl px-3 py-2 flex items-center justify-between gap-2">
+              <span class="text-[11px] text-slate-400">${esc(stat.label)}</span>
+              <span class="text-xs font-black text-slate-100">${esc(stat.value)}</span>
+            </div>
+          `).join('') || '<p class="text-xs text-slate-500">Sin estadísticas destacadas.</p>'}
+        </div>
+
+        <div class="mt-5 pt-4 border-t border-custom">
+          <h3 class="text-xs font-black text-accent uppercase tracking-wider mb-2">Héroes que lo usan</h3>
+          ${users.length ? `<div class="flex flex-wrap gap-1.5">${users.map((hero) => `
+            <button data-hero="${esc(hero.name)}" class="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-950 border border-custom hover:border-accent transition">
+              <img src="${esc(hero.smallImage || hero.image)}" alt="" class="w-4 h-4 rounded object-cover" loading="lazy" onerror="this.style.display='none'">
+              <span class="text-[10px] font-bold text-slate-300">${esc(hero.name)}</span>
+            </button>
+          `).join('')}</div>` : '<p class="text-xs text-slate-500">Todavía no hay builds con este objeto.</p>'}
+        </div>
+      `;
+
+      content.querySelectorAll('[data-hero]').forEach((el) => {
+        el.addEventListener('click', () => {
+          closeModal('item-modal');
+          openHero(el.getAttribute('data-hero'));
+        });
+      });
+
+      const modal = document.getElementById('item-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (modal.firstElementChild) modal.firstElementChild.scrollTop = 0;
+      document.body.classList.add('overflow-hidden');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function openGuide(id) {
+      const guide = guidesData.guides.find((g) => g.id === id);
+      if (!guide) return;
+
+      const content = document.getElementById('guide-modal-content');
+      content.innerHTML = `
+        <div class="pr-8">
+          <span class="text-[10px] font-black px-2 py-0.5 rounded bg-accent-soft text-accent border border-accent uppercase tracking-wider">${esc(guide.category)}</span>
+          <h2 class="text-xl md:text-2xl font-black text-white mt-2">${esc(guide.title)}</h2>
+          <p class="text-xs text-slate-400 mt-1">${esc(guide.summary)}</p>
+        </div>
+
+        <div class="space-y-3 mt-5">
+          ${guide.content.map((paragraph) => `<p class="text-sm text-slate-300 leading-relaxed">${esc(paragraph)}</p>`).join('')}
+        </div>
+
+        <div class="mt-5 bg-slate-950 border border-custom rounded-xl p-4">
+          <h3 class="text-xs font-black text-accent uppercase tracking-wider mb-2">Consejos rápidos</h3>
+          <ul class="space-y-1.5">
+            ${guide.tips.map((tip) => `<li class="text-[11px] text-slate-300 flex gap-1.5"><span class="text-accent">•</span><span>${esc(tip)}</span></li>`).join('')}
+          </ul>
+        </div>
+      `;
+
+      const modal = document.getElementById('guide-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (modal.firstElementChild) modal.firstElementChild.scrollTop = 0;
+      document.body.classList.add('overflow-hidden');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      const anyOpen = ['hero-modal', 'item-modal', 'guide-modal'].some((modalId) => {
+        const other = document.getElementById(modalId);
+        return other && !other.classList.contains('hidden');
+      });
+      if (!anyOpen) {
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    function copyBuild(name) {
+      const note = heroNotes[name] || {};
+      const build = note.build;
+      if (!build) return;
+      const text = [
+        `Build de ${name} · SoloQChallenge Deadlock`,
+        `Early: ${build.early.join(', ')}`,
+        `Mid: ${build.mid.join(', ')}`,
+        `Late: ${build.late.join(', ')}`,
+        `Situacional: ${build.situational.join(', ')}`,
+        `Orden de habilidades: ${note.skillOrder || '—'}`
+      ].join('\n');
+
+      const done = () => {
+        const toast = document.getElementById('copy-toast');
+        toast.classList.remove('hidden');
+        window.setTimeout(() => toast.classList.add('hidden'), 2200);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done).catch(done);
+      } else {
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand('copy'); } catch (error) { /* noop */ }
+        document.body.removeChild(area);
+        done();
+      }
+    }
+
+    function setTab(tab) {
+      state.tab = tab;
+      document.querySelectorAll('.tab-btn').forEach((btn) => {
+        const active = btn.getAttribute('data-tab') === tab;
+        btn.classList.toggle('active', active);
+        btn.classList.toggle('text-slate-400', !active);
+        btn.classList.toggle('hover:text-white', !active);
+      });
+      document.querySelectorAll('.tab-panel').forEach((panel) => {
+        panel.classList.toggle('hidden', panel.id !== `panel-${tab}`);
+      });
+      if (tab === 'tierlist') renderTierlist();
+      if (tab === 'items') renderItems();
+      if (tab === 'guides') renderGuides();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('hero-total').textContent = heroes.length;
+      document.getElementById('item-total').textContent = items.length;
+      document.getElementById('guide-total').textContent = guidesData.guides.length;
+      document.getElementById('hero-updated').textContent = deadlockHeroesData.updatedAt.slice(0, 10);
+      document.getElementById('footer-updated').textContent = deadlockHeroesData.updatedAt.slice(0, 10);
+
+      // Tabs
+      document.querySelectorAll('.tab-btn').forEach((btn) => {
+        btn.addEventListener('click', () => setTab(btn.getAttribute('data-tab')));
+      });
+
+      // Filtros de héroes
+      const heroSearch = document.getElementById('hero-search');
+      const heroRole = document.getElementById('hero-role');
+      const heroComplexity = document.getElementById('hero-complexity');
+      const heroTier = document.getElementById('hero-tier');
+      heroSearch.addEventListener('input', (event) => { state.heroSearch = event.target.value; renderHeroes(); });
+      heroRole.addEventListener('change', (event) => { state.heroRole = event.target.value; renderHeroes(); });
+      heroComplexity.addEventListener('change', (event) => { state.heroComplexity = event.target.value; renderHeroes(); });
+      heroTier.addEventListener('change', (event) => { state.heroTier = event.target.value; renderHeroes(); });
+
+      const heroesGrid = document.getElementById('heroes-grid');
+      heroesGrid.addEventListener('click', (event) => {
+        const card = event.target.closest('[data-hero]');
+        if (card) openHero(card.getAttribute('data-hero'));
+      });
+
+      // Tierlist
+      document.getElementById('tier-role').addEventListener('change', (event) => {
+        state.tierRole = event.target.value;
+        renderTierlist();
+      });
+
+      // Objetos
+      document.getElementById('item-search').addEventListener('input', (event) => {
+        state.itemSearch = event.target.value;
+        renderItems();
+      });
+      document.getElementById('item-slot').addEventListener('change', (event) => {
+        state.itemSlot = event.target.value;
+        renderItems();
+      });
+      document.getElementById('item-tier').addEventListener('change', (event) => {
+        state.itemTier = event.target.value;
+        renderItems();
+      });
+
+      // Cierre de modales
+      document.querySelectorAll('[data-close]').forEach((btn) => {
+        btn.addEventListener('click', () => closeModal(btn.getAttribute('data-close')));
+      });
+      ['hero-modal', 'item-modal', 'guide-modal'].forEach((id) => {
+        const modal = document.getElementById(id);
+        modal.addEventListener('click', (event) => {
+          if (event.target === modal) closeModal(id);
+        });
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          ['hero-modal', 'item-modal', 'guide-modal'].forEach(closeModal);
+        }
+      });
+
+      renderHeroes();
+      renderTierlist();
+      renderItems();
+      renderGuides();
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>

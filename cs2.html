@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SoloQ Challenge - CS2</title>
+  <meta name="robots" content="noindex, follow">
+  <title>SoloQ Challenge - CS2 (Demo)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -26,15 +27,20 @@
           <span class="font-extrabold text-xl tracking-wider text-white uppercase">SoloQ<span class="text-orange-500">Challenge</span></span>
         </a>
 
-        <nav class="flex gap-1 bg-slate-900/80 p-1 rounded-lg border border-custom">
-          <a href="lol.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
-            <i data-lucide="swords" class="w-4 h-4"></i> League of Legends
+        <nav class="flex gap-1 bg-slate-900/80 p-1 rounded-lg border border-custom overflow-x-auto custom-scrollbar max-w-[62vw] lg:max-w-none" aria-label="Juegos">
+          <a href="lol.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap shrink-0">
+            <i data-lucide="swords" class="w-4 h-4"></i><span class="hidden xl:inline">League of Legends</span>
           </a>
-          <a href="valorant.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
-            <i data-lucide="crosshair" class="w-4 h-4"></i> Valorant
+          <a href="valorant.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap shrink-0">
+            <i data-lucide="crosshair" class="w-4 h-4"></i><span class="hidden xl:inline">Valorant</span>
           </a>
-          <a href="cs2.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-orange-500/10 text-orange-400 border border-orange-500/30">
-            <i data-lucide="target" class="w-4 h-4"></i> CS2
+          <a href="cs2.html" aria-current="page" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-orange-500/10 text-orange-400 border border-orange-500/30 whitespace-nowrap shrink-0">
+            <i data-lucide="target" class="w-4 h-4"></i><span class="hidden xl:inline">CS2</span>
+            <span class="text-[9px] font-black px-1 py-0.5 rounded bg-orange-500/15 text-orange-400 border border-orange-500/30 tracking-wider">DEMO</span>
+          </a>
+          <a href="deadlock.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap shrink-0">
+            <i data-lucide="flame" class="w-4 h-4"></i><span class="hidden xl:inline">Deadlock</span>
+            <span class="text-[9px] font-black px-1 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 tracking-wider">DEMO</span>
           </a>
         </nav>
       </div>
@@ -48,6 +54,17 @@
   </header>
 
   <div class="max-w-7xl mx-auto px-4 mt-6 space-y-8">
+
+    <!-- Aviso de demo: los datos de CS2 todavía no son reales -->
+    <div id="demo-banner" class="flex items-start gap-3 bg-orange-500/10 border border-orange-500/30 rounded-2xl px-4 py-3">
+      <i data-lucide="construction" class="w-5 h-5 text-orange-400 shrink-0 mt-0.5"></i>
+      <div>
+        <p class="text-sm font-black text-orange-300 uppercase tracking-wide">Modo demo · Próximamente</p>
+        <p class="text-xs text-slate-300 mt-0.5">
+          Este ranking usa datos de ejemplo y no refleja partidas reales. La integración automática de CS2 llegará en una próxima actualización.
+        </p>
+      </div>
+    </div>
 
     <!-- Sección principal del directo -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
@@ -102,8 +119,9 @@
         <div>
           <h2 class="text-3xl font-black uppercase tracking-tight text-white flex items-center gap-2">
             Ranking <span class="text-orange-400 text-xl font-bold">Counter-Strike 2</span>
+            <span class="text-[10px] font-black px-2 py-0.5 rounded bg-orange-500/15 text-orange-400 border border-orange-500/30 tracking-wider">DEMO</span>
           </h2>
-          <p class="text-xs text-slate-400">Actualización en tiempo real</p>
+          <p class="text-xs text-slate-400">Datos de demostración · La integración real está en camino</p>
         </div>
       </div>
 

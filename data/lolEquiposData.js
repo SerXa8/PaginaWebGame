@@ -8,32 +8,7 @@ function getPlayerRankLoL(playerName, fallbackRank = "Unranked") {
 }
 
 const lolEquiposData = {
-  teams: [
-    {
-      id: "team-lol-1",
-      name: "SoloQ Titans",
-      tag: "SQT",
-      type: "CLASH",
-      status: "TRYOUTS",
-      seekingRoles: ["Top", "Support"],
-      division: "Clash Tier 1",
-      members: [
-        { name: "JavierLoL", tag: "#EUW", role: "Mid" }
-      ]
-    }
-  ],
-  lftPlayers: [
-    {
-      name: "JavierLoL",
-      tag: "#EUW",
-      // Lee el rango automáticamente en tiempo real
-      get rank() { return getPlayerRankLoL(this.name, "Challenger"); },
-      primaryRole: "Mid",
-      secondaryRole: "Top",
-      status: "BUSCANDO",
-      notes: "Busco equipo para Clash Tier 1.",
-      twitter: "https://twitter.com/",
-      twitch: "javierrlol"
-    }
-  ]
+  // Sin equipos ni jugadores LFT de ejemplo por ahora.
+  teams: [],
+  lftPlayers: []
 };

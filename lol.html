@@ -32,15 +32,20 @@
           <span class="font-extrabold text-xl tracking-wider text-white uppercase">SoloQ<span class="text-yellow-500">Challenge</span></span>
         </a>
 
-        <nav class="flex gap-1 bg-slate-900/80 p-1 rounded-lg border border-custom">
-          <a href="lol.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-yellow-500/10 text-yellow-400 border border-yellow-500/30">
-            <i data-lucide="swords" class="w-4 h-4"></i> League of Legends
+        <nav class="flex gap-1 bg-slate-900/80 p-1 rounded-lg border border-custom overflow-x-auto custom-scrollbar max-w-[62vw] lg:max-w-none" aria-label="Juegos">
+          <a href="lol.html" aria-current="page" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 whitespace-nowrap shrink-0">
+            <i data-lucide="swords" class="w-4 h-4"></i><span class="hidden xl:inline">League of Legends</span>
           </a>
-          <a href="valorant.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
-            <i data-lucide="crosshair" class="w-4 h-4"></i> Valorant
+          <a href="valorant.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap shrink-0">
+            <i data-lucide="crosshair" class="w-4 h-4"></i><span class="hidden xl:inline">Valorant</span>
           </a>
-          <a href="cs2.html" class="px-4 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
-            <i data-lucide="target" class="w-4 h-4"></i> CS2
+          <a href="cs2.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap shrink-0">
+            <i data-lucide="target" class="w-4 h-4"></i><span class="hidden xl:inline">CS2</span>
+            <span class="text-[9px] font-black px-1 py-0.5 rounded bg-orange-500/15 text-orange-400 border border-orange-500/30 tracking-wider">DEMO</span>
+          </a>
+          <a href="deadlock.html" class="px-3 py-1.5 rounded-md text-sm font-bold transition flex items-center gap-2 text-slate-400 hover:text-white whitespace-nowrap shrink-0">
+            <i data-lucide="flame" class="w-4 h-4"></i><span class="hidden xl:inline">Deadlock</span>
+            <span class="text-[9px] font-black px-1 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 tracking-wider">DEMO</span>
           </a>
         </nav>
       </div>
@@ -169,8 +174,6 @@
               <th class="py-3 px-4 text-center">V / D</th>
               <th class="py-3 px-4 text-center">Racha</th>
               <th class="py-3 px-4 text-center">±LP (Media)</th>
-              <th class="py-3 px-3 text-center">Aegis</th>
-              <th class="py-3 px-3 text-center">Shells</th>
               <th class="py-3 px-4 text-center">Stats</th>
             </tr>
           </thead>
@@ -250,31 +253,32 @@
 
         <!-- Métricas Clave de Rendimiento -->
         <div>
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
             <span>⚡</span> Métricas Clave de Rendimiento
           </h3>
+          <p id="pro-sample" class="text-[10px] text-slate-500 mb-3">Análisis automático de las últimas partidas de SoloQ</p>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
               <span class="text-[10px] text-slate-400 uppercase font-bold block">Fase de Líneas (CSD@10)</span>
-              <span class="text-xl font-black text-white" id="pro-csd10">+0.0</span>
-              <span class="text-[9px] block mt-0.5 text-slate-500">Diferencia CS min 10</span>
+              <span class="text-xl font-black text-white" id="pro-csd10">—</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Diferencia CS min 10 vs rival</span>
             </div>
 
             <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
               <span class="text-[10px] text-slate-400 uppercase font-bold block">Ventaja Oro (GD@10)</span>
-              <span class="text-xl font-black text-white" id="pro-gd10">+0g</span>
-              <span class="text-[9px] block mt-0.5 text-slate-500">Diferencia Oro min 10</span>
+              <span class="text-xl font-black text-white" id="pro-gd10">—</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Diferencia oro min 10 vs rival</span>
             </div>
 
             <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
-              <span class="text-[10px] text-slate-400 uppercase font-bold block">Eficiencia Oro / Daño</span>
-              <span class="text-xl font-black text-white" id="pro-dmg-efficiency">0.00</span>
-              <span class="text-[9px] block mt-0.5 text-slate-500">Ratio DPM / Oro%</span>
+              <span class="text-[10px] text-slate-400 uppercase font-bold block">Participación en Kills (KP)</span>
+              <span class="text-xl font-black text-white" id="pro-kp">—</span>
+              <span class="text-[9px] block mt-0.5 text-slate-500">Kills + asistencias del equipo</span>
             </div>
 
             <div class="bg-slate-900/80 p-3.5 rounded-xl border border-custom">
               <span class="text-[10px] text-slate-400 uppercase font-bold block">Control de Visión</span>
-              <span class="text-xl font-black text-white" id="pro-vision-pm">0.0 /m</span>
+              <span class="text-xl font-black text-white" id="pro-vision-pm">—</span>
               <span class="text-[9px] block mt-0.5 text-slate-500">Puntuación visión/min</span>
             </div>
           </div>
@@ -290,6 +294,7 @@
               <thead class="bg-slate-900/90 text-slate-400 uppercase text-[10px]">
                 <tr>
                   <th class="p-3">Champ</th>
+                  <th class="p-3">Rival</th>
                   <th class="p-3 text-center">KDA</th>
                   <th class="p-3 text-center">CS/m</th>
                   <th class="p-3 text-center">CSD@10</th>
@@ -539,7 +544,7 @@
     if (!players || players.length === 0) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="10" class="py-8 text-center text-slate-500 font-bold">
+          <td colspan="8" class="py-8 text-center text-slate-500 font-bold">
             No se encontraron jugadores.
           </td>
         </tr>
@@ -615,17 +620,8 @@
             <span class="text-green-400">▲ +${p.gain || 20}</span>
             <span class="text-red-400 ml-1">▼ -${p.lossLp || 19}</span>
           </td>
-          <td class="py-3 px-3 text-center font-bold text-slate-300">
-            <div class="inline-flex items-center gap-1 bg-slate-900/80 px-2 py-0.5 rounded-md border border-custom">
-              <span class="text-xs">🛡️</span>
-              <span class="text-[10px] text-yellow-400">24</span>
-            </div>
-          </td>
-          <td class="py-3 px-3 text-center font-bold text-slate-400">
-            <span class="text-[10px]">🐚 0h</span>
-          </td>
           <td class="py-3 px-4 text-center" onclick="event.stopPropagation()">
-            <a href="https://www.op.gg/summoners/euw/${encodeURIComponent(p.name)}-${encodeURIComponent((p.tag || '').replace('#', ''))}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
+            <a href="https://www.op.gg/summoners/euw/${encodeURIComponent(p.riotName || p.name)}-${encodeURIComponent((p.tag || '').replace('#', ''))}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black font-extrabold rounded-md text-[10px] uppercase transition shadow">
               OP.GG
             </a>
           </td>
@@ -713,115 +709,214 @@
     const perf = p.performanceMetrics || {};
     const matches = p.recentMatches || [];
 
-    const avgCsd10 = perf.avgCsd10 !== undefined 
-      ? perf.avgCsd10 
-      : (matches.length ? (matches.reduce((acc, m) => acc + (Number(m.csd10) || 0), 0) / matches.length) : 0);
+    const numeric = (value) => {
+      if (value === null || value === undefined) return null;
+      const n = parseFloat(String(value).replace('%', ''));
+      return Number.isFinite(n) ? n : null;
+    };
 
-    const avgGd10 = perf.avgGd10 !== undefined 
-      ? perf.avgGd10 
-      : (matches.length ? (matches.reduce((acc, m) => acc + (Number(m.gd10) || 0), 0) / matches.length) : 0);
+    const average = (values) => values.length
+      ? values.reduce((acc, value) => acc + value, 0) / values.length
+      : null;
 
-    const avgCspm = perf.avgCspm !== undefined 
-      ? parseFloat(perf.avgCspm) 
-      : (matches.length ? (matches.reduce((acc, m) => acc + parseFloat(m.cspm || (m.cs / (m.gameDurationMinutes || 1))), 0) / matches.length) : 0);
+    const valuesFromMatches = (key) => matches
+      .map(m => numeric(m[key]))
+      .filter(value => value !== null);
 
-    const avgVision = perf.avgVisionPerMin !== undefined 
-      ? parseFloat(perf.avgVisionPerMin) 
-      : (matches.length ? (matches.reduce((acc, m) => acc + parseFloat(m.visionPerMin || 1.0), 0) / matches.length) : 1.0);
+    const avgCsd10 = numeric(perf.avgCsd10) ?? average(valuesFromMatches('csd10'));
+    const avgGd10 = numeric(perf.avgGd10) ?? average(valuesFromMatches('gd10'));
+    const avgCspm = numeric(perf.avgCspm) ?? average(valuesFromMatches('cspm'));
+    const avgVision = numeric(perf.avgVisionPerMin) ?? average(valuesFromMatches('visionPerMin'));
+    const avgKp = numeric(perf.avgKp) ?? average(valuesFromMatches('killParticipation'));
+    const avgDamageShare = numeric(perf.avgDamageShare) ?? average(valuesFromMatches('damageShare'));
+    const avgDeaths = numeric(perf.avgDeaths) ?? average(valuesFromMatches('deaths'));
+    const totalGames = numeric(perf.totalAnalyzedGames) ?? matches.length;
+    const csdSample = numeric(perf.csdSample) ?? valuesFromMatches('csd10').length;
 
-    const avgDpm = perf.avgDpm || 0;
-    const goldShare = parseFloat(perf.goldShare || "20%");
-    const dmgEfficiency = goldShare > 0 ? (avgDpm / goldShare).toFixed(1) : "30.0";
+    const setMetric = (id, text, tone) => {
+      const elem = document.getElementById(id);
+      if (!elem) return;
+      elem.innerText = text;
+      elem.className = `text-xl font-black ${tone}`;
+    };
 
-    const csdElem = document.getElementById('pro-csd10');
-    if (csdElem) {
-      csdElem.innerText = (avgCsd10 >= 0 ? '+' : '') + avgCsd10.toFixed(1);
-      csdElem.className = `text-xl font-black ${avgCsd10 >= 0 ? 'text-green-400' : 'text-red-400'}`;
+    setMetric(
+      'pro-csd10',
+      avgCsd10 === null ? '—' : `${avgCsd10 >= 0 ? '+' : ''}${avgCsd10.toFixed(1)}`,
+      avgCsd10 === null ? 'text-slate-400' : (avgCsd10 >= 0 ? 'text-green-400' : 'text-red-400')
+    );
+
+    setMetric(
+      'pro-gd10',
+      avgGd10 === null ? '—' : `${avgGd10 >= 0 ? '+' : ''}${Math.round(avgGd10)}g`,
+      avgGd10 === null ? 'text-slate-400' : (avgGd10 >= 0 ? 'text-green-400' : 'text-red-400')
+    );
+
+    setMetric(
+      'pro-kp',
+      avgKp === null ? '—' : `${avgKp.toFixed(1)}%`,
+      avgKp === null ? 'text-slate-400' : (avgKp >= 50 ? 'text-green-400' : 'text-slate-300')
+    );
+
+    setMetric(
+      'pro-vision-pm',
+      avgVision === null ? '—' : `${avgVision.toFixed(1)} /m`,
+      avgVision === null ? 'text-slate-400' : (avgVision >= 1 ? 'text-green-400' : 'text-slate-300')
+    );
+
+    const sampleElem = document.getElementById('pro-sample');
+    if (sampleElem) {
+      const csdText = csdSample > 0
+        ? ` · CSD@10/GD@10 en ${csdSample}`
+        : ' · sin timeline disponible';
+      sampleElem.innerText = `Análisis automático de ${totalGames} partida${totalGames === 1 ? '' : 's'} de SoloQ${csdText}`;
+      sampleElem.className = `text-[10px] mb-3 ${totalGames < 3 ? 'text-amber-400' : 'text-slate-500'}`;
     }
-
-    const gdElem = document.getElementById('pro-gd10');
-    if (gdElem) {
-      gdElem.innerText = (avgGd10 >= 0 ? '+' : '') + Math.round(avgGd10) + 'g';
-      gdElem.className = `text-xl font-black ${avgGd10 >= 0 ? 'text-green-400' : 'text-red-400'}`;
-    }
-
-    const dmgElem = document.getElementById('pro-dmg-efficiency');
-    if (dmgElem) dmgElem.innerText = dmgEfficiency;
-
-    const visionElem = document.getElementById('pro-vision-pm');
-    if (visionElem) visionElem.innerText = `${avgVision.toFixed(1)} /m`;
 
     const strengths = [];
     const weaknesses = [];
     const role = (p.role || '').toLowerCase();
     const isSupport = role === 'support' || role === 'supp';
 
-    if (avgCsd10 > 1.0) {
-      strengths.push(`Dominio de la fase de líneas (+${avgCsd10.toFixed(1)} CS a min 10).`);
-    } else if (avgCsd10 < -1.0) {
-      weaknesses.push(`Sufre en fase de líneas (${avgCsd10.toFixed(1)} CS a min 10).`);
-    } else {
-      strengths.push('Fase de líneas estable sin ceder ventajas apreciables.');
-    }
+    const addFinding = (list, text) => {
+      if (list.length < 4) list.push(text);
+    };
 
-    if (!isSupport) {
-      if (avgCspm >= 7.5) {
-        strengths.push(`Excelente recolección de recursos (${avgCspm.toFixed(1)} CS/min).`);
-      } else if (avgCspm < 6.5) {
-        weaknesses.push(`Bajo farmeo constante (${avgCspm.toFixed(1)} CS/min). Pierde oleadas en mid game.`);
+    if (totalGames >= 3) {
+      if (!isSupport && avgCsd10 !== null) {
+        if (avgCsd10 > 10) {
+          addFinding(strengths, `Domina la fase de líneas: ${avgCsd10 > 0 ? '+' : ''}${avgCsd10.toFixed(1)} CS de ventaja a min 10.`);
+        } else if (avgCsd10 < -10) {
+          addFinding(weaknesses, `Pierde la fase de líneas: ${avgCsd10.toFixed(1)} CS a min 10 frente a su rival.`);
+        }
       }
-    }
 
-    const visionTarget = isSupport ? 2.0 : 1.2;
-    if (avgVision >= visionTarget) {
-      strengths.push(`Gran visión y mapa despejado (${avgVision.toFixed(1)}/min).`);
-    } else {
-      weaknesses.push(`Puntuación de visión baja (${avgVision.toFixed(1)}/min). Falta de guardianes.`);
+      if (avgGd10 !== null) {
+        if (avgGd10 > 300) {
+          addFinding(strengths, `Genera ventaja económica temprana (${avgGd10 > 0 ? '+' : ''}${Math.round(avgGd10)} g a min 10).`);
+        } else if (avgGd10 < -300) {
+          addFinding(weaknesses, `Cede oro en los primeros 10 minutos (${Math.round(avgGd10)} g).`);
+        }
+      }
+
+      if (!isSupport && avgCspm !== null) {
+        if (avgCspm >= 7) {
+          addFinding(strengths, `Farmeo constante y eficiente (${avgCspm.toFixed(1)} CS/min).`);
+        } else if (avgCspm < 5.5) {
+          addFinding(weaknesses, `Farmeo bajo (${avgCspm.toFixed(1)} CS/min): pierde recursos en mid game.`);
+        }
+      }
+
+      const visionTarget = isSupport ? 1.8 : 1.0;
+      if (avgVision !== null) {
+        if (avgVision >= visionTarget) {
+          addFinding(strengths, `Buena puntuación de visión (${avgVision.toFixed(2)}/min).`);
+        } else if (avgVision < visionTarget * 0.8) {
+          addFinding(weaknesses, `Visión por debajo de lo esperado (${avgVision.toFixed(2)}/min).`);
+        }
+      }
+
+      if (avgKp !== null) {
+        if (avgKp >= 60) {
+          addFinding(strengths, `Participa en la mayoría de las kills del equipo (${avgKp.toFixed(1)}% KP).`);
+        } else if (avgKp < 45) {
+          addFinding(weaknesses, `Participación en kills baja (${avgKp.toFixed(1)}%): juega demasiado aislado.`);
+        }
+      }
+
+      if (avgDamageShare !== null) {
+        if (avgDamageShare >= 25) {
+          addFinding(strengths, `Alto peso en el daño del equipo (${avgDamageShare.toFixed(1)}%).`);
+        } else if (avgDamageShare < 15) {
+          addFinding(weaknesses, `Aporte de daño limitado (${avgDamageShare.toFixed(1)}% del equipo).`);
+        }
+      }
+
+      if (avgDeaths !== null) {
+        if (avgDeaths > 5.5) {
+          addFinding(weaknesses, `Demasiadas muertes por partida (${avgDeaths.toFixed(1)}).`);
+        } else if (avgDeaths <= 3.5) {
+          addFinding(strengths, `Muere poco y mantiene el mapa (${avgDeaths.toFixed(1)} muertes/partida).`);
+        }
+      }
+
+      const kda = numeric(perf.avgKda);
+      if (kda !== null) {
+        if (kda >= 3) {
+          addFinding(strengths, `KDA muy alto (${kda.toFixed(2)}).`);
+        } else if (kda < 1.5) {
+          addFinding(weaknesses, `KDA bajo (${kda.toFixed(2)}): poco impacto en las peleas.`);
+        }
+      }
+
+      const wr = numeric(p.wr);
+      if (wr !== null) {
+        if (wr >= 55) {
+          addFinding(strengths, `Winrate positivo en SoloQ (${wr.toFixed(0)}%).`);
+        } else if (wr < 45) {
+          addFinding(weaknesses, `Winrate negativo en SoloQ (${wr.toFixed(0)}%).`);
+        }
+      }
     }
 
     const strengthsList = document.getElementById('pro-strengths-list');
     if (strengthsList) {
-      strengthsList.innerHTML = strengths.length > 0
-        ? strengths.map(s => `
-            <div class="p-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300 flex items-start gap-2">
-              <span class="text-green-400 font-bold">✓</span>
-              <span>${s}</span>
-            </div>
-          `).join('')
-        : '<p class="text-slate-500 text-xs">Sin puntos destacados.</p>';
+      if (totalGames < 3) {
+        strengthsList.innerHTML = `<p class="text-amber-400 text-xs">Muestra insuficiente (${totalGames} partida${totalGames === 1 ? '' : 's'}). Juega más SoloQ para generar un diagnóstico.</p>`;
+      } else {
+        strengthsList.innerHTML = strengths.length > 0
+          ? strengths.map(s => `
+              <div class="p-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300 flex items-start gap-2">
+                <span class="text-green-400 font-bold">✓</span>
+                <span>${s}</span>
+              </div>
+            `).join('')
+          : '<p class="text-slate-500 text-xs">Sin puntos destacados.</p>';
+      }
     }
 
     const weaknessesList = document.getElementById('pro-weaknesses-list');
     if (weaknessesList) {
-      weaknessesList.innerHTML = weaknesses.length > 0
-        ? weaknesses.map(w => `
-            <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 flex items-start gap-2">
-              <span class="text-red-400 font-bold">⚠️</span>
-              <span>${w}</span>
-            </div>
-          `).join('')
-        : '<p class="text-slate-500 text-xs">Sin fallos críticos detectados.</p>';
+      if (totalGames < 3) {
+        weaknessesList.innerHTML = '<p class="text-slate-500 text-xs">Sin datos suficientes para evaluar debilidades.</p>';
+      } else {
+        weaknessesList.innerHTML = weaknesses.length > 0
+          ? weaknesses.map(w => `
+              <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 flex items-start gap-2">
+                <span class="text-red-400 font-bold">⚠️</span>
+                <span>${w}</span>
+              </div>
+            `).join('')
+          : '<p class="text-slate-500 text-xs">Sin fallos críticos detectados.</p>';
+      }
     }
 
     const proTableBody = document.getElementById('pro-matches-body');
     if (proTableBody) {
       if (matches.length > 0) {
-        proTableBody.innerHTML = matches.slice().reverse().map(m => `
+        proTableBody.innerHTML = matches.slice().reverse().map(m => {
+          const csd = numeric(m.csd10);
+          const vision = numeric(m.visionPerMin);
+          const cspm = m.cspm || (m.cs / (m.gameDurationMinutes || 30)).toFixed(1);
+
+          return `
           <tr class="${m.win ? 'bg-green-950/10' : 'bg-red-950/10'} hover:bg-slate-900 transition">
             <td class="p-3 font-bold text-white flex items-center gap-2">
               <span class="w-2 h-2 rounded-full ${m.win ? 'bg-green-500' : 'bg-red-500'}"></span>
               ${m.championName}
             </td>
+            <td class="p-3 text-slate-400">${m.laneOpponent || '—'}</td>
             <td class="p-3 text-center font-mono font-bold text-slate-300">${m.kills}/${m.deaths}/${m.assists}</td>
-            <td class="p-3 text-center text-slate-300 font-semibold">${m.cspm || (m.cs / (m.gameDurationMinutes || 30)).toFixed(1)}</td>
-            <td class="p-3 text-center font-bold ${(Number(m.csd10) || 0) >= 0 ? 'text-green-400' : 'text-red-400'}">${(Number(m.csd10) || 0) >= 0 ? '+' : ''}${m.csd10 || 0}</td>
-            <td class="p-3 text-center text-slate-300">${m.killParticipation || '0%'}</td>
-            <td class="p-3 text-center text-slate-300">${m.damageShare || '0%'}</td>
-            <td class="p-3 text-center text-slate-300">${m.visionPerMin || '1.0'}</td>
+            <td class="p-3 text-center text-slate-300 font-semibold">${cspm}</td>
+            <td class="p-3 text-center font-bold ${csd === null ? 'text-slate-500' : (csd >= 0 ? 'text-green-400' : 'text-red-400')}">${csd === null ? '—' : `${csd >= 0 ? '+' : ''}${csd}`}</td>
+            <td class="p-3 text-center text-slate-300">${m.killParticipation || '—'}</td>
+            <td class="p-3 text-center text-slate-300">${m.damageShare || '—'}</td>
+            <td class="p-3 text-center text-slate-300">${vision === null ? '—' : vision.toFixed(2)}</td>
           </tr>
-        `).join('');
+        `;
+        }).join('');
       } else {
-        proTableBody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-slate-500">Sin datos de telemetría disponibles.</td></tr>';
+        proTableBody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-slate-500">Sin datos de telemetría disponibles.</td></tr>';
       }
     }
 

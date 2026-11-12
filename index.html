@@ -27,6 +27,10 @@
       box-shadow: 0 0 35px rgba(249, 115, 22, 0.35);
       border-color: rgba(249, 115, 22, 0.6);
     }
+    .card-dl:hover {
+      box-shadow: 0 0 35px rgba(212, 162, 76, 0.35);
+      border-color: rgba(212, 162, 76, 0.6);
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
@@ -57,7 +61,7 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 w-full max-w-6xl xl:max-w-7xl">
 
       <a href="lol.html" class="group relative h-96 rounded-3xl overflow-hidden border border-custom bg-slate-900 transition-all duration-500 transform hover:-translate-y-2 card-lol flex flex-col justify-end p-6">
         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60" style="background-image: url('https://images.contentstack.io/v3/assets/blt731acb42bb07e10e/blt3f269a9b75204481/5e73ef13103e620f32f3e823/LOL_PROMO_ART.jpg');"></div>
@@ -92,16 +96,36 @@
       </a>
 
       <a href="cs2.html" class="group relative h-96 rounded-3xl overflow-hidden border border-custom bg-slate-900 transition-all duration-500 transform hover:-translate-y-2 card-cs flex flex-col justify-end p-6">
-        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60" style="background-image: url('https://cdn.akamai.steamstatic.com/steam/apps/730/header.jpg');"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0d12] via-[#0b0d12]/40 to-transparent"></div>
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-40" style="background-image: url('https://cdn.akamai.steamstatic.com/steam/apps/730/header.jpg');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0d12] via-[#0b0d12]/50 to-transparent"></div>
+
+        <span class="absolute top-4 right-4 z-10 px-2.5 py-1 rounded-lg bg-slate-950/80 border border-orange-500/40 text-orange-400 text-[10px] font-black uppercase tracking-wider">Próximamente</span>
         
         <div class="relative z-10">
-          <div class="inline-block px-3 py-1 bg-orange-500/20 border border-orange-500/50 rounded-lg text-orange-400 font-bold text-xs uppercase tracking-wider mb-2">FPS FACEIT</div>
+          <div class="inline-block px-3 py-1 bg-orange-500/20 border border-orange-500/50 rounded-lg text-orange-400 font-bold text-xs uppercase tracking-wider mb-2">DEMO · FPS FACEIT</div>
           <h2 class="text-2xl font-black text-white group-hover:text-orange-400 transition-colors uppercase">Counter-Strike 2</h2>
-          <p class="text-xs text-slate-300 mt-1 mb-4">Demuestra quién manda en las ligas de Nivel 10 FACEIT.</p>
+          <p class="text-xs text-slate-300 mt-1 mb-4">Ranking en construcción con datos de ejemplo. La integración real llegará próximamente.</p>
           
           <div class="flex items-center gap-2 text-xs font-bold text-orange-400 group-hover:translate-x-1 transition-transform">
-            <span>Ver Ranking</span>
+            <span>Ver demo</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </div>
+        </div>
+      </a>
+
+      <a href="deadlock.html" class="group relative h-96 rounded-3xl overflow-hidden border border-custom bg-slate-900 transition-all duration-500 transform hover:-translate-y-2 card-dl flex flex-col justify-end p-6">
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60" style="background-image: url('https://cdn.akamai.steamstatic.com/steam/apps/1422450/library_hero.jpg');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0d12] via-[#0b0d12]/50 to-transparent"></div>
+
+        <span class="absolute top-4 right-4 z-10 px-2.5 py-1 rounded-lg bg-slate-950/80 border border-amber-500/40 text-amber-300 text-[10px] font-black uppercase tracking-wider">Demo</span>
+
+        <div class="relative z-10">
+          <div class="inline-block px-3 py-1 bg-amber-500/20 border border-amber-500/50 rounded-lg text-amber-300 font-bold text-xs uppercase tracking-wider mb-2">MOBA · HÉROES</div>
+          <h2 class="text-2xl font-black text-white group-hover:text-amber-300 transition-colors uppercase">Deadlock</h2>
+          <p class="text-xs text-slate-300 mt-1 mb-4">Ranking demo, directos y guía completa de héroes, builds y tierlist.</p>
+
+          <div class="flex items-center gap-2 text-xs font-bold text-amber-300 group-hover:translate-x-1 transition-transform">
+            <span>Ver demo</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </div>
         </div>
@@ -118,14 +142,14 @@
   <script>
     lucide.createIcons();
 
-    // Badge de directos activos: cuenta streams de LoL, Valorant y CS2
+    // Badge de directos activos: cuenta streams de LoL, Valorant, CS2 y Deadlock
     (async () => {
       const badge = document.getElementById('live-badge');
       const text = document.getElementById('live-badge-text');
       if (!badge || !text) return;
 
-      const GAME_IDS = ['21779', '516575', '32399'];
-      const GAME_NAMES = ['league of legends', 'valorant', 'counter-strike 2'];
+      const GAME_IDS = ['21779', '516575', '32399', '2132205352'];
+      const GAME_NAMES = ['league of legends', 'valorant', 'counter-strike 2', 'deadlock'];
 
       try {
         const res = await fetch('data/live.json?t=' + Date.now());

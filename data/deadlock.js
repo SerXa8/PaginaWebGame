@@ -1,0 +1,115 @@
+(() => {
+  const GAME_ID_DEADLOCK = '2132205352';
+  const GAME_NAME_DEADLOCK = 'deadlock';
+
+  async function cargarStreamDeadlock() {
+    const contenedor = document.getElementById('twitch-embed');
+    const listaStreamers = document.getElementById('streamers-list');
+    const totalViewersElem = document.getElementById('total-viewers');
+    const demoBanner = document.getElementById('demo-banner');
+
+    // El aviso de demo se oculta automáticamente cuando existan datos reales
+    if (demoBanner && typeof gameData !== 'undefined' && gameData.demo === false) {
+      demoBanner.classList.add('hidden');
+    }
+
+    if (!contenedor) return;
+
+    try {
+      const response = await fetch('data/live.json?t=' + Date.now());
+      const data = await response.json();
+      const streams = data.data || [];
+
+      const streamsJuego = streams.filter(
+        (s) =>
+          String(s.game_id) === GAME_ID_DEADLOCK ||
+          (s.game_name && s.game_name.toLowerCase() === GAME_NAME_DEADLOCK)
+      );
+
+      // Sincronizar el estado live con los jugadores del ranking
+      if (typeof gameData !== 'undefined' && Array.isArray(gameData.players)) {
+        gameData.players.forEach((p) => {
+          p.isLive = false;
+          p.viewers = 0;
+        });
+
+        streamsJuego.forEach((s) => {
+          const login = (s.user_login || '').toLowerCase().trim();
+          if (!login) return;
+          const player = gameData.players.find(
+            (p) => p.twitch && p.twitch.toLowerCase().trim() === login
+          );
+          if (player) {
+            player.isLive = true;
+            player.viewers = Number(s.viewer_count) || 0;
+          }
+        });
+
+        if (typeof renderUI === 'function') {
+          renderUI(gameData);
+        }
+      }
+
+      const totalEspectadores = streamsJuego.reduce(
+        (sum, s) => sum + (Number(s.viewer_count) || 0),
+        0
+      );
+      if (totalViewersElem) {
+        totalViewersElem.textContent = totalEspectadores.toLocaleString('es-ES');
+      }
+
+      if (listaStreamers) {
+        if (streamsJuego.length > 0) {
+          listaStreamers.innerHTML = streamsJuego
+            .map((s) => {
+              const displayName = s.user_name || s.user_login || 'Streamer';
+              const viewers = Number(s.viewer_count) || 0;
+              const viewersFormatted =
+                viewers >= 1000 ? (viewers / 1000).toFixed(1) + 'k' : viewers;
+
+              return `
+                <button onclick="setStream('${s.user_login}', '${displayName}')" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-800 transition border border-transparent hover:border-amber-500/30 text-left group">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-amber-900/40 border border-amber-500/40 flex items-center justify-center font-bold text-xs text-amber-300">
+                      ${displayName.substring(0, 2).toUpperCase()}
+                    </div>
+                    <div>
+                      <div class="text-xs font-bold text-slate-200 group-hover:text-amber-300 transition">${displayName}</div>
+                      <div class="text-[10px] text-slate-500">Twitch</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-xs font-bold text-slate-300">${viewersFormatted}</span>
+                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                  </div>
+                </button>
+              `;
+            })
+            .join('');
+        } else {
+          listaStreamers.innerHTML = `
+            <p class="text-xs text-slate-500 text-center py-4">No hay streamers en directo jugando a Deadlock.</p>
+          `;
+        }
+      }
+
+      if (streamsJuego.length > 0) {
+        const streamActivo = streamsJuego[0];
+        setStream(streamActivo.user_login, streamActivo.user_name);
+      } else {
+        contenedor.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-slate-400 p-6 text-center">
+            <p class="font-bold text-base">Ningún participante está jugando a Deadlock ahora mismo.</p>
+            <p class="text-xs text-slate-500 mt-1">El directo se activará automáticamente cuando inicien partida en este juego.</p>
+          </div>
+        `;
+        const nameElem = document.getElementById('streamer-current-name');
+        if (nameElem) nameElem.textContent = 'Sin directo activo';
+      }
+    } catch (error) {
+      console.error('Error al cargar los streams de Deadlock:', error);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', cargarStreamDeadlock);
+})();

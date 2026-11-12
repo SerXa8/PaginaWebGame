@@ -6,7 +6,7 @@ const gameData = {
       "riotName": "Madres Enjoyer",
       "tag": "#MILK",
       "role": "top",
-      "isLive": true,
+      "isLive": false,
       "elo": 2008,
       "absoluteElo": 5108,
       "tierName": "GRANDMASTER",
@@ -257,7 +257,8 @@ const gameData = {
           "gameDurationMinutes": 25
         }
       ],
-      "rank": 1
+      "rank": 1,
+      "timestamp": 1794240399743
     },
     {
       "puuid": "mkjHAzFTqyG4gTig_ZezdKF_7Fsb2Nydc8jPbnBAat6a8PAsCuj32RWX5p-GTEhy6f8_GfsTkmuFJg",
@@ -516,7 +517,8 @@ const gameData = {
           "gameDurationMinutes": 43
         }
       ],
-      "rank": 2
+      "rank": 2,
+      "timestamp": 1794240399743
     },
     {
       "puuid": "cPwPZP2PsxQBVqD-xjGpxT3MhcjZlg5orc76dG1XnX6VVenfCMTfYD4mO58emlhfSaP7R0hUjeCaLA",
@@ -775,7 +777,8 @@ const gameData = {
           "gameDurationMinutes": 41
         }
       ],
-      "rank": 3
+      "rank": 3,
+      "timestamp": 1794240399743
     },
     {
       "puuid": "QQvt4VG3fPkdt3d-wAWepGRyopVDG2FyqpLKQFuWwpVCOt0lSgYi1r3UK6xO_AX69f2thGOEFtvj6g",
@@ -1034,8 +1037,9 @@ const gameData = {
           "gameDurationMinutes": 29
         }
       ],
-      "rank": 4
+      "rank": 4,
+      "timestamp": 1794240399743
     }
   ],
-  "lastUpdated": "2026-11-09T16:06:39.747Z"
+  "lastUpdated": "2026-11-12T23:57:34.584Z"
 };

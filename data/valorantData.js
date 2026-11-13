@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-13T18:15:46.566Z",
+  "updatedAt": "2026-11-13T23:47:11.597Z",
   "players": [
     {
       "name": "SerXa08",
@@ -13,23 +13,23 @@ const gameData = {
       "tierName": "Diamond",
       "rankTier": "3",
       "absoluteRR": 1758,
-      "win": 5,
-      "loss": 3,
+      "win": 3,
+      "loss": 2,
       "draws": 0,
-      "wr": "63%",
+      "wr": "60%",
       "gain": 20,
       "lossLp": null,
-      "kd": "0.82",
-      "spark": "M0.0,15.9 L10.7,2.0 L21.4,20.2 L32.1,6.3 L42.9,24.5 L53.6,9.8 L64.3,28.0 L75.0,10.7",
+      "kd": "0.95",
+      "spark": "M0.0,2.0 L18.8,23.8 L37.5,6.2 L56.3,28.0 L75.0,7.2",
       "performanceMetrics": {
-        "kd": 0.82,
-        "headshotPct": "20.5%",
-        "acs": 176,
-        "adr": 126.3,
-        "firstBloods": 6,
-        "sampleSize": 8,
-        "wins": 5,
-        "losses": 3,
+        "kd": 0.95,
+        "headshotPct": "19.4%",
+        "acs": 200,
+        "adr": 138.3,
+        "firstBloods": 4,
+        "sampleSize": 5,
+        "wins": 3,
+        "losses": 2,
         "draws": 0
       },
       "recentMatches": [
@@ -102,56 +102,14 @@ const gameData = {
           "adr": 106.8,
           "firstBloods": 2,
           "gameDurationMinutes": 34
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Chamber",
-          "map": "Bind",
-          "kills": 10,
-          "deaths": 15,
-          "assists": 7,
-          "acs": 187,
-          "hsPct": "27.3%",
-          "adr": 153.3,
-          "firstBloods": 0,
-          "gameDurationMinutes": 28
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Cypher",
-          "map": "Summit",
-          "kills": 12,
-          "deaths": 15,
-          "assists": 3,
-          "acs": 127,
-          "hsPct": "30.6%",
-          "adr": 101.8,
-          "firstBloods": 0,
-          "gameDurationMinutes": 39
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Omen",
-          "map": "Summit",
-          "kills": 6,
-          "deaths": 16,
-          "assists": 12,
-          "acs": 102,
-          "hsPct": "10.7%",
-          "adr": 71.6,
-          "firstBloods": 2,
-          "gameDurationMinutes": 32
         }
       ],
       "topAgents": [
         {
           "agentName": "Cypher",
-          "games": 3,
-          "kd": "1.05",
-          "winrate": "67%"
+          "games": 2,
+          "kd": "1.21",
+          "winrate": "50%"
         },
         {
           "agentName": "Raze",

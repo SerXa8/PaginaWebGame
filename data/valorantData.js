@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-14T11:04:21.914Z",
+  "updatedAt": "2026-11-14T17:16:07.107Z",
   "players": [
     {
       "name": "SerXa08",
@@ -7,7 +7,7 @@ const gameData = {
       "tag": "#1197",
       "role": "duelista",
       "twitch": "s3rxa8",
-      "isLive": false,
+      "isLive": true,
       "rank": 1,
       "elo": 58,
       "tierName": "Diamond",

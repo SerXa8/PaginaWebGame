@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-15T15:20:20.325Z",
+  "updatedAt": "2026-11-15T20:29:37.692Z",
   "players": [
     {
       "name": "SerXa08",
@@ -521,30 +521,58 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 4,
-      "elo": 91,
+      "elo": 55,
       "tierName": "Gold",
       "rankTier": "1",
-      "absoluteRR": 991,
-      "win": 6,
-      "loss": 4,
+      "absoluteRR": 955,
+      "win": 4,
+      "loss": 6,
       "draws": 0,
-      "wr": "60%",
-      "gain": 19,
+      "wr": "40%",
+      "gain": -21,
       "lossLp": null,
-      "kd": "0.90",
-      "spark": "M0.0,24.8 L8.3,16.2 L16.7,6.5 L25.0,2.0 L33.3,9.7 L41.7,10.5 L50.0,19.5 L58.3,28.0 L66.7,21.9 L75.0,14.2",
+      "kd": "0.82",
+      "spark": "M0.0,6.3 L8.3,2.0 L16.7,9.5 L25.0,10.3 L33.3,18.9 L41.7,27.2 L50.0,21.3 L58.3,13.8 L66.7,19.7 L75.0,28.0",
       "performanceMetrics": {
-        "kd": 0.9,
-        "headshotPct": "20.3%",
-        "acs": 196,
-        "adr": 128.5,
-        "firstBloods": 20,
+        "kd": 0.82,
+        "headshotPct": "19.4%",
+        "acs": 193,
+        "adr": 127.3,
+        "firstBloods": 21,
         "sampleSize": 10,
-        "wins": 6,
-        "losses": 4,
+        "wins": 4,
+        "losses": 6,
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Skye",
+          "map": "Bind",
+          "kills": 9,
+          "deaths": 14,
+          "assists": 6,
+          "acs": 159,
+          "hsPct": "17.9%",
+          "adr": 100.4,
+          "firstBloods": 3,
+          "gameDurationMinutes": 28
+        },
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Reyna",
+          "map": "Sunset",
+          "kills": 16,
+          "deaths": 16,
+          "assists": 5,
+          "acs": 225,
+          "hsPct": "18.3%",
+          "adr": 151.5,
+          "firstBloods": 1,
+          "gameDurationMinutes": 33
+        },
         {
           "win": true,
           "draw": false,
@@ -656,48 +684,20 @@ const gameData = {
           "adr": 148.3,
           "firstBloods": 3,
           "gameDurationMinutes": 36
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Vyse",
-          "map": "Sunset",
-          "kills": 17,
-          "deaths": 12,
-          "assists": 4,
-          "acs": 209,
-          "hsPct": "38.9%",
-          "adr": 123.6,
-          "firstBloods": 1,
-          "gameDurationMinutes": 34
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Skye",
-          "map": "Bind",
-          "kills": 12,
-          "deaths": 9,
-          "assists": 11,
-          "acs": 212,
-          "hsPct": "13.0%",
-          "adr": 147.4,
-          "firstBloods": 2,
-          "gameDurationMinutes": 28
         }
       ],
       "topAgents": [
         {
           "agentName": "Skye",
           "games": 2,
-          "kd": "1.17",
-          "winrate": "100%"
+          "kd": "0.86",
+          "winrate": "50%"
         },
         {
           "agentName": "Reyna",
-          "games": 1,
-          "kd": "0.88",
-          "winrate": "100%"
+          "games": 2,
+          "kd": "0.94",
+          "winrate": "50%"
         },
         {
           "agentName": "Sage",

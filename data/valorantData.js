@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-15T08:00:59.795Z",
+  "updatedAt": "2026-11-15T15:20:20.325Z",
   "players": [
     {
       "name": "SerXa08",
@@ -521,30 +521,44 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 4,
-      "elo": 72,
+      "elo": 91,
       "tierName": "Gold",
       "rankTier": "1",
-      "absoluteRR": 972,
-      "win": 5,
+      "absoluteRR": 991,
+      "win": 6,
       "loss": 4,
       "draws": 0,
-      "wr": "56%",
-      "gain": 15,
+      "wr": "60%",
+      "gain": 19,
       "lossLp": null,
-      "kd": "0.88",
-      "spark": "M0.0,24.8 L9.4,16.2 L18.8,6.5 L28.1,2.0 L37.5,9.7 L46.9,10.5 L56.3,19.5 L65.6,28.0 L75.0,21.9",
+      "kd": "0.90",
+      "spark": "M0.0,24.8 L8.3,16.2 L16.7,6.5 L25.0,2.0 L33.3,9.7 L41.7,10.5 L50.0,19.5 L58.3,28.0 L66.7,21.9 L75.0,14.2",
       "performanceMetrics": {
-        "kd": 0.88,
-        "headshotPct": "19.7%",
-        "acs": 193,
-        "adr": 126.5,
-        "firstBloods": 17,
-        "sampleSize": 9,
-        "wins": 5,
+        "kd": 0.9,
+        "headshotPct": "20.3%",
+        "acs": 196,
+        "adr": 128.5,
+        "firstBloods": 20,
+        "sampleSize": 10,
+        "wins": 6,
         "losses": 4,
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Skye",
+          "map": "Sunset",
+          "kills": 16,
+          "deaths": 15,
+          "assists": 11,
+          "acs": 217,
+          "hsPct": "25.5%",
+          "adr": 145.5,
+          "firstBloods": 3,
+          "gameDurationMinutes": 38
+        },
         {
           "win": true,
           "draw": false,
@@ -674,6 +688,12 @@ const gameData = {
       ],
       "topAgents": [
         {
+          "agentName": "Skye",
+          "games": 2,
+          "kd": "1.17",
+          "winrate": "100%"
+        },
+        {
           "agentName": "Reyna",
           "games": 1,
           "kd": "0.88",
@@ -683,12 +703,6 @@ const gameData = {
           "agentName": "Sage",
           "games": 1,
           "kd": "0.80",
-          "winrate": "100%"
-        },
-        {
-          "agentName": "Omen",
-          "games": 1,
-          "kd": "0.95",
           "winrate": "100%"
         }
       ]

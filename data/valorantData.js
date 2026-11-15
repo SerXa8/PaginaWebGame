@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-15T01:26:58.558Z",
+  "updatedAt": "2026-11-15T08:00:59.795Z",
   "players": [
     {
       "name": "SerXa08",
@@ -327,30 +327,44 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 3,
-      "elo": 70,
+      "elo": 82,
       "tierName": "Platinum",
       "rankTier": "1",
-      "absoluteRR": 1270,
-      "win": 5,
-      "loss": 5,
+      "absoluteRR": 1282,
+      "win": 6,
+      "loss": 4,
       "draws": 0,
-      "wr": "50%",
-      "gain": 16,
+      "wr": "60%",
+      "gain": 12,
       "lossLp": null,
-      "kd": "0.86",
-      "spark": "M0.0,5.3 L8.3,13.8 L16.7,8.1 L25.0,2.0 L33.3,10.5 L41.7,20.9 L50.0,28.0 L58.3,20.4 L66.7,11.9 L75.0,4.4",
+      "kd": "0.79",
+      "spark": "M0.0,15.4 L8.3,10.4 L16.7,4.9 L25.0,12.5 L33.3,21.7 L41.7,28.0 L50.0,21.3 L58.3,13.7 L66.7,7.0 L75.0,2.0",
       "performanceMetrics": {
-        "kd": 0.86,
-        "headshotPct": "22.4%",
-        "acs": 185,
-        "adr": 120.3,
+        "kd": 0.79,
+        "headshotPct": "22.6%",
+        "acs": 171,
+        "adr": 112.9,
         "firstBloods": 24,
         "sampleSize": 10,
-        "wins": 5,
-        "losses": 5,
+        "wins": 6,
+        "losses": 4,
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Skye",
+          "map": "Lotus",
+          "kills": 3,
+          "deaths": 14,
+          "assists": 8,
+          "acs": 70,
+          "hsPct": "4.0%",
+          "adr": 48.5,
+          "firstBloods": 0,
+          "gameDurationMinutes": 31
+        },
         {
           "win": true,
           "draw": false,
@@ -476,28 +490,14 @@ const gameData = {
           "adr": 104.3,
           "firstBloods": 2,
           "gameDurationMinutes": 38
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Gekko",
-          "map": "Abyss",
-          "kills": 16,
-          "deaths": 16,
-          "assists": 4,
-          "acs": 208,
-          "hsPct": "13.6%",
-          "adr": 123.6,
-          "firstBloods": 0,
-          "gameDurationMinutes": 31
         }
       ],
       "topAgents": [
         {
           "agentName": "Skye",
-          "games": 4,
-          "kd": "0.88",
-          "winrate": "50%"
+          "games": 5,
+          "kd": "0.76",
+          "winrate": "60%"
         },
         {
           "agentName": "Waylay",

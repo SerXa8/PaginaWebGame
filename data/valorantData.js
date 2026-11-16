@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-16T00:09:06.942Z",
+  "updatedAt": "2026-11-16T06:55:26.249Z",
   "players": [
     {
       "name": "SerXa08",
@@ -131,7 +131,7 @@ const gameData = {
       "tag": "#LCLM",
       "role": "",
       "twitch": "fakeedanii",
-      "isLive": false,
+      "isLive": true,
       "rank": 2,
       "elo": 0,
       "tierName": "Platinum",

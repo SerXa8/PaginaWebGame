@@ -1,7 +1,7 @@
-// Generado automáticamente por updateDeadlock.js el 2026-11-12T15:13:41.261Z
+// Generado automáticamente por updateDeadlock.js el 2026-11-16T14:03:09.925Z
 // Fuente: https://deadlock-api.com (proyecto no oficial)
 const deadlockItemsData = {
-  "updatedAt": "2026-11-12T15:13:41.261Z",
+  "updatedAt": "2026-11-16T14:03:09.925Z",
   "source": "https://deadlock-api.com",
   "itemCount": 156,
   "items": [

@@ -1,7 +1,7 @@
-// Generado automáticamente por updateDeadlock.js el 2026-11-12T15:13:41.261Z
+// Generado automáticamente por updateDeadlock.js el 2026-11-16T14:03:09.925Z
 // Fuente: https://deadlock-api.com (proyecto no oficial)
 const deadlockHeroesData = {
-  "updatedAt": "2026-11-12T15:13:41.261Z",
+  "updatedAt": "2026-11-16T14:03:09.925Z",
   "source": "https://deadlock-api.com",
   "heroCount": 44,
   "heroes": [
@@ -308,9 +308,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 52,
+      "winrate": 52.1,
       "pickrate": 2.6,
-      "matches": 1900644
+      "matches": 2093900
     },
     {
       "id": 77,
@@ -624,7 +624,7 @@ const deadlockHeroesData = {
       },
       "winrate": 49.3,
       "pickrate": 2.3,
-      "matches": 1727141
+      "matches": 1862077
     },
     {
       "id": 88,
@@ -937,9 +937,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 54.4,
-      "pickrate": 1.3,
-      "matches": 985151
+      "winrate": 54.3,
+      "pickrate": 1.2,
+      "matches": 929123
     },
     {
       "id": 15,
@@ -1241,8 +1241,8 @@ const deadlockHeroesData = {
         ]
       },
       "winrate": 48.4,
-      "pickrate": 3.1,
-      "matches": 2306305
+      "pickrate": 3.2,
+      "matches": 2510027
     },
     {
       "id": 72,
@@ -1559,9 +1559,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 48.5,
-      "pickrate": 2.8,
-      "matches": 2054542
+      "winrate": 48.7,
+      "pickrate": 2.9,
+      "matches": 2270154
     },
     {
       "id": 16,
@@ -1872,7 +1872,7 @@ const deadlockHeroesData = {
       },
       "winrate": 48.2,
       "pickrate": 1.3,
-      "matches": 928979
+      "matches": 1005678
     },
     {
       "id": 81,
@@ -2185,9 +2185,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 48.2,
+      "winrate": 48,
       "pickrate": 2.7,
-      "matches": 2023285
+      "matches": 2136897
     },
     {
       "id": 78,
@@ -2504,9 +2504,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 50.6,
-      "pickrate": 3.5,
-      "matches": 2612223
+      "winrate": 52,
+      "pickrate": 3.1,
+      "matches": 2476765
     },
     {
       "id": 64,
@@ -2819,15 +2819,15 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 50.6,
+      "winrate": 50.5,
       "pickrate": 3.3,
-      "matches": 2421183
+      "matches": 2642393
     },
     {
       "id": 11,
       "name": "Dynamo",
       "className": "hero_dynamo",
-      "type": "unknown",
+      "type": "healer",
       "typeLabel": "Versátil",
       "complexity": 2,
       "image": "https://assets-bucket.deadlock-api.com/assets-api-res/images/heroes/sumo_card.webp",
@@ -3130,8 +3130,8 @@ const deadlockHeroesData = {
         ]
       },
       "winrate": 51.7,
-      "pickrate": 1.8,
-      "matches": 1349445
+      "pickrate": 1.9,
+      "matches": 1479584
     },
     {
       "id": 76,
@@ -3448,9 +3448,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 57.5,
+      "winrate": 57.4,
       "pickrate": 3.7,
-      "matches": 2720813
+      "matches": 2917860
     },
     {
       "id": 17,
@@ -3761,7 +3761,7 @@ const deadlockHeroesData = {
       },
       "winrate": 47.6,
       "pickrate": 1.5,
-      "matches": 1096249
+      "matches": 1211324
     },
     {
       "id": 13,
@@ -4084,7 +4084,7 @@ const deadlockHeroesData = {
       },
       "winrate": 53.4,
       "pickrate": 3.7,
-      "matches": 2724425
+      "matches": 2915526
     },
     {
       "id": 14,
@@ -4392,9 +4392,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 47.3,
+      "winrate": 47.4,
       "pickrate": 1.7,
-      "matches": 1237304
+      "matches": 1349711
     },
     {
       "id": 1,
@@ -4707,15 +4707,15 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 49.1,
+      "winrate": 49,
       "pickrate": 3.1,
-      "matches": 2270675
+      "matches": 2421791
     },
     {
       "id": 20,
       "name": "Ivy",
       "className": "hero_tengu",
-      "type": "unknown",
+      "type": "healer",
       "typeLabel": "Versátil",
       "complexity": 3,
       "image": "https://assets-bucket.deadlock-api.com/assets-api-res/images/heroes/tengu_card.webp",
@@ -5022,15 +5022,15 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 52.6,
+      "winrate": 52.5,
       "pickrate": 1.7,
-      "matches": 1247577
+      "matches": 1359180
     },
     {
       "id": 12,
       "name": "Kelvin",
       "className": "hero_kelvin",
-      "type": "unknown",
+      "type": "healer",
       "typeLabel": "Versátil",
       "complexity": 2,
       "image": "https://assets-bucket.deadlock-api.com/assets-api-res/images/heroes/kelvin_card.webp",
@@ -5345,9 +5345,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 54.7,
+      "winrate": 54.9,
       "pickrate": 1.2,
-      "matches": 859497
+      "matches": 954330
     },
     {
       "id": 4,
@@ -5656,9 +5656,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 52.7,
-      "pickrate": 2.1,
-      "matches": 1546791
+      "winrate": 53.5,
+      "pickrate": 2.3,
+      "matches": 1816488
     },
     {
       "id": 31,
@@ -5973,7 +5973,7 @@ const deadlockHeroesData = {
       },
       "winrate": 50.9,
       "pickrate": 2.6,
-      "matches": 1911609
+      "matches": 2056353
     },
     {
       "id": 8,
@@ -6298,9 +6298,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 49.6,
+      "winrate": 49.9,
       "pickrate": 1.1,
-      "matches": 812740
+      "matches": 898543
     },
     {
       "id": 63,
@@ -6613,9 +6613,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 44.9,
+      "winrate": 44.7,
       "pickrate": 3.2,
-      "matches": 2374472
+      "matches": 2524822
     },
     {
       "id": 52,
@@ -6936,9 +6936,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 44.2,
+      "winrate": 43.9,
       "pickrate": 1,
-      "matches": 731785
+      "matches": 784462
     },
     {
       "id": 18,
@@ -7263,15 +7263,15 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 49.3,
+      "winrate": 49.2,
       "pickrate": 1.5,
-      "matches": 1124185
+      "matches": 1168859
     },
     {
       "id": 87,
       "name": "Nurse Harrow",
       "className": "hero_nurse",
-      "type": "unknown",
+      "type": "healer",
       "typeLabel": "Versátil",
       "complexity": 1,
       "image": "https://assets-bucket.deadlock-api.com/assets-api-res/images/heroes/nurse_card.webp",
@@ -7590,15 +7590,15 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 51.2,
-      "pickrate": 2.7,
-      "matches": 2010474
+      "winrate": 51.1,
+      "pickrate": 2.9,
+      "matches": 2281349
     },
     {
       "id": 67,
       "name": "Paige",
       "className": "hero_bookworm",
-      "type": "unknown",
+      "type": "healer",
       "typeLabel": "Versátil",
       "complexity": 1,
       "image": "https://assets-bucket.deadlock-api.com/assets-api-res/images/heroes/bookworm_card.webp",
@@ -7910,8 +7910,8 @@ const deadlockHeroesData = {
         ]
       },
       "winrate": 56,
-      "pickrate": 2.5,
-      "matches": 1817500
+      "pickrate": 2.4,
+      "matches": 1931463
     },
     {
       "id": 10,
@@ -8232,9 +8232,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 46.4,
-      "pickrate": 2.2,
-      "matches": 1622406
+      "winrate": 46.5,
+      "pickrate": 2.3,
+      "matches": 1829366
     },
     {
       "id": 50,
@@ -8539,9 +8539,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 44.4,
+      "winrate": 44.3,
       "pickrate": 1.5,
-      "matches": 1092521
+      "matches": 1187106
     },
     {
       "id": 84,
@@ -8854,15 +8854,15 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 55.6,
-      "pickrate": 4.4,
-      "matches": 3261063
+      "winrate": 55.3,
+      "pickrate": 4.1,
+      "matches": 3265443
     },
     {
       "id": 79,
       "name": "Rem",
       "className": "hero_familiar",
-      "type": "unknown",
+      "type": "healer",
       "typeLabel": "Versátil",
       "complexity": 3,
       "image": "https://assets-bucket.deadlock-api.com/assets-api-res/images/heroes/familiar_card.webp",
@@ -9177,9 +9177,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 45.4,
-      "pickrate": 2.7,
-      "matches": 1973627
+      "winrate": 45.2,
+      "pickrate": 2.6,
+      "matches": 2088276
     },
     {
       "id": 2,
@@ -9498,7 +9498,7 @@ const deadlockHeroesData = {
       },
       "winrate": 55,
       "pickrate": 2.8,
-      "matches": 2076761
+      "matches": 2247336
     },
     {
       "id": 19,
@@ -9807,8 +9807,8 @@ const deadlockHeroesData = {
         ]
       },
       "winrate": 44.9,
-      "pickrate": 2.2,
-      "matches": 1633267
+      "pickrate": 2.3,
+      "matches": 1805047
     },
     {
       "id": 80,
@@ -10117,9 +10117,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 46.1,
+      "winrate": 46.2,
       "pickrate": 2.6,
-      "matches": 1936011
+      "matches": 2072938
     },
     {
       "id": 60,
@@ -10432,9 +10432,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 44.7,
+      "winrate": 44.8,
       "pickrate": 0.9,
-      "matches": 631066
+      "matches": 684894
     },
     {
       "id": 85,
@@ -10756,8 +10756,8 @@ const deadlockHeroesData = {
         ]
       },
       "winrate": 46.8,
-      "pickrate": 1.6,
-      "matches": 1201737
+      "pickrate": 1.3,
+      "matches": 1047991
     },
     {
       "id": 69,
@@ -11079,8 +11079,8 @@ const deadlockHeroesData = {
         ]
       },
       "winrate": 45.8,
-      "pickrate": 1.3,
-      "matches": 996642
+      "pickrate": 1.4,
+      "matches": 1085604
     },
     {
       "id": 65,
@@ -11393,9 +11393,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 46.8,
+      "winrate": 46.6,
       "pickrate": 3.4,
-      "matches": 2545146
+      "matches": 2731916
     },
     {
       "id": 66,
@@ -11712,9 +11712,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 54.3,
-      "pickrate": 2.6,
-      "matches": 1961686
+      "winrate": 54.2,
+      "pickrate": 2.7,
+      "matches": 2110342
     },
     {
       "id": 3,
@@ -12018,9 +12018,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 49.2,
-      "pickrate": 2.6,
-      "matches": 1900726
+      "winrate": 49.1,
+      "pickrate": 2.5,
+      "matches": 2006028
     },
     {
       "id": 86,
@@ -12345,9 +12345,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 50.1,
+      "winrate": 49.9,
       "pickrate": 2.9,
-      "matches": 2114039
+      "matches": 2306212
     },
     {
       "id": 35,
@@ -12670,7 +12670,7 @@ const deadlockHeroesData = {
       },
       "winrate": 46.1,
       "pickrate": 1.1,
-      "matches": 820518
+      "matches": 891234
     },
     {
       "id": 58,
@@ -12977,7 +12977,7 @@ const deadlockHeroesData = {
       },
       "winrate": 45.9,
       "pickrate": 1.2,
-      "matches": 874243
+      "matches": 939328
     },
     {
       "id": 25,
@@ -13298,9 +13298,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 49.3,
+      "winrate": 49.7,
       "pickrate": 1.2,
-      "matches": 872187
+      "matches": 981419
     },
     {
       "id": 7,
@@ -13605,9 +13605,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 50.4,
+      "winrate": 50.2,
       "pickrate": 2.9,
-      "matches": 2131294
+      "matches": 2309181
     },
     {
       "id": 27,
@@ -13928,9 +13928,9 @@ const deadlockHeroesData = {
           }
         ]
       },
-      "winrate": 47.4,
-      "pickrate": 2.3,
-      "matches": 1673839
+      "winrate": 47.3,
+      "pickrate": 2.2,
+      "matches": 1785890
     }
   ]
 };

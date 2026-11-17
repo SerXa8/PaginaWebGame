@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-17T00:35:16.849Z",
+  "updatedAt": "2026-11-17T08:40:28.748Z",
   "players": [
     {
       "name": "SerXa08",
@@ -133,30 +133,44 @@ const gameData = {
       "twitch": "fakeedanii",
       "isLive": false,
       "rank": 2,
-      "elo": 0,
+      "elo": 79,
       "tierName": "Platinum",
-      "rankTier": "2",
-      "absoluteRR": 1300,
+      "rankTier": "1",
+      "absoluteRR": 1279,
       "win": 4,
       "loss": 5,
       "draws": 1,
       "wr": "44%",
-      "gain": -14,
+      "gain": -21,
       "lossLp": null,
-      "kd": "1.19",
-      "spark": "M0.0,10.5 L8.3,16.8 L16.7,16.2 L25.0,21.3 L33.3,28.0 L41.7,21.0 L50.0,13.5 L58.3,7.1 L66.7,2.0 L75.0,5.9",
+      "kd": "1.20",
+      "spark": "M0.0,16.8 L8.3,16.2 L16.7,21.3 L25.0,28.0 L33.3,21.0 L41.7,13.5 L50.0,7.1 L58.3,2.0 L66.7,5.9 L75.0,12.3",
       "performanceMetrics": {
-        "kd": 1.19,
-        "headshotPct": "18.4%",
-        "acs": 223,
-        "adr": 143.7,
-        "firstBloods": 17,
+        "kd": 1.2,
+        "headshotPct": "17.3%",
+        "acs": 225,
+        "adr": 147.2,
+        "firstBloods": 15,
         "sampleSize": 10,
         "wins": 4,
         "losses": 5,
         "draws": 1
       },
       "recentMatches": [
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "KAY/O",
+          "map": "Sunset",
+          "kills": 12,
+          "deaths": 13,
+          "assists": 7,
+          "acs": 191,
+          "hsPct": "12.5%",
+          "adr": 127.9,
+          "firstBloods": 0,
+          "gameDurationMinutes": 28
+        },
         {
           "win": false,
           "draw": false,
@@ -282,20 +296,6 @@ const gameData = {
           "adr": 126.6,
           "firstBloods": 2,
           "gameDurationMinutes": 25
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Cypher",
-          "map": "Bind",
-          "kills": 17,
-          "deaths": 19,
-          "assists": 7,
-          "acs": 184,
-          "hsPct": "24.5%",
-          "adr": 105.6,
-          "firstBloods": 2,
-          "gameDurationMinutes": 44
         }
       ],
       "topAgents": [
@@ -312,9 +312,9 @@ const gameData = {
           "winrate": "50%"
         },
         {
-          "agentName": "Breach",
+          "agentName": "KAY/O",
           "games": 1,
-          "kd": "1.24",
+          "kd": "0.92",
           "winrate": "0%"
         }
       ]

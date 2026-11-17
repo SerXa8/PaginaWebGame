@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-17T08:40:28.748Z",
+  "updatedAt": "2026-11-17T17:59:38.684Z",
   "players": [
     {
       "name": "SerXa08",
@@ -715,30 +715,72 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 5,
-      "elo": 8,
+      "elo": 20,
       "tierName": "Gold",
       "rankTier": "1",
-      "absoluteRR": 908,
-      "win": 4,
-      "loss": 6,
+      "absoluteRR": 920,
+      "win": 5,
+      "loss": 5,
       "draws": 0,
-      "wr": "40%",
-      "gain": -14,
+      "wr": "50%",
+      "gain": 15,
       "lossLp": null,
-      "kd": "0.91",
-      "spark": "M0.0,5.5 L8.3,28.0 L16.7,28.0 L25.0,6.7 L33.3,26.8 L41.7,5.5 L50.0,28.0 L58.3,28.0 L66.7,2.0 L75.0,18.5",
+      "kd": "0.87",
+      "spark": "M0.0,6.7 L8.3,26.8 L16.7,5.5 L25.0,28.0 L33.3,28.0 L41.7,2.0 L50.0,18.5 L58.3,2.0 L66.7,22.1 L75.0,4.4",
       "performanceMetrics": {
-        "kd": 0.91,
-        "headshotPct": "13.3%",
-        "acs": 194,
-        "adr": 123.5,
-        "firstBloods": 20,
+        "kd": 0.87,
+        "headshotPct": "12.9%",
+        "acs": 210,
+        "adr": 141.5,
+        "firstBloods": 24,
         "sampleSize": 10,
-        "wins": 4,
-        "losses": 6,
+        "wins": 5,
+        "losses": 5,
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Reyna",
+          "map": "Bind",
+          "kills": 19,
+          "deaths": 19,
+          "assists": 5,
+          "acs": 208,
+          "hsPct": "16.2%",
+          "adr": 141.1,
+          "firstBloods": 3,
+          "gameDurationMinutes": 44
+        },
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Clove",
+          "map": "Corrode",
+          "kills": 16,
+          "deaths": 17,
+          "assists": 13,
+          "acs": 310,
+          "hsPct": "10.9%",
+          "adr": 211,
+          "firstBloods": 2,
+          "gameDurationMinutes": 29
+        },
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Hush",
+          "map": "Summit",
+          "kills": 13,
+          "deaths": 16,
+          "assists": 5,
+          "acs": 192,
+          "hsPct": "10.6%",
+          "adr": 145.7,
+          "firstBloods": 4,
+          "gameDurationMinutes": 33
+        },
         {
           "win": false,
           "draw": false,
@@ -836,68 +878,26 @@ const gameData = {
           "adr": 163.2,
           "firstBloods": 3,
           "gameDurationMinutes": 30
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Hush",
-          "map": "Summit",
-          "kills": 17,
-          "deaths": 20,
-          "assists": 7,
-          "acs": 181,
-          "hsPct": "8.7%",
-          "adr": 110.2,
-          "firstBloods": 2,
-          "gameDurationMinutes": 44
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Cypher",
-          "map": "Bind",
-          "kills": 4,
-          "deaths": 4,
-          "assists": 0,
-          "acs": 60,
-          "hsPct": "71.4%",
-          "adr": 31.3,
-          "firstBloods": 1,
-          "gameDurationMinutes": 20
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Clove",
-          "map": "Lotus",
-          "kills": 21,
-          "deaths": 15,
-          "assists": 10,
-          "acs": 294,
-          "hsPct": "12.5%",
-          "adr": 170.2,
-          "firstBloods": 2,
-          "gameDurationMinutes": 35
         }
       ],
       "topAgents": [
         {
           "agentName": "Hush",
           "games": 5,
-          "kd": "0.85",
-          "winrate": "40%"
+          "kd": "0.84",
+          "winrate": "60%"
         },
         {
           "agentName": "Clove",
           "games": 3,
-          "kd": "1.11",
-          "winrate": "67%"
+          "kd": "0.96",
+          "winrate": "33%"
         },
         {
-          "agentName": "Skye",
+          "agentName": "Reyna",
           "games": 1,
-          "kd": "0.63",
-          "winrate": "0%"
+          "kd": "1.00",
+          "winrate": "100%"
         }
       ]
     },

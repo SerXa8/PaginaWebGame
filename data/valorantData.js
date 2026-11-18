@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-17T17:59:38.684Z",
+  "updatedAt": "2026-11-18T00:23:25.796Z",
   "players": [
     {
       "name": "SerXa08",
@@ -715,30 +715,72 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 5,
-      "elo": 20,
+      "elo": 6,
       "tierName": "Gold",
       "rankTier": "1",
-      "absoluteRR": 920,
-      "win": 5,
-      "loss": 5,
+      "absoluteRR": 906,
+      "win": 4,
+      "loss": 6,
       "draws": 0,
-      "wr": "50%",
-      "gain": 15,
+      "wr": "40%",
+      "gain": -19,
       "lossLp": null,
-      "kd": "0.87",
-      "spark": "M0.0,6.7 L8.3,26.8 L16.7,5.5 L25.0,28.0 L33.3,28.0 L41.7,2.0 L50.0,18.5 L58.3,2.0 L66.7,22.1 L75.0,4.4",
+      "kd": "0.82",
+      "spark": "M0.0,28.0 L8.3,28.0 L16.7,5.1 L25.0,19.7 L33.3,5.1 L41.7,22.8 L50.0,7.2 L58.3,24.9 L66.7,2.0 L75.0,21.8",
       "performanceMetrics": {
-        "kd": 0.87,
-        "headshotPct": "12.9%",
-        "acs": 210,
-        "adr": 141.5,
-        "firstBloods": 24,
+        "kd": 0.82,
+        "headshotPct": "14.3%",
+        "acs": 206,
+        "adr": 139.9,
+        "firstBloods": 28,
         "sampleSize": 10,
-        "wins": 5,
-        "losses": 5,
+        "wins": 4,
+        "losses": 6,
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Clove",
+          "map": "Bind",
+          "kills": 16,
+          "deaths": 25,
+          "assists": 13,
+          "acs": 202,
+          "hsPct": "16.7%",
+          "adr": 131.8,
+          "firstBloods": 6,
+          "gameDurationMinutes": 44
+        },
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Clove",
+          "map": "Abyss",
+          "kills": 14,
+          "deaths": 11,
+          "assists": 5,
+          "acs": 211,
+          "hsPct": "9.8%",
+          "adr": 146.7,
+          "firstBloods": 2,
+          "gameDurationMinutes": 29
+        },
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Hush",
+          "map": "Abyss",
+          "kills": 19,
+          "deaths": 25,
+          "assists": 2,
+          "acs": 190,
+          "hsPct": "19.7%",
+          "adr": 128.2,
+          "firstBloods": 4,
+          "gameDurationMinutes": 56
+        },
         {
           "win": true,
           "draw": false,
@@ -836,62 +878,20 @@ const gameData = {
           "adr": 112.1,
           "firstBloods": 1,
           "gameDurationMinutes": 34
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Clove",
-          "map": "Sunset",
-          "kills": 10,
-          "deaths": 10,
-          "assists": 6,
-          "acs": 173,
-          "hsPct": "7.7%",
-          "adr": 114.8,
-          "firstBloods": 3,
-          "gameDurationMinutes": 20
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Hush",
-          "map": "Lotus",
-          "kills": 14,
-          "deaths": 19,
-          "assists": 9,
-          "acs": 212,
-          "hsPct": "10.3%",
-          "adr": 132.8,
-          "firstBloods": 2,
-          "gameDurationMinutes": 37
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Hush",
-          "map": "Corrode",
-          "kills": 16,
-          "deaths": 12,
-          "assists": 3,
-          "acs": 246,
-          "hsPct": "14.5%",
-          "adr": 163.2,
-          "firstBloods": 3,
-          "gameDurationMinutes": 30
         }
       ],
       "topAgents": [
         {
           "agentName": "Hush",
-          "games": 5,
-          "kd": "0.84",
-          "winrate": "60%"
+          "games": 4,
+          "kd": "0.75",
+          "winrate": "50%"
         },
         {
           "agentName": "Clove",
-          "games": 3,
-          "kd": "0.96",
-          "winrate": "33%"
+          "games": 4,
+          "kd": "0.89",
+          "winrate": "25%"
         },
         {
           "agentName": "Reyna",

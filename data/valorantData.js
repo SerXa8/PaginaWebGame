@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-20T10:41:57.603Z",
+  "updatedAt": "2026-11-20T18:56:12.398Z",
   "players": [
     {
       "name": "SerXa08",
@@ -715,30 +715,72 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 5,
-      "elo": 20,
+      "elo": 39,
       "tierName": "Silver",
       "rankTier": "3",
-      "absoluteRR": 820,
-      "win": 3,
-      "loss": 7,
+      "absoluteRR": 839,
+      "win": 4,
+      "loss": 6,
       "draws": 0,
-      "wr": "30%",
-      "gain": -18,
+      "wr": "40%",
+      "gain": 17,
       "lossLp": null,
-      "kd": "0.95",
-      "spark": "M0.0,11.4 L8.3,4.6 L16.7,13.7 L25.0,2.0 L33.3,8.4 L41.7,14.8 L50.0,22.7 L58.3,28.0 L66.7,21.2 L75.0,28.0",
+      "kd": "0.94",
+      "spark": "M0.0,2.0 L8.3,7.3 L16.7,12.7 L25.0,19.2 L33.3,23.6 L41.7,18.0 L50.0,23.6 L58.3,28.0 L66.7,23.0 L75.0,17.7",
       "performanceMetrics": {
-        "kd": 0.95,
-        "headshotPct": "12.7%",
-        "acs": 206,
-        "adr": 133.1,
-        "firstBloods": 23,
+        "kd": 0.94,
+        "headshotPct": "11.0%",
+        "acs": 215,
+        "adr": 139.5,
+        "firstBloods": 19,
         "sampleSize": 10,
-        "wins": 3,
-        "losses": 7,
+        "wins": 4,
+        "losses": 6,
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Hush",
+          "map": "Bind",
+          "kills": 13,
+          "deaths": 16,
+          "assists": 9,
+          "acs": 184,
+          "hsPct": "9.9%",
+          "adr": 126.1,
+          "firstBloods": 0,
+          "gameDurationMinutes": 38
+        },
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Clove",
+          "map": "Bind",
+          "kills": 10,
+          "deaths": 16,
+          "assists": 5,
+          "acs": 194,
+          "hsPct": "10.9%",
+          "adr": 129.3,
+          "firstBloods": 3,
+          "gameDurationMinutes": 27
+        },
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Clove",
+          "map": "Lotus",
+          "kills": 25,
+          "deaths": 24,
+          "assists": 16,
+          "acs": 267,
+          "hsPct": "7.7%",
+          "adr": 173.5,
+          "firstBloods": 2,
+          "gameDurationMinutes": 48
+        },
         {
           "win": false,
           "draw": false,
@@ -836,68 +878,26 @@ const gameData = {
           "adr": 232.7,
           "firstBloods": 2,
           "gameDurationMinutes": 21
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Hush",
-          "map": "Lotus",
-          "kills": 2,
-          "deaths": 7,
-          "assists": 2,
-          "acs": 67,
-          "hsPct": "0.0%",
-          "adr": 49.6,
-          "firstBloods": 1,
-          "gameDurationMinutes": 12
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Skye",
-          "map": "Corrode",
-          "kills": 21,
-          "deaths": 21,
-          "assists": 3,
-          "acs": 244,
-          "hsPct": "22.7%",
-          "adr": 160.7,
-          "firstBloods": 4,
-          "gameDurationMinutes": 43
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Hush",
-          "map": "Corrode",
-          "kills": 12,
-          "deaths": 13,
-          "assists": 3,
-          "acs": 214,
-          "hsPct": "11.8%",
-          "adr": 136.8,
-          "firstBloods": 4,
-          "gameDurationMinutes": 26
         }
       ],
       "topAgents": [
         {
-          "agentName": "Hush",
-          "games": 5,
-          "kd": "0.81",
-          "winrate": "0%"
+          "agentName": "Clove",
+          "games": 4,
+          "kd": "1.10",
+          "winrate": "75%"
         },
         {
-          "agentName": "Clove",
-          "games": 2,
-          "kd": "1.55",
-          "winrate": "100%"
+          "agentName": "Hush",
+          "games": 4,
+          "kd": "0.85",
+          "winrate": "25%"
         },
         {
           "agentName": "Skye",
-          "games": 2,
-          "kd": "0.85",
-          "winrate": "50%"
+          "games": 1,
+          "kd": "0.70",
+          "winrate": "0%"
         }
       ]
     },

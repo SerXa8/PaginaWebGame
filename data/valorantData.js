@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-19T21:56:46.021Z",
+  "updatedAt": "2026-11-20T02:45:50.653Z",
   "players": [
     {
       "name": "SerXa08",
@@ -715,23 +715,23 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 5,
-      "elo": 34,
+      "elo": 20,
       "tierName": "Silver",
       "rankTier": "3",
-      "absoluteRR": 834,
+      "absoluteRR": 820,
       "win": 3,
       "loss": 7,
       "draws": 0,
       "wr": "30%",
-      "gain": -21,
+      "gain": -18,
       "lossLp": null,
-      "kd": "0.96",
-      "spark": "M0.0,2.0 L8.3,7.8 L16.7,13.0 L25.0,18.8 L33.3,13.3 L41.7,20.7 L50.0,11.2 L58.3,16.4 L66.7,21.6 L75.0,28.0",
+      "kd": "0.95",
+      "spark": "M0.0,11.4 L8.3,4.6 L16.7,13.7 L25.0,2.0 L33.3,8.4 L41.7,14.8 L50.0,22.7 L58.3,28.0 L66.7,21.2 L75.0,28.0",
       "performanceMetrics": {
-        "kd": 0.96,
-        "headshotPct": "14.7%",
-        "acs": 201,
-        "adr": 132,
+        "kd": 0.95,
+        "headshotPct": "12.7%",
+        "acs": 206,
+        "adr": 133.1,
         "firstBloods": 23,
         "sampleSize": 10,
         "wins": 3,
@@ -739,6 +739,48 @@ const gameData = {
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Skye",
+          "map": "Corrode",
+          "kills": 14,
+          "deaths": 20,
+          "assists": 10,
+          "acs": 174,
+          "hsPct": "9.3%",
+          "adr": 116.9,
+          "firstBloods": 2,
+          "gameDurationMinutes": 43
+        },
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Clove",
+          "map": "Lotus",
+          "kills": 13,
+          "deaths": 16,
+          "assists": 7,
+          "acs": 240,
+          "hsPct": "16.0%",
+          "adr": 136.1,
+          "firstBloods": 2,
+          "gameDurationMinutes": 26
+        },
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Reyna",
+          "map": "Corrode",
+          "kills": 18,
+          "deaths": 17,
+          "assists": 9,
+          "acs": 238,
+          "hsPct": "11.5%",
+          "adr": 154.7,
+          "firstBloods": 3,
+          "gameDurationMinutes": 36
+        },
         {
           "win": false,
           "draw": false,
@@ -836,68 +878,26 @@ const gameData = {
           "adr": 136.8,
           "firstBloods": 4,
           "gameDurationMinutes": 26
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Hush",
-          "map": "Summit",
-          "kills": 15,
-          "deaths": 14,
-          "assists": 4,
-          "acs": 230,
-          "hsPct": "19.6%",
-          "adr": 150.7,
-          "firstBloods": 2,
-          "gameDurationMinutes": 28
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Hush",
-          "map": "Lotus",
-          "kills": 11,
-          "deaths": 18,
-          "assists": 3,
-          "acs": 171,
-          "hsPct": "16.7%",
-          "adr": 126.2,
-          "firstBloods": 1,
-          "gameDurationMinutes": 36
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Clove",
-          "map": "Lotus",
-          "kills": 11,
-          "deaths": 12,
-          "assists": 8,
-          "acs": 194,
-          "hsPct": "23.3%",
-          "adr": 116.9,
-          "firstBloods": 4,
-          "gameDurationMinutes": 24
         }
       ],
       "topAgents": [
         {
           "agentName": "Hush",
-          "games": 7,
+          "games": 5,
           "kd": "0.81",
           "winrate": "0%"
         },
         {
           "agentName": "Clove",
           "games": 2,
-          "kd": "1.81",
+          "kd": "1.55",
           "winrate": "100%"
         },
         {
           "agentName": "Skye",
-          "games": 1,
-          "kd": "1.00",
-          "winrate": "100%"
+          "games": 2,
+          "kd": "0.85",
+          "winrate": "50%"
         }
       ]
     },

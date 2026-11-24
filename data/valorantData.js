@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-24T06:13:10.663Z",
+  "updatedAt": "2026-11-24T18:01:38.538Z",
   "players": [
     {
       "name": "SerXa08",
@@ -715,30 +715,58 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 5,
-      "elo": 10,
-      "tierName": "Gold",
-      "rankTier": "1",
-      "absoluteRR": 910,
-      "win": 5,
-      "loss": 5,
+      "elo": 81,
+      "tierName": "Silver",
+      "rankTier": "3",
+      "absoluteRR": 881,
+      "win": 4,
+      "loss": 6,
       "draws": 0,
-      "wr": "50%",
-      "gain": 10,
+      "wr": "40%",
+      "gain": -19,
       "lossLp": null,
-      "kd": "0.68",
-      "spark": "M0.0,28.0 L8.3,28.0 L16.7,3.7 L25.0,28.0 L33.3,2.0 L41.7,28.0 L50.0,2.0 L58.3,28.0 L66.7,28.0 L75.0,10.7",
+      "kd": "0.70",
+      "spark": "M0.0,2.8 L8.3,13.5 L16.7,2.0 L25.0,13.5 L33.3,2.0 L41.7,13.5 L50.0,13.5 L58.3,5.8 L66.7,13.5 L75.0,28.0",
       "performanceMetrics": {
-        "kd": 0.68,
+        "kd": 0.7,
         "headshotPct": "11.5%",
-        "acs": 162,
-        "adr": 107.8,
-        "firstBloods": 18,
+        "acs": 180,
+        "adr": 120.9,
+        "firstBloods": 21,
         "sampleSize": 10,
-        "wins": 5,
-        "losses": 5,
+        "wins": 4,
+        "losses": 6,
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Clove",
+          "map": "Abyss",
+          "kills": 16,
+          "deaths": 21,
+          "assists": 8,
+          "acs": 186,
+          "hsPct": "12.3%",
+          "adr": 137,
+          "firstBloods": 0,
+          "gameDurationMinutes": 36
+        },
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Hush",
+          "map": "Summit",
+          "kills": 16,
+          "deaths": 19,
+          "assists": 7,
+          "acs": 207,
+          "hsPct": "11.5%",
+          "adr": 131,
+          "firstBloods": 5,
+          "gameDurationMinutes": 41
+        },
         {
           "win": true,
           "draw": false,
@@ -850,47 +878,19 @@ const gameData = {
           "adr": 133.1,
           "firstBloods": 2,
           "gameDurationMinutes": 35
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Hush",
-          "map": "Abyss",
-          "kills": 9,
-          "deaths": 10,
-          "assists": 1,
-          "acs": 86,
-          "hsPct": "19.2%",
-          "adr": 62.2,
-          "firstBloods": 2,
-          "gameDurationMinutes": 45
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Clove",
-          "map": "Abyss",
-          "kills": 12,
-          "deaths": 20,
-          "assists": 5,
-          "acs": 135,
-          "hsPct": "9.1%",
-          "adr": 80.7,
-          "firstBloods": 0,
-          "gameDurationMinutes": 36
         }
       ],
       "topAgents": [
         {
           "agentName": "Hush",
           "games": 6,
-          "kd": "0.69",
-          "winrate": "50%"
+          "kd": "0.70",
+          "winrate": "33%"
         },
         {
           "agentName": "Clove",
           "games": 3,
-          "kd": "0.65",
+          "kd": "0.71",
           "winrate": "33%"
         },
         {

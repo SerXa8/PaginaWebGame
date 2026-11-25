@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-25T10:43:36.522Z",
+  "updatedAt": "2026-11-25T20:19:02.824Z",
   "players": [
     {
       "name": "SerXa08",
@@ -133,30 +133,58 @@ const gameData = {
       "twitch": "fakeedanii",
       "isLive": false,
       "rank": 2,
-      "elo": 35,
+      "elo": 44,
       "tierName": "Platinum",
       "rankTier": "1",
-      "absoluteRR": 1235,
-      "win": 3,
-      "loss": 7,
+      "absoluteRR": 1244,
+      "win": 4,
+      "loss": 6,
       "draws": 0,
-      "wr": "30%",
-      "gain": 19,
+      "wr": "40%",
+      "gain": -14,
       "lossLp": null,
-      "kd": "0.96",
-      "spark": "M0.0,2.0 L8.3,8.5 L16.7,14.4 L25.0,21.2 L33.3,14.7 L41.7,22.4 L50.0,17.2 L58.3,23.0 L66.7,28.0 L75.0,22.1",
+      "kd": "1.05",
+      "spark": "M0.0,2.0 L8.3,15.0 L16.7,2.6 L25.0,17.4 L33.3,7.3 L41.7,18.5 L50.0,28.0 L58.3,16.8 L66.7,3.2 L75.0,11.5",
       "performanceMetrics": {
-        "kd": 0.96,
-        "headshotPct": "14.3%",
-        "acs": 193,
-        "adr": 128.4,
-        "firstBloods": 11,
+        "kd": 1.05,
+        "headshotPct": "16.3%",
+        "acs": 210,
+        "adr": 139,
+        "firstBloods": 18,
         "sampleSize": 10,
-        "wins": 3,
-        "losses": 7,
+        "wins": 4,
+        "losses": 6,
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Miks",
+          "map": "Summit",
+          "kills": 26,
+          "deaths": 20,
+          "assists": 13,
+          "acs": 268,
+          "hsPct": "16.7%",
+          "adr": 162.4,
+          "firstBloods": 4,
+          "gameDurationMinutes": 52
+        },
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Chamber",
+          "map": "Bind",
+          "kills": 28,
+          "deaths": 14,
+          "assists": 2,
+          "acs": 310,
+          "hsPct": "22.1%",
+          "adr": 200.5,
+          "firstBloods": 4,
+          "gameDurationMinutes": 43
+        },
         {
           "win": true,
           "draw": false,
@@ -268,42 +296,14 @@ const gameData = {
           "adr": 121.4,
           "firstBloods": 1,
           "gameDurationMinutes": 40
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "KAY/O",
-          "map": "Sunset",
-          "kills": 12,
-          "deaths": 13,
-          "assists": 7,
-          "acs": 191,
-          "hsPct": "12.5%",
-          "adr": 127.9,
-          "firstBloods": 0,
-          "gameDurationMinutes": 28
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Chamber",
-          "map": "Haven",
-          "kills": 23,
-          "deaths": 16,
-          "assists": 3,
-          "acs": 243,
-          "hsPct": "10.4%",
-          "adr": 143.2,
-          "firstBloods": 1,
-          "gameDurationMinutes": 39
         }
       ],
       "topAgents": [
         {
           "agentName": "Chamber",
           "games": 5,
-          "kd": "1.08",
-          "winrate": "40%"
+          "kd": "1.18",
+          "winrate": "60%"
         },
         {
           "agentName": "Hush",
@@ -327,30 +327,58 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 3,
-      "elo": 23,
+      "elo": 29,
       "tierName": "Platinum",
       "rankTier": "1",
-      "absoluteRR": 1223,
-      "win": 3,
+      "absoluteRR": 1229,
+      "win": 4,
       "loss": 6,
-      "draws": 1,
-      "wr": "33%",
-      "gain": 17,
+      "draws": 0,
+      "wr": "40%",
+      "gain": -15,
       "lossLp": null,
-      "kd": "0.91",
-      "spark": "M0.0,2.4 L8.3,2.0 L16.7,7.4 L25.0,15.2 L33.3,8.2 L41.7,18.5 L50.0,12.7 L58.3,20.6 L66.7,28.0 L75.0,21.0",
+      "kd": "1.02",
+      "spark": "M0.0,2.0 L8.3,11.9 L16.7,3.0 L25.0,16.0 L33.3,8.8 L41.7,18.6 L50.0,28.0 L58.3,19.2 L66.7,8.2 L75.0,16.0",
       "performanceMetrics": {
-        "kd": 0.91,
-        "headshotPct": "16.1%",
-        "acs": 200,
-        "adr": 128.7,
-        "firstBloods": 17,
+        "kd": 1.02,
+        "headshotPct": "18.7%",
+        "acs": 215,
+        "adr": 141.4,
+        "firstBloods": 22,
         "sampleSize": 10,
-        "wins": 3,
+        "wins": 4,
         "losses": 6,
-        "draws": 1
+        "draws": 0
       },
       "recentMatches": [
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Waylay",
+          "map": "Summit",
+          "kills": 28,
+          "deaths": 20,
+          "assists": 9,
+          "acs": 292,
+          "hsPct": "25.0%",
+          "adr": 199.8,
+          "firstBloods": 7,
+          "gameDurationMinutes": 52
+        },
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Raze",
+          "map": "Bind",
+          "kills": 17,
+          "deaths": 16,
+          "assists": 5,
+          "acs": 223,
+          "hsPct": "24.1%",
+          "adr": 151.4,
+          "firstBloods": 3,
+          "gameDurationMinutes": 43
+        },
         {
           "win": true,
           "draw": false,
@@ -462,53 +490,25 @@ const gameData = {
           "adr": 220,
           "firstBloods": 2,
           "gameDurationMinutes": 42
-        },
-        {
-          "win": false,
-          "draw": true,
-          "agentName": "Skye",
-          "map": "Corrode",
-          "kills": 17,
-          "deaths": 24,
-          "assists": 10,
-          "acs": 167,
-          "hsPct": "14.7%",
-          "adr": 104.1,
-          "firstBloods": 1,
-          "gameDurationMinutes": 48
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Brimstone",
-          "map": "Haven",
-          "kills": 17,
-          "deaths": 20,
-          "assists": 8,
-          "acs": 225,
-          "hsPct": "14.0%",
-          "adr": 143.5,
-          "firstBloods": 4,
-          "gameDurationMinutes": 39
         }
       ],
       "topAgents": [
         {
           "agentName": "Skye",
-          "games": 6,
-          "kd": "0.75",
-          "winrate": "33%"
+          "games": 5,
+          "kd": "0.77",
+          "winrate": "40%"
         },
         {
           "agentName": "Raze",
-          "games": 2,
-          "kd": "1.43",
-          "winrate": "50%"
+          "games": 3,
+          "kd": "1.31",
+          "winrate": "67%"
         },
         {
-          "agentName": "Chamber",
+          "agentName": "Waylay",
           "games": 1,
-          "kd": "0.88",
+          "kd": "1.40",
           "winrate": "0%"
         }
       ]

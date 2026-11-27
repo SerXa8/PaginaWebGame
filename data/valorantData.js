@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-27T12:53:48.983Z",
+  "updatedAt": "2026-11-27T21:45:26.082Z",
   "players": [
     {
       "name": "SerXa08",
@@ -526,22 +526,22 @@ const gameData = {
       "rankTier": "1",
       "absoluteRR": 919,
       "win": 2,
-      "loss": 8,
+      "loss": 5,
       "draws": 0,
-      "wr": "20%",
+      "wr": "29%",
       "gain": -20,
       "lossLp": null,
-      "kd": "0.77",
-      "spark": "M0.0,2.0 L8.3,2.6 L16.7,9.5 L25.0,16.1 L33.3,11.4 L41.7,5.4 L50.0,10.1 L58.3,16.7 L66.7,21.7 L75.0,28.0",
+      "kd": "0.76",
+      "spark": "M0.0,14.3 L12.5,8.9 L25.0,2.0 L37.5,7.4 L50.0,15.0 L62.5,20.8 L75.0,28.0",
       "performanceMetrics": {
-        "kd": 0.77,
-        "headshotPct": "22.0%",
-        "acs": 183,
-        "adr": 120.7,
-        "firstBloods": 19,
-        "sampleSize": 10,
+        "kd": 0.76,
+        "headshotPct": "22.6%",
+        "acs": 182,
+        "adr": 119.3,
+        "firstBloods": 16,
+        "sampleSize": 7,
         "wins": 2,
-        "losses": 8,
+        "losses": 5,
         "draws": 0
       },
       "recentMatches": [
@@ -642,48 +642,6 @@ const gameData = {
           "adr": 127.8,
           "firstBloods": 5,
           "gameDurationMinutes": 43
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Chamber",
-          "map": "Haven",
-          "kills": 16,
-          "deaths": 17,
-          "assists": 1,
-          "acs": 172,
-          "hsPct": "16.7%",
-          "adr": 119.9,
-          "firstBloods": 2,
-          "gameDurationMinutes": 37
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Jett",
-          "map": "Abyss",
-          "kills": 15,
-          "deaths": 14,
-          "assists": 2,
-          "acs": 265,
-          "hsPct": "37.8%",
-          "adr": 165.6,
-          "firstBloods": 1,
-          "gameDurationMinutes": 25
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Cypher",
-          "map": "Summit",
-          "kills": 6,
-          "deaths": 15,
-          "assists": 5,
-          "acs": 129,
-          "hsPct": "10.7%",
-          "adr": 92.8,
-          "firstBloods": 0,
-          "gameDurationMinutes": 25
         }
       ],
       "topAgents": [
@@ -700,9 +658,9 @@ const gameData = {
           "winrate": "50%"
         },
         {
-          "agentName": "Cypher",
-          "games": 2,
-          "kd": "0.60",
+          "agentName": "Hush",
+          "games": 1,
+          "kd": "0.61",
           "winrate": "0%"
         }
       ]
@@ -907,23 +865,23 @@ const gameData = {
       "tierName": "Silver",
       "rankTier": "1",
       "absoluteRR": 657,
-      "win": 3,
-      "loss": 7,
+      "win": 1,
+      "loss": 4,
       "draws": 0,
-      "wr": "30%",
+      "wr": "20%",
       "gain": -9,
       "lossLp": null,
-      "kd": "0.62",
-      "spark": "M0.0,2.0 L8.3,7.3 L16.7,11.0 L25.0,14.4 L33.3,8.5 L41.7,14.4 L50.0,21.5 L58.3,28.0 L66.7,24.9 L75.0,27.7",
+      "kd": "0.63",
+      "spark": "M0.0,2.0 L18.8,15.6 L37.5,28.0 L56.3,22.1 L75.0,27.4",
       "performanceMetrics": {
-        "kd": 0.62,
-        "headshotPct": "9.1%",
-        "acs": 151,
-        "adr": 98.7,
-        "firstBloods": 7,
-        "sampleSize": 10,
-        "wins": 3,
-        "losses": 7,
+        "kd": 0.63,
+        "headshotPct": "9.9%",
+        "acs": 155,
+        "adr": 101,
+        "firstBloods": 4,
+        "sampleSize": 5,
+        "wins": 1,
+        "losses": 4,
         "draws": 0
       },
       "recentMatches": [
@@ -996,95 +954,25 @@ const gameData = {
           "adr": 103.1,
           "firstBloods": 0,
           "gameDurationMinutes": 38
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Skye",
-          "map": "Bind",
-          "kills": 13,
-          "deaths": 10,
-          "assists": 8,
-          "acs": 171,
-          "hsPct": "7.8%",
-          "adr": 111.7,
-          "firstBloods": 1,
-          "gameDurationMinutes": 34
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Miks",
-          "map": "Haven",
-          "kills": 6,
-          "deaths": 19,
-          "assists": 10,
-          "acs": 85,
-          "hsPct": "8.8%",
-          "adr": 57.8,
-          "firstBloods": 0,
-          "gameDurationMinutes": 37
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Iso",
-          "map": "Abyss",
-          "kills": 9,
-          "deaths": 15,
-          "assists": 1,
-          "acs": 170,
-          "hsPct": "11.4%",
-          "adr": 110,
-          "firstBloods": 0,
-          "gameDurationMinutes": 25
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Fade",
-          "map": "Summit",
-          "kills": 6,
-          "deaths": 16,
-          "assists": 6,
-          "acs": 128,
-          "hsPct": "12.8%",
-          "adr": 88.6,
-          "firstBloods": 0,
-          "gameDurationMinutes": 25
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "KAY/O",
-          "map": "Lotus",
-          "kills": 11,
-          "deaths": 15,
-          "assists": 16,
-          "acs": 194,
-          "hsPct": "3.0%",
-          "adr": 119.8,
-          "firstBloods": 2,
-          "gameDurationMinutes": 34
         }
       ],
       "topAgents": [
         {
           "agentName": "Skye",
-          "games": 4,
-          "kd": "0.70",
-          "winrate": "50%"
-        },
-        {
-          "agentName": "KAY/O",
-          "games": 2,
-          "kd": "0.72",
-          "winrate": "50%"
+          "games": 3,
+          "kd": "0.59",
+          "winrate": "33%"
         },
         {
           "agentName": "Vyse",
           "games": 1,
           "kd": "0.67",
+          "winrate": "0%"
+        },
+        {
+          "agentName": "KAY/O",
+          "games": 1,
+          "kd": "0.71",
           "winrate": "0%"
         }
       ]

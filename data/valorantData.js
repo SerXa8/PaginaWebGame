@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-26T20:40:17.768Z",
+  "updatedAt": "2026-11-27T03:22:37.463Z",
   "players": [
     {
       "name": "SerXa08",
@@ -715,30 +715,44 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 5,
-      "elo": 67,
+      "elo": 81,
       "tierName": "Silver",
       "rankTier": "3",
-      "absoluteRR": 867,
+      "absoluteRR": 881,
       "win": 4,
       "loss": 6,
       "draws": 0,
       "wr": "40%",
-      "gain": 18,
+      "gain": 14,
       "lossLp": null,
-      "kd": "0.76",
-      "spark": "M0.0,2.0 L8.3,7.9 L16.7,7.9 L25.0,4.0 L33.3,7.9 L41.7,15.4 L50.0,8.7 L58.3,20.5 L66.7,28.0 L75.0,20.9",
+      "kd": "0.74",
+      "spark": "M0.0,6.3 L8.3,6.3 L16.7,2.0 L25.0,6.3 L33.3,14.4 L41.7,7.1 L50.0,19.9 L58.3,28.0 L66.7,20.3 L75.0,14.4",
       "performanceMetrics": {
-        "kd": 0.76,
-        "headshotPct": "12.8%",
+        "kd": 0.74,
+        "headshotPct": "13.1%",
         "acs": 192,
-        "adr": 128.4,
-        "firstBloods": 25,
+        "adr": 127.8,
+        "firstBloods": 26,
         "sampleSize": 10,
         "wins": 4,
         "losses": 6,
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": true,
+          "draw": false,
+          "agentName": "Hush",
+          "map": "Haven",
+          "kills": 16,
+          "deaths": 22,
+          "assists": 3,
+          "acs": 204,
+          "hsPct": "17.2%",
+          "adr": 121.6,
+          "firstBloods": 1,
+          "gameDurationMinutes": 38
+        },
         {
           "win": true,
           "draw": false,
@@ -864,34 +878,20 @@ const gameData = {
           "adr": 169.7,
           "firstBloods": 5,
           "gameDurationMinutes": 45
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Clove",
-          "map": "Bind",
-          "kills": 14,
-          "deaths": 16,
-          "assists": 8,
-          "acs": 205,
-          "hsPct": "14.5%",
-          "adr": 127,
-          "firstBloods": 0,
-          "gameDurationMinutes": 35
         }
       ],
       "topAgents": [
         {
           "agentName": "Hush",
-          "games": 7,
+          "games": 8,
           "kd": "0.71",
-          "winrate": "29%"
+          "winrate": "38%"
         },
         {
           "agentName": "Clove",
-          "games": 3,
+          "games": 2,
           "kd": "0.87",
-          "winrate": "67%"
+          "winrate": "50%"
         }
       ]
     },

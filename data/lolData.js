@@ -258,7 +258,7 @@ const gameData = {
         }
       ],
       "rank": 1,
-      "timestamp": 1795754755188
+      "timestamp": 1795790487056
     },
     {
       "puuid": "mkjHAzFTqyG4gTig_ZezdKF_7Fsb2Nydc8jPbnBAat6a8PAsCuj32RWX5p-GTEhy6f8_GfsTkmuFJg",
@@ -518,7 +518,7 @@ const gameData = {
         }
       ],
       "rank": 2,
-      "timestamp": 1795754755188
+      "timestamp": 1795790487056
     },
     {
       "puuid": "cPwPZP2PsxQBVqD-xjGpxT3MhcjZlg5orc76dG1XnX6VVenfCMTfYD4mO58emlhfSaP7R0hUjeCaLA",
@@ -778,7 +778,7 @@ const gameData = {
         }
       ],
       "rank": 3,
-      "timestamp": 1795754755188
+      "timestamp": 1795790487056
     },
     {
       "puuid": "QQvt4VG3fPkdt3d-wAWepGRyopVDG2FyqpLKQFuWwpVCOt0lSgYi1r3UK6xO_AX69f2thGOEFtvj6g",
@@ -1038,8 +1038,8 @@ const gameData = {
         }
       ],
       "rank": 4,
-      "timestamp": 1795754755188
+      "timestamp": 1795790487056
     }
   ],
-  "lastUpdated": "2026-11-27T14:41:27.056Z"
+  "lastUpdated": "2026-11-27T23:13:07.957Z"
 };

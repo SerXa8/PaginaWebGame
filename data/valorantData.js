@@ -1,5 +1,5 @@
 const gameData = {
-  "updatedAt": "2026-11-28T03:39:36.453Z",
+  "updatedAt": "2026-11-28T12:33:23.297Z",
   "players": [
     {
       "name": "SerXa08",
@@ -327,30 +327,58 @@ const gameData = {
       "twitch": "",
       "isLive": false,
       "rank": 3,
-      "elo": 38,
+      "elo": 0,
       "tierName": "Platinum",
       "rankTier": "1",
-      "absoluteRR": 1238,
-      "win": 5,
-      "loss": 5,
+      "absoluteRR": 1200,
+      "win": 4,
+      "loss": 6,
       "draws": 0,
-      "wr": "50%",
-      "gain": 17,
+      "wr": "40%",
+      "gain": -16,
       "lossLp": null,
-      "kd": "0.94",
-      "spark": "M0.0,12.3 L8.3,2.7 L16.7,15.7 L25.0,28.0 L33.3,16.4 L41.7,2.0 L50.0,12.3 L58.3,25.3 L66.7,17.7 L75.0,6.1",
+      "kd": "1.02",
+      "spark": "M0.0,13.8 L8.3,24.5 L16.7,14.4 L25.0,2.0 L33.3,10.9 L41.7,22.1 L50.0,15.6 L58.3,5.5 L66.7,19.1 L75.0,28.0",
       "performanceMetrics": {
-        "kd": 0.94,
-        "headshotPct": "21.5%",
-        "acs": 204,
-        "adr": 137.3,
-        "firstBloods": 26,
+        "kd": 1.02,
+        "headshotPct": "23.6%",
+        "acs": 220,
+        "adr": 145.7,
+        "firstBloods": 29,
         "sampleSize": 10,
-        "wins": 5,
-        "losses": 5,
+        "wins": 4,
+        "losses": 6,
         "draws": 0
       },
       "recentMatches": [
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Chamber",
+          "map": "Lotus",
+          "kills": 25,
+          "deaths": 18,
+          "assists": 4,
+          "acs": 316,
+          "hsPct": "32.8%",
+          "adr": 192.3,
+          "firstBloods": 4,
+          "gameDurationMinutes": 39
+        },
+        {
+          "win": false,
+          "draw": false,
+          "agentName": "Skye",
+          "map": "Haven",
+          "kills": 5,
+          "deaths": 16,
+          "assists": 3,
+          "acs": 89,
+          "hsPct": "15.4%",
+          "adr": 71.8,
+          "firstBloods": 1,
+          "gameDurationMinutes": 34
+        },
         {
           "win": true,
           "draw": false,
@@ -462,41 +490,13 @@ const gameData = {
           "adr": 147.9,
           "firstBloods": 2,
           "gameDurationMinutes": 36
-        },
-        {
-          "win": true,
-          "draw": false,
-          "agentName": "Skye",
-          "map": "Bind",
-          "kills": 11,
-          "deaths": 16,
-          "assists": 9,
-          "acs": 165,
-          "hsPct": "17.5%",
-          "adr": 120.7,
-          "firstBloods": 1,
-          "gameDurationMinutes": 37
-        },
-        {
-          "win": false,
-          "draw": false,
-          "agentName": "Skye",
-          "map": "Haven",
-          "kills": 4,
-          "deaths": 15,
-          "assists": 5,
-          "acs": 75,
-          "hsPct": "6.3%",
-          "adr": 46.2,
-          "firstBloods": 1,
-          "gameDurationMinutes": 25
         }
       ],
       "topAgents": [
         {
-          "agentName": "Skye",
+          "agentName": "Chamber",
           "games": 3,
-          "kd": "0.72",
+          "kd": "1.34",
           "winrate": "33%"
         },
         {
@@ -506,10 +506,10 @@ const gameData = {
           "winrate": "100%"
         },
         {
-          "agentName": "Chamber",
+          "agentName": "Skye",
           "games": 2,
-          "kd": "1.31",
-          "winrate": "50%"
+          "kd": "0.75",
+          "winrate": "0%"
         }
       ]
     },
